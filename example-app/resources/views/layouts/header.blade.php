@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Propelyze</title>
-	<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" >
-	<link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" >
-	<link href="{{asset('css/global.css')}}" rel="stylesheet">
-	<link href="{{asset('css/contact.css')}}" rel="stylesheet">
-    <link href="{{asset('css/index.css')}}" rel="stylesheet">
+	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" >
+	<link href="http://165.140.69.88/~plotplaza/checkapi/example-app/public/css/font-awesome.min.css" rel="stylesheet" >
+	<link href="{{ asset('css/global.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/contact.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/index.css') }}" rel="stylesheet">
 
 	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
 	<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
