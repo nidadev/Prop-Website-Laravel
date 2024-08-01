@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\ApiController;
 
 //open routes
 Route::post('register',[ApiController::class,'register']);
-Route::post('register',[ApiController::class,'register']);
+Route::post('login',[ApiController::class,'login']);
 
 //auth routes
 Route::group([

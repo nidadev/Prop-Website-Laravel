@@ -55,7 +55,53 @@ jQuery.ajax({
 
 })
 });
+
+//////////////////////login ////////////////////////////
+
+$('#login_id').on('submit',function(event){
+    event.preventDefault();
+//alert('hi  hru');
+jQuery.ajax({
+    url:"{{ url('login') }}",
+    data:jQuery('#login_id').serialize(),
+    type:'POST',
+    success: function(data) {
+        alert(data);
+        console.log(data)
+;                        if (data.success == false) {
+                            $('.incorrect').text(data.message);
+                        } 
+                        else if (data.success == true) {
+                            alert(data);
+                            console.log(data);
+                            $(".incorrect").text("");
+                            $(".result").text(data.message);
+
+                            localStorage.setItem("user_token",data.token_type+" "+data.token);
+                            window.open("/profile","_self");
+                        } 
+                        else
+                        {
+                            printErrorMsgLogin(data);
+                        }
+                        //alert(data);
+                        //console.log(data);
+
+
+                    },
+
+})
 });
+});
+
+function printErrorMsgLogin(message) {
+    alert(message);
+            $(".error").text("");
+            $.each(message, function(key, value) {
+                $("." + key + "_err").text(value);
+
+            });
+        }
 
 function printErrorMsg(message) {
     //alert(message);

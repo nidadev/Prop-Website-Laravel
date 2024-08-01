@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
@@ -32,7 +34,7 @@ class ApiController extends Controller
                "name" => $request->name,
                "email" => $request->email,
                "phone" => $request->phone,
-               "password" => bcrypt($request->password)
+               "password" => Hash::make($request->password)
            ]);
    
            return response()->json([
@@ -43,42 +45,50 @@ class ApiController extends Controller
        }
    
        // Login API - POST (email, password)
-       public function login(Request $request){
-   
-           // Validation
-           $request->validate([
-               "email" => "required|email",
-               "password" => "required"
-           ]);
-   
-           // Auth Facade
-           // $token = Auth::attempt([
-           //     "email" => $request->email,
-           //     "password" => $request->password
-           // ]);
-   
-           $token = auth()->attempt([
-               "email" => $request->email,
-               "password" => $request->password
-           ]);
-   
-           if(!$token){
-   
+       public function login(Request $request)
+    {
+       // dd('123');
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email',
+            'password' => 'required|min:5'
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json($validator->errors());
+        }
+
+        //auth facade
+        $token = Auth::attempt(
+            ['email' => $request->email ,
+            'password' => $request->password,
+          ]);
+
+            if(!$token)
+            {
                return response()->json([
-                   "status" => false,
-                   "message" => "Invalid login details"
-               ]);
-           }
-   
-           return response()->json([
-               "status" => true,
-               "message" => "User logged in",
-               "token" => $token,
-               "expires_in" => auth()->factory()->getTTL() * 60
-           ]);
-   
-       }
-   
+            'status' => false,
+            'success' => false,
+            'message' => 'Incorrect Username or Password',
+        ]); 
+            }
+
+           return $this->respondWithToken($token);
+
+    }
+
+    //protected function
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'status' => true,
+            'success' => true,
+            'message' => 'user logged in successfully',
+            'token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            ]);
+    }
        // Profile API - GET (JWT Auth Token)
        public function profile(){
    
