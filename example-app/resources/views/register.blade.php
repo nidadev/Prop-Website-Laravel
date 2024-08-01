@@ -20,7 +20,7 @@
 <script type="text/javascript"> 
 $(document).ready(function(){
 $('#register').on('submit',function(){
-alert('hi');
+alert('hi  hru');
 });
 });
 </script>
