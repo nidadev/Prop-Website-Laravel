@@ -1,102 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@extends('layouts.app')
 
-</head>
-<style>
-    span {
-        color: red;
-    }
-    </style>
-<body>
-<form method="post" action="{{ url('register') }}" id="register">
-    @csrf
-    <input type="text" name="name"  autocomplete="on" placeholder="Enter Name:">Enter Name:
+@section('main')
+<section id="center" class="center_reg">
+   <div class="center_om bg_backo">
+     <div class="container-xl">
+  <div class="row center_o1 m-auto text-center">
+     <div class="col-md-12">
+	         <h2 class="text-white">Register</h2>
+		  <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Register </h6>
+	 </div>
+  </div>
+ </div>
+   </div>   
+</section>
+<section id="login" class="p_3">
+ <div class="container-xl">
+  <div class="row login_1">
+    <div class="col-md-12">
+      <div class="login_1m p-4 w-50 mx-auto bg-light">
+	      <h2 class="text-center mb-3">Register </h2>
+          <form method="post" action="{{ url('register') }}" id="register">
+          @csrf
+                    <h6 class="mb-3 fw-bold">Name</h6>
+          <input class="form-control" type="text" name="name"  autocomplete="on" placeholder="Enter Name:">Enter Name:
     <span class="error name_err"></span>
-    <br><br>
-    <input type="email" name="email" autocomplete="on" placeholder="Enter Name:">Enter Email:
-    <span class="error email_err"></span>
-    <br><br>
-    <input type="text" name="phone" autocomplete="on" placeholder="Enter Phone:">Enter Phone:
-    <span class="error phone_err"></span>
-    <br><br>
-    <input type="password" name="password"autocomplete="on"  placeholder="Enter Name:">Enter password:
-    <span class="error password_err"></span>
+		  <h6 class="mb-3 fw-bold">Phone</h6>
+          <input class="form-control" type="text" name="phone" autocomplete="on" placeholder="Enter Phone:">Enter Phone:
+          <span class="error phone_err"></span>		  <h6 class="mb-3 fw-bold mt-4">Email</h6>
+          <input class="form-control" type="email" name="email" autocomplete="on" placeholder="Enter Name:">Enter Email:
+          <span class="error email_err"></span>          <h6 class="mb-3 fw-bold mt-4">Password</h6>
+          <input class="form-control" type="password" name="password" autocomplete="on"  placeholder="Enter Name:">Enter password:
+    <span class="error password_err"></span> 
+          <h6 class="mb-3 fw-bold mt-4">Confirm Password</h6>
+		  <!--input class="form-control" placeholder="Password" type="Password"-->
+          <input class="form-control" type="password" name="password_confirmation" autocomplete="on"  placeholder="Enter Name:">Enter confirmed password:
+          <span class="error password_confirmation_err"></span>
+         
+		  <div class="form-check mt-3">
+        <input type="checkbox" class="form-check-input" id="customCheck1">
+        <label class="form-check-label" for="customCheck1">Agree to our <a class="fw-bold" href="#">terms & conditions</a></label>
+    </div>
+		  <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center">SIGN UP</button></h6>
+		  <p class="result"></p>
+          <p class="mt-3 mb-0 text-center">Already have an account?  <a class="fw-bold col_blue" href="/login"> Login</a></p>
+          </form>
+        </div>
+   </div>
+  </div>
+ </div>
+</section>
+@endsection
 
-    <br><br>
-    <input type="password" name="password_confirmation" autocomplete="on"  placeholder="Enter Name:">Enter confirmed password:
-    <span class="error password_confirmation_err"></span>
-
-    <br>
-    <input type="submit" value="Register">
-    <br>
-    <p class="result"></p>
-
-</form>
-<script type="text/javascript"> 
-$(document).ready(function(){
-$('#register').on('submit',function(event){
-    event.preventDefault();
-alert('hi  hru');
-jQuery.ajax({
-    url:"{{ url('register') }}",
-    data:jQuery('#register').serialize(),
-    type:'POST',
-    success:function(data)
-    {
-        alert(data);
-        if (data.message) {
-                            $("#register")[0].reset();
-                            $(".error").text("");
-
-                            $(".result").text(data.message);
-
-                        } else {
-                            console.log(data)
-                            //alert(data);
-                            printErrorMsg(data)
-                        }
-    },
-
-})
-});
-});
-
-function printErrorMsg(message) {
-    alert(message);
-            $(".error").text("");
-
-            $.each(message, function(key, value) {
-                if (key == 'password') {
-                    if (value.length > 1) {
-                        $(".password_err").text(value[0]);
-                        $(".password_confirmation_err").text(value[1]);
-
-                    } else {
-                        if(value[0].includes('password confirmation'))
-                    {
-                        $(".password_confirmation_err").text(value);
-
-                    }
-                    else
-                    {
-                        $(".password_err").text(value);
-
-                    }
-
-                    }
-
-                } else {
-                    $("." + key + "_err").text(value)
-                }
-
-            });
-        }
-</script>
 </body>
 </html>
 <h1>Register</h1>

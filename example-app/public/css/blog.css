@@ -1,0 +1,101 @@
+/*
+Template Name: Prop Estate
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************blog****************/
+.list_1i2{
+bottom:0!important;
+padding-top:45%; 
+ }
+
+
+.blog_1dt2 blockquote {
+margin: 20px 0 20px;
+font-size: 18px;
+border-left: 5px solid #6C60FE;
+padding: 25px 35px 15px;
+}
+.detail_1r2 .tags a{
+background:#fff;
+ }
+.center_blog{
+background-image: url(../img/45.jpg);
+background-position: center center;
+background-size: cover; 
+ }
+.center_blog_dt{
+background-image: url(../img/40.jpg);
+background-position: center center;
+background-size: cover; 
+ }
+/*********************blog_end****************/
+
+
+@media screen and (max-width : 767px){
+.blog_1io {
+padding:10px!important; 
+ }
+.blog_1r{
+margin-top:20px; 
+ }
+.blog_1r1 h5{
+text-align:center; 
+ }
+.list_1i1 img{
+min-height:200px; 
+ }
+.blog_1dt2  h3{
+text-align:center; 
+ }
+.blog_1dt4  h3{
+text-align:center; 
+ }
+.blog_1dt5  h3{
+text-align:center; 
+ }
+.blog_1dt6  h3{
+text-align:center; 
+ }
+.blog_1dt3 {
+text-align:center;  
+ }
+.blog_1dt5ir h5{
+font-size:11px!important; 
+ }
+.detail_1l4b1l{
+margin-top:10px; 
+ }
+ }
+
+@media (min-width:576px) and (max-width:767px) {
+.blog_1dt5ir h5{
+font-size:16px!important; 
+ }
+ }
+@media (min-width:768px) and (max-width:991px) {
+.blog_1io{
+padding:10px!important; 
+ }
+.list_1i1 img{
+min-height:180px; 
+ }
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+.list_1i2 h5{
+font-size:16px;
+ }
+.list_1i1 img{
+min-height:180px; 
+ }
+ }
+@media (min-width:1201px) and (max-width:1270px) {
+
+ }
+
+
+

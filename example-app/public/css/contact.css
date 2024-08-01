@@ -1,0 +1,137 @@
+/*
+Template Name: Prop Estate
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************contact****************/
+.contact_2ril span{
+width:70px;
+height:70px;
+line-height:65px; 
+ }
+.contact_2lil .form_text{
+height:210px!important; 
+ }
+
+#about{
+padding-bottom:75px; 
+ }
+.center_about{
+background-image: url(../img/40.jpg);
+background-position: center center;
+background-size: cover; 
+ }
+.center_cont{
+background-image: url(../img/42.jpg);
+background-position: center center;
+background-size: cover; 
+ }
+.center_reg{
+background-image: url(../img/43.jpg);
+background-position: center center;
+background-size: cover; 
+ }
+.center_log{
+background-image: url(../img/44.jpg);
+background-position: center center;
+background-size: cover; 
+ }
+
+/*********************contact_end****************/
+
+
+@media screen and (max-width : 767px){
+.about_1  .font_50{
+font-size:30px; 
+ }
+.about_1  {
+text-align:center;
+ }
+.about_1  p{
+text-align:left;
+ }
+#about {
+padding-bottom: 30px;
+}
+.about_pg1l h6{
+text-align:center; 
+ }
+.about_pg1l {
+margin-bottom:15px;
+ }
+.contact_1l1 {
+text-align:center; 
+ }
+.contact_1l1 p{
+text-align:left; 
+ }
+.contact_2l  h4{
+text-align:center;  
+ }
+.contact_2lil{
+margin-top:8px;
+margin-bottom:8px;
+ }
+.contact_2li {
+margin-top:10px!important; 
+ }
+.contact_2r{
+margin-top:20px; 
+ }
+.contact_2r h4{
+text-align:center;
+ }
+.contact_2ril span {
+width: 40px;
+height: 40px;
+line-height:38px;
+font-size:16px!important;
+}
+.login_1m{
+width:90%!important; 
+ }
+ }
+
+@media (min-width:576px) and (max-width:767px) {
+.contact_2ril span {
+width: 60px;
+height: 60px;
+line-height:58px;
+font-size:18px!important;
+}
+ }
+@media (min-width:768px) and (max-width:991px) {
+.about_pg1l p{
+font-size:14px; 
+ }
+.about_pg1r img{
+min-height:450px;
+ }
+.contact_2ril span {
+width: 40px;
+height: 40px;
+line-height:38px;
+font-size:16px!important;
+}
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+.about_pg1r img{
+min-height:450px;
+ }
+.contact_2ril span {
+width: 55px;
+height: 55px;
+line-height:53px;
+font-size:18px!important;
+}
+ }
+@media (min-width:1201px) and (max-width:1270px) {
+
+ }
+
+
+

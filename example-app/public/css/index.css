@@ -1,0 +1,259 @@
+/*
+Template Name: Prop Estate
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************center_home****************/
+.center_h {
+background-image: url(../img/1.jpg);
+background-position: center;
+}
+.center_om{
+padding-top:100px;
+padding-bottom:100px; 
+background-color: rgba(0, 0, 0, 0.5);
+ }
+.center_h2rir .button{
+padding:12px 12px; 
+ }
+/*********************center_home_end****************/
+
+/*********************work_h****************/
+.work_h2i span{
+width:80px;
+height:80px;
+line-height:75px; 
+ }
+#explore .carousel-indicators [data-bs-target] {
+ background-color:#fff; 
+}
+/*********************work_h_end****************/
+
+
+/*********************list****************/
+.list_1i1 img{
+min-height:240px; 
+ }
+.list_1i2{
+bottom:0!important;
+padding-top:45%; 
+ }
+
+/*********************list_end****************/
+
+/*********************spec****************/
+.spec_1i{
+background:#26249d;
+transition: 0.3s;
+ }
+.spec_1i:hover{
+background:#2a28b1;
+ }
+/*********************spec_end****************/
+
+/*********************disc****************/
+#disc{
+padding-bottom:75px; 
+ }
+/*********************disc_end****************/
+
+
+/*********************faq****************/
+.accordion-button {
+background:#1e1d85;
+color:#fff; 
+padding:8px 15px;
+font-weight: bold;
+border: 0;
+font-size: 16px;
+text-align: left;
+}
+.accordion-button:focus {
+box-shadow: none;
+border: none;
+}
+.accordion-button:not(.collapsed) {
+background:#6C60FE;
+color:#fff;
+padding:8px 15px;
+}
+.accordion-body {
+padding: 20px;
+background: #fff; 
+}
+.accordion-button::after {
+width: auto;
+height: auto;
+content: "+";
+font-size: 40px;
+background-image: none;
+font-weight: 100;
+color: #fff;
+transform: translateY(-4px);
+}
+.accordion-button:not(.collapsed)::after {
+width: auto;
+height: auto;
+background-image: none;
+content: "-";
+font-size: 40px;
+transform: translate(-5px, -4px);
+transform: rotate(0deg);
+}
+.accordion-item{
+border:none;
+border-radius:0;
+background:none;
+border-bottom:1px solid #dddbf7;
+margin-bottom:10px;
+}
+
+/*********************faq_end****************/
+
+
+@media screen and (max-width : 767px){
+.center_h1 .font_50{
+font-size:30px; 
+ }
+.center_om {
+padding-top: 40px;
+padding-bottom: 40px;
+}
+.center_h1 br{
+display:none;
+ }
+.center_h1 {
+text-align:center;
+ }
+.center_h1 p{
+text-align:left;
+ }
+.center_h1 .button{
+padding-left:10px;
+padding-right:10px;
+font-size:13px;
+ }
+.center_h1 .button_1{
+padding-left:10px;
+padding-right:10px;
+font-size:12px;
+ }
+.center_h2lil{
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.center_h2r{
+margin-top:10px; 
+ }
+.center_h2ril{
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.center_h2rir{
+margin-top:8px;
+text-align:center;
+ }
+.work_h2i{
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.work_h2i p{
+text-align:left;
+ }
+.explore_1l br{
+display:none; 
+ }
+.explore_1l h3{
+text-align:center;
+ }
+.explore_1l{
+margin-bottom:15px;
+ }
+.explore_1ril{
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.list_1i {
+margin-top:8px;
+margin-bottom:8px;
+}
+#disc {
+padding-bottom: 30px;
+}
+.faq_1r{
+margin-top:15px; 
+ }
+.faq_1r h2{
+text-align:center;
+ }
+.faq_1r br{
+display:none;
+ }
+.reg_1l br{
+display:none; 
+ }
+.reg_1l h2{
+text-align:center;
+ }
+.reg_o1l h2{
+text-align:center; 
+ }
+
+.reg_1r {
+text-align:center!important;
+ }
+ }
+
+@media (min-width:576px) and (max-width:767px) {
+
+ }
+@media (min-width:768px) and (max-width:991px) {
+.center_h2{
+padding-left:0px!important; 
+padding-right:0px!important; 
+ }
+.center_h2rir .button {
+padding: 12px 5px;
+}
+.center_h2rir .button i{
+font-size:12px!important;
+}
+.center_h2ri .col-sm-2{
+padding-left:5px!important;
+padding-right:5px!important;  
+ }
+.explore_1ril{
+padding:10px!important; 
+ }
+.explore_1ril h5{
+font-size:14px;
+ }
+.explore_1ril h6{
+font-size:12px;
+ }
+.reg_1l br{
+display:none; 
+ }
+.reg_1r .button{
+padding-left:15px;
+padding-right:15px;
+ }
+.reg_o1l br{
+display:none;  
+ }
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+.center_h2rir .button {
+padding: 12px 8px;
+}
+ }
+@media (min-width:1201px) and (max-width:1270px) {
+
+ }
+
+
+
