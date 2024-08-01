@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
@@ -12,12 +13,19 @@ class ApiController extends Controller
      public function register(Request $request)
      {
             // Validation
-            $request->validate([
-               "name" => "required|string",
-               "phone" => 'required',
-               "email" => "required|string|email|unique:users",
-               "password" => "required|confirmed" // password_confirmation
+            $validator = Validator::make($request->all(),[
+               'name' => 'required|min:3',
+               'email' => 'required|email|unique:users',
+               'phone' => 'required|min:6',
+               'password' => 'required|confirmed|min:5',
+               'password_confirmation' => 'required'
            ]);
+
+           if($validator->fails())
+        {
+            return response()->json($validator->errors());
+           
+        }
    
            // User model to save user in database
            User::create([
