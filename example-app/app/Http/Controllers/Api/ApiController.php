@@ -14,6 +14,7 @@ class ApiController extends Controller
             // Validation
             $request->validate([
                "name" => "required|string",
+               "phone" => 'required',
                "email" => "required|string|email|unique:users",
                "password" => "required|confirmed" // password_confirmation
            ]);
@@ -22,6 +23,7 @@ class ApiController extends Controller
            User::create([
                "name" => $request->name,
                "email" => $request->email,
+               "phone" => $request->phone,
                "password" => bcrypt($request->password)
            ]);
    
