@@ -66,7 +66,7 @@ jQuery.ajax({
     data:jQuery('#login_id').serialize(),
     type:'POST',
     success: function(data) {
-        alert(data);
+        //alert(data);
         console.log(data)
 ;                        if (data.success == false) {
                             $('.incorrect').text(data.message);
@@ -95,7 +95,7 @@ jQuery.ajax({
 });
 
 function printErrorMsgLogin(message) {
-    alert(message);
+    //alert(message);
             $(".error").text("");
             $.each(message, function(key, value) {
                 $("." + key + "_err").text(value);
