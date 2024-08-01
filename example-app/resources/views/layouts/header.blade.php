@@ -32,14 +32,14 @@
 $(document).ready(function(){
 $('#register').on('submit',function(event){
     event.preventDefault();
-alert('hi  hru');
+//alert('hi  hru');
 jQuery.ajax({
     url:"{{ url('register') }}",
     data:jQuery('#register').serialize(),
     type:'POST',
     success:function(data)
     {
-        alert(data);
+        //alert(data);
         if (data.message) {
                             $("#register")[0].reset();
                             $(".error").text("");
@@ -58,7 +58,7 @@ jQuery.ajax({
 });
 
 function printErrorMsg(message) {
-    alert(message);
+    //alert(message);
             $(".error").text("");
 
             $.each(message, function(key, value) {
