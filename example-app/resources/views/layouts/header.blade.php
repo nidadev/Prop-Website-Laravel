@@ -30,21 +30,22 @@
 </style>
 <?php
 $app_url = config('app.url');
-echo $app_url;
+echo $app_url.'/login';
+//echo $app_url;
 ?>
 
 <script type="text/javascript">
     $(document).ready(function() {
         var token = localStorage.getItem('user_token2');
-        if (window.location.pathname == '/login' || window.location.pathname == '/register') {
+        if (window.location.pathname == <?php echo $app_url ?>.'/login' || window.location.pathname == <?php echo $app_url ?>.'/register') {
             if (token != null) {
-                window.open('/profile', '_self');
+                window.open(<?php echo $app_url ?>.'/profile', '_self');
             }
             $('.logout').hide();
 
         } else {
             if (token == null) {
-                window.open('/login', '_self');
+                window.open(<?php echo $app_url ?>.'/login', '_self');
             }
 
         }
