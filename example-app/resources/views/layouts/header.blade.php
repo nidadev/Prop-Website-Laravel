@@ -30,7 +30,7 @@
 </style>
 <?php
 $app_url = config('app.url');
-echo $app_url.'/login';
+//echo $app_url.'/login';
 //echo $app_url;
 ?>
 
@@ -41,7 +41,7 @@ echo $app_url.'/login';
             if (token != null) {
                 window.open(<?php echo $app_url ?>.'/profile', '_self');
             }
-            $('.logout').hide();
+           // $('.logout').hide();
 
         } else {
             if (token == null) {
