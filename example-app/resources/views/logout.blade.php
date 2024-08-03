@@ -1,0 +1,1 @@
+<div id="message">Logout successfully</div>

@@ -17,5 +17,15 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::get('/profile', function () {
+    return view('profile');
+});
+
+Route::get('/logout', function () {
+    return view('logout');
+});
+
+
+
 Route::post('/register', [ ApiController::class,'register']);
 Route::post('/login', [ ApiController::class,'login']);

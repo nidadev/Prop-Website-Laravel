@@ -51,8 +51,20 @@
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
 		   <li><a class="dropdown-item" href="#"> Pricing</a></li>
+       @if (Auth::check()) 
+       <form method="get" action="{{ url('logout') }}" id="logout">
+        @csrf
+        <li><a class="dropdown-item" id="logout_b" href="#"> Logout</a></li>
+</form>
+        
+
+@else
+
 		   <li><a class="dropdown-item" href="/register"> Sign Up</a></li>
 		   <li><a class="dropdown-item" href="/login"> Sign In</a></li>
+       <li><a class="dropdown-item logout" id="logout_b" href="{{ url('logout')}}">Logout</a></li>
+
+@endif
             <li><a class="dropdown-item border-0" href="#"> Contact</a></li>
           </ul>
         </li>

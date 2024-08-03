@@ -120,11 +120,23 @@ class ApiController extends Controller
        // Logout API - GET (JWT Auth Token)
        public function logout(){
            
-           auth()->logout();
-   
-           return response()->json([
-               "status" => true,
-               "message" => "User logged out"
-           ]);
+        try {
+            
+            auth()->logout();
+            return response()->json([
+                'status'=>true,
+                'success' => true,
+                'message' => 'user logged out'
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'status'=>false,
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+    
+        }
+       // return $this->refreshToken();
        }
 }
