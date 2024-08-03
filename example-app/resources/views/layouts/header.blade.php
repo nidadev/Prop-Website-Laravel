@@ -85,8 +85,8 @@ $app_url = config('app.url');
                         $(".result").text(data.message);
 
                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
-                        alert(data.token_type);
-                        window.open("/profile", "_self");
+                        //alert(data.token_type);
+                        window.open("http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile", "_self");
                     } else {
                         printErrorMsgLogin(data);
                     }
