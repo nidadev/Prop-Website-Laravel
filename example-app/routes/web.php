@@ -25,6 +25,10 @@ Route::get('/logout', function () {
     return view('logout');
 });
 
+Route::get('/research', function () {
+    return view('research');
+});
+
 
 
 Route::post('/register', [ ApiController::class,'register']);

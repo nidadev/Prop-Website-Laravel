@@ -65,7 +65,7 @@
        <li><a class="dropdown-item logout" id="logout_b" href="{{ url('logout')}}">Logout</a></li>
 
 @endif
-            <li><a class="dropdown-item border-0" href="#"> Contact</a></li>
+            <li><a class="dropdown-item border-0" href="{{ url('/research')}}"> Research</a></li>
           </ul>
         </li>
 
