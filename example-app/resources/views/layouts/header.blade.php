@@ -37,6 +37,7 @@ $app_url = config('app.url');
 <script type="text/javascript">
     $(document).ready(function() {
         var token = localStorage.getItem('user_token2');
+        alert($app_url);
         if (window.location.pathname == <?php echo $app_url ?>.'/login' || window.location.pathname == <?php echo $app_url ?>.'/register') {
             if (token != null) {
                 window.open(<?php echo $app_url ?>.'/profile', '_self');
