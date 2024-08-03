@@ -112,7 +112,7 @@ $app_url = config('app.url');
                     200: function() {
                         alert("success");
                         localStorage.removeItem('user_token2');
-                    window.open('/login','_self');
+                    window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
                     },
                     404: function() {
                         alert("page not found");
