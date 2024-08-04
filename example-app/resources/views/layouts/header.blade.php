@@ -17,6 +17,10 @@
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
 </head>
 <style>
     span,
@@ -36,6 +40,8 @@ $app_url = config('app.url');
 
 <script type="text/javascript">
     $(document).ready(function() {
+        /////////////datatable/////
+        /////////////////////
         var token = localStorage.getItem('user_token2');
        
         //alert(token);
@@ -124,6 +130,46 @@ $app_url = config('app.url');
              
             });
         });
+        /////////////////////////////////getSale/////////////////
+        myarray = [];
+        $("#sale_search_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            var zp = document.getElementById('loc').value; //246283880,//90001,//90030,//90403
+            var appurl = "{{ env('AJAX_URL') }}";
+            //alert(zp); //url https://zillow-com1.p.rapidapi.com/propertyComps    data.comps
+            $.ajax({
+                    url: 'https://zillow-com1.p.rapidapi.com/similarSales?zpid=19959099',
+                    type: "GET",
+                    headers: { 'x-rapidapi-key' : '896c054dd8mshb6b3aa6ff000d3fp19756djsnc2c76cac4add' },
+                    data: formData,
+                    success: function(data) {
+                        //alert(data.address.city);
+                       
+                        console.log(data);
+                        if (data) {
+                            myarray = data;
+                            buildTable(myarray);
+                            $("#myDataTable").DataTable();
+
+                            
+                        } else {
+                            alert(data.error);
+                            //printErrorMsg(data)
+                        }
+
+                    }
+                }
+
+            );
+
+        })
+        /////////////////////////////div click//////////////
+        $("#map_id").click(function() {
+    $('html,body').animate({
+        scrollTop: $(".map").offset().top},
+        'slow');
+});
     });
 
     function printErrorMsgLogin(message) {
@@ -162,4 +208,23 @@ $app_url = config('app.url');
 
         });
     }
+
+    function buildTable(data)
+       {
+        //alert(data[0].address.state);
+        var table = document.getElementById('mytable');
+        for(var i=0; i < data.length; i++)
+       {
+        var row = `<tr>
+        <td>${data[i].bathrooms}</td><td>${data[i].bedrooms}</td>
+        <td>${data[i].address.state}</td> <td>$${data[i].price}</td>
+        <!--td>${data[i].taxAssessedValue}</td-->
+        <td>${data[i].livingArea}</td>
+        <!--td>${data[i].rentZestimate}</td-->
+        <td>${data[i].address.city}</td>
+        <td>${data[i].homeStatus}</td></tr>`
+        table.innerHTML +=row;
+       }
+
+       }
 </script>
