@@ -7,9 +7,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	   <ul class="navbar-nav mb-0 nav_left">
-        <!--li class="nav-item">
-          <a class="nav-link " aria-current="page" href="/">Home</a>
-        </li-->
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{{ url('/') }}">Home</a>
+        </li>
 		 
 		<li class="nav-item">
           <a class="nav-link" href="#">Price Land </a>
@@ -19,38 +19,21 @@
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Price Houses
           </a>
-          <!--ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#"> Price Houses</a></li>
-            <li><a class="dropdown-item border-0" href="detail.html"> Property Detail</a></li>
-          </ul-->
         </li>
 		 
-		 <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            List Upload
-          </a>
-          <!--ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="agent.html"> Agent</a></li>
-            <li><a class="dropdown-item border-0" href="agent_detail.html"> Agent Detail</a></li>
-          </ul-->
-        </li>
-		
+	
 		<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Comp Report
           </a>
-          <!--ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="blog.html"> Blog</a></li>
-            <li><a class="dropdown-item border-0" href="blog_detail.html"> Blog Detail</a></li>
-          </ul-->
         </li>
 		
 		<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            How it works
+            Account
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-		   <li><a class="dropdown-item" href="#"> Pricing</a></li>
+		   <li><a class="dropdown-item" href="#"> Subscription</a></li>
        @if (Auth::check()) 
        <form method="get" action="{{ url('logout') }}" id="logout">
         @csrf
@@ -60,8 +43,8 @@
 
 @else
 
-		   <li><a class="dropdown-item" href="/register"> Sign Up</a></li>
-		   <li><a class="dropdown-item" href="/login"> Sign In</a></li>
+		   <li><a class="dropdown-item" href="{{ url('/register')}}"> Register</a></li>
+		   <li><a class="dropdown-item" href="{{ url('/login')}}"> Login</a></li>
        <li><a class="dropdown-item logout" id="logout_b" href="{{ url('logout')}}">Logout</a></li>
 
 @endif
@@ -89,7 +72,7 @@
       </ul>
       <ul class="navbar-nav mb-0 ms-auto">
 		<li class="nav-item">
-          <a class="nav-link button mx-3" href="{{ url('/register') }}"><i class="fa fa-user-plus me-1"></i>Register  </a>
+          <a class="nav-link button mx-3" href="{{ url('/register') }}"><i class="fa fa-user-plus me-1"></i>Admin Panel  </a>
         </li>
       </ul>
     </div>
