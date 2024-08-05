@@ -69,7 +69,7 @@ $(document).ready(function(){
                         //window.open('/login','_self');
                     }
                     else{
-                        //alert(data.message);
+                        alert(data.message);
 
                     }
                     }
@@ -78,6 +78,8 @@ $(document).ready(function(){
     //////////////////
 
     $('.logout').click(function(){
+        var app_url = '{{ env("APP_URL") }}';
+    var page_url = ''+app_url+'/login';
         $.ajax({
                     url: '{{ url("/api/logout")}}',
                     type: "POST",
@@ -87,7 +89,7 @@ $(document).ready(function(){
                         if(data.success == true)
                     {
                         localStorage.removeItem('user_token2');
-                        window.open('/login','_self');
+                        window.open(page_url,'_self');
                     }
                     else{
                         alert(data.message);

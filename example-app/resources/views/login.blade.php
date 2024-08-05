@@ -57,9 +57,12 @@
 <script>
    //////////////////////login ////////////////////////////
    $(document).ready(function() {
-    var app_url = '{{ env("APP_URL") }}';
+   
     //alert(app_url);
    $('#login_id').on('submit', function(event) {
+    var app_url = '{{ env("APP_URL") }}';
+    var page_url = ''+app_url+'/profile';
+    alert(test);
             event.preventDefault();
             //alert('hi  hru');
             jQuery.ajax({
@@ -79,7 +82,7 @@
 
                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
                         //alert(data.token_type);
-                        window.open(+app_url+'/profile', "_self");
+                        window.open(page_url, "_self");
                     } else {
                         printErrorMsgLogin(data);
                     }
