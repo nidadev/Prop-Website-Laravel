@@ -7,36 +7,41 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	   <ul class="navbar-nav mb-0 nav_left">
-        <li class="nav-item">
+        <!--li class="nav-item">
           <a class="nav-link " aria-current="page" href="{{ url('/') }}">Home</a>
-        </li>
+        </li-->
 		 
 		<li class="nav-item">
           <a class="nav-link" href="#">Price Land </a>
         </li>
 		
-		<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		<li class="nav-item">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Price Houses
           </a>
         </li>
 		 
 	
-		<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		<li class="nav-item">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Comp Report
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/research')}}" role="button">
+            Research
           </a>
         </li>
 		
 		<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Account
+          Subscription
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
 		   <li><a class="dropdown-item" href="#"> Subscription</a></li>
        <li><a class="dropdown-item" href="{{ url('/register')}}"> Register</a></li>
 		   <li><a class="dropdown-item" href="{{ url('/login')}}"> Login</a></li>
-           <li><a class="dropdown-item border-0" href="{{ url('/research')}}"> Research</a></li>
 
           </ul>
         </li>
@@ -61,7 +66,7 @@
       </ul>
       <ul class="navbar-nav mb-0 ms-auto">
 		<li class="nav-item">
-          <a class="nav-link button mx-3" href="{{ url('/register') }}"><i class="fa fa-user-plus me-1"></i>Admin Panel  </a>
+          <a class="nav-link button mx-3" href="{{ url('/login') }}"><i class="fa fa-user-plus me-1"></i>Login  </a>
         </li>
       </ul>
     </div>

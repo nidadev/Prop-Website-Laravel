@@ -39,6 +39,30 @@ $app_url = config('app.url');
 ?>
 
 <script type="text/javascript">
+ var app_url = '{{ env("APP_URL") }}';
+ var login_url = ''+app_url+'/login';
+ var register_url = ''+app_url+'/register';
+ var profile_url = ''+app_url+'/profile';
+ alert(login_url);
+
+var token = localStorage.getItem('user_token2');
+    if(window.location.pathname == login_url || window.location.pathname == register_url)
+{
+    if(token != null)
+{
+    window.open(profile_url,'_self');
+}
+$('.logout').hide();
+
+}
+else
+{
+    if(token == null)
+{
+    window.open(login_url,'_self');
+}
+
+}
     $(document).ready(function() {
         /////////////datatable/////
         /////////////////////
