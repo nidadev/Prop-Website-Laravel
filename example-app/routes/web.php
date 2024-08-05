@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Middleware\IsCorsMiddleware;
 use App\Http\Controllers\Api\ApiController;
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
 })->middleware(IsCorsMiddleware::class);
 

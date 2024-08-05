@@ -32,11 +32,7 @@
         color: green;
     }
 </style>
-<?php
-$app_url = config('app.url');
-//echo $app_url.'/login';
-//echo $app_url;
-?>
+
 
 <script type="text/javascript">
  /*var app_url = '{{ env("APP_URL") }}';
