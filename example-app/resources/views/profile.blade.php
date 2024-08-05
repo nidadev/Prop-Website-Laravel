@@ -1,4 +1,4 @@
-@extends('layouts.app2')
+@extends('layouts.app')
 
 @section('main')
 <section id="center" class="center_agent_dt">
@@ -16,7 +16,7 @@
 
 <section id="agent_dt" class="p_3 bg-light">
     <div class="container-xl">
-    <button class="logout">Logout</button>
+    <!--button class="logout">Logout</button-->
         <div class="agent_dt2 row mt-4">
             <div class="col-md-8">
                 <div class="agent_dt2l">
@@ -47,6 +47,9 @@
     </div>
     </div>
     </div>
+    <?php
+    
+    ?>
 </section>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -89,7 +92,9 @@ $(document).ready(function(){
                         if(data.success == true)
                     {
                         localStorage.removeItem('user_token2');
-                        window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
+                        window.open(page_url,'_self');
+
+                        //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
                     }
                     else{
                         alert(data.message);

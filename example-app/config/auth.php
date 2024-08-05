@@ -34,6 +34,10 @@ return [
     | Supported: "session"
     |
     */
+    'defaults' => [
+        'guard' => 'api',
+        'passwords' => 'users',
+    ],
 
     'guards' => [
         'web' => [

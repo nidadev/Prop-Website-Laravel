@@ -120,7 +120,10 @@
 
  
 @endsection
-
+<script>
+    $(document).ready(function() {
+    });
+</script>
 </body>
 </html>
 

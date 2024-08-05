@@ -1,7 +1,5 @@
 @include('layouts.header')
 <body>
-
-
 @include('layouts.nav')
 
 

@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
-     //register api post(name,email,phone,password)
+    
+ 
+    //register api post(name,email,phone,password)
      public function register(Request $request)
      {
             // Validation
@@ -75,6 +77,11 @@ class ApiController extends Controller
 
            return $this->respondWithToken($token);
 
+    }
+
+    public function me()
+    {
+        return response()->json(auth()->user());
     }
 
     //protected function

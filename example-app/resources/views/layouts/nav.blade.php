@@ -39,9 +39,11 @@
           Subscription
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-		   <li><a class="dropdown-item" href="#"> Subscription</a></li>
-       <li><a class="dropdown-item" href="{{ url('/register')}}"> Register</a></li>
-		   <li><a class="dropdown-item" href="{{ url('/login')}}"> Login</a></li>
+         <li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li>
+         <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
+		   <li><a class="dropdown-item" href="{{ url('/login')}}" id="ln"> Login</a></li>
+        
+
 
           </ul>
         </li>
@@ -65,7 +67,7 @@
 
       </ul>
       <ul class="navbar-nav mb-0 ms-auto">
-		<li class="nav-item">
+		<li class="nav-item" id="login_b">
           <a class="nav-link button mx-3" href="{{ url('/login') }}"><i class="fa fa-user-plus me-1"></i>Login  </a>
         </li>
       </ul>
@@ -73,3 +75,44 @@
   </div>
 </nav>
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+        $.ajax({
+                    url: '{{ url("/api/profile") }}',
+                    type: "GET",
+                    headers: {'Authorization':localStorage.getItem('user_token2')},
+                    success: function(data) {
+                        console.log(data);
+                        if(data.status == true)
+                    {
+                        console.log(data.user);
+                        $('.name').text(data.user.name);
+                        $('#name').val(data.user.name);
+                        $('#email').val(data.user.email);
+                        $('#lg').show();
+                        $('#rg').hide();
+                        $('#ln').hide();
+                        $("#login_b").remove();
+                        //localStorage.removeItem('user_token');
+                        //window.open('/login','_self');
+                    }
+                    else{
+                        $("#lg").hide();
+                        //$('#lg').hide();
+                        alert(data.message);
+
+                    }
+                    },
+                    statusCode: {
+                    401: function() {
+                        //alert("401");
+                        $("#lg").remove();
+
+                        
+                    }
+                },
+    });
+});
+</script>
