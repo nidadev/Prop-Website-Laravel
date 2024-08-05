@@ -58,10 +58,10 @@
    //////////////////////login ////////////////////////////
    $(document).ready(function() {
     var app_url = '{{ env("APP_URL") }}';
-    alert(app_url);
+    //alert(app_url);
    $('#login_id').on('submit', function(event) {
             event.preventDefault();
-            alert('hi  hru');
+            //alert('hi  hru');
             jQuery.ajax({
                 url: "{{ url('login') }}",
                 data: jQuery('#login_id').serialize(),
@@ -79,7 +79,7 @@
 
                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
                         //alert(data.token_type);
-                        window.open("/profile", "_self");
+                        window.open(+app_url+'/profile', "_self");
                     } else {
                         printErrorMsgLogin(data);
                     }
