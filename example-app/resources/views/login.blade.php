@@ -57,6 +57,8 @@
 <script>
    //////////////////////login ////////////////////////////
    $(document).ready(function() {
+    var app_url = '{{ env("APP_URL") }}';
+    alert(app_url);
    $('#login_id').on('submit', function(event) {
             event.preventDefault();
             alert('hi  hru');
