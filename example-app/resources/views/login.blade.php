@@ -61,7 +61,9 @@
     //alert(app_url);
    $('#login_id').on('submit', function(event) {
     var app_url = '{{ env("APP_URL") }}';
-    var page_url = ''+app_url+'/profile';
+    var APP_URL = "{{ url('') }}";
+    //alert(APP_URL);
+    var page_url = ''+APP_URL+'/profile';
     //alert(test);
             event.preventDefault();
             //alert('hi  hru');
