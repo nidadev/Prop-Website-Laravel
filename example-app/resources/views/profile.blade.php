@@ -89,7 +89,7 @@ $(document).ready(function(){
                         if(data.success == true)
                     {
                         localStorage.removeItem('user_token2');
-                        window.open(page_url,'_self');
+                        window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
                     }
                     else{
                         alert(data.message);
