@@ -46,7 +46,7 @@ $app_url = config('app.url');
  //alert(login_url);
 
 var token = localStorage.getItem('user_token2');
-    if(window.location.pathname == login_url || window.location.pathname == register_url)
+    /*if(window.location.pathname == login_url || window.location.pathname == register_url)
 {
     if(token != null)
 {
@@ -62,7 +62,7 @@ else
     window.open(login_url,'_self');
 }
 
-}
+}*/
     $(document).ready(function() {
         /////////////datatable/////
         /////////////////////
