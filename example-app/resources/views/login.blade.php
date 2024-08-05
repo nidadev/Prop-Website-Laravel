@@ -22,7 +22,7 @@
           <form method="post" action="{{ url('login') }}" id="login_id">
           @csrf
           <h6 class="mb-3 fw-bold">Email</h6>
-          <input type="email" class="form-control" name="email" placeholder="Enter Email:">Enter Email:
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:">Enter Email:
             <span class="error email_err"></span>
             <h6 class="mb-3 fw-bold mt-4">Password</h6>
             <input type="password" class="form-control" name="password" placeholder="Enter Password:">Enter password:
@@ -52,6 +52,45 @@
  </div>
 </section>
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+   //////////////////////login ////////////////////////////
+   $(document).ready(function() {
+   $('#login_id').on('submit', function(event) {
+            event.preventDefault();
+            alert('hi  hru');
+            jQuery.ajax({
+                url: "{{ url('login') }}",
+                data: jQuery('#login_id').serialize(),
+                type: 'POST',
+                success: function(data) {
+                    alert(data);
+                    console.log(data);
+                    if (data.success == false) {
+                        $('.incorrect').text(data.message);
+                    } else if (data.success == true) {
+                        //alert(data);
+                        console.log(data);
+                        $(".incorrect").text("");
+                        $(".result").text(data.message);
+
+                        localStorage.setItem("user_token2", data.token_type + " " + data.token);
+                        //alert(data.token_type);
+                        window.open("/profile", "_self");
+                    } else {
+                        printErrorMsgLogin(data);
+                    }
+                    //alert(data);
+                    //console.log(data);
+
+
+                },
+
+            });
+        });
+      });
+  </script>
 
 </body>
 </html>

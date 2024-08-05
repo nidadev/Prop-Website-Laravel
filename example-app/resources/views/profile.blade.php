@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
 @section('main')
 <section id="center" class="center_agent_dt">
@@ -16,12 +16,12 @@
 
 <section id="agent_dt" class="p_3 bg-light">
     <div class="container-xl">
-
+    <button class="logout">Logout</button>
         <div class="agent_dt2 row mt-4">
             <div class="col-md-8">
                 <div class="agent_dt2l">
                     <div class="detail_1l2 p-4 rounded_10 bg-white">
-                        <h4>About Semper Porta</h4>
+                        <h4>About <span class="name"></span></h4>
                         <p class="mt-3">Good road frontage on a paved county road with utilities make it an amazing setting for your dream country getaway! If you like views, you must see this property!,</p>
                     </div>
 
@@ -49,7 +49,56 @@
     </div>
 </section>
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+<script>
+$(document).ready(function(){
+        $.ajax({
+                    url: '{{ url("/api/profile") }}',
+                    type: "GET",
+                    headers: {'Authorization':localStorage.getItem('user_token2')},
+                    success: function(data) {
+                        console.log(data);
+                        if(data.status == true)
+                    {
+                        console.log(data.user);
+                        $('.name').text(data.user.name);
+                        $('#name').val(data.user.name);
+                        $('#email').val(data.user.email);
+                        //localStorage.removeItem('user_token');
+                        //window.open('/login','_self');
+                    }
+                    else{
+                        //alert(data.message);
+
+                    }
+                    }
+    });
+
+    //////////////////
+
+    $('.logout').click(function(){
+        $.ajax({
+                    url: '{{ url("/api/logout")}}',
+                    type: "POST",
+                    headers: {'Authorization':localStorage.getItem('user_token2')},
+                    success: function(data) {
+                        console.log(data);
+                        if(data.success == true)
+                    {
+                        localStorage.removeItem('user_token2');
+                        window.open('/login','_self');
+                    }
+                    else{
+                        alert(data.message);
+
+                    }
+                    }
+    });
+});
+
+    });
+    </script>
 </body>
 
 </html>

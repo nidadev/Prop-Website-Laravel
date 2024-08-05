@@ -12,12 +12,12 @@ use App\Http\Controllers\Api\ApiController;
 Route::post('register',[ApiController::class,'register']);
 Route::post('login',[ApiController::class,'login']);
 
+
 //auth routes
 Route::group([
     "middleware" => ["auth:api"]
-], function(){
-
+], function(){    
     Route::get("profile", [ApiController::class, "profile"]);
-    Route::get("refresh-token", [ApiController::class, "refreshToken"]);
-    Route::get("logout", [ApiController::class, "logout"]);
+    Route::get("refreshToken", [ApiController::class, "refreshToken"]);
+    Route::post("logout", [ApiController::class, "logout"]);
 });

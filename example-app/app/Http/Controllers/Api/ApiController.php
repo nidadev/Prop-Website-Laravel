@@ -90,10 +90,11 @@ class ApiController extends Controller
             ]);
     }
        // Profile API - GET (JWT Auth Token)
-       public function profile(){
+       public function profile(Request $request){
    
-           //$userData = auth()->user();
-           $userData = request()->user();
+           $userData = auth()->user();
+           //$userData = request()->user();
+           //dd($request->all());
    
            return response()->json([
                "status" => true,
@@ -120,8 +121,7 @@ class ApiController extends Controller
        // Logout API - GET (JWT Auth Token)
        public function logout(){
            
-        try {
-            
+        try {            
             auth()->logout();
             return response()->json([
                 'status'=>true,
@@ -139,4 +139,5 @@ class ApiController extends Controller
         }
        // return $this->refreshToken();
        }
+       
 }

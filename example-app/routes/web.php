@@ -21,9 +21,9 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/logout', function () {
+/*Route::get('/logout', function () {
     return view('logout');
-});
+});*/
 
 Route::get('/research', function () {
     return view('research');

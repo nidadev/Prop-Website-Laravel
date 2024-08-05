@@ -34,9 +34,8 @@
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
 		   <li><a class="dropdown-item" href="#"> Subscription</a></li>
-       <li><a class="dropdown-item" href="{{ url('/register')}}"> Register</a></li>
-		   <li><a class="dropdown-item" href="{{ url('/login')}}"> Login</a></li>
-           <li><a class="dropdown-item border-0" href="{{ url('/research')}}"> Research</a></li>
+       <li><a class="dropdown-item logout" href="{{ url('/logout')}}">Logout</a></li>
+       <li><a class="dropdown-item border-0" href="{{ url('/research')}}"> Research</a></li>
 
           </ul>
         </li>

@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script-->
 
 <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -45,69 +45,13 @@ $app_url = config('app.url');
         var token = localStorage.getItem('user_token2');
        
         //alert(token);
-        $('#register').on('submit', function(event) {
-            event.preventDefault();
-            //alert('hi  hru');
-            jQuery.ajax({
-                url: "{{ url('register') }}",
-                data: jQuery('#register').serialize(),
-                type: 'POST',
-                success: function(data) {
-                    //alert(data);
-                    if (data.message) {
-                        $("#register")[0].reset();
-                        $(".error").text("");
+     
 
-                        $(".result").text(data.message);
-
-                    } else {
-                        console.log(data)
-                        //alert(data);
-                        printErrorMsg(data)
-                    }
-                },
-
-            })
-        });
-
-        //////////////////////login ////////////////////////////
-
-        $('#login_id').on('submit', function(event) {
-            event.preventDefault();
-            //alert('hi  hru');
-            jQuery.ajax({
-                url: "{{ url('login') }}",
-                data: jQuery('#login_id').serialize(),
-                type: 'POST',
-                success: function(data) {
-                    //alert(data);
-                    console.log(data);
-                    if (data.success == false) {
-                        $('.incorrect').text(data.message);
-                    } else if (data.success == true) {
-                        //alert(data);
-                        console.log(data);
-                        $(".incorrect").text("");
-                        $(".result").text(data.message);
-
-                        localStorage.setItem("user_token2", data.token_type + " " + data.token);
-                        //alert(data.token_type);
-                        window.open("http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile", "_self");
-                    } else {
-                        printErrorMsgLogin(data);
-                    }
-                    //alert(data);
-                    //console.log(data);
-
-
-                },
-
-            })
-        });
+       
         ////////////////////////////logout////////////////
         $('#logout_b').on('click', function(event) {
             event.preventDefault();
-            //alert('hi  hru');
+            alert('hi  hru');
             jQuery.ajax({
                 url: "{{ url('logout') }}",
                 type: "GET",
@@ -118,7 +62,7 @@ $app_url = config('app.url');
                     200: function() {
                         alert("success");
                         localStorage.removeItem('user_token2');
-                    window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
+                    window.open('/login','_self');
                     },
                     404: function() {
                         alert("page not found");
@@ -130,6 +74,9 @@ $app_url = config('app.url');
              
             });
         });
+        ////////////////////////////profile//////////////
+     
+        ///////////////////////////////////////////////
         /////////////////////////////////getSale/////////////////
         myarray = [];
         $("#sale_search_form").submit(function(event) {

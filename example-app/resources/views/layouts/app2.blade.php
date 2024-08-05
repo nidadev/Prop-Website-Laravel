@@ -2,7 +2,7 @@
 <body>
 
 
-@include('layouts.nav')
+@include('layouts.nav2')
 
 
 
