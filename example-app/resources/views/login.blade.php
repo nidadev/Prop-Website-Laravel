@@ -82,7 +82,7 @@
 
                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
                         //alert(data.token_type);
-                        window.open(page_url, "_self");
+                        window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile', "_self");
                     } else {
                         printErrorMsgLogin(data);
                     }
