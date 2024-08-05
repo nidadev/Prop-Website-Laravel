@@ -81,8 +81,8 @@ $(document).ready(function(){
     //////////////////
 
     $('.logout').click(function(){
-        var app_url = '{{ env("APP_URL") }}';
-    var page_url = ''+app_url+'/login';
+        var APP_URL = "{{ url('') }}";
+    var page_url = ''+APP_URL+'/login';
         $.ajax({
                     url: '{{ url("/api/logout")}}',
                     type: "POST",
