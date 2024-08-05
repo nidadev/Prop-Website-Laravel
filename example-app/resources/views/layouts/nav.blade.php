@@ -1,7 +1,7 @@
 <section id="header">
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow_box" id="navbar_sticky">
   <div class="container-xl">
-    <a class="text-black p-0 navbar-brand fw-bold logo_position_rel" href="{{url('/')}}"> Prope <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="col_red">Lyze</span></a>
+    <a class="text-black p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/') }}"> Prope <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="col_red">Lyze</span></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

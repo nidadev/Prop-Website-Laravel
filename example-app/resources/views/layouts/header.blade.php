@@ -39,7 +39,7 @@ $app_url = config('app.url');
 ?>
 
 <script type="text/javascript">
- var app_url = '{{ env("APP_URL") }}';
+ /*var app_url = '{{ env("APP_URL") }}';
  var login_url = ''+app_url+'/login';
  var register_url = ''+app_url+'/register';
  var profile_url = ''+app_url+'/profile';
