@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Prop Estate</title>
 	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/global.css' )}}" rel="stylesheet">
 	<link href="{{ asset('css/index.css' )}}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
