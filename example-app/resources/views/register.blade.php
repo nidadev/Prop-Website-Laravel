@@ -51,9 +51,16 @@
 </section>
 @endsection
 
-<script>
-   
-  </script>
+<style>
+   span,
+    .error {
+        color: red;
+    }
+
+    p.result {
+        color: green;
+    }
+  </style>
 </body>
 </html>
 

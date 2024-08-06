@@ -20,4 +20,5 @@ Route::group([
     Route::get("profile", [ApiController::class, "profile"]);
     Route::get("refreshToken", [ApiController::class, "refreshToken"]);
     Route::post("logout", [ApiController::class, "logout"]);
+    Route::post('profile-update',[ApiController::class, "updateProfile"]);
 });
