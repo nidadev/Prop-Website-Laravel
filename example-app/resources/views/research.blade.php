@@ -85,7 +85,6 @@
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center">
             <form>
    
-    <p class="result"></p>
      <table class="display" style="width:100%" id="myDataTable">
                     <thead class="bg-grey-50">
         <tr>
@@ -121,11 +120,7 @@
  
 @endsection
 <script>
-    $(document).ready(function() {
-    });
+    
 </script>
 </body>
 </html>
-
-
-

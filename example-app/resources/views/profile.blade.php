@@ -52,59 +52,9 @@
     ?>
 </section>
 @endsection
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
-$(document).ready(function(){
-        $.ajax({
-                    url: '{{ url("/api/profile") }}',
-                    type: "GET",
-                    headers: {'Authorization':localStorage.getItem('user_token2')},
-                    success: function(data) {
-                        console.log(data);
-                        if(data.status == true)
-                    {
-                        console.log(data.user);
-                        $('.name').text(data.user.name);
-                        $('#name').val(data.user.name);
-                        $('#email').val(data.user.email);
-                        //localStorage.removeItem('user_token');
-                        //window.open('/login','_self');
-                    }
-                    else{
-                        alert(data.message);
 
-                    }
-                    }
-    });
-
-    //////////////////
-
-    $('.logout').click(function(){
-        var APP_URL = "{{ url('') }}";
-    var page_url = ''+APP_URL+'/login';
-        $.ajax({
-                    url: '{{ url("/api/logout")}}',
-                    type: "POST",
-                    headers: {'Authorization':localStorage.getItem('user_token2')},
-                    success: function(data) {
-                        console.log(data);
-                        if(data.success == true)
-                    {
-                        localStorage.removeItem('user_token2');
-                        window.open(page_url,'_self');
-
-                        //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
-                    }
-                    else{
-                        alert(data.message);
-
-                    }
-                    }
-    });
-});
-
-    });
     </script>
 </body>
 

@@ -1,3 +1,5 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <section id="header">
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow_box" id="navbar_sticky">
   <div class="container-xl">
@@ -75,11 +77,9 @@
   </div>
 </nav>
 </section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
-$(document).ready(function(){
-        $.ajax({
+  $.ajax({
                     url: '{{ url("/api/profile") }}',
                     type: "GET",
                     headers: {'Authorization':localStorage.getItem('user_token2')},
@@ -114,5 +114,4 @@ $(document).ready(function(){
                     }
                 },
     });
-});
 </script>

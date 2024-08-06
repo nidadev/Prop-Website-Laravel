@@ -52,52 +52,9 @@
  </div>
 </section>
 @endsection
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
-   //////////////////////login ////////////////////////////
-   $(document).ready(function() {
-   
-    //alert(app_url);
-   $('#login_id').on('submit', function(event) {
-    var APP_URL = "{{ url('') }}";
-    //alert(APP_URL);
-    var page_url = ''+APP_URL+'/profile';
-    //alert(test);
-            event.preventDefault();
-            //alert('hi  hru');
-            jQuery.ajax({
-                url: "{{ url('login') }}",
-                data: jQuery('#login_id').serialize(),
-                type: 'POST',
-                success: function(data) {
-                    alert(data);
-                    console.log(data);
-                    if (data.success == false) {
-                        $('.incorrect').text(data.message);
-                    } else if (data.success == true) {
-                        //alert(data);
-                        console.log(data);
-                        $(".incorrect").text("");
-                        $(".result").text(data.message);
-
-                        localStorage.setItem("user_token2", data.token_type + " " + data.token);
-                        //alert(data.token_type);
-                        window.open(page_url, "_self");
-
-                        //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile', "_self");
-                    } else {
-                        printErrorMsgLogin(data);
-                    }
-                    //alert(data);
-                    //console.log(data);
-
-
-                },
-
-            });
-        });
-      });
+  
   </script>
 
 </body>

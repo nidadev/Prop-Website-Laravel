@@ -50,41 +50,9 @@
  </div>
 </section>
 @endsection
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
-     $(document).ready(function() {
-        /////////////datatable/////
-        /////////////////////
-        var token = localStorage.getItem('user_token2');
-       
-        //alert(token);
-        $('#register').on('submit', function(event) {
-            event.preventDefault();
-            //alert('hi  hru');
-            jQuery.ajax({
-                url: "{{ url('register') }}",
-                data: jQuery('#register').serialize(),
-                type: 'POST',
-                success: function(data) {
-                    //alert(data);
-                    if (data.message) {
-                        $("#register")[0].reset();
-                        $(".error").text("");
-
-                        $(".result").text(data.message);
-
-                    } else {
-                        console.log(data)
-                        //alert(data);
-                        printErrorMsg(data)
-                    }
-                },
-
-            })
-        });
-      });
-
+   
   </script>
 </body>
 </html>
