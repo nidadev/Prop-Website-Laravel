@@ -19,7 +19,7 @@ class ApiController extends Controller
             // Validation
             $validator = Validator::make($request->all(),[
                'name' => 'required|min:3',
-               'email' => 'required|email|unique:users',
+               'email' => 'required|regex:/^.+@.+$/i|email|unique:users',
                'phone' => 'required|min:6',
                'password' => 'required|confirmed|min:5',
                'password_confirmation' => 'required'

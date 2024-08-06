@@ -21,8 +21,12 @@ Route::get('/profile', function () {
     return view('profile');
 });
 
-Route::get('/me', function () {
+/*Route::get('/me', function () {
     return view('layouts.nav');
+})*/
+
+Route::get('/subscription', function () {
+    return view('subscription');
 });
 
 /*Route::get('/logout', function () {

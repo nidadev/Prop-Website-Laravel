@@ -35,10 +35,15 @@
             Research
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/subscription')}}" role="button">
+            Subscription
+          </a>
+        </li>
 		
 		<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Subscription
+          Account
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
          <li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li>
