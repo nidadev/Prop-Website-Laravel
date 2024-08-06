@@ -37,6 +37,10 @@ Route::get('/research', function () {
     return view('research');
 });
 
+Route::get('/compreport', function () {
+    return view('compreport');
+});
+
 
 
 Route::post('/register', [ ApiController::class,'register']);

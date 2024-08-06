@@ -25,7 +25,7 @@
 		 
 	
 		<li class="nav-item">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link" href="{{ url('/compreport')}}" id="navbarDropdown" role="button">
             Comp Report
           </a>
         </li>
