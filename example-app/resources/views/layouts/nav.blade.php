@@ -14,11 +14,11 @@
         </li-->
 		 
 		<li class="nav-item">
-          <a class="nav-link" href="#">Price Land </a>
+          <a class="nav-link" href="{{ url('/priceland')}}">Price Land </a>
         </li>
 		
 		<li class="nav-item">
-          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link" href="{{ url('/pricehouse') }}" id="navbarDropdown" role="button">
             Price Houses
           </a>
         </li>

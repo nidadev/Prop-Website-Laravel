@@ -1,42 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta name="robots" content="noindex,nofollow" />
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Propelyze</title>
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script-->
-
-    <!--link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet"-->
-    <link href="{{ asset('css/global.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/contact.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/index.css') }}" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-    <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
-
-    <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet">
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-
-</head>
-<style>
-    span,
-    .incorrect {
-        color: red;
-    }
-
-    p.result {
-        color: green;
-    }
-</style>
-
-
-<script type="text/javascript">
     /*var app_url = '{{ env("APP_URL") }}';
  var login_url = ''+app_url+'/login';
  var register_url = ''+app_url+'/register';
@@ -130,7 +91,7 @@ else
                 data: jQuery('#login_id').serialize(),
                 type: 'POST',
                 success: function(data) {
-                    //alert(data);
+                    alert(data);
                     console.log(data);
                     if (data.success == false) {
                         $('.incorrect').text(data.message);
@@ -308,4 +269,3 @@ else
         }
 
     }
-</script>

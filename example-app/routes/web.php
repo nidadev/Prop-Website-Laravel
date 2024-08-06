@@ -40,6 +40,12 @@ Route::get('/research', function () {
 Route::get('/compreport', function () {
     return view('compreport');
 });
+Route::get('/priceland', function () {
+    return view('priceland');
+});
+Route::get('/pricehouse', function () {
+    return view('pricehouse');
+});
 
 
 
