@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Propelyze</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!--link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet"-->
     <link href="{{ asset('css/global.css') }}" rel="stylesheet">
@@ -59,33 +59,33 @@ else
         /////////////////////
         var token = localStorage.getItem('user_token2');
 
-//////////////////////////update///////////////////
-$("#profile_form").on('submit',function(event) {
-    event.preventDefault();
-    var formData = $(this).serialize();
-$.ajax({
-            url: '{{ url("/api/profile-update") }}',
-            type: "POST",
-            data:formData,
-            headers: {
-                'Authorization': localStorage.getItem('user_token2')
-            },
-            success: function(data) {
-                console.log(data);
-                if (data.success == true) {
-                    console.log(data.user);
-                    $('.error').text();
-                   $('.result').text(data.message);
-                } else {
-                    printErrorMsgLogin(data);
-                    $('.error').text(data.message);
-                    //alert(data.message);
+        //////////////////////////update///////////////////
+        $("#profile_form").on('submit', function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                url: '{{ url("/api/profile-update") }}',
+                type: "POST",
+                data: formData,
+                headers: {
+                    'Authorization': localStorage.getItem('user_token2')
+                },
+                success: function(data) {
+                    console.log(data);
+                    if (data.success == true) {
+                        console.log(data.user);
+                        $('.error').text();
+                        $('.result').text(data.message);
+                    } else {
+                        printErrorMsgLogin(data);
+                        $('.error').text(data.message);
+                        //alert(data.message);
 
+                    }
                 }
-            }
+            });
         });
-    });
-/////////////////////////////
+        /////////////////////////////
         $.ajax({
             url: '{{ url("/api/profile") }}',
             type: "GET",
@@ -138,17 +138,21 @@ $.ajax({
 
         //alert(token);
         $('#login_id').on('submit', function(event) {
+            event.preventDefault();
+
+            //alert('123');
             var APP_URL = "{{ url('') }}";
             //alert(APP_URL);
             var page_url = '' + APP_URL + '/profile';
             //alert(test);
-            event.preventDefault();
-            //alert('hi  hru');
-            jQuery.ajax({
-                url: "{{ url('login') }}",
-                data: jQuery('#login_id').serialize(),
-                type: 'POST',
+            var formdata = $(this).serialize();
+           // alert(formdata);
+            $.ajax({
+                url: '{{ url("/api/login") }}',
+                type: "POST",
+                data: formdata,
                 success: function(data) {
+                    //alert(url);
                     //alert(data);
                     console.log(data);
                     if (data.success == false) {
@@ -180,7 +184,7 @@ $.ajax({
             event.preventDefault();
             //alert('hi  hru');
             jQuery.ajax({
-                url: "{{ url('register') }}",
+                url: "{{ url('api/register') }}",
                 data: jQuery('#register').serialize(),
                 type: 'POST',
                 success: function(data) {

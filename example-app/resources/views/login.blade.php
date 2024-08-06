@@ -19,8 +19,7 @@
     <div class="col-md-12">
       <div class="login_1m p-4 w-50 mx-auto bg-light">
 	      <h2 class="text-center mb-3">Login </h2>
-          <form method="post" action="{{ url('login') }}" id="login_id">
-          @csrf
+          <form method="post" action="{{ url('/login') }}" id="login_id">
           <h6 class="mb-3 fw-bold">Email</h6>
           <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:">Enter Email:
             <span class="error email_err"></span>
@@ -43,7 +42,7 @@
 			</div>
 		  </div>
 		  <h6 class="mt-3 center_sm">  <p class="result"></p>  
-          <button type="submit" style="border:none;" class="button_2 b-block text-center">LOGIN</button></h6>
+          <button type="submit" style="border:none;" class="button_2 b-block text-center" >LOGIN</button></h6>
 		  <p class="incorrect"></p><p class="mt-3 mb-0 text-center">Don't have an account? <a class="fw-bold a_tag col_blue" href="/register">Create One</a></p>
 		</div>
             </form>

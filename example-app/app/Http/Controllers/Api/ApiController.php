@@ -48,7 +48,7 @@ class ApiController extends Controller
     // Login API - POST (email, password)
     public function login(Request $request)
     {
-        // dd('123');
+         //dd('123');
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:5'
@@ -106,8 +106,8 @@ class ApiController extends Controller
             "status" => true,
             "message" => "Profile data",
             "user" => $userData,
-            "user_id" => request()->user()->id,
-            "email" => request()->user()->email
+            "user_id" => auth()->user()->id,
+            "email" => auth()->user()->email
         ]);
     }
 

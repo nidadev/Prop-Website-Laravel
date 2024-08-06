@@ -9,16 +9,17 @@ use App\Http\Controllers\Api\ApiController;
 // })->middleware('auth:sanctum');
 
 //open routes
-Route::post('register',[ApiController::class,'register']);
-Route::post('login',[ApiController::class,'login']);
+
 
 
 //auth routes
 Route::group([
-    "middleware" => ["auth:api"]
-], function(){    
+    "middleware" => "api"
+], function () {
+    Route::post('register', [ApiController::class, 'register']);
+    Route::post('login', [ApiController::class, 'login']);
     Route::get("profile", [ApiController::class, "profile"]);
     Route::get("refreshToken", [ApiController::class, "refreshToken"]);
     Route::post("logout", [ApiController::class, "logout"]);
-    Route::post('profile-update',[ApiController::class, "updateProfile"]);
+    Route::post('profile-update', [ApiController::class, "updateProfile"]);
 });
