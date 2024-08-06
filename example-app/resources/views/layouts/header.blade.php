@@ -59,7 +59,33 @@ else
         /////////////////////
         var token = localStorage.getItem('user_token2');
 
+//////////////////////////update///////////////////
+$("#profile_form").on('submit',function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+$.ajax({
+            url: '{{ url("/api/profile-update") }}',
+            type: "POST",
+            data:formData,
+            headers: {
+                'Authorization': localStorage.getItem('user_token2')
+            },
+            success: function(data) {
+                console.log(data);
+                if (data.success == true) {
+                    console.log(data.user);
+                    $('.error').text();
+                   $('.result').text(data.message);
+                } else {
+                    printErrorMsgLogin(data);
+                    $('.error').text(data.message);
+                    //alert(data.message);
 
+                }
+            }
+        });
+    });
+/////////////////////////////
         $.ajax({
             url: '{{ url("/api/profile") }}',
             type: "GET",
@@ -71,8 +97,10 @@ else
                 if (data.status == true) {
                     console.log(data.user);
                     $('.name').text(data.user.name);
+                    $('#phone').val(data.user.phone);
                     $('#name').val(data.user.name);
                     $('#email').val(data.user.email);
+                    $('#user_id').val(data.user.id);
                     //localStorage.removeItem('user_token');
                     //window.open('/login','_self');
                 } else {
