@@ -24,16 +24,7 @@
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
 </head>
-<style>
-    span,
-    .incorrect {
-        color: red;
-    }
 
-    p.result {
-        color: green;
-    }
-</style>
 
 
 <script type="text/javascript">
