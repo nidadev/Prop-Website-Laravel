@@ -189,7 +189,7 @@ else
                 data: formdata,
                 type: 'POST',
                 success: function(data) {
-                    alert(data);
+                    //alert(data);
                     if (data.message) {
                         $("#register")[0].reset();
                         $(".error").text("");
