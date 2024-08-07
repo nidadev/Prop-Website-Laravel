@@ -22,9 +22,19 @@
 
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet">
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+   </head>
+<style>
+    /* Icon when the collapsible content is show */
+/*.btn.icon:after {
+    font-family: "Glyphicons Halflings";
+    content: "\2212";
+}
 
-</head>
-
+/* Icon when the collapsible content is hidden */
+/*.btn.icon.collapsed:after {
+    content: "\2b";
+}*/
+    </style>
 
 
 <script type="text/javascript">
@@ -55,7 +65,11 @@ else
     $(document).ready(function() {
         $.noConflict();
         /////////////datatable/////
-
+        $('#show_pane').click(function(){
+        $(".btn.icon").toggleClass("collapsed");
+        var paneDiv = $(this).find("a").attr("href");
+        $(paneDiv).toggle('1000');
+    });
         /////////////////////
         var token = localStorage.getItem('user_token2');
 
