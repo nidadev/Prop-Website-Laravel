@@ -92,31 +92,62 @@
 
               </div>
             </div>
-        </div>
+        </div><!--------- 1st col-12----->
+
         <div class="col-md-12">
-          <button type="button" class="btn btn-secondary" style="border:none" data-bs-toggle="collapse" data-bs-target="#demo">+</button>
+          <form id="pricehouse_search_form">
+
+            <div class="center_h2l">
+              <div class="center_h2li row">
+                <div class="col-md-6">
+                  <div class="center_h2lil">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingFive">
+                        <button class="btn btn-secondary collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                          <i class="fa fa-check-circle me-2"></i>+</button>
+                      </h2>
+
+                    </div><!---- accordion item--->
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="center_h2r">
+                    <div class="center_h2ri row">
+                      <div class="col-md-4">
+                        <div class="center_h2ril">
+                          ................
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
 
 
-        </div>
-        <div class="col-md-12 container mt-3" id="demo" class="collapse">
-          <div class="center_h2l">
-            <div class="center_h2li row">
-              <div class="col-md-6">
-                <div class="center_h2lil">
-                  <form>
-                    <h6>Advanced Search</h6>
+              </div>
+            </div>
+        </div><!--------- 1st col-12 test----->
+
+       
+        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+        <div class="col-md-12">
+          <form id="pricehouse_search_form">
+        
+            <div class="center_h2l">
+              <div class="center_h2li row">
+                <div class="col-md-4">
+                  <div class="center_h2lil">
                     <span>
                       Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="center_h2r">
-                  <div class="center_h2ri row">
-                    <div class="col-md-4">
+                <div class="col-md-4">
+                  <div class="center_h2r">
+                    <div class="center_h2ri row">
                       <div class="center_h2ril">
-                        <span>
-                          Property Type</span>
                         <ul>
                           <li> Apartment <input type="checkbox" name=""></li>
                           <li> Apartment/Hotel <input type="checkbox" name=""></li>
@@ -132,311 +163,49 @@
                           <li>Health Club<input type="checkbox" name=""></li>
                           <li>High Rise Condo <input type="checkbox" name=""></li>
                         </ul>
+                      </div>
 
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="center_h2r">
+                    <div class="center_h2ri row">
+                      <div class="center_h2ril">
+                        <ul>
+                          <li> Apartment <input type="checkbox" name=""></li>
+                          <li> Apartment/Hotel <input type="checkbox" name=""></li>
+                          <li>Cabin <input type="checkbox" name=""></li>
+                          <li>Common Area <input type="checkbox" name=""></li>
+                          <li>Condominium <input type="checkbox" name=""></li>
+                          <li>Condominium Project <input type="checkbox" name=""></li>
+                          <li>Condotel <input type="checkbox" name=""></li>
+                          <li>Cooperative <input type="checkbox" name=""></li>
+                          <li>Duplex <input type="checkbox" name=""></li>
+                          <li>Frat/Sorority House <input type="checkbox" name=""></li>
+                          <li>Group Quarters <input type="checkbox" name=""></li>
+                          <li>Health Club<input type="checkbox" name=""></li>
+                          <li>High Rise Condo <input type="checkbox" name=""></li>
+                        </ul>
                       </div>
                     </div>
-                    <div class="col-md-4">
-
-                      <ul>
-                        <li> Apartment <input type="checkbox" name=""></li>
-                        <li> Apartment/Hotel <input type="checkbox" name=""></li>
-                        <li>Cabin <input type="checkbox" name=""></li>
-                        <li>Common Area <input type="checkbox" name=""></li>
-                        <li>Condominium <input type="checkbox" name=""></li>
-                        <li>Condominium Project <input type="checkbox" name=""></li>
-                        <li>Condotel <input type="checkbox" name=""></li>
-                        <li>Cooperative <input type="checkbox" name=""></li>
-                        <li>Duplex <input type="checkbox" name=""></li>
-                        <li>Frat/Sorority House <input type="checkbox" name=""></li>
-                        <li>Group Quarters <input type="checkbox" name=""></li>
-                        <li>Health Club<input type="checkbox" name=""></li>
-                        <li>High Rise Condo <input type="checkbox" name=""></li>
-                      </ul>
-                      </form>
-
-                    </div>
-                    <div class="col-md-4">
-
-                      <ul>
-                        <li> Apartment <input type="checkbox" name=""></li>
-                        <li> Apartment/Hotel <input type="checkbox" name=""></li>
-                        <li>Cabin <input type="checkbox" name=""></li>
-                        <li>Common Area <input type="checkbox" name=""></li>
-                        <li>Condominium <input type="checkbox" name=""></li>
-                        <li>Condominium Project <input type="checkbox" name=""></li>
-                        <li>Condotel <input type="checkbox" name=""></li>
-                        <li>Cooperative <input type="checkbox" name=""></li>
-                        <li>Duplex <input type="checkbox" name=""></li>
-                        <li>Frat/Sorority House <input type="checkbox" name=""></li>
-                        <li>Group Quarters <input type="checkbox" name=""></li>
-                        <li>Health Club<input type="checkbox" name=""></li>
-                        <li>High Rise Condo <input type="checkbox" name=""></li>
-                      </ul>
-                      </form>
-
-                    </div>
-
-
                   </div>
+
+
+
                 </div>
+
+
               </div>
-
-
             </div>
-          </div>
-          <hr>
-          <div class="col-md-12">
-            <form id="pricehouse_search_form">
+         
+          </form>
+        </div><!--------- 1st col-12 test3----->
+        </div><!-- accordion -->
+        </div><!-- accordion-->
 
-              <div class="center_h2l">
-                <div class="center_h2li row">
-                  <div class="col-md-4">
-                    <div class="center_h2lil">
-                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                    </div>
-                  </div>
-
-                  <div class="col-md-4">
-                    <div class="center_h2lil">
-                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="center_h2lil">
-                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <div class="col-md-12">
-                <form id="pricehouse_search_form">
-
-                  <div class="center_h2l">
-                    <div class="center_h2li row">
-                      <div class="col-md-4">
-                        <div class="center_h2lil">
-                          Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                        </div>
-                      </div>
-
-                      <div class="col-md-4">
-                        <div class="center_h2lil">
-                          Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="center_h2lil">
-                          Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <form id="pricehouse_search_form">
-
-                      <div class="center_h2l">
-                        <div class="center_h2li row">
-                          <div class="col-md-4">
-                            <div class="center_h2lil">
-                              Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                            </div>
-                          </div>
-
-                          <div class="col-md-4">
-                            <div class="center_h2lil">
-                              Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div class="center_h2lil">
-                              Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="col-md-12">
-                        <form id="pricehouse_search_form">
-
-                          <div class="center_h2l">
-                            <div class="center_h2li row">
-                              <div class="col-md-4">
-                                <div class="center_h2lil">
-                                  Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                </div>
-                              </div>
-
-                              <div class="col-md-4">
-                                <div class="center_h2lil">
-                                  Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="center_h2lil">
-                                  Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                </div>
-                              </div>
-
-                            </div>
-                          </div><hr>
-                          <div class="col-md-12">
-                            <form id="pricehouse_search_form">
-
-                              <div class="center_h2l">
-                                <div class="center_h2li row">
-                                  <div class="col-md-4">
-                                    <div class="center_h2lil">
-                                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                    </div>
-                                  </div>
-
-                                  <div class="col-md-4">
-                                    <div class="center_h2lil">
-                                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                    </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                    <div class="center_h2lil">
-                                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                    </div>
-                                  </div>
-
-                                </div>
-                              </div><hr>
-                              <div class="col-md-12">
-                                <form id="pricehouse_search_form">
-
-                                  <div class="center_h2l">
-                                    <div class="center_h2li row">
-                                      <div class="col-md-4">
-                                        <div class="center_h2lil">
-                                          Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                        </div>
-                                      </div>
-
-                                      <div class="col-md-4">
-                                        <div class="center_h2lil">
-                                          Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                        </div>
-                                      </div>
-                                      <div class="col-md-4">
-                                        <div class="center_h2lil">
-                                          Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                        </div>
-                                      </div>
-
-                                    </div>
-                                  </div><hr>
-                                  <div class="col-md-12">
-                                    <form id="pricehouse_search_form">
-
-                                      <div class="center_h2l">
-                                        <div class="center_h2li row">
-                                          <div class="col-md-4">
-                                            <div class="center_h2lil">
-                                              Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                            </div>
-                                          </div>
-
-                                          <div class="col-md-4">
-                                            <div class="center_h2lil">
-                                              Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4">
-                                            <div class="center_h2lil">
-                                              Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                            </div>
-                                          </div>
-
-                                        </div>
-                                      </div>
-                                      <hr>
-                                      <div class="col-md-12">
-                                        <form id="pricehouse_search_form">
-
-                                          <div class="center_h2l">
-                                            <div class="center_h2li row">
-                                              <div class="col-md-4">
-                                                <div class="center_h2lil">
-                                                  Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                                </div>
-                                              </div>
-
-                                              <div class="col-md-4">
-                                                <div class="center_h2lil">
-                                                  Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                                </div>
-                                              </div>
-                                              <div class="col-md-4">
-                                                <div class="center_h2lil">
-                                                  Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                                </div>
-                                              </div>
-
-                                            </div>
-                                          </div>
-                                          <div class="col-md-12">
-                                            <form id="pricehouse_search_form">
-
-                                              <div class="center_h2l">
-                                                <div class="center_h2li row">
-                                                  <div class="col-md-4">
-                                                    <div class="center_h2lil">
-                                                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                                    </div>
-                                                  </div>
-
-                                                  <div class="col-md-4">
-                                                    <div class="center_h2lil">
-                                                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                                    </div>
-                                                  </div>
-                                                  <div class="col-md-4">
-                                                    <div class="center_h2lil">
-                                                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-
-                                                    </div>
-                                                  </div>
-
-                                                </div>
-                                              </div>
-                                          </div><!---- advanced div--->
-
-                                      </div>
-                                  </div>
-
-
-                              </div>
+        </div><!-- row-->
 </section>
 
 <section id="work_h" class="p_3">
