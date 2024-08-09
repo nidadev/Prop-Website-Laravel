@@ -24,8 +24,8 @@
                     <h6 class="mb-3 fw-bold">Name</h6>
           <input class="form-control" type="text" name="name"  autocomplete="on" placeholder="Enter Name:">Enter Name:
     <span class="error name_err"></span>
-		  <h6 class="mb-3 fw-bold">Phone</h6>
-          <input class="form-control" type="text" name="phone" autocomplete="on" placeholder="Enter Phone:" maxlength="15">Enter Phone:<span style="color:blue">valid format:123-123-1234</span>
+		  <!--h6 class="mb-3 fw-bold">Phone</h6-->
+          <!--input class="form-control" type="text" name="phone" autocomplete="on" placeholder="Enter Phone:" maxlength="15">Enter Phone:<span style="color:blue">valid format:123-123-1234</span-->
           <span class="error phone_err"></span>		  <h6 class="mb-3 fw-bold mt-4">Email</h6>
           <input class="form-control" type="email" name="email" autocomplete="on" placeholder="Enter email:">Enter Email:
           <span class="error email_err"></span>          <h6 class="mb-3 fw-bold mt-4">Password</h6>

@@ -42,7 +42,7 @@
                     <h6 class="font_14"><i class="fa fa-building-o  col_blue me-1"></i> <a href="#">Name
                             <input class="form-control" type="text" name="name" id="name"><span class="pull-right error name_err"></span></a></h6>
                     <h6 class="mt-4 font_14"><i class="fa fa-globe  col_blue me-1"></i> <a href="#">Email <input class="form-control" type="text" name="email" id="email"><span class="pull-right error email_err"></span></a></h6>
-                    <h6 class="font_14"><i class="fa fa-building-o  col_blue me-1"></i> <a href="#">Phone <input class="form-control" type="text" name="phone" id="phone"><span class="pull-right error phone_err"></span></a></h6>
+                    <!--h6 class="font_14"><i class="fa fa-building-o  col_blue me-1"></i> <a href="#">Phone <input class="form-control" type="text" name="phone" id="phone"><span class="pull-right error phone_err"></span></a></h6-->
                     <span></p><input type="submit" style="border:none" class="button" value="Update"> </span>
                 <p class="result"></p>
                 </div>

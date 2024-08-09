@@ -24,7 +24,7 @@ class ApiController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:3',
             'email' => 'required|regex:/^.+@.+$/i|email|unique:users',
-            'phone' => 'required|string|max:15|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
+            //'phone' => 'required|string|max:15|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
             'password' => 'required|confirmed|min:5',
             'password_confirmation' => 'required'
         ]);
@@ -38,7 +38,7 @@ class ApiController extends Controller
         User::create([
             "name" => $request->name,
             "email" => $request->email,
-            "phone" => $request->phone,
+           // "phone" => $request->phone,
             "password" => Hash::make($request->password)
         ]);
         //send verifcation email before register
@@ -195,7 +195,7 @@ class ApiController extends Controller
                 'id' => 'required',
                 'email' => 'required|email',
                 'name' => 'required|string|min:5',
-                'phone' => 'required|min:6',
+                //'phone' => 'required|min:6',
             ]);
             if ($validator->fails()) {
                 return response()->json($validator->errors());
@@ -203,8 +203,8 @@ class ApiController extends Controller
             $user = User::find($request->id);
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->phone = $request->phone;
-            if($user->email != $request->name)
+            //$user->phone = $request->phone;
+            if($user->email != $request->email)
             {
             $user->is_verified = 0;
             }
