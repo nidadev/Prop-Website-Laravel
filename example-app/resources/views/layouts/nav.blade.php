@@ -26,7 +26,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/how-it-work') }}" id="hw" role="button">
+          <a class="nav-link" href="#" id="hw" role="button">
            How it works
           </a>
         </li>

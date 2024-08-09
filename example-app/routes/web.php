@@ -47,6 +47,14 @@ Route::get('/pricehouse', function () {
     return view('pricehouse');
 });
 
+Route::get('/about', function () {
+    return view('about');
+});
+
+Route::get('/support', function () {
+    return view('support');
+});
+
 Route::get('/verify-mail/{token}',[ApiController::class,'verifyEmailToken']);
 
 
