@@ -41,12 +41,50 @@ class ApiController extends Controller
             "phone" => $request->phone,
             "password" => Hash::make($request->password)
         ]);
+        //send verifcation email before register
 
-        return response()->json([
+        $user = User::where('email',$request->email)->get();
+            //dd($user);
+            if(count($user) > 0)
+            {
+                $random = Str::random(40);
+                $domain = URL::to('/');
+
+                $url = $domain.'/verify-mail/'.$random;
+                $data['url'] = $url;
+
+                $data['email'] = $request->email;
+                $data['title'] = 'Email Verification';
+                $data['body'] = 'Please click here below link to verify your email';
+                Mail::send('verifyEmail',[ 'data' => $data],function($message) use ($data){
+                    $message->to($data['email'])->subject($data['title']);
+
+                });
+                $user = User::find($user[0]['id']);
+                $user->remember_token = $random;
+                $user->save();
+
+
+            return response()->json([
+                'status' => true,
+                'success' => true,
+                'message' => 'User registered and verification email send successfully',
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found',
+            ]);
+        }
+        /////////////
+
+        /*return response()->json([
             "status" => true,
             "message" => "User registered successfully",
             "data" => []
-        ]);
+        ]);*/
     }
 
     // Login API - POST (email, password)
