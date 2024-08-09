@@ -22,4 +22,5 @@ Route::group([
     Route::get("refreshToken", [ApiController::class, "refreshToken"]);
     Route::post("logout", [ApiController::class, "logout"]);
     Route::post('profile-update', [ApiController::class, "updateProfile"]);
+    Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
 });

@@ -22,19 +22,19 @@
 
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet">
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-   </head>
+</head>
 <style>
     /* Icon when the collapsible content is show */
-/*.btn.icon:after {
+    /*.btn.icon:after {
     font-family: "Glyphicons Halflings";
     content: "\2212";
 }
 
 /* Icon when the collapsible content is hidden */
-/*.btn.icon.collapsed:after {
+    /*.btn.icon.collapsed:after {
     content: "\2b";
 }*/
-    </style>
+</style>
 
 
 <script type="text/javascript">
@@ -65,11 +65,11 @@ else
     $(document).ready(function() {
         $.noConflict();
         /////////////datatable/////
-        $('#show_pane').click(function(){
-        $(".btn.icon").toggleClass("collapsed");
-        var paneDiv = $(this).find("a").attr("href");
-        $(paneDiv).toggle('1000');
-    });
+        $('#show_pane').click(function() {
+            $(".btn.icon").toggleClass("collapsed");
+            var paneDiv = $(this).find("a").attr("href");
+            $(paneDiv).toggle('1000');
+        });
         /////////////////////
         var token = localStorage.getItem('user_token2');
 
@@ -87,9 +87,16 @@ else
                 success: function(data) {
                     console.log(data);
                     if (data.success == true) {
-                        console.log(data.user);
-                        $('.error').text();
+alert(data.message);
                         $('.result').text(data.message);
+                        $('.error').text();
+                        $('.email').text(data.data.email);
+                        if (data.data.is_verified == 0) {
+                        $('.verify').html('<button class="button verify_mail" data-id="'+data.data.email+'" style="border:none;" href="">Verify</button>');
+                    } else {
+                        $('.verify').html("Verified");
+                    }
+
                     } else {
                         printErrorMsgLogin(data);
                         $('.error').text(data.message);
@@ -107,21 +114,66 @@ else
                 'Authorization': localStorage.getItem('user_token2')
             },
             success: function(data) {
-                console.log(data);
+                //console.log(data);
                 if (data.status == true) {
+                    //alert(data.user.is_verified);
                     console.log(data.user);
                     $('.name').text(data.user.name);
+                    $('.email').text(data.user.email);
                     $('#phone').val(data.user.phone);
                     $('#name').val(data.user.name);
                     $('#email').val(data.user.email);
                     $('#user_id').val(data.user.id);
                     //localStorage.removeItem('user_token');
                     //window.open('/login','_self');
+                    if (data.user.is_verified == 0) {
+                        $('.verify').html('<button class="button verify_mail" data-id="'+data.user.email+'" style="border:none;" href="">Verify</button>');
+                    } else {
+                        $('.verify').html("Verified");
+                    }
                 } else {
+                    //$('.verify').html("Verified");
                     alert(data.message);
 
                 }
             }
+        });
+        ///verify email called /////
+        $(document).on('click', '.verify_mail', function() {
+            //alert('')
+            var APP_URL = "{{ url('') }}";
+            //alert(APP_URL);
+            var emailVerify = $(this).attr('data-id');
+           // alert(emailVerify);
+            var page_url = '' + APP_URL + '/api/send-verify-mail/'+emailVerify+'';
+            //alert(page_url);
+            $.ajax({
+                url: page_url,
+                type: "GET",
+                headers: {
+                    'Authorization': localStorage.getItem('user_token2')
+                },
+                
+                success: function(data) {
+                    //alert(url);
+                    if(data.success == true)
+                    {
+                        $('.result1').text(data.message);
+                        setTimeout(() => 
+                    {
+                        $('.result1').text();
+
+                    },1000);
+                    }
+                    else
+                    {
+                        alert(data.message);
+                    }
+                    //alert(url);
+                },
+
+            });
+
         });
 
         //////////////////

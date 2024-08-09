@@ -21,10 +21,10 @@
 	      <h2 class="text-center mb-3">Login </h2>
           <form method="post" action="{{ url('/login') }}" id="login_id">
           <h6 class="mb-3 fw-bold">Email</h6>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="20">Enter Email:
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="40">Enter Email:
             <span class="error email_err"></span>
             <h6 class="mb-3 fw-bold mt-4">Password</h6>
-            <input type="password" class="form-control" name="password" placeholder="Enter Password:" maxlength="20">Enter password:
+            <input type="password" class="form-control" name="password" placeholder="Enter Password:" maxlength="40">Enter password:
             <span class="error password_err"></span>
             <div class="login_1mi row mt-3">
 		    <div class="col-md-6 col-6">
