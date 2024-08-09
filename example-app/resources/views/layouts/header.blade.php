@@ -65,6 +65,7 @@ else
     $(document).ready(function() {
         
         $.noConflict();
+        
         /////////////datatable/////
         $('#show_pane').click(function() {
             $(".btn.icon").toggleClass("collapsed");
@@ -72,8 +73,7 @@ else
             $(paneDiv).toggle('1000');
         });
         /////////////////////
-        var token = localStorage.getItem('user_token2');
-
+        
         //////////////////////////update///////////////////
         $("#profile_form").on('submit', function(event) {
             event.preventDefault();
