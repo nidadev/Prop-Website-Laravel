@@ -87,7 +87,7 @@ else
                 success: function(data) {
                     console.log(data);
                     if (data.success == true) {
-alert(data.message);
+//alert(data.message);
                         $('.result').text(data.message);
                         $('.error').text();
                         $('.email').text(data.data.email);
