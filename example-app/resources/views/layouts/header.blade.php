@@ -273,31 +273,7 @@ else
             })
         });
         ////////////////////////////logout////////////////
-        /*$('#logout_b').on('click', function(event) {
-            event.preventDefault();
-            alert('hi  hru');
-            jQuery.ajax({
-                url: "{{ url('logout') }}",
-                type: "GET",
-                headers: {
-                    'Authorization': localStorage.getItem('user_token2')
-                },
-                statusCode: {
-                    200: function() {
-                        alert("success");
-                        localStorage.removeItem('user_token2');
-                    window.open('/login','_self');
-                    },
-                    404: function() {
-                        alert("page not found");
-                    },
-                    500: function() {
-                        alert("error");
-                    }
-                },
-             
-            });
-        });*/
+       
         ////////////////////////////profile//////////////
 
         ///////////////////////////////////////////////
