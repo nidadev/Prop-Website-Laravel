@@ -60,6 +60,7 @@
           Account
           </a>
           <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="{{ url('/profile')}}" id="pf"> Profile</a></li>
          <li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li>
          <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
 		   <li><a class="dropdown-item" href="{{ url('/login')}}" id="ln"> Login</a></li>
@@ -111,6 +112,7 @@
                         $('#name').val(data.user.name);
                         $('#email').val(data.user.email);
                         $('#lg').show();
+                        $('#pf').show();
                         $("#ph").show();
                         $("#pl").show();
                         $("#cprp").show();
@@ -132,6 +134,7 @@
                         $("#rs").hide();*/
 
                         $("#lg").remove();
+                        $("#pf").remove();
                         $("#ph").remove();
                         $("#pl").remove();
                         $("#cprp").remove();
@@ -146,6 +149,7 @@
                     401: function() {
                         //alert("401");
                         $("#lg").remove();
+                        $("#pf").remove();
                         $("#ph").remove();
                         $("#pl").remove();
                         $("#cprp").remove();
@@ -156,6 +160,7 @@
                     500: function() {
                         //alert("401");
                         $("#lg").remove();
+                        $("#pf").remove();
                         $("#ph").remove();
                         $("#pl").remove();
                         $("#cprp").remove();
