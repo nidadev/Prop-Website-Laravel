@@ -63,6 +63,7 @@ else
 
 }*/
     $(document).ready(function() {
+        
         $.noConflict();
         /////////////datatable/////
         $('#show_pane').click(function() {

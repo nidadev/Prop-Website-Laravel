@@ -14,29 +14,43 @@
         </li-->
 		 
 		<li class="nav-item">
-          <a class="nav-link" href="{{ url('/priceland')}}">Price Land </a>
+          <a class="nav-link" href="{{ url('/priceland')}}" id="pl">Price Land </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/about')}}" id="ab">About </a>
         </li>
 		
 		<li class="nav-item">
-          <a class="nav-link" href="{{ url('/pricehouse') }}" id="navbarDropdown" role="button">
+          <a class="nav-link" href="{{ url('/pricehouse') }}" id="ph" role="button">
             Price Houses
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/how-it-work') }}" id="hw" role="button">
+           How it works
           </a>
         </li>
 		 
 	
 		<li class="nav-item">
-          <a class="nav-link" href="{{ url('/compreport')}}" id="navbarDropdown" role="button">
+          <a class="nav-link" href="{{ url('/compreport')}}" id="cprp" role="button">
             Comp Report
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/research')}}" role="button">
+          <a class="nav-link" href="{{ url('/support')}}" id="sp" role="button">
+            Support
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url('/research')}}" role="button" id="rs">
             Research
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('/subscription')}}" role="button">
+          <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
             Subscription
           </a>
         </li>
@@ -97,6 +111,13 @@
                         $('#name').val(data.user.name);
                         $('#email').val(data.user.email);
                         $('#lg').show();
+                        $("#ph").show();
+                        $("#pl").show();
+                        $("#cprp").show();
+                        $("#rs").show();
+                        $('#ab').hide();
+                        $('#hw').hide();
+                        $('#sp').hide();
                         $('#rg').hide();
                         $('#ln').hide();
                         $("#login_b").remove();
@@ -104,7 +125,18 @@
                         //window.open('/login','_self');
                     }
                     else{
-                        $("#lg").hide();
+                        /*$("#lg").hide();
+                        $("#ph").hide();
+                        $("#pl").hide();
+                        $("#cprp").hide();
+                        $("#rs").hide();*/
+
+                        $("#lg").remove();
+                        $("#ph").remove();
+                        $("#pl").remove();
+                        $("#cprp").remove();
+                        $("#rs").remove();
+                        
                         //$('#lg').hide();
                         alert(data.message);
 
@@ -114,12 +146,21 @@
                     401: function() {
                         //alert("401");
                         $("#lg").remove();
+                        $("#ph").remove();
+                        $("#pl").remove();
+                        $("#cprp").remove();
+                        $("#rs").remove();
 
                         
                     },
                     500: function() {
                         //alert("401");
                         $("#lg").remove();
+                        $("#ph").remove();
+                        $("#pl").remove();
+                        $("#cprp").remove();
+                        $("#rs").remove();
+                        
 
                         
                     }
