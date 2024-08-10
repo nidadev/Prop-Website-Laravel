@@ -42,7 +42,7 @@
     </div>
 		  <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center">SIGN UP</button></h6>
 		  <p class="result"></p>
-          <p class="mt-3 mb-0 text-center">Already have an account?  <a class="fw-bold col_blue" href="/login"> Login</a></p>
+          <p class="mt-3 mb-0 text-center">Already have an account?  <a class="fw-bold col_blue" href="{{ url('/login') }} "> Login</a></p>
           </form>
         </div>
    </div>

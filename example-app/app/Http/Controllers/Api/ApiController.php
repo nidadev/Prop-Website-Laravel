@@ -288,7 +288,7 @@ class ApiController extends Controller
            $user->is_verified = 1;
            $user->save();
 
-           return "<h1>email verified successfully</h1>";
+           return "<h1>email verified successfully <a href='{{ url('/login');}}'>Sign in </a></h1>";
 
         }
         else
