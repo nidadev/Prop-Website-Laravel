@@ -288,7 +288,7 @@ class ApiController extends Controller
            $user->is_verified = 1;
            $user->save();
 
-           return "<h1>email verified successfully <a href='{{ url('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login');}}'>Sign in </a></h1>";
+           return "<h1>email verified successfully <a href='http://165.140.69.88/~plotplaza/checkapi/example-app/public/login'>Sign in </a></h1>";
 
         }
         else
