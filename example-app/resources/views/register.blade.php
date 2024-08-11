@@ -39,9 +39,9 @@
 		  <div class="form-check mt-3">
         <input type="checkbox" class="form-check-input" id="customCheck1">
         <label class="form-check-label" for="customCheck1">Agree to our <a class="fw-bold" href="#">terms & conditions</a></label>
-    </div>
-		  <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center">SIGN UP</button></h6>
-		  <p class="result"></p>
+        <span class="error agree_err"></span></div>
+		  <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center reg">SIGN UP</button></h6>
+      <p class="result"></p>
           <p class="mt-3 mb-0 text-center">Already have an account?  <a class="fw-bold col_blue" href="{{ url('/login') }} "> Login</a></p>
           </form>
         </div>

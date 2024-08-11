@@ -7,7 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Propelyze</title>
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="http://165.140.69.88/~plotplaza/realtor_zip/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!--link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet"-->
@@ -63,9 +65,21 @@ else
 
 }*/
     $(document).ready(function() {
-        
+
         $.noConflict();
-        
+        ////////////////////agree ///////////////
+        $(".reg").click(function() {
+            $("#customCheck1").click(function() {
+                //alert('chk')
+                if ($(this).is(':checked')) {
+                    $('.agree_err').text('');
+                } else {
+                    $('.agree_err').text('Please check agree and conditions');
+                }
+                $(".reg").attr("disabled", !this.checked);
+            });
+        });
+        //////////////////////////
         /////////////datatable/////
         $('#show_pane').click(function() {
             $(".btn.icon").toggleClass("collapsed");
@@ -73,7 +87,7 @@ else
             $(paneDiv).toggle('1000');
         });
         /////////////////////
-        
+
         //////////////////////////update///////////////////
         $("#profile_form").on('submit', function(event) {
             event.preventDefault();
@@ -88,15 +102,15 @@ else
                 success: function(data) {
                     console.log(data);
                     if (data.success == true) {
-//alert(data.message);
+                        //alert(data.message);
                         $('.result').text(data.message);
                         $('.error').text();
                         $('.email').text(data.data.email);
                         if (data.data.is_verified == 0) {
-                        $('.verify').html('<button class="button verify_mail" data-id="'+data.data.email+'" style="border:none;" href="">Verify</button>');
-                    } else {
-                        $('.verify').html("Verified");
-                    }
+                            $('.verify').html('<button class="button verify_mail" data-id="' + data.data.email + '" style="border:none;" href="">Verify</button>');
+                        } else {
+                            $('.verify').html("Verified");
+                        }
 
                     } else {
                         printErrorMsgLogin(data);
@@ -128,7 +142,7 @@ else
                     //localStorage.removeItem('user_token');
                     //window.open('/login','_self');
                     if (data.user.is_verified == 0) {
-                        $('.verify').html('<button class="button verify_mail" data-id="'+data.user.email+'" style="border:none;" href="">Verify</button>');
+                        $('.verify').html('<button class="button verify_mail" data-id="' + data.user.email + '" style="border:none;" href="">Verify</button>');
                     } else {
                         $('.verify').html("Verified");
                     }
@@ -145,8 +159,8 @@ else
             var APP_URL = "{{ url('') }}";
             //alert(APP_URL);
             var emailVerify = $(this).attr('data-id');
-           // alert(emailVerify);
-            var page_url = '' + APP_URL + '/api/send-verify-mail/'+emailVerify+'';
+            // alert(emailVerify);
+            var page_url = '' + APP_URL + '/api/send-verify-mail/' + emailVerify + '';
             //alert(page_url);
             $.ajax({
                 url: page_url,
@@ -154,20 +168,16 @@ else
                 headers: {
                     'Authorization': localStorage.getItem('user_token2')
                 },
-                
+
                 success: function(data) {
                     //alert(url);
-                    if(data.success == true)
-                    {
+                    if (data.success == true) {
                         $('.result1').text(data.message);
-                        setTimeout(() => 
-                    {
-                        $('.result1').text();
+                        setTimeout(() => {
+                            $('.result1').text();
 
-                    },1000);
-                    }
-                    else
-                    {
+                        }, 1000);
+                    } else {
                         alert(data.message);
                     }
                     //alert(url);
@@ -260,20 +270,21 @@ else
                     if (data.message) {
                         $("#register")[0].reset();
                         $(".error").text("");
-
+                        $(".agree_err").text('');
                         $(".result").text(data.message);
 
                     } else {
                         console.log(data)
                         //alert(data);
-                        printErrorMsg(data)
+                        printErrorMsg(data);
+                        $(".agree_err").text("Please check agree and conditions");
                     }
                 },
 
             })
         });
         ////////////////////////////logout////////////////
-       
+
         ////////////////////////////profile//////////////
 
         ///////////////////////////////////////////////
@@ -336,6 +347,8 @@ else
         $(".error").text("");
 
         $.each(message, function(key, value) {
+            //var $submit = $('.reg');
+            //$submit.prop('disabled', false);
             if (key == 'password') {
                 if (value.length > 1) {
                     $(".password_err").text(value[0]);
@@ -353,10 +366,12 @@ else
                 }
 
             } else {
-                $("." + key + "_err").text(value)
+                $("." + key + "_err").text(value);
+
             }
 
         });
+
     }
 
     function buildTable(data) {
