@@ -23,8 +23,8 @@
 			<div class="container-xl">
 				<div class="row center_h1">
 					<div class="col-md-12">
-						<h1 class="text-white font_50">All-In-One Acquisition Tool <br> for <span class="col_blue">Real Estate Marketing Campaigns</span></h1>
-						<p class="text-white mt-3 fs-5">Properties for buy / rent in in your location. We have more <br> than 3200+ listings for you to choose</p>
+						<h1 class="text-white font_45"><span class="col_blue">PROPELYZE</span><br>All-In-One Acquisition Tool <br> for <span class="col_blue">Real Estate Marketing Campaigns</span></h1>
+						<p class="text-white mt-3 fs-5">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
 						<ul class="mb-0 mt-4">
 							<li class="d-inline-block"><a class="button" href="#"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
 							<li class="d-inline-block ms-2"><a class="button_1" href="#"><i class="fa fa-building me-1 fs-5 align-middle"></i> Houses </a></li>
@@ -40,29 +40,29 @@
 				<div class="col-md-12">
 					<h2>How It Works</h2>
 					<hr class="line mx-auto">
-					<p class="mb-0">Follow these 4 steps to book your place</p>
+					<p class="mb-0"></p>
 				</div>
 			</div>
 			<div class="row work_h2">
 				<div class="col-md-4">
 					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
 						<span class="d-inline-block bg_blue text-white rounded-circle fs-1"><i class="fa fa-map-signs"></i></span>
-						<h5 class="mt-3 mb-3">01. Search for Location</h5>
-						<p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis et sem sed sollicitudin. Donec non odio…</p>
+						<h5 class="mt-3 mb-3">01. Launching your real estate marketing campaign</h5>
+						<p class="mb-0">It is now simpler than ever. Propelyze enables you to quickly identify target areas, set pricing, access property owner details, and clean your data, all in just moments! </p>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
 						<span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-home"></i></span>
-						<h5 class="mt-3 mb-3">02. Select Property Type</h5>
-						<p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis et sem sed sollicitudin. Donec non odio…</p>
+						<h5 class="mt-3 mb-3">02. Research</h5>
+						<p class="mb-0">We streamline research, comparison, and data management, giving you more time to focus on successful property flips.</p>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
 						<span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
-						<h5 class="mt-3 mb-3">03. Book Your Property</h5>
-						<p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis et sem sed sollicitudin. Donec non odio…</p>
+						<h5 class="mt-3 mb-3">03. Services</h5>
+						<p class="mb-0">Our services cover both Vacant Land and Residential Properties, with all data updated in real time from DataTree.</p>
 					</div>
 				</div>
 			</div>
@@ -70,7 +70,7 @@
 	</section>
 
 
-	<section id="explore" class="pt-5 pb-5 bg_blue carousel_p">
+	<!--section id="explore" class="pt-5 pb-5 bg_blue carousel_p">
 		<div class="container-xl">
 			<div class="row explore_1">
 				<div class="col-md-4">
@@ -158,7 +158,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section-->
 
 	<section id="testim" class="p_3 bg_blue carousel_p">
 		<div class="container-xl">
