@@ -164,9 +164,9 @@
 		<div class="container-xl">
 			<div class="row work_h1 text-center mb-4">
 				<div class="col-md-12">
-					<h2 class="text-white">Testimonials</h2>
+					<h2 class="text-white">Services</h2>
 					<hr class="line mx-auto">
-					<p class="mb-0 text-light">What our happy client says</p>
+					<p class="mb-0 text-light">What we do</p>
 				</div>
 			</div>
 			<div class="testim_1 row">
@@ -181,8 +181,9 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/8.jpg') }}" alt="abc" class="rounded-circle">
-										<p class="mt-3">Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...</p>
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Eget Nulla <br> <span class="col_blue fs-6   fw-normal">User</span></h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> Owner Record  Download</h6>
+
+										<p class="mt-3">Easily obtain property details that match your search criteria directly through our integrated data sources.<br><br><br></p>
 										<span class="text-warning">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -196,8 +197,9 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/9.jpg') }}" alt="abc" class="rounded-circle">
-										<p class="mt-3">Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...</p>
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Dolor Porta <br> <span class="col_blue fs-6   fw-normal">User</span></h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> Skip Tracing </span></h6>
+
+										<p class="mt-3">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
 										<span class="text-warning">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -211,8 +213,8 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/10.jpg') }}" alt="abc" class="rounded-circle">
-										<p class="mt-3">Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...</p>
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Quis Ipsum <br> <span class="col_blue fs-6   fw-normal">User</span></h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> Property Pricing</h6>
+										<p class="mt-3">Get personalized pricing for each property to boost your marketing impact.<br><br><br></p>
 										<span class="text-warning">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -230,8 +232,8 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/11.jpg') }}" alt="abc" class="rounded-circle">
-										<p class="mt-3">Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...</p>
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Eget Nulla <br> <span class="col_blue fs-6   fw-normal">User</span></h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> External List Uploading</h6>
+										<p class="mt-3">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.<br><br><br></p>
 										<span class="text-warning">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -245,8 +247,8 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/12.jpg') }}" alt="abc" class="rounded-circle">
-										<p class="mt-3">Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...</p>
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Dolor Porta <br> <span class="col_blue fs-6   fw-normal">User</span></h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> Data Scrubbing</h6>
+										<p class="mt-3">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.<br><br><br></p>
 										<span class="text-warning">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
@@ -260,8 +262,8 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/13.jpg') }}" alt="abc" class="rounded-circle">
-										<p class="mt-3">Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...Omnis velit quia. Perspiciatis et cupiditate. Voluptatum beatae asperiores dolor magnam fuga. Sed fuga est harum quo nesciunt sint. Optio veniam...</p>
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Quis Ipsum <br> <span class="col_blue fs-6   fw-normal">User</span></h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> Road Access</h6>
+										<p class="mt-3">Check if properties have direct road access and pinpoint specific access points.<br><br><br></p>
 										<span class="text-warning">
 											<i class="fa fa-star"></i>
 											<i class="fa fa-star"></i>
