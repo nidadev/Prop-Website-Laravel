@@ -88,7 +88,7 @@
     <div class="row footer_b1">
 	 <div class="col-md-12">
 	  <div class="footer_b1l text-center">
-	    <p class="mb-0 text-light">© 2024 Your Website Name. All Rights Reserved </p>
+	    <p class="mb-0 text-light">© 2024 Propelyze. All Rights Reserved </p>
 	  </div>
 	 </div>
 	</div>

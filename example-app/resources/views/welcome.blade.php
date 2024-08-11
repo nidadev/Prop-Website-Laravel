@@ -181,7 +181,7 @@
 								<div class="col-md-4">
 									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
 										<img src="{{ asset('img/8.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Owner Record  Download</h6>
+										<h6 class="fw-bold  lh-base mt-3 fs-5"> Owner Record Download</h6>
 
 										<p class="mt-3">Easily obtain property details that match your search criteria directly through our integrated data sources.<br><br><br></p>
 										<span class="text-warning">
@@ -441,17 +441,17 @@
 					<div class="faq_1r">
 						<h2>Frequently Asked Questions</h2>
 						<hr class="line">
-						<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia <br> consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>
+						<p></p>
 						<div class="accordion" id="accordionExample">
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingOne">
 									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										<i class="fa fa-check-circle me-2"></i> 1. What are the costs to buy a house?
+										<i class="fa fa-check-circle me-2"></i> What Is Propelyze?
 									</button>
 								</h2>
 								<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
 									<div class="accordion-body">
-										<p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+										<p class="mb-0">Propelyze is a robust real estate marketing platform designed to streamline your direct mail and digital marketing campaigns. It offers tools for targeting specific areas, pricing mailers, accessing property records, and cleaning your lists for efficient use with your marketing or mailing services.</p>
 									</div>
 								</div>
 							</div>
@@ -459,12 +459,12 @@
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingTwo">
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-										<i class="fa fa-check-circle me-2"></i> 2. What are the steps to sell a house?
+										<i class="fa fa-check-circle me-2"></i> What Benefits Does Propelyze Offer?
 									</button>
 								</h2>
 								<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 									<div class="accordion-body">
-										<p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+										<p class="mb-0">Propelyze enhances your marketing efforts by providing in-depth research, competitive pricing models, and advanced location analysis. Our platform simplifies the process of targeting and pricing, ultimately boosting the efficiency of your marketing campaigns.</p>
 									</div>
 								</div>
 							</div>
@@ -472,12 +472,12 @@
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingThree">
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-										<i class="fa fa-check-circle me-2"></i> 3. Do you have loan consultants?
+										<i class="fa fa-check-circle me-2"></i> Can Propelyze Handle More Than Just Pricing?
 									</button>
 								</h2>
 								<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
 									<div class="accordion-body">
-										<p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+										<p class="mb-0">Yes, Propelyze is a comprehensive tool that includes features for research, rapid location searches, property analysis, record access, and list management. This all-in-one approach ensures that your marketing campaigns are well-supported from start to finish.</p>
 									</div>
 								</div>
 							</div>
@@ -485,31 +485,54 @@
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingFour">
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-										<i class="fa fa-check-circle me-2"></i> 4. When will the project be completed?
+										<i class="fa fa-check-circle me-2"></i>Does Propelyze Require Me to Learn a New Pricing Method?
 									</button>
 								</h2>
 								<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
 									<div class="accordion-body">
-										<p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+										<p class="mb-0">Not at all. Propelyze is designed to integrate with and enhance your existing pricing methods, automating the processes you are already familiar with for greater efficiency.</p>
+									</div>
+								</div>
+							</div>							
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingFive">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+										<i class="fa fa-check-circle me-2"></i> Is Propelyze a Fully Automated System?
+									</button>
+								</h2>
+								<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">While Propelyze offers significant automation, it cannot replace your decision-making. You will still need to make strategic choices regarding your mailing targets and the content of your offers.</p>
 									</div>
 								</div>
 							</div>
 
 							<div class="accordion-item">
-								<h2 class="accordion-header" id="headingFive">
-									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-										<i class="fa fa-check-circle me-2"></i> 5.What are the steps to rent a house?
+								<h2 class="accordion-header" id="Headingsix">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+										<i class="fa fa-check-circle me-2"></i> What Types of Data Are Included in Propelyze?
 									</button>
 								</h2>
-								<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+								<div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="Headingsix" data-bs-parent="#accordionExample">
 									<div class="accordion-body">
-										<p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+										<p class="mb-0">Propelyze provides access to extensive property and owner records, with data sourced from multiple reliable platforms to ensure accuracy and relevance for your marketing needs.</p>
 									</div>
 								</div>
 							</div>
 
-
-
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="Headingsev">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+										<i class="fa fa-check-circle me-2"></i> Do I Need an Additional Data Subscription to Use Propelyze?
+									</button>
+								</h2>
+								<div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="Headingsev" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">No, Propelyze includes all necessary data access within its platform. There’s no need for separate subscriptions or additional contracts.</p>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
