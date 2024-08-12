@@ -533,6 +533,62 @@
 									</div>
 								</div>
 							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="Headingeig">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEig" aria-expanded="false" aria-controls="collapseEig">
+										<i class="fa fa-check-circle me-2"></i> How Is the Data in Propelyze Sourced?
+								</h2>
+								<div id="collapseEig" class="accordion-collapse collapse" aria-labelledby="Headingeig" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">We aggregate data from leading real estate databases and platforms to ensure you have accurate and up-to-date information. This includes property details, ownership records, and market trends that are essential for your marketing efforts.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="Headingnin">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNin" aria-expanded="false" aria-controls="collapseNin">
+										<i class="fa fa-check-circle me-2"></i>Are There Hidden Easter Eggs in Propelyze?
+								</h2>
+								<div id="collapseNin" class="accordion-collapse collapse" aria-labelledby="Headingnin" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">Yes, Propelyze has hidden Easter eggs throughout the platform for you to discover. These fun surprises can unlock additional features or rewards. Keep exploring and interacting with different parts of the platform to find them. Enjoy the hunt!</p>
+									</div>
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="Headingten">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+										<i class="fa fa-check-circle me-2"></i>What Should I Do if I Encounter Issues While Using Propelyze?
+								</h2>
+								<div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="Headingten" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">If you experience problems, start by refreshing the page to see if the issue resolves. If the problem persists, try clearing your browser’s cache. For continued issues, contact our support team for detailed assistance.</p>
+									</div>
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="Headingelev">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseElev" aria-expanded="false" aria-controls="collapseElev">
+										<i class="fa fa-check-circle me-2"></i>How Frequently Is the Data Updated?
+								</h2>
+								<div id="collapseElev" class="accordion-collapse collapse" aria-labelledby="Headingelev" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">We update our data regularly to ensure it remains accurate and relevant. The frequency of updates can vary depending on the data source and type. Rest assured, we strive to provide the most current information available.</p>
+									</div>
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="Headingtwel">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwel" aria-expanded="false" aria-controls="collapseTwel">
+										<i class="fa fa-check-circle me-2"></i>How Can I Contact Propelyze Support via Email?
+								</h2>
+								<div id="collapseTwel" class="accordion-collapse collapse" aria-labelledby="Headingtwel" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">To contact Propelyze support via email, simply send your inquiry to support@propelyze.com. Our team aims to respond to all email queries within 24 hours. For faster assistance, please include detailed information about your issue or question in your email.</p>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -545,14 +601,14 @@
 			<div class="reg_1 row">
 				<div class="col-md-9">
 					<div class="reg_1l">
-						<h2 class="text-white">Become a Real Estate Agent</h2>
+						<h2 class="text-white">Become a Member</h2>
 						<hr class="line">
-						<p class="text-light mb-0">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia <br> consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt</p>
+						<p class="text-light mb-0"></p>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div class="reg_1r text-end mt-4">
-						<h6 class="mb-0"><a class="button" href="register.html">Register Now</a></h6>
+						<h6 class="mb-0"><a class="button" href="{{ url('/register')}}">Register Now</a></h6>
 					</div>
 				</div>
 			</div>
