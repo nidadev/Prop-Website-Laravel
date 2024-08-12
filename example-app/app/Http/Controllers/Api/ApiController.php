@@ -202,12 +202,14 @@ class ApiController extends Controller
             }
             $user = User::find($request->id);
             $user->name = $request->name;
-            $user->email = $request->email;
-            //$user->phone = $request->phone;
             if($user->email != $request->email)
             {
             $user->is_verified = 0;
             }
+            $user->email = $request->email;
+            //$user->phone = $request->phone;
+           // dd($user->email);
+            
 
             $user->save();
             return response()->json([

@@ -102,11 +102,12 @@ else
                 success: function(data) {
                     console.log(data);
                     if (data.success == true) {
-                        //alert(data.message);
+                        alert(data.data.is_verified);
                         $('.result').text(data.message);
                         $('.error').text();
                         $('.email').text(data.data.email);
                         if (data.data.is_verified == 0) {
+                            //alert(data.is_verified)
                             $('.verify').html('<button class="button verify_mail" data-id="' + data.data.email + '" style="border:none;" href="">Verify</button>');
                         } else {
                             $('.verify').html("Verified");
