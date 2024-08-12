@@ -102,7 +102,7 @@ else
                 success: function(data) {
                     console.log(data);
                     if (data.success == true) {
-                        alert(data.data.is_verified);
+                        //alert(data.data.is_verified);
                         $('.result').text(data.message);
                         $('.error').text();
                         $('.email').text(data.data.email);
