@@ -23,7 +23,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/support')}}" id="sp" role="button">
-                            Support
+                            Contact
                         </a>
                     </li>
                     <li class="nav-item">
