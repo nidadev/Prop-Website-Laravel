@@ -508,7 +508,7 @@
 								</div>
 							</div>
 
-							<div class="accordion-item">
+							<!--div class="accordion-item">
 								<h2 class="accordion-header" id="Headingsix">
 									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
 										<i class="fa fa-check-circle me-2"></i> What Types of Data Are Included in Propelyze?
@@ -588,7 +588,7 @@
 										<p class="mb-0">To contact Propelyze support via email, simply send your inquiry to support@propelyze.com. Our team aims to respond to all email queries within 24 hours. For faster assistance, please include detailed information about your issue or question in your email.</p>
 									</div>
 								</div>
-							</div>
+							</div-->
 						</div>
 					</div>
 				</div>
