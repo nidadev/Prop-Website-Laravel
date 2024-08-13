@@ -92,48 +92,357 @@ Locate property owners using their individual names, making it easy to find spec
 Focus your search on property owners within a specific state, allowing you to target particular regions effectively.
 <h4>Mailing Zip Code</h4>
 Refine your search to include only owners in a specific zip code, ideal for pinpointing precise geographic areas.
-Assessed Improvement Percentage %
+<h4>Assessed Improvement Percentage %</h4>
 Discover properties by evaluating the percentage of upgrades, including structures or buildings. The county assessor's office calculates this improvement percentage, allowing you to sort properties according to the enhancements.
-Assessed Value ($)
+<h4>Assessed Value ($)</h4>
 Search for properties within a specified range of assessed land value. The county assessor sets this value, which helps you identify properties based on their land worth.
-Assessed Land Value
+<h4>Assessed Land Value</h4>
 Search for properties based on the evaluated worth of enhancements such as buildings, wells, or other improvements. The county assessor determines this valuation, which aids in identifying properties that have undergone substantial upgrades.
-Market Improvement Value
+<h4>Market Improvement Value</h4>
 Sort properties according to the assessed market value of any upgrades. This encompasses improvements like structures or wells, with values determined by the county assessor's office.
-Market Land Value
+<h4>Market Land Value</h4>
 Look for properties that fall within a specific range of land value in the market. The county assessor's information enables you to identify properties according to their present market value.
-Tax Status
+<h4>Tax Status</h4>
 Locate properties whose owners are either up-to-date or behind on their tax payments. This criterion allows you to focus on properties with particular tax payment conditions.
-Cities
+<h4>Cities</h4>
 Search for real estate in a particular city to focus your search on urban locations that interest you.
-Zip Code
+<h4>Zip Code</h4>
 Look for real estate in a designated zip code. This allows you to concentrate on specific areas or postal districts.
-Subdivision
+<h4>Subdivision</h4>
 Find real estate options in a specific neighborhood. This filter lets you focus on some residential regions or planned housing projects.
-Census Tract
+<h4>Census Tract</h4>
 Look for properties located within a specified census tract. It enables you to concentrate on particular demographic or regional zones.
-Zoning
+<h4>Zoning</h4>
 Search for properties according to their zoning designations, like residential or agricultural categories (for instance, A1 or R1). This ensures that the properties align with your zoning criteria.
-Living Area Size
+<h4>Living Area Size</h4>
 Look for properties by their square footage of living space. If you want entirely unoccupied land, adjust both the minimum and maximum values to zero.
-Homeowners Association (HOA)
+<h4>Homeowners Association (HOA)</h4>
 Narrow down your property search by their HOA membership status. This allows you to locate homes affiliated with an HOA or those that aren’t.
-Unassigned Address
+<h4>Unassigned Address</h4>
 Look for properties that either possess an assigned address or lack one altogether. This can be helpful in identifying properties with particular addressing concerns.
-APN Range
+<h4>APN Range</h4>
 Locate properties based on a designated range of Assessor's Parcel Numbers (APN). This functionality enables searches using specific APN ranges or blocks for accurate targeting.
-Flood Zone Codes
+<h4>Flood Zone Codes</h4>
 Filter properties by specific flood zone codes to assess flood risk and zoning requirements.
-Last Sale Date 
+<h4>Last Sale Date </h4>
 Search properties by the most recent sale date, with options to filter by date range or a specific timeframe.
-Last Sale Price
+<h4>Last Sale Price</h4>
 Find properties by their last sale price to focus on those within your preferred price history.
-Deed Type
+<h4>Deed Type</h4>
 Locate properties by the type of deed, offering insights into ownership and transaction details.
-Listing Status
+<h4>Listing Status</h4>
 Filter by current listing status, like active or pending, to find properties still on the market.
-Clear Search
+<h4>Clear Search</h4>
 Quickly clear all search criteria and return to the default settings for a fresh start.
+<h4>Result fields</h4>
+<h5>Hover To View More</h5>
+Simply move your cursor over the highlighted sections on the right to gain insights into our analysis!
+<h5>Pricing Scheme Selection</h5>
+Pick from our available pricing plans to set the property values based on your needs.
+<h5>Total Records and Costs</h5>
+See the total number of records you've selected and the estimated cost before downloading.
+<h5>Finalize and Download</h5>
+After selecting your target areas, proceed to download the data. The next step will allow you to choose the fields for data scrubbing.
+<h5>Offer Price Change</h5>
+Easily update the offer price per acre for any property row. Select a row, input your new price, and save the changes instantly.
+<h4>For Sale and Sold Comps</h4>
+Review similar properties that have been recently sold or are currently for sale, helping you gauge market conditions.
+<h5>City-Specific Pricing</h5>
+Dive into detailed pricing for each city within your search area, with the option to fine-tune prices at the city level.
+<h5>Sort</h5>
+Sort the data by various columns to better analyze the properties that meet your criteria.
+<h5>Set Default Sort</h5>
+Choose how you want your data to be sorted by default and apply it across your searches.
+<h5>Adjust Offer Price Percent</h5>
+Quickly modify the market value percentage to refine your offer prices per acre using an easy slider.
+<h5>Adjust Selected Row</h5>
+Apply changes to the market value percentage for specific rows only, giving you more control over your offer strategy.
+<h5>Select All Variant</h5>
+Select records from the Data Tree, keeping the count within the 10,000 record limit, while trying to maximize the total up to the 25,000 record cap. The process will automatically halt once the limit is hit, ensuring that the download remains within the allowed maximum.
+<h5>Rank</h5>
+Our system assesses and scores potential locations using diverse statistical criteria, guiding you to the areas with the highest potential. Key metrics include the quality of natural features, economic performance indicators, and shifts in market values.
+<h5>DataTree Owner Record Count</h5>
+View the total number of owner records ready for download in a specific target area.
+<h5>Total Comps</h5>
+Check the total number of comparable sales within your selected location and acreage range, offering insights into market trends.
+<h5>Parcels on Market Ratio</h5>
+This ratio indicates the proportion of parcels currently listed for sale compared to the total parcels available, based on data from various land listing platforms.
+<h5>County</h5>
+The county where your area of interest is situated.
+<h5>State</h5>
+The state in which your target location resides.
+<h5>Acreage</h5>
+The area of land in your target location, including nearby properties for context.
+<h5>Offer Price/Acre</h5>
+When you choose County Pricing, this rate determines the offer price for your selected area. For City Pricing, this rate does not apply. With Geo Pricing, this value serves as the starting point for adjustments by our Geo Pricing Algorithm. You can modify this amount by adjusting the offer price slider or entering a new price per acre in the designated field.
+
+By the way, if you’re still here, congratulations on discovering Easter Egg 3! Send an email to support@propelyze.com with the subject line "Easter Egg 3" to receive 10 free records added to your account.
+<h5>Market Price/Acre</h5>
+This figure represents the assessed market value per acre for the chosen location.
+<h5>Export</h5>
+Choose the specific data you wish to download by checking the boxes next to each target area.
+<h5>Export Analysis Results</h5>
+Transfer the data table’s locations and values for additional analysis. This feature is available with certain subscription plans.
+<h4>For Sale and Sold Comps</h4>
+<h5>Hover To View More</h5>
+To discover more about our compensation data, simply place your cursor over any of the highlighted areas on the left!
+<h5>Parcel Comp Count</h5>
+This shows the total number of comparables for sale and recently sold within a specific county and land size range.
+<h5>Comp Chart</h5>
+View a scatter chart displaying the spread of comparable prices visually.
+<h5>Projected Average Offer Price</h5>
+This is the average bid price for properties in a specific county and land size range. For instance, if you're looking at properties between 25 and 30 acres, the estimated average bid price will reflect the value for a 27.5-acre property.
+<h5>Comp Sorting</h5>
+Organize comparables by any column you choose.
+<h5>Comp Filtering</h5>
+Select filters to find specific comparables.
+<h5>Comp Price</h5>
+How much each comparable property costs.
+<h5>Comp Acreage</h5>
+The size of each comparable property.
+<h5>Comp Price Per Acre</h5>
+The cost for each acre of a comparable property.
+<h5>Comp City</h5>
+The city where the comparable property is located.
+<h5>Comp Status</h5>
+Shows if the property is for sale or has been sold.
+<h5>Comp List Date</h5>
+When the property was first listed.
+<h5>Comp Sold Date</h5>
+When the property was sold, if available.
+<h5>Comp Source</h5>
+This indicates where each comparable property was listed. You can click the provided link to view the listing, except for sold properties from Realtor.com, which do not have clickable links.
+<h5>Comp Export</h5>
+Download comparables into an Excel file for detailed analysis and custom pricing. This feature is available with certain subscription plans on Propelyze.
+City Level Pricing
+Hover To View More
+For more information about our city pricing, simply place your cursor over any of the highlighted areas to the right!
+Save City Pricing
+Keep track of any updates to city prices, including adding new cities.
+Add a City
+Allows you to include a new city that isn't listed.
+City Pricing Chart
+Shows a visual overview of offer prices for different cities in your area.
+County Level Market Price Per Acre
+Displays the average market price per acre for the county.
+County Level Offer Price Per Acre
+Shows the average offer price per acre for the county.
+Selected City
+Shows the city you have selected.
+Selected City Market Price
+Shows the market rate per acre for the city you've chosen. You can also enter your own rate to adjust it.
+Selected City Offer Price
+Displays the offer rate per acre for the selected city. You can modify this rate by entering a new value.
+Update City Pricing
+Click here to save any updates made to city pricing.
+City
+The name of the city.
+City Market Price Per Acre
+The average market rate per acre in a city for a given land size.
+City Offer Price Per Acre
+The offer rate per acre in a city for a specific land size.
+City Z-Score
+This score indicates the difference between the city and county market prices per acre. A positive score means city prices are higher, while a negative score means they are lower.
+City Comp Count
+Shows how many comparable properties are available in our database for the selected city and land size.
+City Export
+Download data on comparables for the chosen city and acreage from our database.
+Scrub Field Names
+Hover To View More
+For additional information about our scrub filters, simply place your cursor over any of the checkbox fields on the left!
+Saved Configurations
+Save/load your scrub field name setup.
+●	Default Fields (Cannot Exclude)
+Reference Number
+Unique tracking number for each property, provided by Propelyze.
+Offer Price
+The recommended offer price for the property by Propelyze.
+APN
+The Assessor's Parcel Number for the property you're interested in.
+Mailing Address
+The street address where you send correspondence.
+Mailing Zip Code
+The postal code for the recipient’s address.
+Mailing City
+The city where the recipient is located.
+Mailing State
+The state where the recipient’s address is found.
+●	Pricing Fields
+Market Price
+The final property value forecasted by Propelyze.
+Offer Percent
+The percentage of the market value used to determine the offer price.
+County Assessed Value
+The property value is assessed by the county or local authority, including both land and improvements.
+County Market Value
+The county or local tax authority provides the market valuation for land and improvements.
+DataTree Estimated Value
+The projected property value is calculated through Data Tree's AVM.
+Pricing Source (Land)
+Indicates whether the property’s pricing is based on county, city, or regional data.
+Pricing Source Market Price (Land)
+The price per acre used to value this property is based on the pricing source.
+Pricing Source Offer Price (Land)
+The proposed price per acre for the property as determined by the pricing source.
+●	Property Fields
+Property Address
+The street address for the property you’re interested in buying.
+Property Zip Code
+The zip code associated with the property you’re considering.
+Property City
+The city where the property is located.
+Property County
+The county where the property is situated.
+Property State
+The state in which the property resides.
+Property State Short
+The abbreviated form of the state where the property is located.
+Property Address Full
+The complete street address of the property you’re looking to purchase.
+Property Zoning
+The zoning designation assigned by the county for the property.
+Property Subdivision
+The name of the subdivision where the property is situated.
+Property Section
+Refers to a 1-square-mile area within a larger range or township, with 36 such sections making up each range or township.
+Property Township
+The township segment of the property's location, determined through local surveys, usually extends six miles north or south from a fixed meridian.
+Property Range
+Based on local surveys, the range segment of the property's coordinates typically extends six miles east or west from a fixed meridian.
+Property Land Use
+The land use category assigned by DataTree for the property you're considering.
+Property Latitude
+The latitude coordinate of the property’s location.
+Property Longitude
+The longitude coordinate of the property's location.
+Property Tax
+The amount of tax assessed on the property by local authorities.
+Property Tax Year
+The year for which the local authorities have issued property tax bills.
+Lot Acreage
+The total land area of the property you’re interested in.
+Lot Area
+The portion of the property that is available for practical use or development.
+Building Square Footage
+The total area covered by any buildings on the property.
+Legal Description
+The formal description detailing the legal boundaries and characteristics of the property, including subdivision or survey information.
+Last Sale Date
+The date on which the property was last sold.
+Last Sale Price 
+The selling price of the property from its last market transaction.
+●	Owner fields
+Owner First Name
+The given name of the property owner you’re contacting.
+Owner Last Name
+The surname of the property owner you’re reaching out to.
+Owner Full Name
+The complete name of the property owner you’re addressing.
+Owner Mailing Name
+The name used for sending correspondence to the property owner, which might be a single name or a combination of names.
+Owner Type
+The category assigned to the owner by the county for mailing purposes.
+●	Other Fields
+Estimated Closing Date
+The anticipated date when the transaction will be completed, typically set for 90 days from now.
+Offer Expiration Date
+The date when the offer is expected to expire, typically 60 days from now.
+Date
+The date on which the data was retrieved.
+Unformatted APN
+The unformatted Assessor's Parcel Number for the property.
+Alternate APN
+A secondary Assessor's Parcel Number for the property, if there is one.
+County Land Use
+The land use code assigned by local authorities for the property.
+Mailing Zip Code 9
+The full nine-digit postal code for the property owner’s address.
+Mailing Address FuII
+The complete address where you send mail to the property owner.
+Scrub Filters
+Hover To View More
+For additional information about our scrub filters, kindly place your cursor over the checkbox fields on the right.
+Blank Owners
+Excludes records where the owner's first or last name is not provided.
+Church owners
+Excludes properties owned by religious institutions.
+Government Owners
+Excludes properties owned by government entities.
+Trust Owners
+Excludes properties held by trusts.
+Corporate Owners
+Excludes properties owned by businesses or corporations.
+Blank Addresses
+Excludes records where mailing addresses, including ZIP codes, are not available.
+Non-US Addresses
+Excludes records with addresses located outside the United States.
+Same Zip Code As Parcel
+Excludes records where the parcel and owner's mailing address share the same ZIP code.
+Undivided Interest/Severed Surface Rights
+Excludes records involving undivided interests or severed surface rights.
+Last Sale Price Value
+Excludes records where the offer price is below a specified percentage of the last sale price (input your percentage).
+Purchase Price
+Excludes records where the purchase price falls outside your defined range.
+Saved configurations
+Save and load your filter configurations.
+Download Options
+Hover To View More
+For more information about our download choices, kindly place your cursor over any of the checkbox fields on the left!
+Generate Campaign Map
+Create a KML file that maps out all your owner information and nearby geotagged comparisons. This file can be viewed using Google Earth or Maps to get a clear view of your campaign’s coverage.
+Remove Duplicate Owner Records
+Automatically removes any repeated owner entries before you download. We’ll adjust your account if duplicates are detected, as we only know the exact number post-download.
+Split Pricing
+Divide your cleaned data into two separate files: one with complete pricing ready for mailing and another with data that needs manual pricing adjustments due to incomplete details.
+Revert City Pricing
+The system will default to county-level pricing if the Geo Pricing model is unavailable. This option allows you to switch back to city-based pricing.
+Sort Scrubbed File
+Organize your cleaned data by various fields to make it easier to navigate and manage.
+Preview Records
+You can view a sample of your selected records before downloading them. The preview will be sent to your email address for review.
+Checkout
+Complete your transaction and proceed to checkout.
+What does a download look like?
+Download Includes 7–8 Files:
+*Final List
+Propelyze Final List.csv
+1. Customized data file with selected columns for your mailing campaigns.
+2. Contains individual offer prices for each property.
+3. Prepared and organized for marketing use.
+DataTree Export - Raw.csv
+1. Export of unprocessed data from DataTree. 
+2. A comprehensive file containing all property records has been downloaded. 
+3. Each property record features detailed information with 232 data points. 
+4. Field definitions are provided for your convenience.
+Propelyze Campaign Map.kml
+1. An extensive map that displays all ownership records along with similar properties in the vicinity. 
+2. It is compatible with Google Earth and Google Maps for straightforward visualization.
+Export Parameters.csv
+1. Overview of the criteria applied for your data export. 
+2. This includes information like reference ID, geographical area, range of acreage, and price per acre.
+Export Options.csv
+1. A summary of the decisions taken during your export process. 
+2. Insights on eliminating duplicates, creating maps, and available pricing alternatives.
+Search Parameters.csv
+1. Overview of the parameters utilized to locate records. 
+2. Contains information about the search area and any specialized search parameters employed.
+Scrub Filters.csv
+1. Overview of the filters implemented throughout the data cleansing procedure. 
+2. This includes a comprehensive list of all the scrub filters utilized along with their current application status.
+Scrubbed Out Property Data.csv
+1. Detailed list of properties removed during the scrubbing phase.
+2. Can be reintegrated into the main file if necessary.
+
+
+
+
+
+
+
+
+
+
 
 
 
