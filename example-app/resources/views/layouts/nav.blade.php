@@ -16,15 +16,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/about')}}" id="ab">About </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="hw" role="button">
-                            How it works
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/support')}}" id="sp" role="button">
-                            Contact
-                        </a>
+        
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        How it works                        </a>
+                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#" id="hw">How it works</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/')}}" id="fq">  How it works for houses</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/how-it-works-lands')}}" id="hw-it-lnd">  How it works for lands</a></li>
+
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/priceland')}}" id="pl">Price Land </a>
@@ -61,9 +62,15 @@
                             <li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li>
                             <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
                             <li><a class="dropdown-item" href="{{ url('/login')}}" id="ln"> Login</a></li>
-
-
-
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Contact
+                        </a>
+                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{ url('/support')}}" id="sp"> Contact</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/faq')}}" id="fq"> Faq</a></li>
                         </ul>
                     </li>
 
@@ -96,33 +103,31 @@
 </section>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         var token = localStorage.getItem('user_token2');
-        if(token){
+        if (token) {
             $('#lg').show();
-                $('#pf').show();
-                $("#ph").show();
-                $("#pl").show();
-                $("#cprp").show();
-                $("#rs").show();
-                $('#ab').hide();
-                $('#hw').hide();
-                $('#sp').hide();
-                $('#rg').hide();
-                $('#ln').hide();
-                $("#login_b").remove();
+            $('#pf').show();
+            $("#ph").show();
+            $("#pl").show();
+            $("#cprp").show();
+            $("#rs").show();
+            $('#ab').hide();
+            $('#hw').hide();
+            $('#sp').hide();
+            $('#rg').hide();
+            $('#ln').hide();
+            $("#login_b").remove();
 
-        }
-        else
-        {
+        } else {
             $("#lg").remove();
-                $("#pf").remove();
-                $("#ph").remove();
-                $("#pl").remove();
-                $("#cprp").remove();
-                $("#rs").remove();
+            $("#pf").remove();
+            $("#ph").remove();
+            $("#pl").remove();
+            $("#cprp").remove();
+            $("#rs").remove();
         }
-       
+
 
 
     });
@@ -149,10 +154,10 @@
                 $("#cprp").hide();
                 $("#rs").hide();*/
 
-                
 
-                //$('#lg').hide();
-                /*alert(data.message);
+
+    //$('#lg').hide();
+    /*alert(data.message);
 
             }
         },

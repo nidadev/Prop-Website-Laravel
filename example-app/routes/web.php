@@ -36,6 +36,12 @@ Route::get('/subscription', function () {
 Route::get('/research', function () {
     return view('research');
 });
+Route::get('/faq', function () {
+    return view('faq');
+});
+Route::get('/how-it-works-lands', function () {
+    return view('how-it-works-lands');
+});
 
 Route::get('/compreport', function () {
     return view('compreport');
