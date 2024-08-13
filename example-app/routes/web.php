@@ -42,6 +42,10 @@ Route::get('/faq', function () {
 Route::get('/how-it-works-lands', function () {
     return view('how-it-works-lands');
 });
+Route::get('/how-it-works-houses', function () {
+    return view('how-it-works-houses');
+});
+
 
 Route::get('/compreport', function () {
     return view('compreport');

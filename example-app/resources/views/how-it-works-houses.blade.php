@@ -6,7 +6,7 @@
         <div class="container-xl">
             <div class="row center_o1 m-auto text-center">
                 <div class="col-md-12">
-                    <h2 class="text-white">How it Works Lands</h2>
+                    <h2 class="text-white">How it Works Houses</h2>
                     <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Register </h6>
                 </div>
             </div>

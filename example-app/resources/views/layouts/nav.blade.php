@@ -22,7 +22,7 @@
                         How it works                        </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#" id="hw">How it works</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/')}}" id="fq">  How it works for houses</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/how-it-works-houses')}}" id="fq">  How it works for houses</a></li>
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-lands')}}" id="hw-it-lnd">  How it works for lands</a></li>
 
                         </ul>
