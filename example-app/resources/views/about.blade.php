@@ -18,8 +18,8 @@
         <div class="about_1 row">
             <div class="col-md-12">
                 <h6 class="col_blue fw-bold">About Us Propelyze</h6>
-                <h1 class="font_50 mt-3">At Propelyze,<br> we believe that your time is your most valuable asset. </h1>
-                <p class="mt-3">That’s why we’ve made it our mission to streamline and enhance the property acquisition process, empowering real estate investors to make faster, more informed decisions.Our journey began with a simple but powerful idea: what if acquiring real estate could be less tedious and more efficient? With years of experience in real estate and a passion for technology, we set out to create a solution that would revolutionize the way investors approach direct mail marketing campaigns. No longer would identifying prime locations, pulling owner records, and pricing parcels be a time-consuming task—it would become a seamless experience.</p>
+                <p class="mt-3"> At Propelyze, we believe that your time is your most valuable asset. 
+                That’s why we’ve made it our mission to streamline and enhance the property acquisition process, empowering real estate investors to make faster, more informed decisions.Our journey began with a simple but powerful idea: what if acquiring real estate could be less tedious and more efficient? With years of experience in real estate and a passion for technology, we set out to create a solution that would revolutionize the way investors approach direct mail marketing campaigns. No longer would identifying prime locations, pulling owner records, and pricing parcels be a time-consuming task—it would become a seamless experience.</p>
             </div>
         </div>
         <div class="row disc_1 mt-4">
