@@ -173,14 +173,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="fw-bold  lh-base mt-3 fs-5"> Owner Record Download</h6>
 
 										<p class="mt-3">Easily obtain property details that match your search criteria directly through our integrated data sources.<br><br><br></p>
-										<span class="text-warning">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-o"></i>
-										</span>
-
+										
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -189,13 +182,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="fw-bold  lh-base mt-3 fs-5"> Skip Tracing </span></h6>
 
 										<p class="mt-3">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
-										<span class="text-warning">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-o"></i>
-										</span>
+										
 
 									</div>
 								</div>
@@ -204,13 +191,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<img src="{{ asset('img/10.jpg') }}" alt="abc" class="rounded-circle">
 										<h6 class="fw-bold  lh-base mt-3 fs-5"> Property Pricing</h6>
 										<p class="mt-3">Get personalized pricing for each property to boost your marketing impact.<br><br><br></p>
-										<span class="text-warning">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</span>
+										
 
 									</div>
 								</div>
@@ -223,14 +204,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<img src="{{ asset('img/11.jpg') }}" alt="abc" class="rounded-circle">
 										<h6 class="fw-bold  lh-base mt-3 fs-5"> External List Uploading</h6>
 										<p class="mt-3">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.<br><br><br></p>
-										<span class="text-warning">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-o"></i>
-										</span>
-
+										
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -238,13 +212,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<img src="{{ asset('img/12.jpg') }}" alt="abc" class="rounded-circle">
 										<h6 class="fw-bold  lh-base mt-3 fs-5"> Data Scrubbing</h6>
 										<p class="mt-3">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.<br><br><br></p>
-										<span class="text-warning">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-o"></i>
-										</span>
+										
 
 									</div>
 								</div>
@@ -253,13 +221,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<img src="{{ asset('img/13.jpg') }}" alt="abc" class="rounded-circle">
 										<h6 class="fw-bold  lh-base mt-3 fs-5"> Road Access</h6>
 										<p class="mt-3">Check if properties have direct road access and pinpoint specific access points.<br><br><br></p>
-										<span class="text-warning">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</span>
+										
 
 									</div>
 								</div>
