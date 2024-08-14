@@ -84,7 +84,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		
 		 <div class="col-md-4">
-		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
 			  <h5 class="mt-3 mb-3">Skip Tracing</h5>
 			  <p class="mb-0 text-white">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
