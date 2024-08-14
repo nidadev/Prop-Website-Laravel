@@ -82,13 +82,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources.</p>
 			</div>
 		 </div>
-		 <div class="col-md-4">
-		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
-			  <h5 class="mt-3 mb-3">03. Book Your Property</h5>
-			  <p class="mb-0 text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis et sem sed sollicitudin. Donec non odio…</p>
-			</div>
-		 </div>
+		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
