@@ -13,9 +13,9 @@
 						<ul class="mb-0 mt-3">
 							<li class="d-inline-block"><a href="#"><i class="fa fa-facebook"></i></a></li>
 							<li class="d-inline-block"><a href="#"><i class="fa fa-instagram"></i></a></li>
-							<li class="d-inline-block"><a href="#"><i class="fa fa-behance"></i></a></li>
+							<!--li class="d-inline-block"><a href="#"><i class="fa fa-behance"></i></a></li-->
 							<li class="d-inline-block"><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li class="d-inline-block"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+							<!--li class="d-inline-block"><a href="#"><i class="fa fa-pinterest"></i></a></li-->
 							<li class="d-inline-block"><a href="#"><i class="fa fa-linkedin"></i></a></li>
 						</ul>
 					</div>

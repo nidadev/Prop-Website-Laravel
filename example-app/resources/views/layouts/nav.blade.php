@@ -22,8 +22,9 @@
                         How it works                        </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                         <!--li><a class="dropdown-item" href="#" id="hw">How it works</a></li-->
-                        <li><a class="dropdown-item" href="{{ url('/how-it-works-houses')}}" id="fq">  How it works for houses</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/how-it-works-houses')}}" id="hw-it-hs">  How it works for houses</a></li>
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-lands')}}" id="hw-it-lnd">  How it works for lands</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/faq')}}" id="fq"> Faq</a></li>
 
                         </ul>
                     </li>
@@ -64,15 +65,12 @@
                             <li><a class="dropdown-item" href="{{ url('/login')}}" id="ln"> Login</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Contact
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/support')}}" role="button" id="sp">
+                            Contact
                         </a>
-                        <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ url('/support')}}" id="sp"> Contact</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/faq')}}" id="fq"> Faq</a></li>
-                        </ul>
                     </li>
+                    
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle dropdown_search nav_hide" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
