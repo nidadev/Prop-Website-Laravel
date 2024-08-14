@@ -23,7 +23,7 @@
 			<div class="container-xl">
 				<div class="row center_h1">
 					<div class="col-md-12">
-						<h1 class="text-white font_45"><span class="col_blue">PROPELYZE</span><br>All-In-One Acquisition Tool <br> for <span class="col_blue">Real Estate Marketing Campaigns</span></h1>
+						<h1 class="text-white font_45"><span class="col_blue">We Simplify Your Search</span><br> Empower Your Real Estate Campaigns <br> with <span class="col_blue">Precision and Speed</span></h1>
 						<p class="text-white mt-3 fs-5">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
 						<ul class="mb-0 mt-4">
 							<li class="d-inline-block"><a class="button" href="#"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
