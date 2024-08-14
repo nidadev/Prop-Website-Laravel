@@ -23,8 +23,8 @@
 			<div class="container-xl">
 				<div class="row center_h1">
 					<div class="col-md-12">
-						<h1 class="text-white font_45"><span class="col_blue">We Simplify Your Search</span><br> Empower Your Real Estate Campaigns <br> with <span class="col_blue">Precision and Speed</span></h1>
-						<p class="text-white mt-3 fs-5">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
+						<h1 class="text-white font_45"><span class="col_blue">We </span>Simplify Your<span class="col_blue"> Search</span></h1>
+						<p class="text-white mt-3 fs-5">Propelyze:Empower Your Real Estate Campaigns with Precision and Speed</p>
 						<ul class="mb-0 mt-4">
 							<li class="d-inline-block"><a class="button" href="#"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
 							<li class="d-inline-block ms-2"><a class="button_1" href="#"><i class="fa fa-building me-1 fs-5 align-middle"></i> Houses </a></li>
@@ -44,27 +44,16 @@
 				</div>
 			</div>
 			<div class="row work_h2">
-				<div class="col-md-4">
+				<div class="col-md-12">
 					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
-						<span class="d-inline-block bg_blue text-white rounded-circle fs-1"><i class="fa fa-map-signs"></i></span>
-						<h5 class="mt-3 mb-3">01. Launching your real estate marketing campaign</h5>
-						<p class="mb-0">It is now simpler than ever. Propelyze enables you to quickly identify target areas, set pricing, access property owner details, and clean your data, all in just moments! </p>
+						<p class="mb-0">Launching your real estate marketing campaign is now simpler than ever. Propelyze enables you to quickly identify target areas, set pricing, access property owner details, and clean your data, all in just moments! We streamline research, comparison, and data management, giving you more time to focus on successful property flips.
+
+Our services cover both Vacant Land and Residential Properties, with all data updated in real time from DataTree.
+</p>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
-						<span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-home"></i></span>
-						<h5 class="mt-3 mb-3">02. Research</h5>
-						<p class="mb-0">We streamline research, comparison, and data management, giving you more time to focus on successful property flips.</p>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
-						<span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
-						<h5 class="mt-3 mb-3">03. Services</h5>
-						<p class="mb-0">Our services cover both Vacant Land and Residential Properties, with all data updated in real time from DataTree.</p>
-					</div>
-				</div>
+				
+	
 			</div>
 		</div>
 	</section>
