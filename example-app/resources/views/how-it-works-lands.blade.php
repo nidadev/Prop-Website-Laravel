@@ -7,7 +7,7 @@
             <div class="row center_o1 m-auto text-center">
                 <div class="col-md-12">
                     <h2 class="text-white">How it Works Lands</h2>
-                    <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Register </h6>
+                    <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Lands </h6>
                 </div>
             </div>
         </div>
@@ -340,41 +340,41 @@ The surname of the property owner you’re reaching out to.
 The complete name of the property owner you’re addressing.
 <h5>Owner Mailing Name</h5>
 The name used for sending correspondence to the property owner, which might be a single name or a combination of names.
-Owner Type
+<h5>Owner Type</h5>
 The category assigned to the owner by the county for mailing purposes.
-●	Other Fields
-Estimated Closing Date
+<h5>●	Other Fields</h5>
+<h5>Estimated Closing Date</h5>
 The anticipated date when the transaction will be completed, typically set for 90 days from now.
-Offer Expiration Date
+<h5>Offer Expiration Date</h5>
 The date when the offer is expected to expire, typically 60 days from now.
-Date
+<h5>Date</h5>
 The date on which the data was retrieved.
-Unformatted APN
+<h5>Unformatted APN</h5>
 The unformatted Assessor's Parcel Number for the property.
-Alternate APN
+<h5>Alternate APN</h5>
 A secondary Assessor's Parcel Number for the property, if there is one.
-County Land Use
+<h5>County Land Use</h5>
 The land use code assigned by local authorities for the property.
-Mailing Zip Code 9
+<h5>Mailing Zip Code 9</h5>
 The full nine-digit postal code for the property owner’s address.
-Mailing Address FuII
+<h5>Mailing Address FuII</h5>
 The complete address where you send mail to the property owner.
-Scrub Filters
-Hover To View More
+<h4>Scrub Filters</h4>
+<h5>Hover To View More</h5>
 For additional information about our scrub filters, kindly place your cursor over the checkbox fields on the right.
-Blank Owners
+<h5>Blank Owners</h5>
 Excludes records where the owner's first or last name is not provided.
-Church owners
+<h5>Church owners</h5>
 Excludes properties owned by religious institutions.
-Government Owners
+<h5>Government Owners</h5>
 Excludes properties owned by government entities.
-Trust Owners
+<h5>Trust Owners</h5>
 Excludes properties held by trusts.
-Corporate Owners
+<h5>Corporate Owners</h5>
 Excludes properties owned by businesses or corporations.
-Blank Addresses
+<h5>Blank Addresses</h5>
 Excludes records where mailing addresses, including ZIP codes, are not available.
-Non-US Addresses
+<h5>Non-US Addresses</h5>
 Excludes records with addresses located outside the United States.
 Same Zip Code As Parcel
 Excludes records where the parcel and owner's mailing address share the same ZIP code.
