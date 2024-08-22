@@ -556,12 +556,13 @@ else
 
         });
         ////////////////////////////
-        /*$("#pricehouse_search_form").submit(function(event) {
+        $("#compreport2_search_form").submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
             //alert(formData.st);
 
             var st = $("#st").val();
+            var ap = '5629-014-017';
             var page_url = '' + APP_URL + '/login';
             myarray = [];
 
@@ -570,17 +571,18 @@ else
                 url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
 
                 type: "POST",
-                /*data: {
-                    CountOnly: false,
-                    MaxReturn: 1000,
-                    ProductName: "SearchStandard",
-                    SpatialType: "Geography",
-                    Filters: [{FilterName: "StateFips",
-                        FilterOperator: 'is',
-                        FilterValues: 6,
-                        FilterGroup: 0
-                    }]
-                },*/
+                data: {
+  
+  "ProductNames": [
+    "SalesComparables"
+  ],
+  "SearchType": "PROPERTY",
+  "PropertyId": '8948416',
+  "SalesCompSettings": {
+    "CompsMaxNumber": 25
+  }
+
+},
         /*data: {
             ProductNames: [
                 "PropertyDetailReport"
@@ -615,7 +617,7 @@ else
             },
             IncludeFilelink: true
         },*/
-        /*headers: {
+        headers: {
                     //'Content-type': 'application/json',
                     'Authorization': localStorage.getItem('api_token')
                     //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXpNamc1TWpJc0ltNWlaaUk2TVRjeU5ETXlPRGt5TWl3aVpYaHdJam94TnpJME16TXlPREl5TENKaGFXOGlPaUpGTW1SbldWQm9OSGQxZVhCd1duUkVNREJJSzNWNU9ESXpSMHA0WWxZdlR6Wm1OVXhQTWtoMWFHdFNjRVJ2ZGxCMlZITkNJaXdpWVhwd0lqb2lZelpoT0RneVpURXRPREpqTnkwME5UUmtMVGt3TlRrdE4ySXhZVGhpTm1OaE1URXhJaXdpWVhwd1lXTnlJam9pTVNJc0ltOXBaQ0k2SW1NNFpXSTRZMkk0TFRJM09UZ3RORE01TnkwNE1EQmlMVGhsTkRjMk5HVXpNbUl3WmlJc0luSm9Jam9pTUM1QlVUQkJNV3hmUjFSSVlXTmpWV2xzVVhWelUzQmhaVUZFUjBzNFJsUlJUQzFrZEV0cGRFSjJTR3hhVnpoMlFVNUJRVUV1SWl3aWNtOXNaWE1pT2xzaVFWQkpRV05qWlhOeklsMHNJbk4xWWlJNkltTTRaV0k0WTJJNExUSTNPVGd0TkRNNU55MDRNREJpTFRobE5EYzJOR1V6TW1Jd1ppSXNJblJwWkNJNklqUmpZelkxWm1RMkxUbGpOell0TkRnM01TMWhOVFF5TFdWaU1USmhOV0UzT0RBd1l5SXNJblYwYVNJNklqTXdVbmx0UW5KMk16QnRRM2hEUWxsYUxXTm1RVUVpTENKMlpYSWlPaUl5TGpBaUxDSmhjSEJFWVhSaElqb2llMXdpZFdsa1hDSTZNVFUzTXpRNUxGd2lZV2xrWENJNk1qQXhNRFV4TkgwaWZRLlFROXJRdEYyM1YyMjlUazR0eVFTYzFnN3lqOUo4VXJmUWFCNGQwWGhnU3dfeWgwblEzR1ljSjY5SWN1SHFBTDJnN1RvNnBhVFdMdDhnNWF4N0c3N19IVnVOMkdNR3F0WEl3b3kxQ1BBemFRbkdaMGRiVnhUbkQ4YUVFTE4xbmo0amU1LUY3UkJUWG1VbExXek9vekg1bk5UVWVTdjNZdnRxX1Y3VjUxWjVEODFTb2tnQ0tGMWtzYnhXS3VrandNbEVOZW0yVkFidnZaWU9qT0F1SUpGZGVsc0JRNXZPdlVkVE9IWXdsYXJ1S295OFBQTmVDUG13cENxTnNEaGw5eVBYdDE4Ui1XN1JCeU5qUWp4MkFCSXRKNDFmWEs1SWZaOXlRX2Jua3BTRk1TQ09TZjA1TlRaZUNPb1JHRWNLTUZGVi1KTEtPTEN6UEZNd3JUdmh2S2RvUSIsIkF2YWlsYWJsZVByb2R1Y3RzIjoiW1wiMTAwOFwiLFwiMTA1M1wiLFwiMTAwNVwiLFwiMTAxMVwiLFwiMjA4OVwiLFwiMTAyNlwiLFwiMTAyN1wiLFwiMTAyOFwiLFwiNTAwMFwiLFwiNTAwMVwiLFwiNTAwM1wiLFwiMjAwMFwiLFwiMjAwMVwiLFwiMjAwMlwiLFwiMjAwM1wiLFwiMjAwNFwiLFwiMjAwNVwiXSIsIm5iZiI6MTcyNDMyOTIyMiwiZXhwIjoxNzI0MzM2NDIyLCJpYXQiOjE3MjQzMjkyMjIsImlzcyI6Imh0dHBzOi8vZHRhcGl1YXQuZGF0YXRyZWUuY29tIiwiYXVkIjoiV2ViQXBpQ29uc3VtZXJzIn0.3jOQUl3uIEhGdByswdUKg2O6wFxxfetMeQAnwqZzJnU',
@@ -625,14 +627,14 @@ else
                     //console.log("abc" + data.StatusDescription);
                     if (data) {
                         console.log(data);
-                        console.log(data.LitePropertyList);
+                        //console.log(data.LitePropertyList);
                         //$('.error').text('');
                         //myarray = JSON.stringify(data.Reports);
-                        myarray = data.LitePropertyList;
+                        //myarray = data.LitePropertyList;
                         //console.log(myarray);
                         //alert(data);
-                        buildTable3(myarray);
-                        $("#myDataTable3").DataTable();
+                        //buildTable3(myarray);
+                        //$("#myDataTable3").DataTable();
                     }
                 },
                 statusCode: {
@@ -656,7 +658,7 @@ else
 
             });
 
-        });*/
+        });
         /////////////////////////////div click//////////////
         $("#map_id").click(function() {
             $('html,body').animate({
