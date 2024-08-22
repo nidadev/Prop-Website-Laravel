@@ -14,14 +14,14 @@
               <div class="center_h2li row">
                 <div class="col-md-6">
                   <div class="center_h2lil">
-                    <select class="form-select border-0 rounded_10 bg-light" aria-label="Default select example">
+                    <select id="st" class="form-select border-0 rounded_10 bg-light" aria-label="Default select example">
                       <option selected>search By</option>
                       <option value="1">State Name</option>
-                      <option value="Alabama" aria-selected="true">Alabama</option>
-                      <option value="Alaska" aria-selected="false">Alaska</option>
-                      <option value="Arizona" aria-selected="false">Arizona</option>
+                      <option value="1" aria-selected="true">Alabama</option>
+                      <option value="2" aria-selected="false">Alaska</option>
+                      <option value="4" aria-selected="false">Arizona</option>
                       <option value="Arkansas" aria-selected="false">Arkansas</option>
-                      <option value="California" aria-selected="false">California</option>
+                      <option value="6" aria-selected="false">California</option>
                       <option value="Colorado" aria-selected="false">Colorado</option>
                       <option value="Connecticut" aria-selected="false">Connecticut</option>
                       <option value="Delaware" aria-selected="false">Delaware</option>
@@ -220,16 +220,33 @@
     <div class="row work_h2">
       <div class="col-md-12">
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
+        <p class="error"></p>
 
+<form>
+
+  <table class="display" style="width:100%" id="myDataTable3">
+    <thead class="bg-grey-50">
+      <tr>Records
+      <th>No.</th>
+        <th>Property Id</th>
+        <th>County</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Owner Name</th>
+        <th>Address</th>
+      </tr>
+    <tbody id="mytable3">
+
+    </tbody>
+  </table>
+</form>
         </div>
       </div>
 
 </section>
 
 @endsection
-<script>
 
-</script>
 </body>
 
 </html>

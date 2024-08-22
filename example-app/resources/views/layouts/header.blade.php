@@ -487,23 +487,87 @@ else
 
         ///////////////////////////////////////////////
         //////////////////////comp2
-        $("#compreport2_search_form").submit(function(event) {
+        $("#pricehouse_search_form").submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
-            //alert(formData.st);
-            var apn = $("#apn").val();
-            //alert(apn);
-            var st_n = $("#st_n").val();
-            var st_nm = $("#st_nm").val();
+
             var st = $("#st").val();
-            var cp = $("#cp").val();
             var page_url = '' + APP_URL + '/login';
             myarray = [];
 
-            //alert(localStorage.getItem('api_token'));
-            //alert(formD.Filters);
             $.ajax({
                 url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+
+                type: "POST",
+                data: {
+                    ProductNames: [
+                        "PropertyDetailReport"
+                    ],
+                    SearchType: "Filter",
+                    SearchRequest: {
+                        ReferenceId: "1",
+                        ProductName: "SearchLite",
+                        MaxReturn: "1",
+                        Filters: [{
+                            FilterName: "StateFips",
+                            FilterOperator: "is",
+                            FilterValues: [
+                                st
+                            ],
+                            FilterGroup: 0
+                        }]
+                    }
+                },
+                
+                headers: {
+                    'Authorization': localStorage.getItem('api_token')
+                },
+                success: function(data) {
+
+                    if (data) {
+                        console.log(data);
+                        console.log(data.LitePropertyList);
+
+                        myarray = data.LitePropertyList;
+
+                        buildTable3(myarray);
+                        $("#myDataTable3").DataTable();
+                    }
+                },
+                statusCode: {
+                    400: function(data) {
+                        //alert( "page not found" );
+                        console.log(data.responseText);
+                        $(".error").text(data.responseJSON.Message);
+                      
+                    },
+                    401: function() {
+                        alert("unauthorized");
+                        //console.log(data.responseText);
+                        $(".error").text("Please Re-login.Token is expired");
+                        window.open(page_url, "_self");
+                       
+                    },
+
+                } ///main ajax success
+
+            });
+
+        });
+        ////////////////////////////
+        /*$("#pricehouse_search_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            //alert(formData.st);
+
+            var st = $("#st").val();
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+
+            $.ajax({
+                //url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+                url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+
                 type: "POST",
                 /*data: {
                     CountOnly: false,
@@ -516,39 +580,58 @@ else
                         FilterGroup: 0
                     }]
                 },*/
-
-                data: {
-                    ProductNames: [
-                        "TotalViewReport"
+        /*data: {
+            ProductNames: [
+                "PropertyDetailReport"
+            ],
+            SearchType: "Filter",
+            SearchRequest: {
+                ReferenceId: "1",
+                ProductName: "SearchLite",
+                MaxReturn: "1",
+                Filters: [{
+                    FilterName: "StateFips",
+                    FilterOperator: "is",
+                    FilterValues: [
+                        st
                     ],
-                    SearchType: "ADDRESS",
-                    AddressDetail: {
-                        StreetNumber: st_nm,
-                        StreetNames: st_n,
-                        City: "",
-                        ZipCode: "",
-                        StateFips: st,
-                        CountyFips: cp
-                    },
-                    IncludeFilelink: true
-                },
-                headers: {
+                    FilterGroup: 0
+                }]
+            }
+        },
+        /*data: {
+            ProductNames: [
+                "TotalViewReport"
+            ],
+            SearchType: "ADDRESS",
+            AddressDetail: {
+                StreetNumber: st_nm,
+                StreetNames: st_n,
+                City: "",
+                ZipCode: "",
+                StateFips: st,
+                CountyFips: cp
+            },
+            IncludeFilelink: true
+        },*/
+        /*headers: {
+                    //'Content-type': 'application/json',
                     'Authorization': localStorage.getItem('api_token')
-                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXhOelV3T0Rrc0ltNWlaaUk2TVRjeU5ERTNOVEE0T1N3aVpYaHdJam94TnpJME1UYzRPVGc1TENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFNFQwTkRjWFprTW1sMVRWVkxOV3hXTUdkcVRreGFUVkZrZG5sWVJYQlhWM3BHUjA1MVYxVTRZazh3UFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUprWkRVNFFrVm9TV2hyVjFrMVVucFBlWEo1TVVGQklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuTTZ0Yk9KTW92OTNUUkI5TUNJZ3o0U2tyTFVwUzE5UnJ4Q0FjczJYNU5TNW1IVDJvNm0xRGdlSDdCaExlZEhvZFBBV3N0azhvUjJnc0tSbm5LNjVDQWI0aDVPZ2k4b1UwLThZLTNONDFta2RkTWVCbUZ0TXI1SGcyazJDRXpkcEgtSU1JY2V2NmZRTW5oY1JweEdNSVY0STloMGItMlRTWWsxbTVxc21MUUF2WFR6bnNrR1ctT3pmQnE1LUJUbU1IZGh0bEtsU3ZwaDhReU80ZmNwZVZDUGxicm1ZVlBMSG5XQU5IeG1jVHBHQmZlWHpqZ2ZoMVhSSTZTcmVhVmhNOFU5OVVlSGViNUR0dG10a0dfV0dEVGlXbmE5eGtUWkxJeUtKOUt6alZwajVpa3UxNDdnSk5GVXlfRk9OTkp2UWhiSXZzOTRXUVRTd0xzQ3p6UVJxWTBBIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0MTc1MzkwLCJleHAiOjE3MjQxODI1OTAsImlhdCI6MTcyNDE3NTM5MCwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.MIEqprEnvlMvuMLA3p-Fc5ugz_soUoXpOg8uMbGDxQM',
+                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXpNamc1TWpJc0ltNWlaaUk2TVRjeU5ETXlPRGt5TWl3aVpYaHdJam94TnpJME16TXlPREl5TENKaGFXOGlPaUpGTW1SbldWQm9OSGQxZVhCd1duUkVNREJJSzNWNU9ESXpSMHA0WWxZdlR6Wm1OVXhQTWtoMWFHdFNjRVJ2ZGxCMlZITkNJaXdpWVhwd0lqb2lZelpoT0RneVpURXRPREpqTnkwME5UUmtMVGt3TlRrdE4ySXhZVGhpTm1OaE1URXhJaXdpWVhwd1lXTnlJam9pTVNJc0ltOXBaQ0k2SW1NNFpXSTRZMkk0TFRJM09UZ3RORE01TnkwNE1EQmlMVGhsTkRjMk5HVXpNbUl3WmlJc0luSm9Jam9pTUM1QlVUQkJNV3hmUjFSSVlXTmpWV2xzVVhWelUzQmhaVUZFUjBzNFJsUlJUQzFrZEV0cGRFSjJTR3hhVnpoMlFVNUJRVUV1SWl3aWNtOXNaWE1pT2xzaVFWQkpRV05qWlhOeklsMHNJbk4xWWlJNkltTTRaV0k0WTJJNExUSTNPVGd0TkRNNU55MDRNREJpTFRobE5EYzJOR1V6TW1Jd1ppSXNJblJwWkNJNklqUmpZelkxWm1RMkxUbGpOell0TkRnM01TMWhOVFF5TFdWaU1USmhOV0UzT0RBd1l5SXNJblYwYVNJNklqTXdVbmx0UW5KMk16QnRRM2hEUWxsYUxXTm1RVUVpTENKMlpYSWlPaUl5TGpBaUxDSmhjSEJFWVhSaElqb2llMXdpZFdsa1hDSTZNVFUzTXpRNUxGd2lZV2xrWENJNk1qQXhNRFV4TkgwaWZRLlFROXJRdEYyM1YyMjlUazR0eVFTYzFnN3lqOUo4VXJmUWFCNGQwWGhnU3dfeWgwblEzR1ljSjY5SWN1SHFBTDJnN1RvNnBhVFdMdDhnNWF4N0c3N19IVnVOMkdNR3F0WEl3b3kxQ1BBemFRbkdaMGRiVnhUbkQ4YUVFTE4xbmo0amU1LUY3UkJUWG1VbExXek9vekg1bk5UVWVTdjNZdnRxX1Y3VjUxWjVEODFTb2tnQ0tGMWtzYnhXS3VrandNbEVOZW0yVkFidnZaWU9qT0F1SUpGZGVsc0JRNXZPdlVkVE9IWXdsYXJ1S295OFBQTmVDUG13cENxTnNEaGw5eVBYdDE4Ui1XN1JCeU5qUWp4MkFCSXRKNDFmWEs1SWZaOXlRX2Jua3BTRk1TQ09TZjA1TlRaZUNPb1JHRWNLTUZGVi1KTEtPTEN6UEZNd3JUdmh2S2RvUSIsIkF2YWlsYWJsZVByb2R1Y3RzIjoiW1wiMTAwOFwiLFwiMTA1M1wiLFwiMTAwNVwiLFwiMTAxMVwiLFwiMjA4OVwiLFwiMTAyNlwiLFwiMTAyN1wiLFwiMTAyOFwiLFwiNTAwMFwiLFwiNTAwMVwiLFwiNTAwM1wiLFwiMjAwMFwiLFwiMjAwMVwiLFwiMjAwMlwiLFwiMjAwM1wiLFwiMjAwNFwiLFwiMjAwNVwiXSIsIm5iZiI6MTcyNDMyOTIyMiwiZXhwIjoxNzI0MzM2NDIyLCJpYXQiOjE3MjQzMjkyMjIsImlzcyI6Imh0dHBzOi8vZHRhcGl1YXQuZGF0YXRyZWUuY29tIiwiYXVkIjoiV2ViQXBpQ29uc3VtZXJzIn0.3jOQUl3uIEhGdByswdUKg2O6wFxxfetMeQAnwqZzJnU',
                 },
                 success: function(data) {
                     //alert('111')
                     //console.log("abc" + data.StatusDescription);
                     if (data) {
                         console.log(data);
-                        //console.log(data.Reports[0].Data);
-                        $('.error').text('');
+                        console.log(data.LitePropertyList);
+                        //$('.error').text('');
                         //myarray = JSON.stringify(data.Reports);
-                        //myarray = data.Reports[0].Data;
-                        console.log(myarray);
+                        myarray = data.LitePropertyList;
+                        //console.log(myarray);
                         //alert(data);
-                        // buildTable2(myarray);
-                        // $("#myDataTable2").DataTable();
+                        buildTable3(myarray);
+                        $("#myDataTable3").DataTable();
                     }
                 },
                 statusCode: {
@@ -572,9 +655,7 @@ else
 
             });
 
-        });
-        ////////////////////////////
-
+        });*/
         /////////////////////////////div click//////////////
         $("#map_id").click(function() {
             $('html,body').animate({
@@ -643,6 +724,24 @@ else
          <td>${data[i].SiteInformation.LotArea}</td>
          
       
+        </tr>`
+            table.innerHTML += row;
+        }
+
+    }
+
+    function buildTable3(data) {
+        //alert(data[0].address.state);
+        var table = document.getElementById('mytable3');
+        for (var i = 0; i < data.length; i++) {
+            var row = `<tr>
+            <td>${[i+1]}</td>
+        <td>${data[i].PropertyId}</td>
+        <td>${data[i].County}</td>
+        <td>${data[i].City}</td>
+         <td>${data[i].State}</td>
+         <td>${data[i].Owner}</td>
+         <td>${data[i].Address}</td>      
         </tr>`
             table.innerHTML += row;
         }
