@@ -117,7 +117,7 @@ else
                 }
             });
         });
-        
+
         /////////////////////////////
         $.ajax({
             url: '{{ url("/api/profile") }}',
@@ -130,16 +130,19 @@ else
                 if (data.status == true) {
                     //alert(data.user.is_verified);
                     //console.log(data.user);
-                    $('.name').text(data.user.name);
-                    $('.email').text(data.user.email);
-                    $('#phone').val(data.user.phone);
-                    $('#name').val(data.user.name);
-                    $('#email').val(data.user.email);
-                    $('#user_id').val(data.user.id);
+                    $('.name').text(data.name);
+                    $('.email').text(data.email);
+                    //$('#phone').val(data.user.phone);
+                    $('#name').val(data.name);
+                    $('#email').val(data.email);
+                    $('#user_id').val(data.user_id);
+                    var cid = '<?php echo config('app.client_id'); ?>';
+                    var cs = '<?php echo config('app.client_secret'); ?>';
+                    //alert(cid);
                     //localStorage.removeItem('user_token');
                     //window.open('/login','_self');
-                    if (data.user.is_verified == 0) {
-                        $('.verify').html('<button class="button verify_mail" data-id="' + data.user.email + '" style="border:none;" href="">Verify</button>');
+                    if (data.is_verified == 0) {
+                        $('.verify').html('<button class="button verify_mail" data-id="' + data.email + '" style="border:none;" href="">Verify</button>');
                     } else {
                         $('.verify').html("Verified");
                     }
@@ -148,8 +151,8 @@ else
                         url: 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient',
                         type: "POST",
                         data: {
-                            ClientId: data.user.client_id,
-                            ClientSecretKey: data.user.client_secret
+                            ClientId: cid,
+                            ClientSecretKey: cs
                         },
                         success: function(data) {
                             localStorage.setItem('api_token', 'Bearer' + " " + data);
@@ -359,7 +362,6 @@ else
                 },
                 headers: {
                     'Authorization': localStorage.getItem('api_token')
-                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXhOelV3T0Rrc0ltNWlaaUk2TVRjeU5ERTNOVEE0T1N3aVpYaHdJam94TnpJME1UYzRPVGc1TENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFNFQwTkRjWFprTW1sMVRWVkxOV3hXTUdkcVRreGFUVkZrZG5sWVJYQlhWM3BHUjA1MVYxVTRZazh3UFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUprWkRVNFFrVm9TV2hyVjFrMVVucFBlWEo1TVVGQklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuTTZ0Yk9KTW92OTNUUkI5TUNJZ3o0U2tyTFVwUzE5UnJ4Q0FjczJYNU5TNW1IVDJvNm0xRGdlSDdCaExlZEhvZFBBV3N0azhvUjJnc0tSbm5LNjVDQWI0aDVPZ2k4b1UwLThZLTNONDFta2RkTWVCbUZ0TXI1SGcyazJDRXpkcEgtSU1JY2V2NmZRTW5oY1JweEdNSVY0STloMGItMlRTWWsxbTVxc21MUUF2WFR6bnNrR1ctT3pmQnE1LUJUbU1IZGh0bEtsU3ZwaDhReU80ZmNwZVZDUGxicm1ZVlBMSG5XQU5IeG1jVHBHQmZlWHpqZ2ZoMVhSSTZTcmVhVmhNOFU5OVVlSGViNUR0dG10a0dfV0dEVGlXbmE5eGtUWkxJeUtKOUt6alZwajVpa3UxNDdnSk5GVXlfRk9OTkp2UWhiSXZzOTRXUVRTd0xzQ3p6UVJxWTBBIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0MTc1MzkwLCJleHAiOjE3MjQxODI1OTAsImlhdCI6MTcyNDE3NTM5MCwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.MIEqprEnvlMvuMLA3p-Fc5ugz_soUoXpOg8uMbGDxQM',
                 },
                 success: function(data) {
                     //alert('111')

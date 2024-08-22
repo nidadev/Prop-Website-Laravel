@@ -62,8 +62,10 @@ class ApiController extends Controller
             $user->remember_token = $random;
 
             //set client id and secret
-            $client_id = 'c6a882e1-82c7-454d-9059-7b1a8b6ca111';
-            $client_secret = 'e.s8Q~1R60mIoazbIJFHeeuLKbRs_zu_JeuHJcui';
+
+            $client_id = config('app.client_id');
+            $client_secret = config('app.client_secret');
+
             $user->client_id = $client_id;
             $user->client_secret = $client_secret;
             //$user->save();
@@ -112,38 +114,6 @@ class ApiController extends Controller
         //if authenticate token can fetch records
 
         //else not
-
-        /*$client_id = 'c6a882e1-82c7-454d-9059-7b1a8b6ca111';
-        $client_secret = 'e.s8Q~1R60mIoazbIJFHeeuLKbRs_zu_JeuHJcui';
-
-        $login = 
-            [
-                'client_id' => $request->email,
-                'client_secret' => $request->password,
-            ];
-            if($login)
-            {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'token received'
-                ]);
-            }
-        
-
-        if (!$login) {
-            return response()->json([
-                'status' => false,
-                'success' => false,
-                'message' => 'not received token',
-            ]);
-        }
-
-        return $this->respondWithToken($token);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'token generated successfully'
-        ]);*/
     }
     //
     // Login API - POST (email, password)
@@ -169,7 +139,7 @@ class ApiController extends Controller
         );
 
         //get user 
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$token) {
             return response()->json([
@@ -179,7 +149,7 @@ class ApiController extends Controller
             ]);
         }
 
-        return $this->respondWithToken($token,$user);
+        return $this->respondWithToken($token, $user);
     }
 
     public function me()
@@ -188,7 +158,7 @@ class ApiController extends Controller
     }
 
     //protected function
-    protected function respondWithToken($token,$user)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
             'status' => true,
@@ -204,16 +174,13 @@ class ApiController extends Controller
     public function profile(Request $request)
     {
 
-        $userData = auth()->user();
-        //$userData = request()->user();
-        //dd($request->all());
-
         return response()->json([
             "status" => true,
             "message" => "Profile data",
-            "user" => $userData,
             "user_id" => auth()->user()->id,
-            "email" => auth()->user()->email
+            "name" => auth()->user()->name,
+            "email" => auth()->user()->email,
+            "is_verified" => auth()->user()->is_verified,
         ]);
     }
 
