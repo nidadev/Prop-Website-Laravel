@@ -490,7 +490,7 @@ else
         $("#pricehouse_search_form").submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
-
+            $('#mytable3').html();
             var st = $("#st").val();
             var page_url = '' + APP_URL + '/login';
             myarray = [];
@@ -533,6 +533,7 @@ else
                         buildTable3(myarray);
                         $("#myDataTable3").DataTable();
                     }
+                    
                 },
                 statusCode: {
                     400: function(data) {
@@ -708,6 +709,7 @@ else
 
     function buildTable(data) {
         //alert(data[0].address.state);
+        
         var table = document.getElementById('mytable');
         for (var i = 0; i < data.length; i++) {
             var row = `<tr>
@@ -721,8 +723,7 @@ else
          <td>${data[i].PropertyStatusIndicators.IsForSale}</td>
          <td>${data[i].SiteInformation.Acres}</td>
          <td>${data[i].SiteInformation.LandUse}</td>
-         <td>${data[i].SiteInformation.LotArea}</td>
-         
+         <td>${data[i].SiteInformation.LotArea}</td>      
       
         </tr>`
             table.innerHTML += row;
@@ -733,6 +734,7 @@ else
     function buildTable3(data) {
         //alert(data[0].address.state);
         var table = document.getElementById('mytable3');
+        table.innerHTML = "";
         for (var i = 0; i < data.length; i++) {
             var row = `<tr>
             <td>${[i+1]}</td>
@@ -745,6 +747,7 @@ else
         </tr>`
             table.innerHTML += row;
         }
+        //table.innerHTML = '';
 
     }
 

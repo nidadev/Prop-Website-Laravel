@@ -20,58 +20,58 @@
                       <option value="1" aria-selected="true">Alabama</option>
                       <option value="2" aria-selected="false">Alaska</option>
                       <option value="4" aria-selected="false">Arizona</option>
-                      <option value="Arkansas" aria-selected="false">Arkansas</option>
+                      <option value="5" aria-selected="false">Arkansas</option>
                       <option value="6" aria-selected="false">California</option>
-                      <option value="Colorado" aria-selected="false">Colorado</option>
-                      <option value="Connecticut" aria-selected="false">Connecticut</option>
-                      <option value="Delaware" aria-selected="false">Delaware</option>
-                      <option value="District of Columbia" aria-selected="false">District of Columbia</option>
-                      <option value="Florida" aria-selected="false">Florida</option>
-                      <option value="Georgia" aria-selected="false">Georgia</option>
-                      <option value="Guam" aria-selected="false">Guam</option>
-                      <option value="Hawaii" aria-selected="false">Hawaii</option>
-                      <option value="Idaho" aria-selected="false">Idaho</option>
-                      <option value="Illinois" aria-selected="false">Illinois</option>
-                      <option value="Indiana" aria-selected="false">Indiana</option>
-                      <option value="Iowa" aria-selected="false">Iowa</option>
-                      <option value="Kansas" aria-selected="false">Kansas</option>
-                      <option value="Kentucky" aria-selected="false">Kentucky</option>
-                      <option value="Louisiana" aria-selected="false">Louisiana</option>
-                      <option value="Maine" aria-selected="false">Maine</option>
-                      <option value="Maryland" aria-selected="false">Maryland</option>
-                      <option value="Massachusetts" aria-selected="false">Massachusetts</option>
-                      <option value="Michigan" aria-selected="false">Michigan</option>
-                      <option value="Minnesota" aria-selected="false">Minnesota</option>
-                      <option value="Mississippi" aria-selected="false">Mississippi</option>
+                      <option value="8" aria-selected="false">Colorado</option>
+                      <option value="9" aria-selected="false">Connecticut</option>
+                      <option value="10" aria-selected="false">Delaware</option>
+                      <option value="11" aria-selected="false">District of Columbia</option>
+                      <option value="12" aria-selected="false">Florida</option>
+                      <option value="13" aria-selected="false">Georgia</option>
+                      <option value="14" aria-selected="false">Guam</option>
+                      <option value="15" aria-selected="false">Hawaii</option>
+                      <option value="16" aria-selected="false">Idaho</option>
+                      <option value="17" aria-selected="false">Illinois</option>
+                      <option value="18" aria-selected="false">Indiana</option>
+                      <option value="19" aria-selected="false">Iowa</option>
+                      <option value="20" aria-selected="false">Kansas</option>
+                      <option value="21" aria-selected="false">Kentucky</option>
+                      <option value="22" aria-selected="false">Louisiana</option>
+                      <option value="23" aria-selected="false">Maine</option>
+                      <option value="24" aria-selected="false">Maryland</option>
+                      <option value="25" aria-selected="false">Massachusetts</option>
+                      <option value="26" aria-selected="false">Michigan</option>
+                      <option value="27" aria-selected="false">Minnesota</option>
+                      <option value="28" aria-selected="false">Mississippi</option>
 
-                      <option value="Missouri" aria-selected="false">Missouri</option>
-                      <option value="Montana" aria-selected="false">Montana</option>
-                      <option value="Nebraska" aria-selected="false">Nebraska</option>
-                      <option value="Nevada" aria-selected="false">Nevada</option>
-                      <option value="New Hampshire" aria-selected="false">New Hampshire</option>
-                      <option value="New Jersey" aria-selected="false">New Jersey</option>
-                      <option value="New Mexico" aria-selected="false">New Mexico</option>
-                      <option value="New York" aria-selected="false">New York</option>
-                      <option value="North Carolina" aria-selected="false">North Carolina</option>
-                      <option value="North Dakota" aria-selected="false">North Dakota</option>
-                      <option value="Ohio" aria-selected="false">Ohio</option>
-                      <option value="Oklahoma" aria-selected="false">Oklahoma</option>
-                      <option value="Oregon" aria-selected="false">Oregon</option>
-                      <option value="Pennsylvania" aria-selected="false">Pennsylvania</option>
-                      <option value="Puerto Rico" aria-selected="false">Puerto Rico</option>
-                      <option value="Rhode Island" aria-selected="false">Rhode Island</option>
-                      <option value="South Carolina" aria-selected="false">South Carolina</option>
-                      <option value="South Dakota" aria-selected="false">South Dakota</option>
-                      <option value="Tennessee" aria-selected="false">Tennessee</option>
-                      <option value="Texas" aria-selected="false">Texas</option>
-                      <option value="Utah" aria-selected="false">Utah</option>
-                      <option value="Vermont" aria-selected="false">Vermont</option>
-                      <option value="Virgin Islands" aria-selected="false">Virgin Islands</option>
-                      <option value="Virginia" aria-selected="false">Virginia</option>
-                      <option value="Washington" aria-selected="false">Washington</option>
-                      <option value="West Virginia" aria-selected="false">West Virginia</option>
-                      <option value="Wisconsin" aria-selected="false">Wisconsin</option>
-                      <option value="Wyoming" aria-selected="false">Wyoming</option>
+                      <option value="29" aria-selected="false">Missouri</option>
+                      <option value="30" aria-selected="false">Montana</option>
+                      <option value="31" aria-selected="false">Nebraska</option>
+                      <option value="32" aria-selected="false">Nevada</option>
+                      <option value="33" aria-selected="false">New Hampshire</option>
+                      <option value="34" aria-selected="false">New Jersey</option>
+                      <option value="35" aria-selected="false">New Mexico</option>
+                      <option value="36" aria-selected="false">New York</option>
+                      <option value="37" aria-selected="false">North Carolina</option>
+                      <option value="38" aria-selected="false">North Dakota</option>
+                      <option value="39" aria-selected="false">Ohio</option>
+                      <option value="40" aria-selected="false">Oklahoma</option>
+                      <option value="41" aria-selected="false">Oregon</option>
+                      <option value="42" aria-selected="false">Pennsylvania</option>
+                      <option value="43" aria-selected="false">Puerto Rico</option>
+                      <option value="44" aria-selected="false">Rhode Island</option>
+                      <option value="45" aria-selected="false">South Carolina</option>
+                      <option value="46" aria-selected="false">South Dakota</option>
+                      <option value="47" aria-selected="false">Tennessee</option>
+                      <option value="48" aria-selected="false">Texas</option>
+                      <option value="49" aria-selected="false">Utah</option>
+                      <option value="50" aria-selected="false">Vermont</option>
+                      <option value="51" aria-selected="false">Virgin Islands</option>
+                      <option value="52" aria-selected="false">Virginia</option>
+                      <option value="53" aria-selected="false">Washington</option>
+                      <option value="54" aria-selected="false">West Virginia</option>
+                      <option value="55" aria-selected="false">Wisconsin</option>
+                      <option value="56" aria-selected="false">Wyoming</option>
                     </select>
                   </div>
                 </div>
@@ -222,8 +222,6 @@
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
         <p class="error"></p>
 
-<form>
-
   <table class="display" style="width:100%" id="myDataTable3">
     <thead class="bg-grey-50">
       <tr>Records
@@ -239,7 +237,6 @@
 
     </tbody>
   </table>
-</form>
         </div>
       </div>
 
