@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Propelyze</title>
     <link href="http://165.140.69.88/~plotplaza/realtor_zip/css/bootstrap.min.css" rel="stylesheet">
-	<link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -24,18 +24,10 @@
 
     <link href="https://cdn.datatables.net/2.1.3/css/dataTables.dataTables.css" rel="stylesheet">
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 </head>
 <style>
-    /* Icon when the collapsible content is show */
-    /*.btn.icon:after {
-    font-family: "Glyphicons Halflings";
-    content: "\2212";
-}
 
-/* Icon when the collapsible content is hidden */
-    /*.btn.icon.collapsed:after {
-    content: "\2b";
-}*/
 </style>
 
 
@@ -65,6 +57,9 @@ else
 
 }*/
     $(document).ready(function() {
+
+        var APP_URL = "{{ url('') }}";
+        var page_login_url = '' + APP_URL + '/login';
 
         $.noConflict();
         ////////////////////agree ///////////////
@@ -100,7 +95,7 @@ else
                     'Authorization': localStorage.getItem('user_token2')
                 },
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     if (data.success == true) {
                         //alert(data.data.is_verified);
                         $('.result').text(data.message);
@@ -122,6 +117,7 @@ else
                 }
             });
         });
+        
         /////////////////////////////
         $.ajax({
             url: '{{ url("/api/profile") }}',
@@ -133,7 +129,7 @@ else
                 //console.log(data);
                 if (data.status == true) {
                     //alert(data.user.is_verified);
-                    console.log(data.user);
+                    //console.log(data.user);
                     $('.name').text(data.user.name);
                     $('.email').text(data.user.email);
                     $('#phone').val(data.user.phone);
@@ -147,9 +143,34 @@ else
                     } else {
                         $('.verify').html("Verified");
                     }
+                    /////////////authenticate
+                    $.ajax({
+                        url: 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient',
+                        type: "POST",
+                        data: {
+                            ClientId: data.user.client_id,
+                            ClientSecretKey: data.user.client_secret
+                        },
+                        success: function(data) {
+                            localStorage.setItem('api_token', 'Bearer' + " " + data);
+                        },
+
+                    });
+                    ////////////////
+
                 } else {
                     //$('.verify').html("Verified");
                     alert(data.message);
+
+                }
+            },
+            statusCode: {
+                401: function(data) {
+                    alert('Please relogin.Token Expired');
+                    $('.error1').text('Please re-login.Token Expired');
+                    localStorage.removeItem('user_token2');
+                    localStorage.removeItem('api_token');
+                    window.open(page_login_url, '_self');
 
                 }
             }
@@ -191,7 +212,7 @@ else
         //////////////////
 
         $('.logout').click(function() {
-            var APP_URL = "{{ url('') }}";
+
             var page_url = '' + APP_URL + '/login';
             $.ajax({
                 url: '{{ url("/api/logout")}}',
@@ -200,9 +221,10 @@ else
                     'Authorization': localStorage.getItem('user_token2')
                 },
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     if (data.success == true) {
                         localStorage.removeItem('user_token2');
+                        localStorage.removeItem('api_token');
                         window.open(page_url, '_self');
 
                         //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/login','_self');
@@ -232,7 +254,7 @@ else
                 success: function(data) {
                     //alert(url);
                     //alert(data);
-                    console.log(data);
+                    //console.log(data);
                     if (data.success == false) {
                         $('.incorrect').text(data.message);
                     } else if (data.success == true) {
@@ -240,10 +262,11 @@ else
                         console.log(data);
                         $(".incorrect").text("");
                         $(".result").text(data.message);
-
                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
                         //alert(data.token_type);
                         window.open(page_url, "_self");
+
+
 
                         //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile', "_self");
                     } else {
@@ -255,7 +278,8 @@ else
 
                 },
 
-            });
+            }); /////////////////login
+
         });
 
         $('#register').on('submit', function(event) {
@@ -275,7 +299,7 @@ else
                         $(".result").text(data.message);
 
                     } else {
-                        console.log(data)
+                        //console.log(data)
                         //alert(data);
                         printErrorMsg(data);
                         $(".agree_err").text("Please check agree and conditions");
@@ -287,44 +311,268 @@ else
         ////////////////////////////logout////////////////
 
         ////////////////////////////profile//////////////
-
-        ///////////////////////////////////////////////
-        /////////////////////////////////getSale/////////////////
-        myarray = [];
+        //////////////////////////////////research////////////////////
         $("#sale_search_form").submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
-            var zp = document.getElementById('loc').value; //246283880,//90001,//90030,//90403
-            var appurl = "{{ env('AJAX_URL') }}";
-            //alert(zp); //url https://zillow-com1.p.rapidapi.com/propertyComps    data.comps
+            //alert(formData.st);
+            var st_n = $("#st_n").val();
+            var st_nm = $("#st_nm").val();
+            var st = $("#st").val();
+            var cp = $("#cp").val();
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+
+            //alert(localStorage.getItem('api_token'));
+            //alert(formD.Filters);
             $.ajax({
-                    url: 'https://zillow-com1.p.rapidapi.com/similarSales?zpid=19959099',
-                    type: "GET",
-                    headers: {
-                        'x-rapidapi-key': '896c054dd8mshb6b3aa6ff000d3fp19756djsnc2c76cac4add'
-                    },
-                    data: formData,
-                    success: function(data) {
-                        //alert(data.address.city);
-
-                        console.log(data);
-                        if (data) {
-                            myarray = data;
-                            buildTable(myarray);
-                            $("#myDataTable").DataTable();
-
-
-                        } else {
-                            alert(data.error);
-                            //printErrorMsg(data)
-                        }
-
+                url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+                type: "POST",
+                /*data: {
+                    CountOnly: t,
+                    MaxReturn: max,
+                    ProductName: product,
+                    SpatialType: sp,
+                    Filters: [{FilterName: 'StateFips',
+                        FilterOperator: 'is',
+                        FilterValues: ['46'],
+                        FilterGroup: 0
+                    }]
+                },*/
+                data: {
+                    ProductNames: [
+                        //"PropertyDetailReport",
+                        "SalesComparables",
+                        //"TotalViewReport",
+                        //"ForeclosureReport",
+                        //"PropertyListingReport"
+                    ],
+                    SearchType: "ADDRESS",
+                    AddressDetail: {
+                        StreetNumber: st_nm,
+                        StreetNames: st_n,
+                        City: "",
+                        ZipCode: "",
+                        StateFips: st,
+                        CountyFips: cp
                     }
-                }
+                },
+                headers: {
+                    'Authorization': localStorage.getItem('api_token')
+                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXhOelV3T0Rrc0ltNWlaaUk2TVRjeU5ERTNOVEE0T1N3aVpYaHdJam94TnpJME1UYzRPVGc1TENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFNFQwTkRjWFprTW1sMVRWVkxOV3hXTUdkcVRreGFUVkZrZG5sWVJYQlhWM3BHUjA1MVYxVTRZazh3UFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUprWkRVNFFrVm9TV2hyVjFrMVVucFBlWEo1TVVGQklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuTTZ0Yk9KTW92OTNUUkI5TUNJZ3o0U2tyTFVwUzE5UnJ4Q0FjczJYNU5TNW1IVDJvNm0xRGdlSDdCaExlZEhvZFBBV3N0azhvUjJnc0tSbm5LNjVDQWI0aDVPZ2k4b1UwLThZLTNONDFta2RkTWVCbUZ0TXI1SGcyazJDRXpkcEgtSU1JY2V2NmZRTW5oY1JweEdNSVY0STloMGItMlRTWWsxbTVxc21MUUF2WFR6bnNrR1ctT3pmQnE1LUJUbU1IZGh0bEtsU3ZwaDhReU80ZmNwZVZDUGxicm1ZVlBMSG5XQU5IeG1jVHBHQmZlWHpqZ2ZoMVhSSTZTcmVhVmhNOFU5OVVlSGViNUR0dG10a0dfV0dEVGlXbmE5eGtUWkxJeUtKOUt6alZwajVpa3UxNDdnSk5GVXlfRk9OTkp2UWhiSXZzOTRXUVRTd0xzQ3p6UVJxWTBBIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0MTc1MzkwLCJleHAiOjE3MjQxODI1OTAsImlhdCI6MTcyNDE3NTM5MCwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.MIEqprEnvlMvuMLA3p-Fc5ugz_soUoXpOg8uMbGDxQM',
+                },
+                success: function(data) {
+                    //alert('111')
+                    console.log("abc" + data.StatusDescription);
+                    if (data) {
+                        console.log(data.Reports[0].Data.ComparableProperties);
+                        $('.error').text('');
+                        //myarray = JSON.stringify(data.Reports);
+                        myarray = data.Reports[0].Data.ComparableProperties;
+                        console.log(myarray);
+                        //alert(data);
+                        buildTable(myarray);
+                        $("#myDataTable").DataTable();
+                    }
+                },
+                statusCode: {
+                    400: function(data) {
+                        //alert( "page not found" );
+                        console.log(data.responseText);
+                        $(".error").text(data.responseJSON.Message);
+                        //alert(data);
+                        //printErrorMsg(data)
+                    },
+                    401: function() {
+                        alert("unauthorized");
+                        //console.log(data.responseText);
+                        $(".error").text("Please Re-login.Token is expired");
 
-            );
+                        //alert(data);
+                        //printErrorMsg(data)
+                    },
+                    405: function(data) {
+                        //alert('Please relogin.Token Expired');
+                        $(".error").text(data.message);
+                        //window.open(page_url, "_self");
+                    }
 
-        })
+
+                } ///main ajax success
+
+            });
+
+        });
+
+
+        //////////////////////////////////////////
+        //////////////////////comp report ////////////////
+
+        $("#compreport_search_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            //alert(formData.st);
+            var apn = $("#apn").val();
+            //alert(apn);
+            var st_n = $("#st_n").val();
+            var st_nm = $("#st_nm").val();
+            var st = $("#st").val();
+            var cp = $("#cp").val();
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+
+            //alert(localStorage.getItem('api_token'));
+            //alert(formD.Filters);
+            $.ajax({
+                url: 'https://dtapiuat.datatree.com/api/Report/GetReport',
+                type: "POST",
+                data: {
+                    ProductNames: [
+                        "PropertyDetailReport"
+                    ],
+                    SearchType: "ADDRESS",
+                    AddressDetail: {
+                        StreetNumber: st_nm,
+                        StreetNames: st_n,
+                        City: "",
+                        ZipCode: "",
+                        StateFips: st,
+                        CountyFips: cp
+                    },
+                    IncludeFilelink: true
+                },
+                headers: {
+                    'Authorization': localStorage.getItem('api_token')
+                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXhOelV3T0Rrc0ltNWlaaUk2TVRjeU5ERTNOVEE0T1N3aVpYaHdJam94TnpJME1UYzRPVGc1TENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFNFQwTkRjWFprTW1sMVRWVkxOV3hXTUdkcVRreGFUVkZrZG5sWVJYQlhWM3BHUjA1MVYxVTRZazh3UFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUprWkRVNFFrVm9TV2hyVjFrMVVucFBlWEo1TVVGQklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuTTZ0Yk9KTW92OTNUUkI5TUNJZ3o0U2tyTFVwUzE5UnJ4Q0FjczJYNU5TNW1IVDJvNm0xRGdlSDdCaExlZEhvZFBBV3N0azhvUjJnc0tSbm5LNjVDQWI0aDVPZ2k4b1UwLThZLTNONDFta2RkTWVCbUZ0TXI1SGcyazJDRXpkcEgtSU1JY2V2NmZRTW5oY1JweEdNSVY0STloMGItMlRTWWsxbTVxc21MUUF2WFR6bnNrR1ctT3pmQnE1LUJUbU1IZGh0bEtsU3ZwaDhReU80ZmNwZVZDUGxicm1ZVlBMSG5XQU5IeG1jVHBHQmZlWHpqZ2ZoMVhSSTZTcmVhVmhNOFU5OVVlSGViNUR0dG10a0dfV0dEVGlXbmE5eGtUWkxJeUtKOUt6alZwajVpa3UxNDdnSk5GVXlfRk9OTkp2UWhiSXZzOTRXUVRTd0xzQ3p6UVJxWTBBIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0MTc1MzkwLCJleHAiOjE3MjQxODI1OTAsImlhdCI6MTcyNDE3NTM5MCwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.MIEqprEnvlMvuMLA3p-Fc5ugz_soUoXpOg8uMbGDxQM',
+                },
+                success: function(data) {
+                    //alert('111')
+                    //console.log("abc" + data.StatusDescription);
+                    if (data) {
+                        console.log(data);
+                        console.log(data.Reports[0].Data);
+                        $('.error').text('');
+                        //myarray = JSON.stringify(data.Reports);
+                        myarray = data.Reports[0].Data;
+                        console.log(myarray);
+                        //alert(data);
+                        buildTable2(myarray);
+                        $("#myDataTable2").DataTable();
+                    }
+                },
+                statusCode: {
+                    400: function(data) {
+                        //alert( "page not found" );
+                        console.log(data.responseText);
+                        $(".error").text(data.responseJSON.Message);
+                        //alert(data);
+                        //printErrorMsg(data)
+                    },
+                    401: function() {
+                        alert("unauthorized");
+                        //console.log(data.responseText);
+                        $(".error").text("Please Re-login.Token is expired");
+                        window.open(page_url, "_self");
+                        //alert(data);
+                        //printErrorMsg(data)
+                    },
+
+                } ///main ajax success
+
+            });
+
+        });
+
+        ///////////////////////////////////////////////
+        //////////////////////comp2
+        $("#compreport2_search_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            //alert(formData.st);
+            var apn = $("#apn").val();
+            //alert(apn);
+            var st_n = $("#st_n").val();
+            var st_nm = $("#st_nm").val();
+            var st = $("#st").val();
+            var cp = $("#cp").val();
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+
+            //alert(localStorage.getItem('api_token'));
+            //alert(formD.Filters);
+            $.ajax({
+                url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+                type: "POST",
+                /*data: {
+                    CountOnly: false,
+                    MaxReturn: 1000,
+                    ProductName: "SearchStandard",
+                    SpatialType: "Geography",
+                    Filters: [{FilterName: "StateFips",
+                        FilterOperator: 'is',
+                        FilterValues: 6,
+                        FilterGroup: 0
+                    }]
+                },*/
+
+                data: {
+                    ProductNames: [
+                        "TotalViewReport"
+                    ],
+                    SearchType: "ADDRESS",
+                    AddressDetail: {
+                        StreetNumber: st_nm,
+                        StreetNames: st_n,
+                        City: "",
+                        ZipCode: "",
+                        StateFips: st,
+                        CountyFips: cp
+                    },
+                    IncludeFilelink: true
+                },
+                headers: {
+                    'Authorization': localStorage.getItem('api_token')
+                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXhOelV3T0Rrc0ltNWlaaUk2TVRjeU5ERTNOVEE0T1N3aVpYaHdJam94TnpJME1UYzRPVGc1TENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFNFQwTkRjWFprTW1sMVRWVkxOV3hXTUdkcVRreGFUVkZrZG5sWVJYQlhWM3BHUjA1MVYxVTRZazh3UFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUprWkRVNFFrVm9TV2hyVjFrMVVucFBlWEo1TVVGQklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuTTZ0Yk9KTW92OTNUUkI5TUNJZ3o0U2tyTFVwUzE5UnJ4Q0FjczJYNU5TNW1IVDJvNm0xRGdlSDdCaExlZEhvZFBBV3N0azhvUjJnc0tSbm5LNjVDQWI0aDVPZ2k4b1UwLThZLTNONDFta2RkTWVCbUZ0TXI1SGcyazJDRXpkcEgtSU1JY2V2NmZRTW5oY1JweEdNSVY0STloMGItMlRTWWsxbTVxc21MUUF2WFR6bnNrR1ctT3pmQnE1LUJUbU1IZGh0bEtsU3ZwaDhReU80ZmNwZVZDUGxicm1ZVlBMSG5XQU5IeG1jVHBHQmZlWHpqZ2ZoMVhSSTZTcmVhVmhNOFU5OVVlSGViNUR0dG10a0dfV0dEVGlXbmE5eGtUWkxJeUtKOUt6alZwajVpa3UxNDdnSk5GVXlfRk9OTkp2UWhiSXZzOTRXUVRTd0xzQ3p6UVJxWTBBIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0MTc1MzkwLCJleHAiOjE3MjQxODI1OTAsImlhdCI6MTcyNDE3NTM5MCwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.MIEqprEnvlMvuMLA3p-Fc5ugz_soUoXpOg8uMbGDxQM',
+                },
+                success: function(data) {
+                    //alert('111')
+                    //console.log("abc" + data.StatusDescription);
+                    if (data) {
+                        console.log(data);
+                        //console.log(data.Reports[0].Data);
+                        $('.error').text('');
+                        //myarray = JSON.stringify(data.Reports);
+                        //myarray = data.Reports[0].Data;
+                        console.log(myarray);
+                        //alert(data);
+                        // buildTable2(myarray);
+                        // $("#myDataTable2").DataTable();
+                    }
+                },
+                statusCode: {
+                    400: function(data) {
+                        //alert( "page not found" );
+                        console.log(data.responseText);
+                        $(".error").text(data.responseJSON.Message);
+                        //alert(data);
+                        //printErrorMsg(data)
+                    },
+                    401: function() {
+                        alert("unauthorized");
+                        //console.log(data.responseText);
+                        $(".error").text("Please Re-login.Token is expired");
+                        window.open(page_url, "_self");
+                        //alert(data);
+                        //printErrorMsg(data)
+                    },
+
+                } ///main ajax success
+
+            });
+
+        });
+        ////////////////////////////
+
         /////////////////////////////div click//////////////
         $("#map_id").click(function() {
             $('html,body').animate({
@@ -380,15 +628,43 @@ else
         var table = document.getElementById('mytable');
         for (var i = 0; i < data.length; i++) {
             var row = `<tr>
-        <td>${data[i].bathrooms}</td><td>${data[i].bedrooms}</td>
-        <td>${data[i].address.state}</td> <td>$${data[i].price}</td>
-        <!--td>${data[i].taxAssessedValue}</td-->
-        <td>${data[i].livingArea}</td>
-        <!--td>${data[i].rentZestimate}</td-->
-        <td>${data[i].address.city}</td>
-        <td>${data[i].homeStatus}</td></tr>`
+        <td>${data[i].PropertyId}</td>
+        <td>$${data[i].AssessedValue}</td>
+        <td>${data[i].SitusAddress.County}</td>
+        <td>${data[i].SitusAddress.City}</td>
+         <td>${data[i].SitusAddress.State}</td>
+         <td>${data[i].OwnerName1Full}</td>
+         <td>$${data[i].LastMarketSaleInformation.SalePrice}</td>
+         <td>${data[i].PropertyStatusIndicators.IsForSale}</td>
+         <td>${data[i].SiteInformation.Acres}</td>
+         <td>${data[i].SiteInformation.LandUse}</td>
+         <td>${data[i].SiteInformation.LotArea}</td>
+         
+      
+        </tr>`
             table.innerHTML += row;
         }
+
+    }
+
+    function buildTable2(data) {
+        //alert(data[0].address.state);
+        var table = document.getElementById('mytable2');
+        //for (var i = 0; i < data.length; i++) {
+        var row = `<tr>
+        <td>${data.SubjectProperty.PropertyId}</td>
+        <td>${data.SubjectProperty.SitusAddress.StreetAddress}</td>  
+        <td>${data.SubjectProperty.SitusAddress.City}</td>
+        <td>${data.SubjectProperty.SitusAddress.State}</td> 
+        <td>${data.OwnerInformation.Owner1FullName }</td>
+         <td>${data.SiteInformation.Zoning }</td> 
+          <td>${data.SiteInformation.CountyUse }</td> 
+           <td>${data.SiteInformation.Acres }</td> 
+            <td>$${data.TaxInformation.AssessedValue }</td> 
+            <td><a href="#">Export Data</a></td>
+        </tr>`
+        table.innerHTML += row;
+        //}
 
     }
 </script>

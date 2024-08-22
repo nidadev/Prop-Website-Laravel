@@ -17,12 +17,13 @@
       </div>
       <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
         <div class="col-md-8">
-          <form id="compreport_search_form">
+          <form id="compreport2_search_form">
 
             <div class="center_h2l">
               <div class="center_h2li row">
                 <div class="col-md-4">
                   <div class="center_h2lil">
+                  <input class="form-control basicAutoComplete" type="text" autocomplete="off">
                     <label>Street Name:</label><input type="text" class="form-control" name="street_name" id="st_n" placeholder="Thornlake">
 
                   </div>
@@ -149,7 +150,7 @@
   <div class="container-xl">
     <div class="row work_h1 text-center mb-4">
       <div class="col-md-12">
-        <h2>Property Detail Report</h2>
+        <h2>Comp Report</h2>
         <hr class="line mx-auto">
         <p class="error"></p>
       </div>

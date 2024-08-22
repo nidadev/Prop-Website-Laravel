@@ -23,4 +23,5 @@ Route::group([
     Route::post("logout", [ApiController::class, "logout"]);
     Route::post('profile-update', [ApiController::class, "updateProfile"]);
     Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
+    Route::post('research', [ApiController::class, 'research']);
 });

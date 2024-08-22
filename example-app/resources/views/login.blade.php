@@ -32,6 +32,7 @@
 			    <div class="form-check">
         <input type="checkbox" class="form-check-input" id="customCheck1">
         <label class="form-check-label" for="customCheck1">Remember Me</label>
+    
     </div>
 			  </div>
 			</div>

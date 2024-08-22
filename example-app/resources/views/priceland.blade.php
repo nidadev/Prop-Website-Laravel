@@ -6,7 +6,7 @@
   <div class="center_om">
     <div class="container-xl">
 
-    <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
+      <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
         <div class="col-md-12">
           <form id="pricehouse_search_form">
 
@@ -129,65 +129,349 @@
             </div>
         </div><!--------- 1st col-12 test----->
 
-       
+
         <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-        <div class="col-md-12">
-          <form id="pricehouse_search_form">
-        
-            <div class="center_h2l">
-              <div class="center_h2li row">
-                <div class="col-md-4">
-                  <div class="center_h2lil">
-                    <span>
-                      Radius Around City (Miles)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-                    </span>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="center_h2r">
-                    <div class="center_h2ri row">
-                      <div class="center_h2ril">
-                        <ul>
-                          <li> Apartment <input type="checkbox" name=""></li>
-                          <li> Apartment/Hotel <input type="checkbox" name=""></li>
-                          <li>Cabin <input type="checkbox" name=""></li>
-                          <li>Common Area <input type="checkbox" name=""></li>
-                          <li>Condominium <input type="checkbox" name=""></li>
-                          <li>Condominium Project <input type="checkbox" name=""></li>
-                          <li>Condotel <input type="checkbox" name=""></li>
-                          <li>Cooperative <input type="checkbox" name=""></li>
-                          <li>Duplex <input type="checkbox" name=""></li>
-                          <li>Frat/Sorority House <input type="checkbox" name=""></li>
-                          <li>Group Quarters <input type="checkbox" name=""></li>
-                          <li>Health Club<input type="checkbox" name=""></li>
-                          <li>High Rise Condo <input type="checkbox" name=""></li>
-                        </ul>
+          <div class="accordion-body">
+            <div class="col-md-12">
+              <h3>Land characteristics</h3>
+              <form id="pricehouse_search_form">
+
+                <div class="center_h2l">
+                  <div class="center_h2li row">
+                    <div class="col-md-4">
+                      <div class="center_h2lil">
+                        <span>
+                          Min Acreage</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Max Acreage</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Acreage Increment</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Min Market Price/Acre</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Max Market Price/Acre</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Offer Price Percent</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Min Purchase Price</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Max Purchase Price</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <h3>Land Use</h3>
+                          <div class="center_h2ril">
+                            <ul>
+                              <li> Agricultural (Nec) <input type="checkbox" name=""></li>
+                              <li> Agricultural Land <input type="checkbox" name=""></li>
+                              <li>Agricultural Plant <input type="checkbox" name=""></li>
+                              <li>Animal Farm <input type="checkbox" name=""></li>
+                              <li>Avocado Grove <input type="checkbox" name=""></li>
+                              <li>Barren Land <input type="checkbox" name=""></li>
+                              <li>Citrus Grove <input type="checkbox" name=""></li>
+                              <li>Commercial Acreage <input type="checkbox" name=""></li>
+                              <li>Commercial Lot <input type="checkbox" name=""></li>
+                              <li>Common Land <input type="checkbox" name=""></li>
+                              <li>Dairy Farm <input type="checkbox" name=""></li>
+                              <li>Desert<input type="checkbox" name=""></li>
+                              <li>Fallow Land <input type="checkbox" name=""></li>
+                            </ul>
+                          </div>
+
+                        </div>
                       </div>
 
                     </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            <ul>
+                              <li> Farms <input type="checkbox" name=""></li>
+                              <li> Fish and Seed<input type="checkbox" name=""></li>
+                              <li>Fisheries <input type="checkbox" name=""></li>
+                              <li>Forest <input type="checkbox" name=""></li>
+                              <li>Greenbelt <input type="checkbox" name=""></li>
+                              <li>Livestock <input type="checkbox" name=""></li>
+                              <li>Marshland <input type="checkbox" name=""></li>
+                              <li>Mobile Home Lot <input type="checkbox" name=""></li>
+                              <li>Mountainous Land <input type="checkbox" name=""></li>
+                              <li>Multi Family Acreage <input type="checkbox" name=""></li>
+                              <li>Multi Family Lot <input type="checkbox" name=""></li>
+                              <li>Native American Property<input type="checkbox" name=""></li>
+                              <li>Natural Resources <input type="checkbox" name=""></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </form>
+            </div><!--------- 1st col-12 test3----->
+            <div class="col-md-12">
+              <h3>Owner Filters</h3>
+              <form id="pricehouse_search_form">
+
+                <div class="center_h2l">
+                  <div class="center_h2li row">
+                    <div class="col-md-4">
+                      <div class="center_h2lil">
+                        <span>
+                          In State Owner</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          In County Owner</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Owner Occupied</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+
+
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            <span>
+                              Corporate Owned</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Do Not Mail</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Number of Properties Owned</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            <span>
+                              Owner Name</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Mailing State</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Mailing Zip Code</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </form>
+            </div><!--------- 2nd col-12 test3----->
+            <div class="col-md-12">
+              <h3>Assessor Tax Filters</h3>
+              <form id="pricehouse_search_form">
+
+                <div class="center_h2l">
+                  <div class="center_h2li row">
+                    <div class="col-md-4">
+                      <div class="center_h2lil">
+                        <span>
+                          Assessed Improvement %</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Assessed Value ($)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+
+
+
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+
+                            <span>
+                              Market Land Value ($)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Market Improvement Value ($)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            <span>
+                              Assessed Land Value ($)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Delinquency</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </form>
+            </div><!--------- 3rd col-12 test3----->
+            <div class="col-md-12">
+              <h3>
+                Property Information Filters</h3>
+              <form id="pricehouse_search_form">
+
+                <div class="center_h2l">
+                  <div class="center_h2li row">
+                    <div class="col-md-4">
+                      <div class="center_h2lil">
+                        <span>
+                          Cities</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                        <span>
+                          Zip Code</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+
+                        <span>
+                          Subdivision</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+
+                            <span>
+                              Zoning</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Census Tract</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Living Area (Sq Ft)</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            <span>
+                              HOA</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              Unassigned Address</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                            <span>
+                              APN Range</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                            </span>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+
+
+
                   </div>
 
+
                 </div>
-                <div class="col-md-4">
-                  <div class="center_h2r">
-                    <div class="center_h2ri row">
-                      <div class="center_h2ril">
-                        <ul>
-                          <li> Apartment <input type="checkbox" name=""></li>
-                          <li> Apartment/Hotel <input type="checkbox" name=""></li>
-                          <li>Cabin <input type="checkbox" name=""></li>
-                          <li>Common Area <input type="checkbox" name=""></li>
-                          <li>Condominium <input type="checkbox" name=""></li>
-                          <li>Condominium Project <input type="checkbox" name=""></li>
-                          <li>Condotel <input type="checkbox" name=""></li>
-                          <li>Cooperative <input type="checkbox" name=""></li>
-                          <li>Duplex <input type="checkbox" name=""></li>
-                          <li>Frat/Sorority House <input type="checkbox" name=""></li>
-                          <li>Group Quarters <input type="checkbox" name=""></li>
-                          <li>Health Club<input type="checkbox" name=""></li>
-                          <li>High Rise Condo <input type="checkbox" name=""></li>
-                        </ul>
+            </div>
+
+          </div><!--------- 4th col-12 test3----->
+          <div class="col-md-12">
+            <h3>
+              Sale Information Filters</h3>
+            <form id="pricehouse_search_form">
+
+              <div class="center_h2l">
+                <div class="center_h2li row">
+                  <div class="col-md-4">
+                    <div class="center_h2lil">
+                      <span>
+                        Last Sale Date</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                      </span>
+                      <span>
+                        Last Sale Price</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                      </span>
+
+
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="center_h2r">
+                      <div class="center_h2ri row">
+                        <h3>Deed Type</h3>
+                        <div class="center_h2ril">
+                          <ul>
+                            <li>All Deeds<input type="checkbox" name=""></li>
+                            <li>General Warranty Deed<input type="checkbox" name=""></li>
+                            <li>Special Warranty Deed<input type="checkbox" name=""></li>
+                            <li>Quit Claim Deed <input type="checkbox" name=""></li>
+                            <li>Grant Deed<input type="checkbox" name=""></li>
+                            <li>Distress Sale <input type="checkbox" name=""></li>
+                          </ul>
+
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-4">
+                    <div class="center_h2r">
+                      <div class="center_h2ri row">
+                        <div class="center_h2ril">
+
+                        </div>
+
+
                       </div>
                     </div>
                   </div>
@@ -198,14 +482,58 @@
 
 
               </div>
-            </div>
-         
-          </form>
-        </div><!--------- 1st col-12 test3----->
-        </div><!-- accordion -->
-        </div><!-- accordion-->
+          </div>
 
-        </div><!-- row-->
+          <div class="col-md-12">
+              <h3>Listing Information Filters
+              </h3>
+              <form id="pricehouse_search_form">
+
+                <div class="center_h2l">
+                  <div class="center_h2li row">
+                    <div class="col-md-4">
+                      <div class="center_h2lil">
+                        <span>
+                        Listing Status</span><input class="form-control w-50 bg-light" name="radius-around city (miles)" id="" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        </span>
+                                             </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-4">
+                      <div class="center_h2r">
+                        <div class="center_h2ri row">
+                          <div class="center_h2ril">
+                            <span>
+                             
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </form>
+            </div><!--------- 6th col-12 test3----->
+             
+      </div><!-- accordion -->
+    </div><!-- accordion-->
+
+  </div><!-- row-->
 </section>
 
 <section id="work_h" class="p_3">

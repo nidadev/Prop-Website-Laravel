@@ -38,31 +38,37 @@ class ApiController extends Controller
         User::create([
             "name" => $request->name,
             "email" => $request->email,
-           // "phone" => $request->phone,
+            // "phone" => $request->phone,
             "password" => Hash::make($request->password)
         ]);
         //send verifcation email before register
 
-        $user = User::where('email',$request->email)->get();
-            //dd($user);
-            if(count($user) > 0)
-            {
-                $random = Str::random(40);
-                $domain = URL::to('/');
+        $user = User::where('email', $request->email)->get();
+        //dd($user);
+        if (count($user) > 0) {
+            $random = Str::random(40);
+            $domain = URL::to('/');
 
-                $url = $domain.'/verify-mail/'.$random;
-                $data['url'] = $url;
+            $url = $domain . '/verify-mail/' . $random;
+            $data['url'] = $url;
 
-                $data['email'] = $request->email;
-                $data['title'] = 'Email Verification';
-                $data['body'] = 'Please click here below link to verify your email';
-                Mail::send('verifyEmail',[ 'data' => $data],function($message) use ($data){
-                    $message->to($data['email'])->subject($data['title']);
+            $data['email'] = $request->email;
+            $data['title'] = 'Email Verification';
+            $data['body'] = 'Please click here below link to verify your email';
+            Mail::send('verifyEmail', ['data' => $data], function ($message) use ($data) {
+                $message->to($data['email'])->subject($data['title']);
+            });
+            $user = User::find($user[0]['id']);
+            $user->remember_token = $random;
 
-                });
-                $user = User::find($user[0]['id']);
-                $user->remember_token = $random;
-                $user->save();
+            //set client id and secret
+            $client_id = 'c6a882e1-82c7-454d-9059-7b1a8b6ca111';
+            $client_secret = 'e.s8Q~1R60mIoazbIJFHeeuLKbRs_zu_JeuHJcui';
+            $user->client_id = $client_id;
+            $user->client_secret = $client_secret;
+            //$user->save();
+
+            $user->save();
 
 
             return response()->json([
@@ -70,9 +76,7 @@ class ApiController extends Controller
                 'success' => true,
                 'message' => 'User registered and verification email send successfully',
             ]);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'User not found',
@@ -86,11 +90,66 @@ class ApiController extends Controller
             "data" => []
         ]);*/
     }
+    //research 
+    public function research(Request $request)
+    {
 
+        if (auth()->user()) {
+
+            $userData = auth()->user();
+            return response()->json([
+                'status' => true,
+                'message' => 'data is received',
+                'data' => $userData
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'data is not received'
+            ]);
+        }
+
+        //if authenticate token can fetch records
+
+        //else not
+
+        /*$client_id = 'c6a882e1-82c7-454d-9059-7b1a8b6ca111';
+        $client_secret = 'e.s8Q~1R60mIoazbIJFHeeuLKbRs_zu_JeuHJcui';
+
+        $login = 
+            [
+                'client_id' => $request->email,
+                'client_secret' => $request->password,
+            ];
+            if($login)
+            {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'token received'
+                ]);
+            }
+        
+
+        if (!$login) {
+            return response()->json([
+                'status' => false,
+                'success' => false,
+                'message' => 'not received token',
+            ]);
+        }
+
+        return $this->respondWithToken($token);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'token generated successfully'
+        ]);*/
+    }
+    //
     // Login API - POST (email, password)
     public function login(Request $request)
     {
-         //dd('123');
+        //dd('123');
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:5'
@@ -109,6 +168,9 @@ class ApiController extends Controller
             ]
         );
 
+        //get user 
+        $user = User::where('email',$request->email)->first();
+
         if (!$token) {
             return response()->json([
                 'status' => false,
@@ -117,7 +179,7 @@ class ApiController extends Controller
             ]);
         }
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token,$user);
     }
 
     public function me()
@@ -126,13 +188,14 @@ class ApiController extends Controller
     }
 
     //protected function
-    protected function respondWithToken($token)
+    protected function respondWithToken($token,$user)
     {
         return response()->json([
             'status' => true,
             'success' => true,
             'message' => 'user logged in successfully',
             'token' => $token,
+            'user' => $user,
             'token_type' => 'Bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
@@ -202,14 +265,13 @@ class ApiController extends Controller
             }
             $user = User::find($request->id);
             $user->name = $request->name;
-            if($user->email != $request->email)
-            {
-            $user->is_verified = 0;
+            if ($user->email != $request->email) {
+                $user->is_verified = 0;
             }
             $user->email = $request->email;
             //$user->phone = $request->phone;
-           // dd($user->email);
-            
+            // dd($user->email);
+
 
             $user->save();
             return response()->json([
@@ -217,7 +279,6 @@ class ApiController extends Controller
                 'message' => 'User updated successfully',
                 'data' => $user
             ]);
-
         } else {
             return response()->json([
                 'success' => false,
@@ -231,47 +292,40 @@ class ApiController extends Controller
     {
 
         //dd('123');
-        if(auth()->user())
-        {
+        if (auth()->user()) {
             //dd($email);
-            $user = User::where('email',$email)->get();
+            $user = User::where('email', $email)->get();
             //dd($user);
-            if(count($user) > 0)
-            {
+            if (count($user) > 0) {
                 $random = Str::random(40);
                 $domain = URL::to('/');
 
-                $url = $domain.'/verify-mail/'.$random;
+                $url = $domain . '/verify-mail/' . $random;
                 $data['url'] = $url;
 
                 $data['email'] = $email;
                 $data['title'] = 'Email Verification';
                 $data['body'] = 'Please click here below link to verify your email';
-                Mail::send('verifyEmail',[ 'data' => $data],function($message) use ($data){
+                Mail::send('verifyEmail', ['data' => $data], function ($message) use ($data) {
                     $message->to($data['email'])->subject($data['title']);
-
                 });
                 $user = User::find($user[0]['id']);
                 $user->remember_token = $random;
                 $user->save();
 
 
-            return response()->json([
-                'status' => true,
-                'success' => true,
-                'message' => 'User verification email send successfully',
-            ]);
-        }
-        else
-        {
-            return response()->json([
-                'status' => false,
-                'message' => 'User not found',
-            ]);
-        }
-        }
-        else
-        {
+                return response()->json([
+                    'status' => true,
+                    'success' => true,
+                    'message' => 'User verification email send successfully',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User not found',
+                ]);
+            }
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'User Unauthenticated',
@@ -282,21 +336,16 @@ class ApiController extends Controller
     {
         $datetime = Carbon::now()->format('Y-m-d H:i:s');
         $user = User::where('remember_token', $token)->get();
-        if(count($user) > 0)
-        {
-           $user =  User::find($user[0]['id']);
-           $user->remember_token = '';
-           $user->email_verified_at = $datetime;
-           $user->is_verified = 1;
-           $user->save();
+        if (count($user) > 0) {
+            $user =  User::find($user[0]['id']);
+            $user->remember_token = '';
+            $user->email_verified_at = $datetime;
+            $user->is_verified = 1;
+            $user->save();
 
-           return "<h1>email verified successfully <a href='http://165.140.69.88/~plotplaza/checkapi/example-app/public/login'>Sign in </a></h1>";
-
-        }
-        else
-        {
+            return "<h1>email verified successfully <a href='http://165.140.69.88/~plotplaza/checkapi/example-app/public/login'>Sign in </a></h1>";
+        } else {
             return view('404');
-
         }
     }
 }

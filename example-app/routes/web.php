@@ -50,6 +50,10 @@ Route::get('/how-it-works-houses', function () {
 Route::get('/compreport', function () {
     return view('compreport');
 });
+
+Route::get('/compreport2', function () {
+    return view('compreport2');
+});
 Route::get('/priceland', function () {
     return view('priceland');
 });
