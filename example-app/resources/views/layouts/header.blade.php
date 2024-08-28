@@ -101,7 +101,6 @@ else
 
             var val = $(this).val();
             $("#ac_sel").val(val);
-            alert(val);
             $(this).attr('checked', (radioStates[val] = !radioStates[val]));
 
             $.each(radioButtons, function(index, rd) {
@@ -371,7 +370,7 @@ else
             var st = $("#st").val();
             var cp = $("#cp").val();
             var ac_sl = $("#ac_sel").val();
-            alert(ac_sl);
+            //alert(ac_sl);
             var page_url = '' + APP_URL + '/login';
             myarray = [];
 
