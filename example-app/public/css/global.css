@@ -5,9 +5,118 @@ Author: TemplatesOnWeb
 Author URI: https://www.templateonweb.com/
 Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
 */
+.poppins-thin {
+	font-family: "Poppins", sans-serif;
+	font-weight: 100;
+	font-style: normal;
+  }
+  
+  .poppins-extralight {
+	font-family: "Poppins", sans-serif;
+	font-weight: 200;
+	font-style: normal;
+  }
+  
+  .poppins-light {
+	font-family: "Poppins", sans-serif;
+	font-weight: 300;
+	font-style: normal;
+  }
+  
+  .poppins-regular {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+  }
+  
+  .poppins-medium {
+	font-family: "Poppins", sans-serif;
+	font-weight: 500;
+	font-style: normal;
+  }
+  
+  .poppins-semibold {
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	font-style: normal;
+  }
+  
+  .poppins-bold {
+	font-family: "Poppins", sans-serif;
+	font-weight: 700;
+	font-style: normal;
+  }
+  
+  .poppins-extrabold {
+	font-family: "Poppins", sans-serif;
+	font-weight: 800;
+	font-style: normal;
+  }
+  
+  .poppins-black {
+	font-family: "Poppins", sans-serif;
+	font-weight: 900;
+	font-style: normal;
+  }
+  
+  .poppins-thin-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 100;
+	font-style: italic;
+  }
+  
+  .poppins-extralight-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 200;
+	font-style: italic;
+  }
+  
+  .poppins-light-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 300;
+	font-style: italic;
+  }
+  
+  .poppins-regular-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: italic;
+  }
+  
+  .poppins-medium-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 500;
+	font-style: italic;
+  }
+  
+  .poppins-semibold-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 600;
+	font-style: italic;
+  }
+  
+  .poppins-bold-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 700;
+	font-style: italic;
+  }
+  
+  .poppins-extrabold-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 800;
+	font-style: italic;
+  }
+  
+  .poppins-black-italic {
+	font-family: "Poppins", sans-serif;
+	font-weight: 900;
+	font-style: italic;
+  }
+  
 body{
-font-family: 'Plus Jakarta Sans', sans-serif;
-}
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: normal;}
 ul{
 list-style:none;
 padding:0;
@@ -16,10 +125,20 @@ padding:0;
 p{
 color: #333;
  }
-h1,h2,h3,h4,h5{
-font-weight:bold; 
+h1,h2,h3,h4,h5,tbody,th,td{
+	font-family: "Poppins", sans-serif;
+	font-weight: 500;
+	font-style: normal;
  }
-
+ table.dataTable > tbody > tr > th, table.dataTable > tbody > tr > td {
+	font-family: "Poppins", sans-serif;
+	font-weight: 300;
+ }
+ .work_h2i span
+ {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+ }
 a{
 color: #333;
 text-decoration:none;
@@ -42,6 +161,8 @@ transition: 0.3s;
 padding: 16px 35px 16px 36px;
 font-weight:bold;
 border-radius:10px;
+font-family: "Poppins";
+    font-weight: normal;
  }
 
 .button:hover{
@@ -56,6 +177,8 @@ transition: 0.3s;
 padding: 16px 35px 16px 35px;
 font-weight:bold;
 border-radius:10px;
+font-family: "Poppins";
+    font-weight: normal;
  }
 
 .button_1:hover{
@@ -184,11 +307,17 @@ border-radius:10px!important;
 .nav_hide:after{
 display:none; 
  }
-
+.fw-bold
+{
+	font-family: "Poppins";
+    font-weight: normal;
+}
 #header .navbar-brand{
 font-size:20px;
 text-transform:uppercase;
 margin-right:0;
+font-family: "Poppins";
+    font-weight: normal;
  }
 .navbar-collapse {
 align-items:start;
@@ -198,7 +327,8 @@ align-items:start;
 padding:15px 22px;
 color: #7e4d08;
 font-size:14px;
-font-weight:bold;
+font-family: "Poppins";
+    font-weight: normal;
  }
 #header .nav-link:hover{
 background:none;
@@ -207,10 +337,14 @@ color:#6C60FE;
 #header .nav-link:focus{
 background:none;
 color:#6C60FE;
+font-family: "Poppins";
+    font-weight: normal;
  }
 #header .active{
 background:none;
 color:#6C60FE;
+font-family: "Poppins";
+    font-weight: normal;
  }
 
 
@@ -229,7 +363,8 @@ padding-bottom:15px;
 border-bottom:1px solid #dddbf7;
 color:#7e4d08;
 font-size:14px;
-font-weight:bold;
+font-family: "Poppins";
+    font-weight: normal;
  }
 .drop_1 a:hover{
 background:none;
@@ -599,6 +734,8 @@ max-height:300px;
 overflow-y:scroll; 
 border-top:1px solid #dddbf7;
 margin-top:15px;
+font-family: "Poppins";
+    font-weight: normal;
  }
 #header .nav-link{
 font-size:26px!important;

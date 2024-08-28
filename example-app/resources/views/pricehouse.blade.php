@@ -221,6 +221,7 @@
       <div class="col-md-12">
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
         <p class="error"></p>
+        <div class="loader" style="display:none"></div>
 
   <table class="display" style="width:100%" id="myDataTable3">
     <thead class="bg-grey-50">
@@ -232,6 +233,8 @@
         <th>State</th>
         <th>Owner Name</th>
         <th>Address</th>
+        <th>Apn</th>
+        <th>Zip</th>
       </tr>
     <tbody id="mytable3">
 
@@ -243,7 +246,8 @@
 </section>
 
 @endsection
-
+<style>
+  </style>
 </body>
 
 </html>

@@ -36,6 +36,10 @@ Route::get('/subscription', function () {
 Route::get('/research', function () {
     return view('research');
 });
+
+Route::get('/research2', function () {
+    return view('research2');
+});
 Route::get('/faq', function () {
     return view('faq');
 });

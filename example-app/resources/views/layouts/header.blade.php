@@ -16,8 +16,10 @@
     <link href="{{ asset('css/global.css') }}" rel="stylesheet">
     <link href="{{ asset('css/contact.css') }}" rel="stylesheet">
     <link href="{{ asset('css/index.css') }}" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!--link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet"-->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
@@ -27,7 +29,38 @@
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
 </head>
 <style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        /* Safari */
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+    }
 
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 
 
@@ -57,6 +90,26 @@ else
 
 }*/
     $(document).ready(function() {
+
+        var radioButtons = $("input[type='radio'][name='sele_ac']");
+        var radioStates = {};
+        $.each(radioButtons, function(index, rd) {
+            radioStates[rd.value] = $(rd).is(':checked');
+        });
+
+        radioButtons.click(function() {
+
+            var val = $(this).val();
+            $("#ac_sel").val(val);
+            alert(val);
+            $(this).attr('checked', (radioStates[val] = !radioStates[val]));
+
+            $.each(radioButtons, function(index, rd) {
+                if (rd.value !== val) {
+                    radioStates[rd.value] = false;
+                }
+            });
+        });
 
         var APP_URL = "{{ url('') }}";
         var page_login_url = '' + APP_URL + '/login';
@@ -138,9 +191,7 @@ else
                     $('#user_id').val(data.user_id);
                     var cid = '<?php echo config('app.client_id'); ?>';
                     var cs = '<?php echo config('app.client_secret'); ?>';
-                    //alert(cid);
-                    //localStorage.removeItem('user_token');
-                    //window.open('/login','_self');
+
                     if (data.is_verified == 0) {
                         $('.verify').html('<button class="button verify_mail" data-id="' + data.email + '" style="border:none;" href="">Verify</button>');
                     } else {
@@ -268,17 +319,12 @@ else
                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
                         //alert(data.token_type);
                         window.open(page_url, "_self");
-
-
-
                         //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile', "_self");
                     } else {
                         printErrorMsgLogin(data);
                     }
                     //alert(data);
                     //console.log(data);
-
-
                 },
 
             }); /////////////////login
@@ -319,6 +365,126 @@ else
             event.preventDefault();
             var formData = $(this).serialize();
             //alert(formData.st);
+            //var st_n = $("#st_n").val();
+            var acr1 = $("#acr1").val();
+            var acr2 = $("#acr2").val();
+            var st = $("#st").val();
+            var cp = $("#cp").val();
+            var ac_sl = $("#ac_sel").val();
+            alert(ac_sl);
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+
+            //info = [0.01, 4.99, 9.99, 14.99, 20.99, 24.99, 30.00, 35.99, 40.99, 45.99, 50.99, 55.99, 60.99, 65.99, 70.99, 75.99, 80.99, 85.99, 90.99, 95.99, 99.99];
+
+            var info = [];
+            for (var i = 1; i < ac_sl; i++) {
+                console.log(i);
+                var numbers = i;
+                info.push(numbers);
+            }
+            //info = [0,5,10];
+            for (var i = 0; i < info.length; i++) {
+                $.ajax({
+                    url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+                    type: "POST",
+
+                    data: {
+                        "ProductNames": [
+                            "SalesComparables",
+                            "TotalViewReport"
+                        ],
+                        "SearchType": "Filter",
+
+                        "SearchRequest": {
+                            "ReferenceId": "1",
+                            "ProductName": "SearchLite",
+                            "MaxReturn": "1",
+                            "Filters": [{
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                    st
+                                ],
+                                "FilterGroup": 1
+                            }, {
+                                "FilterName": "LotAcreage",
+                                "FilterOperator": "is between",
+                                "FilterValues": [
+                                    info[i],
+                                    info[i + 1]
+                                ]
+                            }, {
+
+                                "FilterName": "SalePrice",
+
+                                "FilterOperator": "is between",
+
+                                "FilterValues": ["1", "10000000"],
+
+                                "FilterGroup": 1
+
+                            }]
+                        }
+                    },
+                    headers: {
+                        'Authorization': localStorage.getItem('api_token')
+                    },
+                    success: function(data1) {
+                        //alert('111')
+                        console.log("abc" + data1);
+                        if (data1) {
+                            //console.log(data);
+                            $('.error').text('');
+                            //myarray = JSON.stringify(data.Reports);
+                            myarray["data1"] = data1;
+                            var apn = data1.LitePropertyList[0].Apn;
+                            myarray["data1"]["state"] = data1.LitePropertyList[0].State;
+                            myarray["data1"]["county"] = data1.LitePropertyList[0].County;
+                            myarray["data1"]["maxcount"] = data1.MaxResultsCount;
+                            myarray["data1"]["info"] = info.shift();
+
+
+
+                            buildTable(myarray);
+                            //new DataTable('#myDataTable');
+                            $("#myDataTable").DataTable();
+                            //$("#mytable").show();
+                        }
+                        //dosri
+                    },
+                    statusCode: {
+                        400: function(data1) {
+                            //alert( "page not found" );
+                            console.log(data1.responseText);
+                            $(".error").text(data1.responseJSON.Message);
+
+                        },
+                        401: function(data) {
+                            alert("unauthorized");
+                            //console.log(data.responseText);
+                            $(".error").text("Please Re-login.Token is expired");
+
+                        },
+                        405: function(data) {
+                            //alert('Please relogin.Token Expired');
+                            $(".error").text(data.message);
+                            //window.open(page_url, "_self");
+                        }
+
+
+                    } ///main ajax success
+
+                });
+            } /////forloop                       
+
+        }); ///////click
+
+        //////////////////////////////////research////////////////////
+        $("#sale_search_form2").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            //alert(formData.st);
             var st_n = $("#st_n").val();
             var st_nm = $("#st_nm").val();
             var st = $("#st").val();
@@ -326,29 +492,14 @@ else
             var page_url = '' + APP_URL + '/login';
             myarray = [];
 
-            //alert(localStorage.getItem('api_token'));
-            //alert(formD.Filters);
             $.ajax({
                 url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
                 type: "POST",
-                /*data: {
-                    CountOnly: t,
-                    MaxReturn: max,
-                    ProductName: product,
-                    SpatialType: sp,
-                    Filters: [{FilterName: 'StateFips',
-                        FilterOperator: 'is',
-                        FilterValues: ['46'],
-                        FilterGroup: 0
-                    }]
-                },*/
+
                 data: {
                     ProductNames: [
-                        //"PropertyDetailReport",
                         "SalesComparables",
-                        //"TotalViewReport",
-                        //"ForeclosureReport",
-                        //"PropertyListingReport"
+
                     ],
                     SearchType: "ADDRESS",
                     AddressDetail: {
@@ -399,57 +550,52 @@ else
                         //window.open(page_url, "_self");
                     }
 
-
                 } ///main ajax success
 
             });
 
         });
 
-
-        //////////////////////////////////////////
+        /////////////////
         //////////////////////comp report ////////////////
-
         $("#compreport_search_form").submit(function(event) {
             event.preventDefault();
-            var formData = $(this).serialize();
             //alert(formData.st);
             var apn = $("#apn").val();
             //alert(apn);
-            var st_n = $("#st_n").val();
-            var st_nm = $("#st_nm").val();
-            var st = $("#st").val();
-            var cp = $("#cp").val();
+
             var page_url = '' + APP_URL + '/login';
             myarray = [];
 
-            //alert(localStorage.getItem('api_token'));
-            //alert(formD.Filters);
             $.ajax({
                 url: 'https://dtapiuat.datatree.com/api/Report/GetReport',
                 type: "POST",
                 data: {
-                    ProductNames: [
+
+                    "ProductNames": [
                         "PropertyDetailReport"
                     ],
-                    SearchType: "ADDRESS",
-                    AddressDetail: {
-                        StreetNumber: st_nm,
-                        StreetNames: st_n,
-                        City: "",
-                        ZipCode: "",
-                        StateFips: st,
-                        CountyFips: cp
-                    },
-                    IncludeFilelink: true
+                    "SearchType": "Filter",
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [{
+                            "FilterName": "ApnRange",
+                            "FilterOperator": "starts with",
+                            "FilterValues": [
+                                apn
+                            ]
+                        }]
+                    }
+
                 },
                 headers: {
                     'Authorization': localStorage.getItem('api_token')
                     //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXhOelV3T0Rrc0ltNWlaaUk2TVRjeU5ERTNOVEE0T1N3aVpYaHdJam94TnpJME1UYzRPVGc1TENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFNFQwTkRjWFprTW1sMVRWVkxOV3hXTUdkcVRreGFUVkZrZG5sWVJYQlhWM3BHUjA1MVYxVTRZazh3UFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUprWkRVNFFrVm9TV2hyVjFrMVVucFBlWEo1TVVGQklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuTTZ0Yk9KTW92OTNUUkI5TUNJZ3o0U2tyTFVwUzE5UnJ4Q0FjczJYNU5TNW1IVDJvNm0xRGdlSDdCaExlZEhvZFBBV3N0azhvUjJnc0tSbm5LNjVDQWI0aDVPZ2k4b1UwLThZLTNONDFta2RkTWVCbUZ0TXI1SGcyazJDRXpkcEgtSU1JY2V2NmZRTW5oY1JweEdNSVY0STloMGItMlRTWWsxbTVxc21MUUF2WFR6bnNrR1ctT3pmQnE1LUJUbU1IZGh0bEtsU3ZwaDhReU80ZmNwZVZDUGxicm1ZVlBMSG5XQU5IeG1jVHBHQmZlWHpqZ2ZoMVhSSTZTcmVhVmhNOFU5OVVlSGViNUR0dG10a0dfV0dEVGlXbmE5eGtUWkxJeUtKOUt6alZwajVpa3UxNDdnSk5GVXlfRk9OTkp2UWhiSXZzOTRXUVRTd0xzQ3p6UVJxWTBBIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0MTc1MzkwLCJleHAiOjE3MjQxODI1OTAsImlhdCI6MTcyNDE3NTM5MCwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.MIEqprEnvlMvuMLA3p-Fc5ugz_soUoXpOg8uMbGDxQM',
                 },
                 success: function(data) {
-                    //alert('111')
-                    //console.log("abc" + data.StatusDescription);
+
                     if (data) {
                         console.log(data);
                         console.log(data.Reports[0].Data);
@@ -467,16 +613,13 @@ else
                         //alert( "page not found" );
                         console.log(data.responseText);
                         $(".error").text(data.responseJSON.Message);
-                        //alert(data);
-                        //printErrorMsg(data)
+
                     },
                     401: function() {
                         alert("unauthorized");
-                        //console.log(data.responseText);
                         $(".error").text("Please Re-login.Token is expired");
                         window.open(page_url, "_self");
-                        //alert(data);
-                        //printErrorMsg(data)
+
                     },
 
                 } ///main ajax success
@@ -518,7 +661,7 @@ else
                         }]
                     }
                 },
-                
+
                 headers: {
                     'Authorization': localStorage.getItem('api_token')
                 },
@@ -533,21 +676,21 @@ else
                         buildTable3(myarray);
                         $("#myDataTable3").DataTable();
                     }
-                    
+
                 },
                 statusCode: {
                     400: function(data) {
                         //alert( "page not found" );
                         console.log(data.responseText);
                         $(".error").text(data.responseJSON.Message);
-                      
+
                     },
                     401: function() {
                         alert("unauthorized");
                         //console.log(data.responseText);
                         $(".error").text("Please Re-login.Token is expired");
                         window.open(page_url, "_self");
-                       
+
                     },
 
                 } ///main ajax success
@@ -556,6 +699,279 @@ else
 
         });
         ////////////////////////////
+        //////////////////////////priceland
+        $("#priceland_search_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            //alert(formData.st);
+            //var st_n = $("#st_n").val();
+            var acr1 = $("#acr1").val();
+            var acr2 = $("#acr2").val();
+            var st = $("#st").val();
+            var cp = $("#cp").val();
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+            myarray2 = [];
+
+            info = [0.01, 4.99, 9.99, 14.99, 20.99, 24.99, 30.00, 35.99, 40.99, 45.99, 50.99, 55.99, 60.99, 65.99, 70.99, 75.99, 80.99, 85.99, 90.99, 95.99, 99.99];
+
+            for (var i = 0; i < info.length; i++) {
+                $.ajax({
+                    url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+                    type: "POST",
+
+                    data: {
+                        "ProductNames": [
+                            "SalesComparables"
+                        ],
+                        "SearchType": "Filter",
+
+                        "SearchRequest": {
+                            "ReferenceId": "1",
+                            "ProductName": "SearchLite",
+                            "MaxReturn": "1",
+                            "Filters": [/*{
+
+                                    "FilterName": "SaleDate",
+
+                                    "FilterOperator": "is between",
+
+                                    "FilterValues": ["04/01/1900", "04/23/2024"],
+
+                                    "FilterGroup": 1
+
+                                },*/
+                                {
+                                    "FilterName": "LotAcreage",
+                                    "FilterOperator": "is between",
+                                    "FilterValues": [
+                                        info[i],
+                                        info[i + 1]
+                                    ]
+                                },
+                                {
+                                    "FilterName": "StateFips",
+                                    "FilterOperator": "is",
+                                    "FilterValues": [
+                                        st
+                                    ],
+                                    "FilterGroup": 1
+                                },
+                                {
+                                    "FilterName": "CountyFips",
+                                    "FilterOperator": "is",
+                                    "FilterValues": [
+                                        cp
+                                    ],
+                                    "FilterGroup": 1
+                                },
+                                {
+                                    "FilterName": "SalePrice",
+
+                                    "FilterOperator": "is between",
+
+                                    "FilterValues": ["1", "10000000"],
+
+                                    "FilterGroup": 1
+
+                                },
+                                {
+
+                                    "FilterName": "YearBuilt",
+
+                                    "FilterOperator": "is between",
+
+                                    "FilterValues": ["1800", "2024"],
+
+                                    "FilterGroup": 1
+
+                                },
+                                
+                                {
+
+                                    "FilterName": "ForSaleListedPrice",
+
+                                    "FilterOperator": "is between",
+
+                                    "FilterValues": ["1", "10000000"],
+
+                                    "FilterGroup": 1
+
+                                }, {
+
+                                    "FilterName": "TotalNumberOfBedrooms",
+
+                                    "FilterOperator": "is between",
+
+                                    "FilterValues": ["1", "2"],
+
+                                    "FilterGroup": 1
+
+                                }, {
+
+                                    "FilterName": "TotalNumberOfbathrooms",
+
+                                    "FilterOperator": "is",
+
+                                    "FilterValues": ["1"],
+
+                                    "FilterGroup": 1
+
+                                },
+                                /*{
+
+                                                                   "FilterName": "BuildingAreaSquarefeet",
+
+                                                                   "FilterOperator": "is between",
+
+                                                                   "FilterValues": ["138", "2625"],
+
+                                                                   "FilterGroup": 1
+
+                                                               },*/
+
+                            ] //
+                        } //
+                    },
+                    headers: {
+                        'Authorization': localStorage.getItem('api_token')
+                    },
+                    success: function(data1) {
+                        //alert('111')
+                        //console.log("abc" + data.StatusDescription);
+                        if (data1) {
+                            //console.log(data);
+                            $('.error').text('');
+                            //myarray = JSON.stringify(data.Reports);
+                            myarray["data1"] = data1;
+                            var apn = data1.LitePropertyList[0].Apn;
+                            myarray["data1"]["state"] = data1.LitePropertyList[0].State;
+                            myarray["data1"]["county"] = data1.LitePropertyList[0].County;
+                            myarray["data1"]["maxcount"] = data1.MaxResultsCount;
+                            myarray["data1"]["info"] = info.shift();
+
+                            buildTable4(myarray);
+                            $("#myDataTable4").DataTable();
+                            //$("#mytable").show();
+                        }
+                        //dosri
+                    },
+                    statusCode: {
+                        400: function(data1) {
+                            //alert( "page not found" );
+                            console.log(data1.responseText);
+                            $(".error").text(data1.responseJSON.Message);
+
+                        },
+                        401: function(data) {
+                            alert("unauthorized");
+                            //console.log(data.responseText);
+                            $(".error").text("Please Re-login.Token is expired");
+
+                        },
+                        405: function(data) {
+                            //alert('Please relogin.Token Expired');
+                            $(".error").text(data.message);
+                            //window.open(page_url, "_self");
+                        }
+
+
+                    } ///main ajax success
+
+                });
+            } /////forloop                       
+
+        }); ///////click
+
+        /*$("#priceland_search_form").submit(function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $('#mytable3').html();
+            var st = $("#st").val();
+            var cp = $("#cp").val();
+
+            var acr = $("#acr").val();
+            var page_url = '' + APP_URL + '/login';
+            myarray = [];
+
+            $.ajax({
+                url: 'https://dtapiuat.datatree.com/api/Report/ExportReport',
+
+                type: "POST",
+                data: {
+                    "CountOnly": false,
+                    "MaxReturn": 200,
+                    "ProductNames": "PropertyDetailExport",
+                    "Filters": [{
+                            "FilterName": "StateFips",
+                            "FilterOperator": "is",
+                            "FilterValues": [
+                                st
+                            ],
+                            "FilterGroup": 0
+                        },
+                        {
+                            "FilterName": "LotAcreage",
+                            "FilterOperator": "is",
+                            "FilterValues": [
+                                acr
+                            ]
+                        },
+                        {
+                            "FilterName": "CountyFips",
+                            "FilterOperator": "is",
+                            "FilterValues": [
+                                cp
+                            ],
+                            "FilterGroup": 1
+                        }
+                    ]
+                },
+
+                headers: {
+                    'Authorization': localStorage.getItem('api_token')
+                },
+                success: function(data) {
+
+                    if (data) {
+                        console.log(data);
+                        console.log(data.LitePropertyList);
+
+                        myarray = data.Reports[0].Data.PropertyData;
+
+                        buildTable4(myarray);
+                        $("#myDataTable4").DataTable();
+                    }
+
+                },
+                beforeSend: function() {
+                    $('.loader').show();
+                },
+                complete: function() {
+                    $('.loader').hide();
+                },
+                statusCode: {
+                    400: function(data) {
+                        //alert(data.responseText.ErrorList);
+                        console.log(data.responseText);
+                        $(".error").text(data.responseJSON.Message);
+
+                    },
+                    401: function() {
+                        alert("unauthorized");
+                        //console.log(data.responseText);
+                        $(".error").text("Please Re-login.Token is expired");
+                        window.open(page_url, "_self");
+
+                    },
+
+                } ///main ajax success
+
+            });
+
+        });*/
+        /////////////////////////
+
         $("#compreport2_search_form").submit(function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
@@ -567,74 +983,31 @@ else
             myarray = [];
 
             $.ajax({
-                //url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
                 url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
 
                 type: "POST",
                 data: {
-  
-  "ProductNames": [
-    "SalesComparables"
-  ],
-  "SearchType": "PROPERTY",
-  "PropertyId": '8948416',
-  "SalesCompSettings": {
-    "CompsMaxNumber": 25
-  }
 
-},
-        /*data: {
-            ProductNames: [
-                "PropertyDetailReport"
-            ],
-            SearchType: "Filter",
-            SearchRequest: {
-                ReferenceId: "1",
-                ProductName: "SearchLite",
-                MaxReturn: "1",
-                Filters: [{
-                    FilterName: "StateFips",
-                    FilterOperator: "is",
-                    FilterValues: [
-                        st
+                    "ProductNames": [
+                        "SalesComparables"
                     ],
-                    FilterGroup: 0
-                }]
-            }
-        },
-        /*data: {
-            ProductNames: [
-                "TotalViewReport"
-            ],
-            SearchType: "ADDRESS",
-            AddressDetail: {
-                StreetNumber: st_nm,
-                StreetNames: st_n,
-                City: "",
-                ZipCode: "",
-                StateFips: st,
-                CountyFips: cp
-            },
-            IncludeFilelink: true
-        },*/
-        headers: {
-                    //'Content-type': 'application/json',
+                    "SearchType": "PROPERTY",
+                    "PropertyId": '8948416',
+                    "SalesCompSettings": {
+                        "CompsMaxNumber": 25
+                    }
+
+                },
+
+                headers: {
                     'Authorization': localStorage.getItem('api_token')
-                    //'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUXpNamc1TWpJc0ltNWlaaUk2TVRjeU5ETXlPRGt5TWl3aVpYaHdJam94TnpJME16TXlPREl5TENKaGFXOGlPaUpGTW1SbldWQm9OSGQxZVhCd1duUkVNREJJSzNWNU9ESXpSMHA0WWxZdlR6Wm1OVXhQTWtoMWFHdFNjRVJ2ZGxCMlZITkNJaXdpWVhwd0lqb2lZelpoT0RneVpURXRPREpqTnkwME5UUmtMVGt3TlRrdE4ySXhZVGhpTm1OaE1URXhJaXdpWVhwd1lXTnlJam9pTVNJc0ltOXBaQ0k2SW1NNFpXSTRZMkk0TFRJM09UZ3RORE01TnkwNE1EQmlMVGhsTkRjMk5HVXpNbUl3WmlJc0luSm9Jam9pTUM1QlVUQkJNV3hmUjFSSVlXTmpWV2xzVVhWelUzQmhaVUZFUjBzNFJsUlJUQzFrZEV0cGRFSjJTR3hhVnpoMlFVNUJRVUV1SWl3aWNtOXNaWE1pT2xzaVFWQkpRV05qWlhOeklsMHNJbk4xWWlJNkltTTRaV0k0WTJJNExUSTNPVGd0TkRNNU55MDRNREJpTFRobE5EYzJOR1V6TW1Jd1ppSXNJblJwWkNJNklqUmpZelkxWm1RMkxUbGpOell0TkRnM01TMWhOVFF5TFdWaU1USmhOV0UzT0RBd1l5SXNJblYwYVNJNklqTXdVbmx0UW5KMk16QnRRM2hEUWxsYUxXTm1RVUVpTENKMlpYSWlPaUl5TGpBaUxDSmhjSEJFWVhSaElqb2llMXdpZFdsa1hDSTZNVFUzTXpRNUxGd2lZV2xrWENJNk1qQXhNRFV4TkgwaWZRLlFROXJRdEYyM1YyMjlUazR0eVFTYzFnN3lqOUo4VXJmUWFCNGQwWGhnU3dfeWgwblEzR1ljSjY5SWN1SHFBTDJnN1RvNnBhVFdMdDhnNWF4N0c3N19IVnVOMkdNR3F0WEl3b3kxQ1BBemFRbkdaMGRiVnhUbkQ4YUVFTE4xbmo0amU1LUY3UkJUWG1VbExXek9vekg1bk5UVWVTdjNZdnRxX1Y3VjUxWjVEODFTb2tnQ0tGMWtzYnhXS3VrandNbEVOZW0yVkFidnZaWU9qT0F1SUpGZGVsc0JRNXZPdlVkVE9IWXdsYXJ1S295OFBQTmVDUG13cENxTnNEaGw5eVBYdDE4Ui1XN1JCeU5qUWp4MkFCSXRKNDFmWEs1SWZaOXlRX2Jua3BTRk1TQ09TZjA1TlRaZUNPb1JHRWNLTUZGVi1KTEtPTEN6UEZNd3JUdmh2S2RvUSIsIkF2YWlsYWJsZVByb2R1Y3RzIjoiW1wiMTAwOFwiLFwiMTA1M1wiLFwiMTAwNVwiLFwiMTAxMVwiLFwiMjA4OVwiLFwiMTAyNlwiLFwiMTAyN1wiLFwiMTAyOFwiLFwiNTAwMFwiLFwiNTAwMVwiLFwiNTAwM1wiLFwiMjAwMFwiLFwiMjAwMVwiLFwiMjAwMlwiLFwiMjAwM1wiLFwiMjAwNFwiLFwiMjAwNVwiXSIsIm5iZiI6MTcyNDMyOTIyMiwiZXhwIjoxNzI0MzM2NDIyLCJpYXQiOjE3MjQzMjkyMjIsImlzcyI6Imh0dHBzOi8vZHRhcGl1YXQuZGF0YXRyZWUuY29tIiwiYXVkIjoiV2ViQXBpQ29uc3VtZXJzIn0.3jOQUl3uIEhGdByswdUKg2O6wFxxfetMeQAnwqZzJnU',
                 },
                 success: function(data) {
                     //alert('111')
                     //console.log("abc" + data.StatusDescription);
                     if (data) {
                         console.log(data);
-                        //console.log(data.LitePropertyList);
-                        //$('.error').text('');
-                        //myarray = JSON.stringify(data.Reports);
-                        //myarray = data.LitePropertyList;
-                        //console.log(myarray);
-                        //alert(data);
-                        //buildTable3(myarray);
-                        //$("#myDataTable3").DataTable();
+
                     }
                 },
                 statusCode: {
@@ -642,16 +1015,14 @@ else
                         //alert( "page not found" );
                         console.log(data.responseText);
                         $(".error").text(data.responseJSON.Message);
-                        //alert(data);
-                        //printErrorMsg(data)
+
                     },
                     401: function() {
                         alert("unauthorized");
                         //console.log(data.responseText);
                         $(".error").text("Please Re-login.Token is expired");
                         window.open(page_url, "_self");
-                        //alert(data);
-                        //printErrorMsg(data)
+
                     },
 
                 } ///main ajax success
@@ -682,8 +1053,7 @@ else
         $(".error").text("");
 
         $.each(message, function(key, value) {
-            //var $submit = $('.reg');
-            //$submit.prop('disabled', false);
+
             if (key == 'password') {
                 if (value.length > 1) {
                     $(".password_err").text(value[0]);
@@ -710,31 +1080,27 @@ else
     }
 
     function buildTable(data) {
-        //alert(data[0].address.state);
-        
-        var table = document.getElementById('mytable');
-        for (var i = 0; i < data.length; i++) {
-            var row = `<tr>
-        <td>${data[i].PropertyId}</td>
-        <td>$${data[i].AssessedValue}</td>
-        <td>${data[i].SitusAddress.County}</td>
-        <td>${data[i].SitusAddress.City}</td>
-         <td>${data[i].SitusAddress.State}</td>
-         <td>${data[i].OwnerName1Full}</td>
-         <td>$${data[i].LastMarketSaleInformation.SalePrice}</td>
-         <td>${data[i].PropertyStatusIndicators.IsForSale}</td>
-         <td>${data[i].SiteInformation.Acres}</td>
-         <td>${data[i].SiteInformation.LandUse}</td>
-         <td>${data[i].SiteInformation.LotArea}</td>      
-      
-        </tr>`
-            table.innerHTML += row;
-        }
+        //alert(data[0].data1.maxcount);
 
+        //var row = 0;
+        //var i = 0;
+        var table = document.getElementById('mytable');
+        //for (var i = 0; i < data.length; i++) {
+        var mainval = data.data1.maxcount * 0.01;
+
+        var row = `<tr>
+            <td>${data.data1.maxcount}</td>
+             <td>${data.data1.info}</td>
+            <td>${data.data1.state}</td>
+            <td>${data.data1.county}</td>
+             <td>$20000-400000</td>
+            <td><input type='checkbox' id='sm' onclick=toggle(${data.data1.maxcount}); class='su' value=${mainval} name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+        </tr>`
+        table.innerHTML += row;
+        // }
     }
 
     function buildTable3(data) {
-        //alert(data[0].address.state);
         var table = document.getElementById('mytable3');
         table.innerHTML = "";
         for (var i = 0; i < data.length; i++) {
@@ -745,18 +1111,36 @@ else
         <td>${data[i].City}</td>
          <td>${data[i].State}</td>
          <td>${data[i].Owner}</td>
-         <td>${data[i].Address}</td>      
+         <td>${data[i].Address}</td>
+         <td>${data[i].Apn}</td>
+         <td>${data[i].Zip}</td>      
         </tr>`
             table.innerHTML += row;
         }
-        //table.innerHTML = '';
 
     }
 
+    function buildTable4(data) {
+        var row = 0;
+        var i = 0;
+        var table = document.getElementById('mytable4');
+
+        var mainval = data.data1.maxcount * 0.01;
+        var row = `<tr>
+            <td>${data.data1.maxcount}</td>
+             <td>${data.data1.info}</td>
+            <td>${data.data1.state}</td>
+            <td>${data.data1.county}</td>
+             <td>$20000-10000000</td>
+            <td><input type='checkbox' id='sm' onclick=toggle(${data.data1.maxcount}); class='su' value=${mainval} name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+        </tr>`
+        table.innerHTML += row;
+
+    }
+
+
     function buildTable2(data) {
-        //alert(data[0].address.state);
         var table = document.getElementById('mytable2');
-        //for (var i = 0; i < data.length; i++) {
         var row = `<tr>
         <td>${data.SubjectProperty.PropertyId}</td>
         <td>${data.SubjectProperty.SitusAddress.StreetAddress}</td>  
@@ -770,7 +1154,26 @@ else
             <td><a href="#">Export Data</a></td>
         </tr>`
         table.innerHTML += row;
-        //}
+
+    }
+
+    function toggle(data) {
+        if ($('.su').is(':checked')) {
+            $("#chk").show();
+            $("#amnt").show();
+        } else {
+            $("#chk").hide();
+            $("#amnt").hide();
+        }
+        var total = 0;
+        $('.su:checked').each(function() { // iterate through each checked element.
+
+            total += isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val());
+            actual = total;
+
+        });
+        $("#total_val").text(actual);
+
 
     }
 </script>
