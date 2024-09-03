@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\IsCorsMiddleware;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\PDFController;
 
 Route::get('/home', function () {
     return view('welcome');
@@ -36,6 +37,10 @@ Route::get('/subscription', function () {
 Route::get('/research', function () {
     return view('research');
 });
+
+Route::get('/research2', function () {
+    return view('research2');
+});
 Route::get('/faq', function () {
     return view('faq');
 });
@@ -65,11 +70,16 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
+
+
+
+
 Route::get('/support', function () {
     return view('support');
 });
 
-Route::get('/verify-mail/{token}',[ApiController::class,'verifyEmailToken']);
+Route::get('/verify-mail/{token}', [ApiController::class, 'verifyEmailToken']);
 
 
 
