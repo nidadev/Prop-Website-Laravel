@@ -152,19 +152,31 @@
         <div class="loader" style="display:none"></div>
 
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
-        Total Amount:<span id="total_val"></span>
+          Total Amount:<span id="total_val"></span>
+          <span class="pec"></span>
+
         </div>
+
       </div>
     </div>
     <div class="row work_h2">
       <div class="col-md-12">
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
-          <form>
+        <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
+        <div class="center_h2lil">
+            <span>
+              <br><span><input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"> </span>
+            </span>
 
+
+          </div>
+          <form method="post" action="{{ url('/pdf') }}" id="pdf_id">
+
+            <input type="hidden" name="pd" id="pd" class="pid" value="">
             <table class="display" style="width:100%" id="myDataTable2">
               <thead class="bg-grey-50">
                 <tr>Total Property Listing
-                  <th>Property Id</th>
+                  <!--th>Property Id</th-->
                   <td>Street Address</td>
                   <td>City</td>
                   <td>State</td>
@@ -174,6 +186,7 @@
                   <td>Acres</td>
                   <td>Accessed Value</td>
                   <td>Export</td>
+                  <td>Download</td>
                   <!--td>Lot area</td-->
                 </tr>
               <tbody id="mytable2">
@@ -181,6 +194,7 @@
               </tbody>
             </table>
           </form>
+
         </div>
       </div>
 

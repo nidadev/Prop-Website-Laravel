@@ -11,6 +11,7 @@
     <link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
 
     <!--link href="http://165.140.69.88/~plotplaza/realtor_zip/css/font-awesome.min.css" rel="stylesheet"-->
     <link href="{{ asset('css/global.css') }}" rel="stylesheet">
@@ -21,6 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <!--link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet"-->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 
     <script src="https://cdn.datatables.net/2.1.3/js/dataTables.js"></script>
 
@@ -90,6 +92,927 @@ else
 
 }*/
     $(document).ready(function() {
+        $.noConflict();
+        var countries = [{
+                "label": "Alabama",
+                "value": "al"
+            },
+            {
+                "label": "Alaska",
+                "value": "ak"
+            },
+            {
+                "label": "Arizona",
+                "value": "az"
+            },
+            {
+                "label": "Arkansas",
+                "value": "ar"
+            },
+            {
+                "label": "California",
+                "value": "ca"
+            },
+            {
+                "label": "Colorado",
+                "value": "co"
+            },
+            {
+                "label": "Connecticut",
+                "value": "ct"
+            },
+            {
+                "label": "Delaware",
+                "value": "de"
+            },
+            {
+                "label": "Florida",
+                "value": "fl"
+            },
+            {
+                "label": "Georgia",
+                "value": "ga"
+            },
+            {
+                "label": "Hawaii",
+                "value": "hi"
+            },
+            {
+                "label": "Idaho",
+                "value": "id"
+            },
+            {
+                "label": "Illinois",
+                "value": "il"
+            },
+            {
+                "label": "Indiana",
+                "value": "in"
+            },
+            {
+                "label": "Iowa",
+                "value": "ia"
+            },
+            {
+                "label": "Kansas",
+                "value": "ks"
+            },
+            {
+                "label": "Kentucky",
+                "value": "ky"
+            },
+            {
+                "label": "Louisiana",
+                "value": "la"
+            },
+            {
+                "label": "Maine",
+                "value": "me"
+            },
+            {
+                "label": "Maryland",
+                "value": "md"
+            },
+            {
+                "label": "Massachusetts",
+                "value": "ma"
+            },
+            {
+                "label": "Michigan",
+                "value": "mi"
+            },
+            {
+                "label": "Minnesota",
+                "value": "mn"
+            },
+            {
+                "label": "Mississippi",
+                "value": "ms"
+            },
+            {
+                "label": "Missouri",
+                "value": "mo"
+            },
+            {
+                "label": "Montana",
+                "value": "mt"
+            },
+            {
+                "label": "Nebraska",
+                "value": "ne"
+            },
+            {
+                "label": "Nevada",
+                "value": "nv"
+            },
+            {
+                "label": "New Hampshire",
+                "value": "nh"
+            },
+            {
+                "label": "New Jersey",
+                "value": "nj"
+            },
+            {
+                "label": "New Mexico",
+                "value": "nm"
+            },
+            {
+                "label": "New York",
+                "value": "ny"
+            },
+            {
+                "label": "North Carolina",
+                "value": "nc"
+            },
+            {
+                "label": "North Dakota",
+                "value": "nd"
+            },
+            {
+                "label": "Ohio",
+                "value": "oh"
+            },
+            {
+                "label": "Oklahoma",
+                "value": "ok"
+            },
+            {
+                "label": "Oregon",
+                "value": "or"
+            },
+            {
+                "label": "Pennsylvania",
+                "value": "pa"
+            },
+            {
+                "label": "Rhode Island",
+                "value": "ri"
+            },
+            {
+                "label": "South Carolina",
+                "value": "sc"
+            },
+            {
+                "label": "South Dakota",
+                "value": "sd"
+            },
+            {
+                "label": "Tennessee",
+                "value": "tn"
+            },
+            {
+                "label": "Texas",
+                "value": "tx"
+            },
+            {
+                "label": "Utah",
+                "value": "ut"
+            },
+            {
+                "label": "Vermont",
+                "value": "vt"
+            },
+            {
+                "label": "Virginia",
+                "value": "va"
+            },
+            {
+                "label": "Washington",
+                "value": "wa"
+            },
+            {
+                "label": "West Virginia",
+                "value": "wv"
+            },
+            {
+                "label": "Wisconsin",
+                "value": "wi"
+            },
+            {
+                "label": "Wyoming",
+                "value": "wy"
+            }
+        ];
+
+        var counties = {
+            "al": [{
+                    "label": "Autauga",
+                    "value": "1001"
+                },
+                {
+                    "label": "Baldwin",
+                    "value": "1003"
+                },
+                {
+                    "label": "Barbour",
+                    "value": "1005"
+                },
+                {
+                    "label": "Bibb",
+                    "value": "1007"
+                },
+                {
+                    "label": "Blount",
+                    "value": "1009"
+                },
+                {
+                    "label": "Bullock",
+                    "value": "1011"
+                },
+                {
+                    "label": "Chambers",
+                    "value": "1013"
+                },
+                {
+                    "label": "Cherokee",
+                    "value": "1015"
+                },
+                {
+                    "label": "Chilton",
+                    "value": "1017"
+                },
+                {
+                    "label": "Choctaw",
+                    "value": "1019"
+                },
+                {
+                    "label": "Clarke",
+                    "value": "1021"
+                },
+                {
+                    "label": "Clay",
+                    "value": "1023"
+                },
+                {
+                    "label": "Cleburne",
+                    "value": "1025"
+                },
+                {
+                    "label": "Coffee",
+                    "value": "1027"
+                },
+                {
+                    "label": "Colbert",
+                    "value": "1029"
+                },
+                {
+                    "label": "Conecuh",
+                    "value": "1031"
+                },
+                {
+                    "label": "Coosa",
+                    "value": "1033"
+                },
+                {
+                    "label": "Covington",
+                    "value": "1035"
+                },
+                {
+                    "label": "Crenshaw",
+                    "value": "1037"
+                },
+                {
+                    "label": "Cullman",
+                    "value": "1039"
+                },
+                {
+                    "label": "Dale",
+                    "value": "1041"
+                },
+                {
+                    "label": "Dallas",
+                    "value": "1043"
+                },
+                {
+                    "label": "DeKalb",
+                    "value": "1045"
+                },
+                {
+                    "label": "Elmore",
+                    "value": "1047"
+                },
+                {
+                    "label": "Escambia",
+                    "value": "1049"
+                },
+                {
+                    "label": "Etowah",
+                    "value": "1051"
+                },
+                {
+                    "label": "Fayette",
+                    "value": "1053"
+                },
+                {
+                    "label": "Franklin",
+                    "value": "1055"
+                },
+                {
+                    "label": "Geneva",
+                    "value": "1057"
+                },
+                {
+                    "label": "Greene",
+                    "value": "1059"
+                },
+                {
+                    "label": "Hale",
+                    "value": "1061"
+                },
+                {
+                    "label": "Henry",
+                    "value": "1063"
+                },
+                {
+                    "label": "Houston",
+                    "value": "1065"
+                },
+                {
+                    "label": "Jackson",
+                    "value": "1067"
+                },
+                {
+                    "label": "Jefferson",
+                    "value": "1069"
+                },
+                {
+                    "label": "Lamar",
+                    "value": "1071"
+                },
+                {
+                    "label": "Lauderdale",
+                    "value": "1073"
+                },
+                {
+                    "label": "Lawrence",
+                    "value": "1075"
+                },
+                {
+                    "label": "Lee",
+                    "value": "1077"
+                },
+                {
+                    "label": "Limestone",
+                    "value": "1079"
+                },
+                {
+                    "label": "Lowndes",
+                    "value": "1081"
+                },
+                {
+                    "label": "Macon",
+                    "value": "1083"
+                },
+                {
+                    "label": "Madison",
+                    "value": "1085"
+                },
+                {
+                    "label": "Marengo",
+                    "value": "1087"
+                },
+                {
+                    "label": "Marion",
+                    "value": "1089"
+                },
+                {
+                    "label": "Marshall",
+                    "value": "1091"
+                },
+                {
+                    "label": "Mobile",
+                    "value": "1093"
+                },
+                {
+                    "label": "Monroe",
+                    "value": "1095"
+                },
+                {
+                    "label": "Montgomery",
+                    "value": "1097"
+                },
+                {
+                    "label": "Morgan",
+                    "value": "1099"
+                },
+                {
+                    "label": "Perry",
+                    "value": "1101"
+                },
+                {
+                    "label": "Pickens",
+                    "value": "1103"
+                },
+                {
+                    "label": "Pike",
+                    "value": "1105"
+                },
+                {
+                    "label": "Randolph",
+                    "value": "1107"
+                },
+                {
+                    "label": "Russell",
+                    "value": "1109"
+                },
+                {
+                    "label": "St. Clair",
+                    "value": "1111"
+                },
+                {
+                    "label": "Shelby",
+                    "value": "1113"
+                },
+                {
+                    "label": "Sumter",
+                    "value": "1115"
+                },
+                {
+                    "label": "Talladega",
+                    "value": "1117"
+                },
+                {
+                    "label": "Tallapoosa",
+                    "value": "1119"
+                },
+                {
+                    "label": "Tuscaloosa",
+                    "value": "1121"
+                },
+                {
+                    "label": "Walker",
+                    "value": "1123"
+                },
+                {
+                    "label": "Washington",
+                    "value": "1125"
+                },
+                {
+                    "label": "Wilcox",
+                    "value": "1127"
+                },
+                {
+                    "label": "Winston",
+                    "value": "1129"
+                }
+                // Add additional counties for Alabama
+            ],
+            "ak": [{
+                    "label": "Aleutians East",
+                    "value": "2013"
+                },
+                {
+                    "label": "Aleutians West",
+                    "value": "2016"
+                },
+                {
+                    "label": "Anchorage",
+                    "value": "2020"
+                },
+                {
+                    "label": "Bethel",
+                    "value": "2050"
+                },
+                {
+                    "label": "Bristol Bay",
+                    "value": "2060"
+                },
+                {
+                    "label": "Denali",
+                    "value": "2070"
+                },
+                {
+                    "label": "Dillingham",
+                    "value": "2080"
+                },
+                {
+                    "label": "Haines",
+                    "value": "2090"
+                },
+                {
+                    "label": "Hoonah-Angoon",
+                    "value": "2095"
+                },
+                {
+                    "label": "Juneau",
+                    "value": "2100"
+                },
+                {
+                    "label": "Kenai Peninsula",
+                    "value": "2120"
+                },
+                {
+                    "label": "Ketchikan Gateway",
+                    "value": "2130"
+                },
+                {
+                    "label": "Kodiak Island",
+                    "value": "2140"
+                },
+                {
+                    "label": "Lake and Peninsula",
+                    "value": "2150"
+                },
+                {
+                    "label": "Matanuska-Susitna",
+                    "value": "2160"
+                },
+                {
+                    "label": "Nome",
+                    "value": "2170"
+                },
+                {
+                    "label": "North Slope",
+                    "value": "2180"
+                },
+                {
+                    "label": "Northwest Arctic",
+                    "value": "2190"
+                },
+                {
+                    "label": "Petersburg",
+                    "value": "2200"
+                },
+                {
+                    "label": "Prince of Wales-Hyder",
+                    "value": "2210"
+                },
+                {
+                    "label": "Sitka",
+                    "value": "2220"
+                },
+                {
+                    "label": "Skagway",
+                    "value": "2230"
+                },
+                {
+                    "label": "Southeast Fairbanks",
+                    "value": "2240"
+                },
+                {
+                    "label": "Valdez-Cordova",
+                    "value": "2250"
+                },
+                {
+                    "label": "Wade Hampton",
+                    "value": "2260"
+                },
+                {
+                    "label": "Wrangell",
+                    "value": "2270"
+                },
+                {
+                    "label": "Yukon-Koyukuk",
+                    "value": "2280"
+                }
+                // Add additional counties for Alaska
+            ],
+            "az": [{
+                    "label": "Apache",
+                    "value": "4001"
+                },
+                {
+                    "label": "Cochise",
+                    "value": "4003"
+                },
+                {
+                    "label": "Coconino",
+                    "value": "4005"
+                },
+                {
+                    "label": "Gila",
+                    "value": "4007"
+                },
+                {
+                    "label": "Graham",
+                    "value": "4009"
+                },
+                {
+                    "label": "Greenlee",
+                    "value": "4011"
+                },
+                {
+                    "label": "La Paz",
+                    "value": "4012"
+                },
+                {
+                    "label": "Maricopa",
+                    "value": "4013"
+                },
+                {
+                    "label": "Mohave",
+                    "value": "4015"
+                },
+                {
+                    "label": "Navajo",
+                    "value": "4017"
+                },
+                {
+                    "label": "Pima",
+                    "value": "4019"
+                },
+                {
+                    "label": "Pinal",
+                    "value": "4021"
+                },
+                {
+                    "label": "Santa Cruz",
+                    "value": "4023"
+                },
+                {
+                    "label": "Yavapai",
+                    "value": "4025"
+                },
+                {
+                    "label": "Yuma",
+                    "value": "4027"
+                }
+                // Add additional counties for Arizona
+            ],
+            "ar": [{
+                    "label": "Arkansas",
+                    "value": "05001"
+                },
+                {
+                    "label": "Ashley",
+                    "value": "05003"
+                },
+                {
+                    "label": "Baxter",
+                    "value": "05005"
+                },
+                {
+                    "label": "Benton",
+                    "value": "05007"
+                },
+                {
+                    "label": "Boone",
+                    "value": "05009"
+                }
+                // Add additional counties for Arkansas
+            ],
+            "ca": [{
+                    "label": "Alameda",
+                    "value": "6001"
+                },
+                {
+                    "label": "Alpine",
+                    "value": "6003"
+                },
+                {
+                    "label": "Amador",
+                    "value": "6005"
+                },
+                {
+                    "label": "Butte",
+                    "value": "6007"
+                },
+                {
+                    "label": "Calaveras",
+                    "value": "6009"
+                },
+                {
+                    "label": "Colusa",
+                    "value": "6011"
+                },
+                {
+                    "label": "Contra Costa",
+                    "value": "6013"
+                },
+                {
+                    "label": "Del Norte",
+                    "value": "6015"
+                },
+                {
+                    "label": "El Dorado",
+                    "value": "6017"
+                },
+                {
+                    "label": "Fresno",
+                    "value": "6019"
+                },
+                {
+                    "label": "Glenn",
+                    "value": "6021"
+                },
+                {
+                    "label": "Humboldt",
+                    "value": "6023"
+                },
+                {
+                    "label": "Imperial",
+                    "value": "6025"
+                },
+                {
+                    "label": "Inyo",
+                    "value": "6027"
+                },
+                {
+                    "label": "Kern",
+                    "value": "6029"
+                },
+                {
+                    "label": "Kings",
+                    "value": "6031"
+                },
+                {
+                    "label": "Lake",
+                    "value": "6033"
+                },
+                {
+                    "label": "Lassen",
+                    "value": "6035"
+                },
+                {
+                    "label": "Los Angeles",
+                    "value": "6037"
+                },
+                {
+                    "label": "Madera",
+                    "value": "6039"
+                },
+                {
+                    "label": "Marin",
+                    "value": "6041"
+                },
+                {
+                    "label": "Mariposa",
+                    "value": "6043"
+                },
+                {
+                    "label": "Mendocino",
+                    "value": "6045"
+                },
+                {
+                    "label": "Merced",
+                    "value": "6047"
+                },
+                {
+                    "label": "Modoc",
+                    "value": "6049"
+                },
+                {
+                    "label": "Mono",
+                    "value": "6051"
+                },
+                {
+                    "label": "Monterey",
+                    "value": "6053"
+                },
+                {
+                    "label": "Napa",
+                    "value": "6055"
+                },
+                {
+                    "label": "Nevada",
+                    "value": "6057"
+                },
+                {
+                    "label": "Orange",
+                    "value": "6059"
+                },
+                {
+                    "label": "Placer",
+                    "value": "6061"
+                },
+                {
+                    "label": "Plumas",
+                    "value": "6063"
+                },
+                {
+                    "label": "Riverside",
+                    "value": "6065"
+                },
+                {
+                    "label": "Sacramento",
+                    "value": "6067"
+                },
+                {
+                    "label": "San Benito",
+                    "value": "6069"
+                },
+                {
+                    "label": "San Bernardino",
+                    "value": "6071"
+                },
+                {
+                    "label": "San Diego",
+                    "value": "6073"
+                },
+                {
+                    "label": "San Francisco",
+                    "value": "6075"
+                },
+                {
+                    "label": "San Joaquin",
+                    "value": "6077"
+                },
+                {
+                    "label": "San Luis Obispo",
+                    "value": "6079"
+                },
+                {
+                    "label": "San Mateo",
+                    "value": "6081"
+                },
+                {
+                    "label": "Santa Barbara",
+                    "value": "6083"
+                },
+                {
+                    "label": "Santa Clara",
+                    "value": "6085"
+                },
+                {
+                    "label": "Santa Cruz",
+                    "value": "6087"
+                },
+                {
+                    "label": "Shasta",
+                    "value": "6089"
+                },
+                {
+                    "label": "Sierra",
+                    "value": "6091"
+                },
+                {
+                    "label": "Siskiyou",
+                    "value": "6093"
+                },
+                {
+                    "label": "Solano",
+                    "value": "6095"
+                },
+                {
+                    "label": "Sonoma",
+                    "value": "6097"
+                },
+                {
+                    "label": "Stanislaus",
+                    "value": "6099"
+                },
+                {
+                    "label": "Sutter",
+                    "value": "6101"
+                },
+                {
+                    "label": "Tehama",
+                    "value": "6103"
+                },
+                {
+                    "label": "Trinity",
+                    "value": "6105"
+                },
+                {
+                    "label": "Tulare",
+                    "value": "6107"
+                },
+                {
+                    "label": "Tuolumne",
+                    "value": "6109"
+                },
+                {
+                    "label": "Ventura",
+                    "value": "6111"
+                },
+                {
+                    "label": "Yolo",
+                    "value": "6113"
+                },
+                {
+                    "label": "Yuba",
+                    "value": "6115"
+                }
+                // Add additional counties as needed
+            ]
+        };
+
+        $("#autocomplete").autocomplete({
+            source: countries,
+            select: function(event, ui) {
+                var selectedCountry = ui.item.value;
+                var countySelect = $("#counties");
+
+                // Clear existing options
+                countySelect.empty();
+
+                // Add a default option
+                countySelect.append('<option value="">Select a county</option>');
+
+                // Populate counties based on selected country
+                if (counties[selectedCountry]) {
+                    $.each(counties[selectedCountry], function(index, county) {
+                        countySelect.append(
+                            $('<option>').val(county.value).text(county.label)
+                        );
+                    });
+                } else {
+                    countySelect.append('<option value="">No counties available</option>');
+                }
+            }
+        });
+
 
         var radioButtons = $("input[type='radio'][name='sele_ac']");
         var radioStates = {};
@@ -113,7 +1036,6 @@ else
         var APP_URL = "{{ url('') }}";
         var page_login_url = '' + APP_URL + '/login';
 
-        $.noConflict();
         ////////////////////agree ///////////////
         $(".reg").click(function() {
             $("#customCheck1").click(function() {
@@ -288,7 +1210,25 @@ else
                 }
             });
         });
+        $(document).on('click', '.abc', function(event) {
+            alert('abc');
+            $.ajax({
+                url: "{{ url('/pdf') }}",
+                type: "GET",
+                headers: {
+                    'Authorization': localStorage.getItem('user_token2')
+                },
+                success: function(data) {
+                    //alert(url);
+                    //alert(data);
+                    console.log(data);
+                    if (data) {}
+                }
+            });
+        });
+        //// pdf click
 
+        ///////
         //alert(token);
         $('#login_id').on('submit', function(event) {
             event.preventDefault();
@@ -601,6 +1541,7 @@ else
                         $('.error').text('');
                         //myarray = JSON.stringify(data.Reports);
                         myarray = data.Reports[0].Data;
+                        $(".pid").val(data.Reports[0].PropertyId);
                         console.log(myarray);
                         //alert(data);
                         buildTable2(myarray);
@@ -634,6 +1575,7 @@ else
             var formData = $(this).serialize();
             $('#mytable3').html();
             var st = $("#st").val();
+            var cp = $("#cp").val();
             var page_url = '' + APP_URL + '/login';
             myarray = [];
 
@@ -651,13 +1593,22 @@ else
                         ProductName: "SearchLite",
                         MaxReturn: "1",
                         Filters: [{
-                            FilterName: "StateFips",
-                            FilterOperator: "is",
-                            FilterValues: [
-                                st
-                            ],
-                            FilterGroup: 0
-                        }]
+                                FilterName: "StateFips",
+                                FilterOperator: "is",
+                                FilterValues: [
+                                    st
+                                ],
+                                FilterGroup: 0
+                            },
+                            {
+                                FilterName: "CountyFips",
+                                FilterOperator: "is",
+                                FilterValues: [
+                                    cp
+                                ],
+                                FilterGroup: 0
+                            }
+                        ]
                     }
                 },
 
@@ -701,20 +1652,64 @@ else
         //////////////////////////priceland
         $("#priceland_search_form").submit(function(event) {
             event.preventDefault();
-            var formData = $(this).serialize();
-            //alert(formData.st);
+            var dataArray = $(this).serializeArray(),
+                dataObj = {};
+
+            $(dataArray).each(function(i, field) {
+                dataObj[field.name] = field.value;
+            });
+            //alert(dataObj['cp']);
             //var st_n = $("#st_n").val();
             var acr1 = $("#acr1").val();
+
+            var ac = $("#autocomplete").val();
+            var newarr = [];
+            if (ac == 'ca') {
+                st = 6;
+            }
+            if (ac == 'al') {
+                st = 1;
+            }
+            if (ac == 'ak') {
+                st = 2;
+            }
+            if (ac == 'az') {
+                st = 4;
+            }
+            if (ac == 'ar') {
+                st = 5;
+            }
+            if (ac == 'co') {
+                st = 8;
+            }
+            if (ac == 'ct') {
+                st = 9;
+            }
+            if (ac == 'de') {
+                st = 10;
+            }
+            if (ac == 'dc') {
+                st = 11;
+            }
+            if (ac == 'fl') {
+                st = 12;
+            }
+            //newarr['ca'] = 6
+            //alert(newarr[st]);
             var acr2 = $("#acr2").val();
-            var st = $("#st").val();
-            var cp = $("#cp").val();
+            //var st = $("#st").val();
+            var cp = dataObj['cp'];
+            //alert(acr1);
             var page_url = '' + APP_URL + '/login';
             myarray = [];
             myarray2 = [];
+            var info = [];
+            info = [acr1, acr2];
 
-            info = [0.01, 4.99, 9.99, 14.99, 20.99, 24.99, 30.00, 35.99, 40.99, 45.99, 50.99, 55.99, 60.99, 65.99, 70.99, 75.99, 80.99, 85.99, 90.99, 95.99, 99.99];
+            //info = [0.01, 4.99, 9.99, 14.99, 20.99, 24.99, 30.00, 35.99, 40.99, 45.99, 50.99, 55.99, 60.99, 65.99, 70.99, 75.99, 80.99, 85.99, 90.99, 95.99, 99.99];
 
             for (var i = 0; i < info.length; i++) {
+
                 $.ajax({
                     url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
                     type: "POST",
@@ -729,17 +1724,18 @@ else
                             "ReferenceId": "1",
                             "ProductName": "SearchLite",
                             "MaxReturn": "1",
-                            "Filters": [/*{
+                            "Filters": [
+                                /*{
 
-                                    "FilterName": "SaleDate",
+                                                                    "FilterName": "SaleDate",
 
-                                    "FilterOperator": "is between",
+                                                                    "FilterOperator": "is between",
 
-                                    "FilterValues": ["04/01/1900", "04/23/2024"],
+                                                                    "FilterValues": ["04/01/1900", "04/23/2024"],
 
-                                    "FilterGroup": 1
+                                                                    "FilterGroup": 1
 
-                                },*/
+                                                                },*/
                                 {
                                     "FilterName": "LotAcreage",
                                     "FilterOperator": "is between",
@@ -785,7 +1781,7 @@ else
                                     "FilterGroup": 1
 
                                 },
-                                
+
                                 {
 
                                     "FilterName": "ForSaleListedPrice",
@@ -882,153 +1878,7 @@ else
 
         }); ///////click
 
-        /*$("#priceland_search_form").submit(function(event) {
-            event.preventDefault();
-            var formData = $(this).serialize();
-            $('#mytable3').html();
-            var st = $("#st").val();
-            var cp = $("#cp").val();
-
-            var acr = $("#acr").val();
-            var page_url = '' + APP_URL + '/login';
-            myarray = [];
-
-            $.ajax({
-                url: 'https://dtapiuat.datatree.com/api/Report/ExportReport',
-
-                type: "POST",
-                data: {
-                    "CountOnly": false,
-                    "MaxReturn": 200,
-                    "ProductNames": "PropertyDetailExport",
-                    "Filters": [{
-                            "FilterName": "StateFips",
-                            "FilterOperator": "is",
-                            "FilterValues": [
-                                st
-                            ],
-                            "FilterGroup": 0
-                        },
-                        {
-                            "FilterName": "LotAcreage",
-                            "FilterOperator": "is",
-                            "FilterValues": [
-                                acr
-                            ]
-                        },
-                        {
-                            "FilterName": "CountyFips",
-                            "FilterOperator": "is",
-                            "FilterValues": [
-                                cp
-                            ],
-                            "FilterGroup": 1
-                        }
-                    ]
-                },
-
-                headers: {
-                    'Authorization': localStorage.getItem('api_token')
-                },
-                success: function(data) {
-
-                    if (data) {
-                        console.log(data);
-                        console.log(data.LitePropertyList);
-
-                        myarray = data.Reports[0].Data.PropertyData;
-
-                        buildTable4(myarray);
-                        $("#myDataTable4").DataTable();
-                    }
-
-                },
-                beforeSend: function() {
-                    $('.loader').show();
-                },
-                complete: function() {
-                    $('.loader').hide();
-                },
-                statusCode: {
-                    400: function(data) {
-                        //alert(data.responseText.ErrorList);
-                        console.log(data.responseText);
-                        $(".error").text(data.responseJSON.Message);
-
-                    },
-                    401: function() {
-                        alert("unauthorized");
-                        //console.log(data.responseText);
-                        $(".error").text("Please Re-login.Token is expired");
-                        window.open(page_url, "_self");
-
-                    },
-
-                } ///main ajax success
-
-            });
-
-        });*/
-        /////////////////////////
-
-        $("#compreport2_search_form").submit(function(event) {
-            event.preventDefault();
-            var formData = $(this).serialize();
-            //alert(formData.st);
-
-            var st = $("#st").val();
-            var ap = '5629-014-017';
-            var page_url = '' + APP_URL + '/login';
-            myarray = [];
-
-            $.ajax({
-                url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
-
-                type: "POST",
-                data: {
-
-                    "ProductNames": [
-                        "SalesComparables"
-                    ],
-                    "SearchType": "PROPERTY",
-                    "PropertyId": '8948416',
-                    "SalesCompSettings": {
-                        "CompsMaxNumber": 25
-                    }
-
-                },
-
-                headers: {
-                    'Authorization': localStorage.getItem('api_token')
-                },
-                success: function(data) {
-                    //alert('111')
-                    //console.log("abc" + data.StatusDescription);
-                    if (data) {
-                        console.log(data);
-
-                    }
-                },
-                statusCode: {
-                    400: function(data) {
-                        //alert( "page not found" );
-                        console.log(data.responseText);
-                        $(".error").text(data.responseJSON.Message);
-
-                    },
-                    401: function() {
-                        alert("unauthorized");
-                        //console.log(data.responseText);
-                        $(".error").text("Please Re-login.Token is expired");
-                        window.open(page_url, "_self");
-
-                    },
-
-                } ///main ajax success
-
-            });
-
-        });
+        
         /////////////////////////////div click//////////////
         $("#map_id").click(function() {
             $('html,body').animate({
@@ -1101,18 +1951,22 @@ else
 
     function buildTable3(data) {
         var table = document.getElementById('mytable3');
+        var maxcount = 1;
+        var mainval = maxcount * 0.01;
         table.innerHTML = "";
         for (var i = 0; i < data.length; i++) {
             var row = `<tr>
             <td>${[i+1]}</td>
-        <td>${data[i].PropertyId}</td>
+        <!--td>${data[i].PropertyId}</td-->
         <td>${data[i].County}</td>
         <td>${data[i].City}</td>
          <td>${data[i].State}</td>
          <td>${data[i].Owner}</td>
          <td>${data[i].Address}</td>
          <td>${data[i].Apn}</td>
-         <td>${data[i].Zip}</td>      
+         <td>${data[i].Zip}</td>
+        <td><input type='checkbox' id='sm' onclick=toggle(${maxcount}); class='su' value=${mainval} name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+      
         </tr>`
             table.innerHTML += row;
         }
@@ -1140,8 +1994,15 @@ else
 
     function buildTable2(data) {
         var table = document.getElementById('mytable2');
+        var pid = data.SubjectProperty.PropertyId;
+        var maxcount = 1;
+        var mainval = maxcount * 0.02;
+        var APP_URL = "{{ url('') }}";
+        //alert(APP_URL);
+        // alert(emailVerify);
+        var page_url = '' + APP_URL + '/pdf/' + pid + '';
         var row = `<tr>
-        <td>${data.SubjectProperty.PropertyId}</td>
+        <!--td>${data.SubjectProperty.PropertyId}</td-->
         <td>${data.SubjectProperty.SitusAddress.StreetAddress}</td>  
         <td>${data.SubjectProperty.SitusAddress.City}</td>
         <td>${data.SubjectProperty.SitusAddress.State}</td> 
@@ -1149,8 +2010,10 @@ else
          <td>${data.SiteInformation.Zoning }</td> 
           <td>${data.SiteInformation.CountyUse }</td> 
            <td>${data.SiteInformation.Acres }</td> 
-            <td>$${data.TaxInformation.AssessedValue }</td> 
-            <td><a href="#">Export Data</a></td>
+            <td>$${data.TaxInformation.AssessedValue }</td>
+        <td><input type='checkbox' id='sm' onclick=toggle(${maxcount}); class='su' value=${mainval} name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+ 
+            <td><a href=${page_url}>Download</a></td>
         </tr>`
         table.innerHTML += row;
 

@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Api\PDFController;
+
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -24,4 +26,9 @@ Route::group([
     Route::post('profile-update', [ApiController::class, "updateProfile"]);
     Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
     Route::post('research', [ApiController::class, 'research']);
+    //Route::post('pdf2', [PDFController::class, 'index']);
+    Route::post('pdf', [ApiController::class, 'pdf_download']);
+
+    
+
 });
