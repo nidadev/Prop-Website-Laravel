@@ -453,7 +453,7 @@
       <div class="col-md-12">
         <h2>Price Land Searches</h2>
         <hr class="line mx-auto">
-
+<h1>Total Comps: {{ isset($maxcount) ? $maxcount : '' }}</h1>
       </div>
     </div>
     <div class="row work_h2">
@@ -476,8 +476,8 @@
             <table class="display" style="width:100%" id="myDataTable4">
               <thead class="bg-grey-50">
                 <tr>
-                  <th>Total Comps</th>
                   <th>Acres</th>
+                  <th>City</th>
                   <th>State</th>
                   <th>County</th>
                   <th>Sale Price Range</th>
@@ -485,19 +485,22 @@
 
                 </tr>
               <tbody id="mytable4">
-@if(isset($maxcount))
+                <?php //dd($data);?>
+                @if(isset($loop))
+@foreach($loop as $d)
               <tr>
-                <td>{{ $maxcount }}</td>
                 <td>{{ $acr_range }}</td>
-
-                <td>{{ $data['LitePropertyList'][0]['State'] }}</td>
-                <td>{{ $data['LitePropertyList'][0]['County'] }}</td>
-                <td>${{ $sale_price}}</td>
+                <td>{{ $d['City'] }}</td>
+                
+                <td>{{ $d['State'] }}</td>
+                <td>{{ $d['County'] }}</td>
+                <td>${{ $sale_price }}</td>
                 <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')"; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
 
 
               </tr>
-@endif
+              @endforeach
+              @endif
               </tbody>
             </table>
         </div>
