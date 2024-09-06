@@ -101,8 +101,8 @@
 </section>
 
 <script>
-    $(document).ready(function() {
-        /*var token = localStorage.getItem('user_token2');
+     /*$(document).ready(function() {
+       var token = localStorage.getItem('user_token2');
         if (token) {
             $('#lg').show();
             $('#pf').show();
