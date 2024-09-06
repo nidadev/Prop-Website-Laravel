@@ -1230,45 +1230,45 @@ else
 
         ///////
         //alert(token);
-       /* $('#login_id').on('submit', function(event) {
-            event.preventDefault();
+        $('#login_id').on('submit', function(event) {
+             event.preventDefault();
 
-            //alert('123');
-            var APP_URL = "{{ url('') }}";
-            //alert(APP_URL);
-            var page_url = '' + APP_URL + '/profile';
-            //alert(test);
-            var formdata = $(this).serialize();
-            // alert(formdata);
-            $.ajax({
-                url: '{{ url("/api/login") }}',
-                type: "POST",
-                data: formdata,
-                success: function(data) {
-                    //alert(url);
-                    //alert(data);
-                    //console.log(data);
-                    if (data.success == false) {
-                        $('.incorrect').text(data.message);
-                    } else if (data.success == true) {
-                        //alert(data);
-                        console.log(data);
-                        $(".incorrect").text("");
-                        $(".result").text(data.message);
-                        localStorage.setItem("user_token2", data.token_type + " " + data.token);
-                        //alert(data.token_type);
-                        window.open(page_url, "_self");
-                        //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile', "_self");
-                    } else {
-                        printErrorMsgLogin(data);
-                    }
-                    //alert(data);
-                    //console.log(data);
-                },
+             //alert('123');
+             var APP_URL = "{{ url('') }}";
+             //alert(APP_URL);
+             var page_url = '' + APP_URL + '/profile';
+             //alert(test);
+             var formdata = $(this).serialize();
+             // alert(formdata);
+             $.ajax({
+                 url: '{{ url("/api/login") }}',
+                 type: "POST",
+                 data: formdata,
+                 success: function(data) {
+                     //alert(url);
+                     //alert(data);
+                     //console.log(data);
+                     if (data.success == false) {
+                         $('.incorrect').text(data.message);
+                     } else if (data.success == true) {
+                         //alert(data);
+                         console.log(data);
+                         $(".incorrect").text("");
+                         $(".result").text(data.message);
+                         localStorage.setItem("user_token2", data.token_type + " " + data.token);
+                         //alert(data.token_type);
+                         window.open(page_url, "_self");
+                         //window.open('http://165.140.69.88/~plotplaza/checkapi/example-app/public/profile', "_self");
+                     } else {
+                         printErrorMsgLogin(data);
+                     }
+                     //alert(data);
+                     //console.log(data);
+                 },
 
-            }); /////////////////login
+             }); /////////////////login
 
-        });*/
+         });
 
         $('#register').on('submit', function(event) {
             event.preventDefault();
@@ -1878,7 +1878,7 @@ else
 
         }); ///////click
 
-        
+
         /////////////////////////////div click//////////////
         $("#map_id").click(function() {
             $('html,body').animate({
