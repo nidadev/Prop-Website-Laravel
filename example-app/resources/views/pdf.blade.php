@@ -115,6 +115,11 @@ Legal Description:<br>
     <td> ${{ $average_price_river}}</td>
     <td></td>
   </tr>
+  <tr>
+    <td>Geo Adjusted Price </td>
+    <td> ${{ $geo_adjusted }}</td>
+    <td></td>
+  </tr>
   
 </table>
 <h6>Comps Overview</h6>
@@ -145,10 +150,10 @@ Legal Description:<br>
   </tr>
   <tr> 
     <td> Redfin </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td></td>
+    <td> {{ $total_red }}</td>
+    <td> ${{ $avg_per_acre_red}}</td>
+    <td>${{ $average_red}} </td>
+    <td>{{ $av_acre_red}}</td>
     <td> </td>
   </tr>
   

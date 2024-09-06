@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
            // guests: 'login',
             //users: 'profile'
         //);
+        $middleware->alias([
+            'userAuth' => \App\Http\Middleware\UserAuthenticate::class,
+            'IsAuth' => \App\Http\Middleware\IsAuthenticate::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

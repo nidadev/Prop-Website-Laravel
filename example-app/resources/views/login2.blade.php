@@ -21,11 +21,13 @@
 	      <h2 class="text-center mb-3">Login </h2>
         <!--form method="post" action="{{ url('/login') }}" id="login_id"-->
         
-        <p class="incorrect"></p>
+        @if(Session::has('error'))
+        <p class="incorrect">{{ Session::get('error') }}</p>
 
+        @endif
 
-          <form method="post" action="{{ url('/login') }}" id="login_id">
-        
+          <form method="post" action="{{ route('userLogin') }}" id="login_id">
+          @csrf
           <h6 class="mb-3 fw-bold">Email</h6>
           <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="40">Enter Email:
             <span class="error email_err">@error('email') {{$message}} @enderror</span>
