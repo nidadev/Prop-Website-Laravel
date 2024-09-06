@@ -1270,7 +1270,10 @@ else
 
          });
 
-        $('#register').on('submit', function(event) {
+       
+       
+       
+         $('#register').on('submit', function(event) {
             event.preventDefault();
             //alert('hi  hru');
             var formdata = $(this).serialize();
