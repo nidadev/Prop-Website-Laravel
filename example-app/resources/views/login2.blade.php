@@ -26,7 +26,7 @@
 
         @endif
 
-          <form method="post" action="{{ route('userLogin') }}" id="login_id">
+          <form method="post" action="{{ route('userLogin') }}">
           @csrf
           <h6 class="mb-3 fw-bold">Email</h6>
           <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="40">Enter Email:
