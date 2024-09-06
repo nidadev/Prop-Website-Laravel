@@ -527,49 +527,7 @@ class ApiController extends BaseController
                                     "FilterGroup": 1
 
                                 },
-                                {
-
-                                    "FilterName": "YearBuilt",
-
-                                    "FilterOperator": "is between",
-
-                                    "FilterValues": ["1800", "2024"],
-
-                                    "FilterGroup": 1
-
-                                },
-
-                                {
-
-                                    "FilterName": "ForSaleListedPrice",
-
-                                    "FilterOperator": "is between",
-
-                                    "FilterValues": ["1", "10000000"],
-
-                                    "FilterGroup": 1
-
-                                }, {
-
-                                    "FilterName": "TotalNumberOfBedrooms",
-
-                                    "FilterOperator": "is between",
-
-                                    "FilterValues": ["1", "2"],
-
-                                    "FilterGroup": 1
-
-                                }, {
-
-                                    "FilterName": "TotalNumberOfbathrooms",
-
-                                    "FilterOperator": "is",
-
-                                    "FilterValues": ["1"],
-
-                                    "FilterGroup": 1
-
-                                },
+                                
                             ] //
                         } //
                     }',
