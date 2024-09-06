@@ -453,7 +453,9 @@
       <div class="col-md-12">
         <h2>Price Land Searches</h2>
         <hr class="line mx-auto">
-<h1>Total Comps: {{ isset($maxcount) ? $maxcount : '' }}</h1>
+<h3>Total Comps: {{ isset($maxcount) ? $maxcount : '' }}</h3>
+Export all<input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')"; class='su' value="{{ $mainval_to_cp }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'>
+
       </div>
     </div>
     <div class="row work_h2">
@@ -503,6 +505,7 @@
               @endif
               </tbody>
             </table>
+            <a href="#">Download Table</a>
         </div>
       </div>
 
