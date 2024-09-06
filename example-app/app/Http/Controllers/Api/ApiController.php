@@ -183,7 +183,7 @@ class ApiController extends BaseController
             'message' => 'user logged in successfully',
             'token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            //'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
     }
     // Profile API - GET (JWT Auth Token)
