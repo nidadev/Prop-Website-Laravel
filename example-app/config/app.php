@@ -14,8 +14,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'client_id' => env('CLIENT_ID', 'c6a882e1-82c7-454d-9059-7b1a8b6ca111'),
-    'client_secret' => env('CLIENT_SECRET', 'e.s8Q~1R60mIoazbIJFHeeuLKbRs_zu_JeuHJcui'),
+    'client_id' => env('CLIENT_ID', '8e2c1c1b-dc1f-47f9-86cd-6b01dc8de457'),
+    'client_secret' => env('CLIENT_SECRET', 'hM58Q~uwzAj~2po4hZlxFVSBRHRy.~8DxQhCTc4t'),
     'rapid_key' => env('RAPID_KEY', '896c054dd8mshb6b3aa6ff000d3fp19756djsnc2c76cac4add'),
 
     /*

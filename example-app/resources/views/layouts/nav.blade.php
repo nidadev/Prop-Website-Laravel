@@ -28,7 +28,7 @@
 
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <!--li class="nav-item">
                         <a class="nav-link" href="{{ url('/priceland')}}" id="pl">Price Land </a>
                     </li>
                     <li class="nav-item">
@@ -47,7 +47,7 @@
                         <a class="nav-link" href="{{ url('/research')}}" role="button" id="rs">
                             Research
                         </a>
-                    </li>
+                    </li-->
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
                             Subscription
@@ -59,10 +59,10 @@
                             Account
                         </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url('/profile')}}" id="pf"> Profile</a></li>
-                            <li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li>
+                            <!--li><a class="dropdown-item" href="{{ url('/profile')}}" id="pf"> Profile</a></li-->
+                            <!--li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li-->
                             <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/login')}}" id="ln"> Login</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/login2')}}" id="ln"> Login</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -92,7 +92,7 @@
                 </ul>
                 <ul class="navbar-nav mb-0 ms-auto">
                     <li class="nav-item" id="login_b">
-                        <a class="nav-link button mx-3" href="{{ url('/login') }}"><i class="fa fa-user-plus me-1"></i>Login </a>
+                        <a class="nav-link button mx-3" href="{{ url('/login2') }}"><i class="fa fa-user-plus me-1"></i>Login </a>
                     </li>
                 </ul>
             </div>
@@ -102,7 +102,7 @@
 
 <script>
     $(document).ready(function() {
-        var token = localStorage.getItem('user_token2');
+        /*var token = localStorage.getItem('user_token2');
         if (token) {
             $('#lg').show();
             $('#pf').show();

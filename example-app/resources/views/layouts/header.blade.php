@@ -1230,7 +1230,7 @@ else
 
         ///////
         //alert(token);
-        $('#login_id').on('submit', function(event) {
+       /* $('#login_id').on('submit', function(event) {
             event.preventDefault();
 
             //alert('123');
@@ -1268,7 +1268,7 @@ else
 
             }); /////////////////login
 
-        });
+        });*/
 
         $('#register').on('submit', function(event) {
             event.preventDefault();
@@ -1497,7 +1497,7 @@ else
 
         /////////////////
         //////////////////////comp report ////////////////
-        $("#compreport_search_form").submit(function(event) {
+        /*$("#compreport_search_form").submit(function(event) {
             event.preventDefault();
             //alert(formData.st);
             var apn = $("#apn").val();
@@ -1566,7 +1566,7 @@ else
 
             });
 
-        });
+        });*/
 
         ///////////////////////////////////////////////
         //////////////////////comp2

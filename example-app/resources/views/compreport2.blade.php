@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.layout')
 
-@section('main')
+@section('content')
 
 <section id="center" class="center_h">
   <div class="center_om">
@@ -17,8 +17,16 @@
       </div>
       <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
         <div class="col-md-8">
-          <form id="compreport_search_form">
+        @if(Session::has('success'))
+        <p class="result">{{ Session::get('success') }}</p>
 
+        @endif
+        @if(Session::has('error'))
+        <p class="incorrect">{{ Session::get('error') }}</p>
+
+        @endif
+          <form id="compreport_search_form" method="post" action="{{ url('compreport')}}">
+@csrf
             <div class="center_h2l">
               <div class="center_h2li row">
                 <div class="col-md-4">
@@ -173,7 +181,7 @@
           <form method="post" action="{{ url('/pdf') }}" id="pdf_id">
 
             <input type="hidden" name="pd" id="pd" class="pid" value="">
-            <table class="display" style="width:100%" id="myDataTable2">
+            <table class="display" style="width:100%" id="myDataTable4">
               <thead class="bg-grey-50">
                 <tr>Total Property Listing
                   <!--th>Property Id</th-->
@@ -189,10 +197,27 @@
                   <td>Download</td>
                   <!--td>Lot area</td-->
                 </tr>
-              <tbody id="mytable2">
+              <tbody id="mytable4">
+              @if(isset($dt))
+              <tr>
+                <td>{{ $dt[0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'] }}</td>
+                <td>{{ $dt[0]['Data']['SubjectProperty']['SitusAddress']['City'] }}</td>
 
+                <td>{{ $dt[0]['Data']['SubjectProperty']['SitusAddress']['State'] }}</td>
+                <td>{{ $dt[0]['Data']['OwnerInformation']['Owner1FullName'] }}</td>
+                <td>{{ $dt[0]['Data']['SiteInformation']['Zoning'] }}</td>
+                <td>{{ $dt[0]['Data']['SiteInformation']['CountyUse'] }}</td>
+                <td>{{ $dt[0]['Data']['SiteInformation']['Acres'] }}</td>
+                <td>${{ $dt[0]['Data']['TaxInformation']['AssessedValue']}}</td>
+                <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')"; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+                <td><a href="{{ url('/pdf/'.$poperty_id.'') }}">Download</a></td>
+
+
+              </tr>
+              @endif
               </tbody>
             </table>
+            
           </form>
 
         </div>
