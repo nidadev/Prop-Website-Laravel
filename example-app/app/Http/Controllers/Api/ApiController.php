@@ -559,8 +559,9 @@ class ApiController extends BaseController
         $price = json_decode($getProperty->getBody(), true);
         $sale_price = $price['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
         $mainval = 1 * 0.01;
+        $mainval_to_cp = $maxcount * 0.01;
         //now get property id sal eprice 
-        return view('priceland', compact('maxcount', 'loop','mainval', 'acr_range', 'data', 'sale_price'));
+        return view('priceland', compact('maxcount', 'loop','mainval', 'mainval_to_cp','acr_range', 'data', 'sale_price'));
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
             $response = $e->getResponse();
