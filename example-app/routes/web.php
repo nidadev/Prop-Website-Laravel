@@ -90,6 +90,8 @@ Route::group(['middleware' => ['IsAuth']],function(){
 
     Route::get('/priceland', [ApiController::class,'loadPriceReport'])->name('priceland');
     Route::post('/priceland', [ApiController::class,'GetPriceReport'])->name('priceland');
+    Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
+
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
 

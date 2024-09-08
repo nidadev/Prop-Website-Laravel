@@ -150,10 +150,35 @@ if(window.Stripe)
       else
       {
         console.log(result);
+        createSubscription(result.token);
       }
       });
     });
 
+}
+
+function createSubscription(token)
+{
+$.ajax(
+{
+  url: "{{ route('CreateSubscription')}}",
+  type: "POST",
+  data:{ data:token,_token: "{{ csrf_token() }}"},
+  success:function(response)
+  {
+    if(response.success)
+  {
+ console.log(response);
+  }
+  else
+  {
+    alert('something wrong');
+  }
+
+  }
+
+
+});
 }
 </script>
 @endpush
