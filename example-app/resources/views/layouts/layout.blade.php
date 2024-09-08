@@ -9,10 +9,11 @@
   {
     color:green;
   }
-  #myDataTable4_wrapper
+  #myDataTable4_wrapper,.work_h2i 
   {
     font-size:12px;
   }
+  
   .loader {
         border: 16px solid #f3f3f3;
         border-radius: 50%;
