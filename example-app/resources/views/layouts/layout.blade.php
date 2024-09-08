@@ -9,6 +9,42 @@
   {
     color:green;
   }
+  #myDataTable4_wrapper
+  {
+    font-size:12px;
+  }
+  .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        /* Safari */
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
   </style>
   <head>
     <meta charset="utf-8">
@@ -36,6 +72,11 @@
      $(document).ready(function() {
       //alert('')
         $.noConflict();
+        $(".run").click(function()
+        {//alert('')
+          $('.loader').show();
+          $('.sm-txt').show();
+        });
         $("#myDataTable4").DataTable();
 $('.confirmationBtn').click(function(){
   var planId = $(this).data('id');
@@ -991,7 +1032,7 @@ $('.confirmationBtn').click(function(){
         $('.su:checked').each(function() { // iterate through each checked element.
 
             total += isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val());
-            actual = total;
+            actual = total.toFixed(2);
 
         });
         $("#total_val").text(actual);

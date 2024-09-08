@@ -297,7 +297,7 @@
                     <div class="center_h2ri row">
                       <div class="col-md-4">
                         <div class="center_h2ril">
-                          <span><input type="submit" style="border:none" class="button" value="Run Report"> </span>
+                          <span><input type="submit" style="border:none" class="button run" value="Run Report"> </span>
 
                         </div>
                       </div>
