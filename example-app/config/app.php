@@ -17,6 +17,8 @@ return [
     'client_id' => env('CLIENT_ID', '8e2c1c1b-dc1f-47f9-86cd-6b01dc8de457'),
     'client_secret' => env('CLIENT_SECRET', 'hM58Q~uwzAj~2po4hZlxFVSBRHRy.~8DxQhCTc4t'),
     'rapid_key' => env('RAPID_KEY', '896c054dd8mshb6b3aa6ff000d3fp19756djsnc2c76cac4add'),
+    'stripe_public' => env('STRIPE_PUBLIC_KEY', 'pk_test_51PwjR5Qp70ykKzmdC5yiAPLnKS75LrXIO1zXfVlz21adLHWiOKUVOobh2QQOheKpzHqcqy0g0Jcq9rOZsEQ7caGH00IjAeNEnO'),
+    'stripe_secret' => env('STRIPE_SECRET', 'sk_test_51PwjR5Qp70ykKzmdkWhSdcW8OnP0SuDRUFtI19u4wC3kuGmpsTltAenHGLu78anZCxyIdA4HUzN87h07URYRHW2M00NMXPTu5p'),
 
     /*
     |--------------------------------------------------------------------------

@@ -84,12 +84,14 @@ Route::group(['middleware' => ['IsAuth']],function(){
     Route::post('/get-plan-details',[SubscriptionController::class,'getPlanDetails'])->name('getPlanDetails');
 
     Route::get('/compreport', [ApiController::class,'loadCompReport'])->name('compreport');
-    Route::get('/logout', [ApiController::class,'Logout'])->name('logout');
+    Route::post('/logout', [ApiController::class,'Logout'])->name('logout');
 
     Route::post('/compreport', [ApiController::class,'GetCompReport'])->name('compreport');
 
     Route::get('/priceland', [ApiController::class,'loadPriceReport'])->name('priceland');
     Route::post('/priceland', [ApiController::class,'GetPriceReport'])->name('priceland');
+    Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
+
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
 

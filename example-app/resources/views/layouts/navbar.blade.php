@@ -20,7 +20,7 @@
           <a class="nav-link {{ Route::is('priceland') ? 'active' : '' }}" aria-current="page" href="{{ route('priceland') }}">PriceLand</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Route::is('logout') ? 'active' : '' }}" aria-current="page" href="{{ route('logout') }}">Logout</a>
+          <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
         </li>
         @endif
         <li class="nav-item">
