@@ -2023,10 +2023,8 @@ class ApiController extends BaseController
         'p18' => $sp19]
         ;
         //dd($data);
-        //dd($data['res1']['MaxResultsCount']);
-        //$avg_acr_price = number_format($sale_price/($acr1+$acr2),2);
         $mainval = 1 * 0.01;
-        //$mainval_to_cp = $maxcount * 0.01;
+       
         //now get property id sal eprice 
         return view('priceland', compact('mainval', 'data', 'sale_price'));
         } catch (\Exception $e) {
@@ -2266,12 +2264,10 @@ class ApiController extends BaseController
             $pdf = Pdf::loadView('pdf', $data);
             return $pdf->download('compreport.pdf');
         } catch (\Exception $e) {
-            //throw new HttpException(500, $e->getMessage());
             $response = $e->getResponse();
             $fromserver = 'Server error';
             $msg = json_decode($response->getBody()->getContents(), true);
             $error = $msg ? $msg : $fromserver;
-            //dd($response['reasonPhrase']);
             return  back()->with('error', $error);
         }
     }
