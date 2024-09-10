@@ -1230,7 +1230,7 @@ else
 
         ///////
         //alert(token);
-        $('#login_id').on('submit', function(event) {
+        /*$('#login_id').on('submit', function(event) {
              event.preventDefault();
 
              //alert('123');
@@ -1298,7 +1298,7 @@ else
                 },
 
             })
-        });
+        });*/
         ////////////////////////////logout////////////////
 
         ////////////////////////////profile//////////////
