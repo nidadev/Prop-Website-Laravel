@@ -61,16 +61,5 @@
 </section>
 @endsection
 
-<style>
-    span,
-    .incorrect {
-        color: red;
-    }
-
-    p.result {
-        color: green;
-    }
-</style>
-
 
 
