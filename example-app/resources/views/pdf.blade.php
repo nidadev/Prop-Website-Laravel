@@ -32,6 +32,11 @@ table, th, td {
 .main td {
     padding:20px;
 }
+.sale_com
+{
+  background-color:#740979;
+  color:#fff;
+}
 </style>
 </head>
 <body>
@@ -72,8 +77,8 @@ Alternate APN:<br></p>
 </section></td>
 <td><section style="background-color:lightblue;color:#000;">
 <h4>Public Records</h4>
-<p>Assessed Total Value: {{ $assesd_val }}<br>
-Assessed Market Value: {{ $mar_v }}<br>
+<p>Assessed Total Value: ${{ $assesd_val }}<br>
+Assessed Market Value: ${{ $mar_v }}<br>
 Prior Sale Date: {{ $sal_d}}<br>
 Prior Sale Mortgage:<br>
 DataTree Estimated Value:<br>
@@ -156,8 +161,47 @@ Legal Description:<br>
     <td>{{ $av_acre_red}}</td>
     <td> </td>
   </tr>
-  
- 
+  <tr> 
+    <td> Realtor </td>
+    <td> {{ $realto_s }}</td>
+    <td>${{ $av_pr_ac_real }}</td>
+    <td> ${{ $avg_pr_realtor }}</td>
+    <td>{{ $avg_ac }}</td>
+    <td> </td>
+  </tr>  
+</table>
+<h6>Sale Comps Overview</h6>
+<table>
+  <tr>
+    <th class="sale_com">Acreage</th>
+    <th class="sale_com">Price</th>
+    <th class="sale_com">Price/Acre </th>
+    <th class="sale_com">Distance</th>
+    <th class="sale_com">city</th>
+    <th class="sale_com">County</th>
+    <th class="sale_com">Source</th>
+
+  </tr>
+  <tr> 
+    <td> {{$acre_real}}</td>
+    <td> ${{ $list_p_real}}</td>
+    <td> {{ $real_price_per}} </td>
+    <td> {{ $dis_zill }}</td>
+    <td> {{$real_cty}}</td>
+    <td> {{$real_coun}}</td>
+    <td> <a href="{{$href_real}}">Realtor</a></td>
+  </tr>
+  @if($acre_red)
+  <tr> 
+    <td> {{$acre_red}}</td>
+    <td> ${{ $list_p_red}}</td>
+    <td> {{ $red_price_per}} </td>
+    <td> {{ $dis_zill }}</td>
+    <td> {{$red_cty}}</td>
+    <td> {{$red_coun}}</td>
+    <td> <a href="https://redfin.com{{$href_redfin}}">Redfin</a></td>
+  </tr>
+ @endif
   
 </table>
 
