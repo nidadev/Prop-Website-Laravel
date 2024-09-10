@@ -339,7 +339,7 @@ class ApiController extends BaseController
 
     public function userLogin(Request $request)
     {
-        //dd($request);
+        dd($request);
         $userCredentials = $request->only('email', 'password');
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
