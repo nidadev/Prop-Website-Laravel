@@ -357,7 +357,6 @@ class ApiController extends BaseController
         }
         $success = $this->respondWithToken2($token);
         if ($success) {
-
             return view('dashboard', ['data' => $token]);
         }
         //return redirect()->route('userLogin')->withErrors('uSer password mismatch');
@@ -2038,7 +2037,7 @@ class ApiController extends BaseController
     public function Logout(Request $request)
     {
         try {
-            $request->session()->flush();
+            //$request->session()->flush();
             Auth::logout();
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
