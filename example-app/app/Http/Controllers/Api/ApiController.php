@@ -2112,12 +2112,15 @@ class ApiController extends BaseController
 
             $average_price_river = $sum_sale[0][0];
             //dd($average_price_river);
+            //dd($add_data[0]);
+
+            $address_property = isset($add_data[0][0][2]) ? $add_data[0][0][2] : $add_data[0][0][1];
 
 
             //return  $add_data[0][1];
 
             //get zillow data 
-            $zillow_sales = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/byaddress?propertyaddress=' . $add_data[0][0][0] . '', [
+            $zillow_sales = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/byaddress?propertyaddress=' . $address_property . '', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -2201,12 +2204,14 @@ class ApiController extends BaseController
 
             $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
             //dd($zillow_comp_data);
+            $z_D = $this->getZillowData($zillow_comp_data);
+           // dd($z_D);
 
             $total_rec = count($zillow_comp_data);
             //$avg_acr_zll = $this->getZillowData($zillow_comp_data);
-            $avg_acr_ll = str_replace(',', '', number_format((float)($this->getZillowData($zillow_comp_data) / $total_rec), 2));
-            $avg_acr_ll_ = str_replace(',', '', number_format((float)($this->getZillowData($zillow_comp_data)), 2));
-            //dd($avg_acr_ll_);
+            $avg_acr_ll = str_replace(',', '', number_format((float)($z_D['sum'] / $total_rec), 2));
+            $avg_acr_ll_ = str_replace(',', '', number_format((float)($z_D['sum']), 2));
+           // dd($avg_acr_ll_);
             $salecount =  $salesdata['Reports'][0]['Data']['ComparableCount'];
             //dd($sum_sale[0][0]);
             $avr_pr = str_replace(',', '', number_format((float)($sum_sale[0][0] / $salecount), 2));
@@ -2218,6 +2223,7 @@ class ApiController extends BaseController
             $market_av = number_format((float)($county_av / $avr_acr), 2);
 
             $avr_d = number_format((float)($sum_sale[0][2] / $salecount), 2);
+            //dd($avr_d);
             //return $avr_acr;
             //dd($sum_sale[0][0],$sum_sale[0][1]);
             $aver_per_ac = number_format((float)($sum_sale[0][0] / $sum_sale[0][1]), 2);
@@ -2306,6 +2312,12 @@ class ApiController extends BaseController
                 'red_price_per' => isset($red_av_ac) ? $red_av_ac : 0,
                 'red_coun' => isset($redfin_d['county']) ? $redfin_d['county'] : '',
                 'red_cty' => isset($redfin_d['city']) ? $redfin_d['city'] : '',
+                'href_zll' => $z_D['source'],
+                'list_p_zll' => $z_D['price'],
+                'acre_zll' => $z_D['acre'],
+                'zll_price_per' => number_format($z_D['price']/$z_D['acre'],2),
+                'zll_coun' => $z_D['county'],
+                'zll_cty' => $z_D['city'],
 
             ];
             //dd($data);
@@ -2478,11 +2490,23 @@ class ApiController extends BaseController
         // Get states array
         $zillowcomps = $data;
         $sum = 0;
+        $sale_sum = 0;
 
         foreach ($zillowcomps as $zillowcomp) {
             $price = $zillowcomp['price'];
+            $sqft = $zillowcomp['livingArea'];
+            $acre_ = number_format($sqft / 43560, 2);
+            $source = $zillowcomp['zpid'];
+            $list_price = $zillowcomp['price'];
+            $county = $zillowcomp['address']['state'];
+            $city = $zillowcomp['address']['city'];
             $sum += $price;
-            $sale_sum = $sum;
+            $sale_sum = ['sum' => $sum,
+        'acre' => $acre_,
+                'source' =>  $source,
+                'price' => $list_price,
+                'county' => $county,
+                'city' => $city ];
         }
         return $sale_sum;
     }
@@ -2505,7 +2529,7 @@ class ApiController extends BaseController
         foreach ($realtorcomps as $realtorcomp) {
             $price = $realtorcomp['list_price'];
             $sum += $price;
-            $sqft = isset($realtorcomp['description']['lot_sqft']) ? $realtorcomp['description']['lot_sqft'] : 0;
+            $sqft = isset($realtorcomp['description']['lot_sqft']) ? $realtorcomp['description']['lot_sqft'] : $realtorcomp['description']['sqft'];
             $acre[] = number_format($sqft / 43560, 2);
             $acre_sum += number_format($sqft / 43560, 2);
             $acre_ = number_format($sqft / 43560, 2);
