@@ -2248,8 +2248,11 @@ class ApiController extends BaseController
             $realtor = json_decode($realtor_sales_comp->getBody(), true);
             $price_data_real = $this->getRealtorData($realtor);
             $realto_s = isset($realtor['totalResultCount']) ? $realtor['totalResultCount'] : 0;
-            //dd($price_data_real);
-            if ($realtor['totalResultCount'] > 0) {
+           // dd($price_data_real);
+            $avg_pr_realtor = 0;$avg_ac = 0; $av_pr_ac_real = 0;
+            if ($price_data_real > 0) {
+                //dd('inside');
+
                 $avg_pr_realtor = str_replace(',', '', number_format($price_data_real['price_sum'] / $realto_s, 2));
                 //dd($avg_pr_realtor);
                 $avg_ac = number_format($price_data_real['acre_sum'] / $realto_s, 2);
@@ -2301,18 +2304,18 @@ class ApiController extends BaseController
                 'avg_pr_realtor' => $avg_pr_realtor,
                 'avg_ac' => $avg_ac,
                 'av_pr_ac_real' => $av_pr_ac_real,
-                'href_real' => $price_data_real['source_all'][0],
-                'list_p_real' => $price_data_real['price_all'][0],
-                'acre_real' => $price_data_real['acre_all'][0],
-                'real_price_per' => number_format($price_data_real['price_all'][0]/$price_data_real['acre_all'][0],2),
-                'real_coun' => $price_data_real['county_all'][0],
-                'real_cty' => $price_data_real['city_all'][0],
-                'href_real1' => $price_data_real['source_all'][1],
-                'list_p_real1' => $price_data_real['price_all'][1],
-                'acre_real1' => $price_data_real['acre_all'][1],
-                'real_price_per1' => number_format($price_data_real['price_all'][1]/$price_data_real['acre_all'][1],2),
-                'real_coun1' => $price_data_real['county_all'][1],
-                'real_cty1' => $price_data_real['city_all'][1],
+                'href_real' => isset($price_data_real['source_all'][0]) ? $price_data_real['source_all'][0] : 0,
+                'list_p_real' => isset($price_data_real['price_all'][0]) ? $price_data_real['price_all'][0] : 0 ,
+                'acre_real' => isset($price_data_real['acre_all'][0]) ? $price_data_real['acre_all'][0]: 0,
+                'real_price_per' => isset($price_data_real['price_all'][0]) ? number_format($price_data_real['price_all'][0]/$price_data_real['acre_all'][0],2) : 0,
+                'real_coun' => isset($price_data_real['county_all'][0]) ? $price_data_real['county_all'][0] : 0 ,
+                'real_cty' => isset($price_data_real['city_all'][0]) ? $price_data_real['city_all'][0] : 0,
+                'href_real1' => isset($price_data_real['source_all'][1]) ? $price_data_real['source_all'][1] : 0,
+                'list_p_real1' => isset($price_data_real['price_all'][1]) ? $price_data_real['price_all'][1] : 0,
+                'acre_real1' => isset($price_data_real['acre_all'][1]) ? $price_data_real['acre_all'][1] : 0,
+                'real_price_per1' => isset($price_data_real['price_all'][1]) ? number_format($price_data_real['price_all'][1]/$price_data_real['acre_all'][1],2) : 0,
+                'real_coun1' => isset($price_data_real['county_all'][1]) ? $price_data_real['county_all'][1] : 0,
+                'real_cty1' => isset($price_data_real['city_all'][1]) ? $price_data_real['city_all'][1] : 0 ,
                 'href_redfin' => isset($redfin_d['source']) ? $redfin_d['source'] : '',
                 'list_p_red' => isset($redfin_d['price']) ? $redfin_d['price'] : 0,
                 'acre_red' => isset($redfin_d['acre_']) ? $redfin_d['acre_'] : 0,
