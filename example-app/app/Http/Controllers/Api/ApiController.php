@@ -2353,7 +2353,7 @@ class ApiController extends BaseController
         $sum = 0;
         $sum_acr = 0;
         $sum_d = 0;
-
+$arr = 0;
 
         foreach ($salescomps as $salescomp) {
             $sum += $salescomp['LastMarketSaleInformation']['SalePrice'];
