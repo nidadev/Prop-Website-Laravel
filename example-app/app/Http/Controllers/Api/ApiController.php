@@ -2394,7 +2394,7 @@ $arr = 0;
         // Get states array
         $salescomps = $data['Reports'][0]['Data']['ComparableProperties'];
 
-
+        $arr = 0;
         foreach ($salescomps as $salescomp) {
             if (!empty($salescomp['SitusAddress']['City'])) {
                 $price[] = $salescomp['LastMarketSaleInformation']['SalePrice'];
