@@ -2205,6 +2205,7 @@ class ApiController extends BaseController
             $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
             //dd($zillow_comp_data);
             $z_D = $this->getZillowData($zillow_comp_data);
+            $t_c = count($z_D);
            // dd($z_D);
 
             $total_rec = count($zillow_comp_data);
@@ -2300,24 +2301,43 @@ class ApiController extends BaseController
                 'avg_pr_realtor' => $avg_pr_realtor,
                 'avg_ac' => $avg_ac,
                 'av_pr_ac_real' => $av_pr_ac_real,
-                'href_real' => $price_data_real['source'],
-                'list_p_real' => $price_data_real['price'],
-                'acre_real' => $price_data_real['acre'],
-                'real_price_per' => number_format($price_data_real['price']/$price_data_real['acre'],2),
-                'real_coun' => $price_data_real['county'],
-                'real_cty' => $price_data_real['city'],
+                'href_real' => $price_data_real['source_all'][0],
+                'list_p_real' => $price_data_real['price_all'][0],
+                'acre_real' => $price_data_real['acre_all'][0],
+                'real_price_per' => number_format($price_data_real['price_all'][0]/$price_data_real['acre_all'][0],2),
+                'real_coun' => $price_data_real['county_all'][0],
+                'real_cty' => $price_data_real['city_all'][0],
+                'href_real1' => $price_data_real['source_all'][1],
+                'list_p_real1' => $price_data_real['price_all'][1],
+                'acre_real1' => $price_data_real['acre_all'][1],
+                'real_price_per1' => number_format($price_data_real['price_all'][1]/$price_data_real['acre_all'][1],2),
+                'real_coun1' => $price_data_real['county_all'][1],
+                'real_cty1' => $price_data_real['city_all'][1],
                 'href_redfin' => isset($redfin_d['source']) ? $redfin_d['source'] : '',
                 'list_p_red' => isset($redfin_d['price']) ? $redfin_d['price'] : 0,
                 'acre_red' => isset($redfin_d['acre_']) ? $redfin_d['acre_'] : 0,
                 'red_price_per' => isset($red_av_ac) ? $red_av_ac : 0,
                 'red_coun' => isset($redfin_d['county']) ? $redfin_d['county'] : '',
                 'red_cty' => isset($redfin_d['city']) ? $redfin_d['city'] : '',
-                'href_zll' => $z_D['source'],
-                'list_p_zll' => $z_D['price'],
-                'acre_zll' => $z_D['acre'],
-                'zll_price_per' => number_format($z_D['price']/$z_D['acre'],2),
-                'zll_coun' => $z_D['county'],
-                'zll_cty' => $z_D['city'],
+                'href_zll' => $z_D['source_all'][$t_c-1],
+                'list_p_zll' => $z_D['price_all'][$t_c-1],
+                'acre_zll' => $z_D['acre_all'][$t_c-1],
+                'zll_price_per' => number_format($z_D['price_all'][$t_c-1]/$z_D['acre_all'][$t_c-1],2),
+                'zll_coun' => $z_D['county_all'][$t_c-1],
+                'zll_cty' => $z_D['city_all'][$t_c-1],
+                'href_zll1' => $z_D['source_all'][$t_c-2],
+                'list_p_zll1' => $z_D['price_all'][$t_c-2],
+                'acre_zll1' => $z_D['acre_all'][$t_c-2],
+                'zll_price_per1' => number_format($z_D['price_all'][$t_c-2]/$z_D['acre_all'][$t_c-2],2),
+                'zll_coun1' => $z_D['county_all'][$t_c-2],
+                'zll_cty1' => $z_D['city_all'][$t_c-2],               
+
+                'href_zll2' => $z_D['source_all'][$t_c-3],
+                'list_p_zll2' => $z_D['price_all'][$t_c-3],
+                'acre_zll2' => $z_D['acre_all'][$t_c-3],
+                'zll_price_per2' => number_format($z_D['price_all'][$t_c-3]/$z_D['acre_all'][$t_c-3],2),
+                'zll_coun2' => $z_D['county_all'][$t_c-3],
+                'zll_cty2' => $z_D['city_all'][$t_c-3],
 
             ];
             //dd($data);
@@ -2495,18 +2515,32 @@ $arr = 0;
         foreach ($zillowcomps as $zillowcomp) {
             $price = $zillowcomp['price'];
             $sqft = $zillowcomp['livingArea'];
+            $sqft_all[] = $zillowcomp['livingArea'];
+
             $acre_ = number_format($sqft / 43560, 2);
+            $acre_all[] = number_format($sqft / 43560, 2);
+
             $source = $zillowcomp['zpid'];
             $list_price = $zillowcomp['price'];
             $county = $zillowcomp['address']['state'];
             $city = $zillowcomp['address']['city'];
+            
+            $price_all[] = $zillowcomp['price'];
+            $source_all[] = $zillowcomp['zpid'];
+            $county_all[] = $zillowcomp['address']['state'];
+            $city_all[] = $zillowcomp['address']['city'];
             $sum += $price;
             $sale_sum = ['sum' => $sum,
         'acre' => $acre_,
                 'source' =>  $source,
                 'price' => $list_price,
                 'county' => $county,
-                'city' => $city ];
+                'city' => $city,
+                'county_all' => $county_all,
+                'city_all' => $city_all,
+                'acre_all' => $acre_all,
+                'price_all' => $price_all,
+                'source_all' => $source_all, ];
         }
         return $sale_sum;
     }
@@ -2534,15 +2568,24 @@ $arr = 0;
             $acre_sum += number_format($sqft / 43560, 2);
             $acre_ = number_format($sqft / 43560, 2);
             $source = $realtorcomp['href'];
+            $price_all[] = $realtorcomp['list_price'];
+            $source_all[] = $realtorcomp['href'];
             $list_price = $realtorcomp['list_price'];
             $county = $realtorcomp['location']['county']['name'];
+            $county_all[] = $realtorcomp['location']['county']['name'];
             $city = $realtorcomp['location']['address']['city'];
+            $city_all[] = $realtorcomp['location']['address']['city'];
 
 
             $sale_sum = [
-                'price_sum' => $sum,
+                'price_sum' => $sum,               
                 'acre_sum' => $acre_sum,
                 'data' => $realtorcomp,
+                'county_all' => $county_all,
+                'city_all' => $city_all,
+                'acre_all' => $acre,
+                'price_all' => $price_all,
+                'source_all' => $source_all,
                 'acre' => $acre_,
                 'source' =>  $source,
                 'price' => $list_price,

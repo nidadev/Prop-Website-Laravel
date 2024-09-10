@@ -186,7 +186,7 @@ Legal Description:<br>
     <td> {{$acre_real}}</td>
     <td> ${{ $list_p_real}}</td>
     <td> {{ $real_price_per}} </td>
-    <td> {{ $dis_zill }}</td>
+    <td> {{ $dis_zill }} miles</td>
     <td> {{$real_cty}}</td>
     <td> {{$real_coun}}</td>
     <td> <a href="{{$href_real}}">Realtor</a></td>
@@ -206,12 +206,39 @@ Legal Description:<br>
     <td> {{$acre_zll}}</td>
     <td> ${{ $list_p_zll}}</td>
     <td> {{ $zll_price_per}} </td>
-    <td> {{ $dis_zill }}</td>
+    <td> {{ $dis_zill }} miles</td>
     <td> {{$zll_cty}}</td>
     <td> {{$zll_coun}}</td>
     <td> <a href="https://zillow.com/homedetails/{{$href_zll}}_zpid">Zillow</a></td>
   </tr>
-  
+  <tr> 
+    <td> {{$acre_real1}}</td>
+    <td> ${{ $list_p_real1}}</td>
+    <td> {{ $real_price_per1}} </td>
+    <td> {{ $dis_zill}} miles</td>
+    <td> {{$real_cty1}}</td>
+    <td> {{$real_coun1}}</td>
+    <td> <a href="{{$href_real1}}">Realtor</a></td>
+  </tr>
+  <tr> 
+    <td> {{$acre_zll1}}</td>
+    <td> ${{ $list_p_zll1}}</td>
+    <td> {{ $zll_price_per1}} </td>
+    <td> {{ $dis_zill }} miles</td>
+    <td> {{$zll_cty1}}</td>
+    <td> {{$zll_coun1}}</td>
+    <td> <a href="https://zillow.com/homedetails/{{$href_zll1}}_zpid">Zillow</a></td>
+  </tr>
+  <tr> 
+    <td> {{$acre_zll2}}</td>
+    <td> ${{ $list_p_zll2}}</td>
+    <td> {{ $zll_price_per2}} </td>
+    <td> {{ $dis_zill }} miles</td>
+    <td> {{$zll_cty2}}</td>
+    <td> {{$zll_coun2}}</td>
+    <td> <a href="https://zillow.com/homedetails/{{$href_zll2}}_zpid">Zillow</a></td>
+  </tr>
+ 
 </table>
 
 </body>
