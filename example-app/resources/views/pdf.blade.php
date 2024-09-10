@@ -202,6 +202,15 @@ Legal Description:<br>
     <td> <a href="https://redfin.com{{$href_redfin}}">Redfin</a></td>
   </tr>
  @endif
+ <tr> 
+    <td> {{$acre_zll}}</td>
+    <td> ${{ $list_p_zll}}</td>
+    <td> {{ $zll_price_per}} </td>
+    <td> {{ $dis_zill }}</td>
+    <td> {{$zll_cty}}</td>
+    <td> {{$zll_coun}}</td>
+    <td> <a href="https://zillow.com/homedetails/{{$href_zll}}_zpid">Zillow</a></td>
+  </tr>
   
 </table>
 
