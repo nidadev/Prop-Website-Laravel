@@ -182,6 +182,7 @@ Legal Description:<br>
     <th class="sale_com">Source</th>
 
   </tr>
+  @if($acre_real)
   <tr> 
     <td> {{$acre_real}}</td>
     <td> ${{ $list_p_real}}</td>
@@ -191,6 +192,16 @@ Legal Description:<br>
     <td> {{$real_coun}}</td>
     <td> <a href="{{$href_real}}">Realtor</a></td>
   </tr>
+  <tr> 
+    <td> {{$acre_real1}}</td>
+    <td> ${{ $list_p_real1}}</td>
+    <td> {{ $real_price_per1}} </td>
+    <td> {{ $dis_zill}} miles</td>
+    <td> {{$real_cty1}}</td>
+    <td> {{$real_coun1}}</td>
+    <td> <a href="{{$href_real1}}">Realtor</a></td>
+  </tr>
+  @endif
   @if($acre_red)
   <tr> 
     <td> {{$acre_red}}</td>
@@ -211,15 +222,7 @@ Legal Description:<br>
     <td> {{$zll_coun}}</td>
     <td> <a href="https://zillow.com/homedetails/{{$href_zll}}_zpid">Zillow</a></td>
   </tr>
-  <tr> 
-    <td> {{$acre_real1}}</td>
-    <td> ${{ $list_p_real1}}</td>
-    <td> {{ $real_price_per1}} </td>
-    <td> {{ $dis_zill}} miles</td>
-    <td> {{$real_cty1}}</td>
-    <td> {{$real_coun1}}</td>
-    <td> <a href="{{$href_real1}}">Realtor</a></td>
-  </tr>
+ 
   <tr> 
     <td> {{$acre_zll1}}</td>
     <td> ${{ $list_p_zll1}}</td>
