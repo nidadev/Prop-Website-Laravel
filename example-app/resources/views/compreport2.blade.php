@@ -132,7 +132,7 @@
             <div class="center_h2ri row">
               <div class="col-md-4">
                 <div class="center_h2ril">
-                  <br><input type="submit" style="border:none" class="button" value="Run Report">
+                  <br><input type="submit" style="border:none" class="button run" value="Run Report">
                   </form>
                 </div>
               </div>
@@ -158,6 +158,7 @@
         <hr class="line mx-auto">
         <p class="error"></p>
         <div class="loader" style="display:none"></div>
+        <p class="sm-txt" style="display:none">Wait for 5 minutes.Getting Comp Records...</p>
 
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
           Total Amount:<span id="total_val"></span>
@@ -210,7 +211,7 @@
                 <td>{{ $dt[0]['Data']['SiteInformation']['Acres'] }}</td>
                 <td>${{ $dt[0]['Data']['TaxInformation']['AssessedValue']}}</td>
                 <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')"; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
-                <td><a href="{{ url('/pdf/'.$poperty_id.'') }}">Download</a></td>
+                <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="">Download</a></td>
 
 
               </tr>

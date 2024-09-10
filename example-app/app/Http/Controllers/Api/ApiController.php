@@ -430,9 +430,13 @@ class ApiController extends BaseController
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
             $response = $e->getResponse();
+            $emsg = $e->getMessage();
+            //dd($response);
+            $fromserver = 'No records found . or Server error';
             $msg = json_decode($response->getBody()->getContents(), true);
-
-            return  back()->with('error', $msg['Message']);
+            $error = $msg ? $msg : $fromserver;
+            //dd($response['reasonPhrase']);
+            return  redirect()->to('compreport2')->with('error', $error);
         }
         //dd($data);
     }
@@ -2178,13 +2182,22 @@ class ApiController extends BaseController
             $redfin_data = json_decode($redfin_sales_comp->getBody(), true);
             //dd($redfin_data);
             $redfin_d = $this->getRedfinData($redfin_data);
-            // dd($redfin_d);
-            $sum_acre = $redfin_d['sum_acre'];
-            $total_red = count($redfin_d['p_id']);
-            $total_prce_sum_red = str_replace(',', '', $redfin_d['pr_sum']);
-            $av_acre_red = number_format($sum_acre / $total_red, 2);
-            $average_red = number_format($redfin_d['pr_sum'] / $total_red, 2);
-            $avg_per_acre_red = number_format($total_prce_sum_red / $sum_acre, 2);
+            $redfin_d = isset($redfin_d) ? $redfin_d : 0;
+            //dd($redfin_d);
+            $sum_acre = isset($redfin_d['sum_acre']) ? $redfin_d['sum_acre'] : 0;
+            //dd($sum_acre);
+            $total_red = isset($redfin_d['p_id']) ? count($redfin_d['p_id']) : 0;
+            $total_prce_sum_red = isset($redfin_d['pr_sum']) ? str_replace(',', '', $redfin_d['pr_sum']) : 0;
+            if ($sum_acre > 0) {
+                $av_acr = number_format($sum_acre / $total_red, 2);
+                $avg_sc_r = number_format($total_prce_sum_red / $sum_acre, 2);
+                $red_av_ac = number_format($redfin_d['price']/$redfin_d['acre_'],2);
+            };
+
+            $av_acre_red = isset($av_acr) ? $av_acr : 0;
+            $average_red = isset($redfin_d['pr_sum']) ? number_format($redfin_d['pr_sum'] / $total_red, 2) : 0;
+
+            $avg_per_acre_red = isset($avg_sc_r) ? $avg_sc_r : 0;
 
 
             $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
@@ -2212,6 +2225,31 @@ class ApiController extends BaseController
             //avg per acre zillow
             //  dd($avg_acr_ll_,$zill_acre_avg_,$sum_sale[0][1]); 
             $av_per_acre_zill = number_format((float)($avg_acr_ll_ / $zill_acre_avg_), 2);
+            //dd($city_red);
+            $realtor_sales_comp = $client->request('GET', 'https://us-real-estate-listings.p.rapidapi.com/for-sale?location=' . $city_red . '"&offset=0&limit=50&sort=relevance&days_on=1&expand_search_radius=1', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    //'Authorization' => 'Bearer ' . $authenticate,
+                    'x-rapidapi-host' => 'us-real-estate-listings.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([
+                    //'propertyaddress' => '2762 DOWNING Street, Jacksonville, FL 32205'
+                ]),
+            ]);
+
+            $realtor = json_decode($realtor_sales_comp->getBody(), true);
+            $price_data_real = $this->getRealtorData($realtor);
+            $realto_s = isset($realtor['totalResultCount']) ? $realtor['totalResultCount'] : 0;
+            //dd($price_data_real);
+            if ($realtor['totalResultCount'] > 0) {
+                $avg_pr_realtor = str_replace(',', '', number_format($price_data_real['price_sum'] / $realto_s, 2));
+                //dd($avg_pr_realtor);
+                $avg_ac = number_format($price_data_real['acre_sum'] / $realto_s, 2);
+                $av_pr_ac_real = number_format($avg_pr_realtor / $avg_ac, 2);
+            }
+            //dd($realtor);
             //LastMarketSaleInformation['SalePrice']
             $data = [
                 'address' => $propertydata['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'],
@@ -2252,16 +2290,38 @@ class ApiController extends BaseController
                 'average_red' => $average_red,
                 'av_acre_red' => $av_acre_red,
                 'avg_per_acre_red' => $avg_per_acre_red,
-                'geo_adjusted' => $geo_adjust_price
+                'geo_adjusted' => $geo_adjust_price,
+                'realto_s' => $realto_s,
+                'avg_pr_realtor' => $avg_pr_realtor,
+                'avg_ac' => $avg_ac,
+                'av_pr_ac_real' => $av_pr_ac_real,
+                'href_real' => $price_data_real['source'],
+                'list_p_real' => $price_data_real['price'],
+                'acre_real' => $price_data_real['acre'],
+                'real_price_per' => number_format($price_data_real['price']/$price_data_real['acre'],2),
+                'real_coun' => $price_data_real['county'],
+                'real_cty' => $price_data_real['city'],
+                'href_redfin' => isset($redfin_d['source']) ? $redfin_d['source'] : '',
+                'list_p_red' => isset($redfin_d['price']) ? $redfin_d['price'] : 0,
+                'acre_red' => isset($redfin_d['acre_']) ? $redfin_d['acre_'] : 0,
+                'red_price_per' => isset($red_av_ac) ? $red_av_ac : 0,
+                'red_coun' => isset($redfin_d['county']) ? $redfin_d['county'] : '',
+                'red_cty' => isset($redfin_d['city']) ? $redfin_d['city'] : '',
+
             ];
+            //dd($data);
             $pdf = Pdf::loadView('pdf', $data);
             return $pdf->download('compreport.pdf');
         } catch (\Exception $e) {
-            $response = $e->getResponse();
-            $fromserver = 'Server error';
-            $msg = json_decode($response->getBody()->getContents(), true);
-            $error = $msg ? $msg : $fromserver;
-            return  back()->with('error', $error);
+            //$response = $e->getResponse();
+            $emsg = $e->getMessage();
+            //dd($emsg);
+            $fromserver = isset($response) ? $response : 'No records found . or Server error';
+            //$msg = json_decode($response->getBody()->getContents(), true);
+            //$error = $msg ? $msg : $emsg;
+            $error = $emsg;
+            //dd($response['reasonPhrase']);
+            return  redirect()->to('compreport')->with('error', $error);
         }
     }
     // Function to get JSON array elements and their values
@@ -2384,13 +2444,25 @@ class ApiController extends BaseController
             $p_id[] = $redfincomp['homeData']['propertyId'];
             $price_sum += $redfincomp['homeData']['priceInfo']['amount'];
             $sqft = $redfincomp['homeData']['lotSize']['amount'];
+
+            $acre_ = number_format($sqft / 43560, 2);
+            $source = $redfincomp['homeData']['url'];
+            $list_price = $redfincomp['homeData']['priceInfo']['amount'];
+            $county = $redfincomp['homeData']['addressInfo']['state'];
+            $city = $redfincomp['homeData']['addressInfo']['city'];
+
             $acre[] = number_format($sqft / 43560, 2);
             $acre_sum += number_format($sqft / 43560, 2);
             $redf = [
                 'p_id' => $p_id,
                 'pr_sum' => $price_sum,
                 'acre' => $acre,
-                'sum_acre' => $acre_sum
+                'sum_acre' => $acre_sum,
+                'acre_' => $acre_,
+                'source' =>  $source,
+                'price' => $list_price,
+                'county' => $county,
+                'city' => $city
             ];
         }
         return $redf;
@@ -2412,6 +2484,49 @@ class ApiController extends BaseController
             $price = $zillowcomp['price'];
             $sum += $price;
             $sale_sum = $sum;
+        }
+        return $sale_sum;
+    }
+
+    function getRealtorData($jsonData)
+    {
+        $data = $jsonData;
+
+        if ($data === null) {
+            echo "Error decoding JSON data.";
+            return;
+        }
+
+        // Get states array
+        $realtorcomps = $data['listings'];
+        $sale_sum = 0;
+        $sum = 0;
+        $acre_sum = 0;
+
+        foreach ($realtorcomps as $realtorcomp) {
+            $price = $realtorcomp['list_price'];
+            $sum += $price;
+            $sqft = isset($realtorcomp['description']['lot_sqft']) ? $realtorcomp['description']['lot_sqft'] : 0;
+            $acre[] = number_format($sqft / 43560, 2);
+            $acre_sum += number_format($sqft / 43560, 2);
+            $acre_ = number_format($sqft / 43560, 2);
+            $source = $realtorcomp['href'];
+            $list_price = $realtorcomp['list_price'];
+            $county = $realtorcomp['location']['county']['name'];
+            $city = $realtorcomp['location']['address']['city'];
+
+
+            $sale_sum = [
+                'price_sum' => $sum,
+                'acre_sum' => $acre_sum,
+                'data' => $realtorcomp,
+                'acre' => $acre_,
+                'source' =>  $source,
+                'price' => $list_price,
+                'county' => $county,
+                'city' => $city
+            ];
+            //href,list_price,location->county->name,description->lot_sqft,location->address->city
         }
         return $sale_sum;
     }
