@@ -2037,7 +2037,7 @@ class ApiController extends BaseController
     public function Logout(Request $request)
     {
         try {
-            //$request->session()->flush();
+            $request->session()->flush();
             Auth::logout();
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
