@@ -1653,7 +1653,7 @@ else
         });
         ////////////////////////////
         //////////////////////////priceland
-        /*$("#priceland_search_form").submit(function(event) {
+       /* $("#priceland_search_form").submit(function(event) {
             event.preventDefault();
             var dataArray = $(this).serializeArray(),
                 dataObj = {};
@@ -1739,7 +1739,7 @@ else
                                                                     "FilterGroup": 1
 
                                                                 },*/
-                                {
+                                /*{
                                     "FilterName": "LotAcreage",
                                     "FilterOperator": "is between",
                                     "FilterValues": [
@@ -1828,7 +1828,7 @@ else
 
                                                                },*/
 
-                            ] //
+                            /*] //
                         } //
                     },
                     headers: {
