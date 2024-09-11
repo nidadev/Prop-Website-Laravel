@@ -39,10 +39,14 @@ class SubscriptionController extends Controller
             }
             else if($subPlan->type == 1) 
             {
+                $subscriptionData = SubscriptionHelper::start_yearly_trial_subscription($customer_id,$user_id,$subPlan);
+
 //yearly
             }
             else if($subPlan->type == 2) 
             {
+                $subscriptionData = SubscriptionHelper::start_lifetime_trial_subscription($customer_id,$user_id,$subPlan);
+
 //lifetime
             }
             $this->saveCardDetails($stripeData, $user_id, $customer_id);

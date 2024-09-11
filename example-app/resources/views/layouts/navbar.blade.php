@@ -23,7 +23,9 @@
         <li class="nav-item">
           <a class="nav-link {{ Route::is('subscription') ? 'active' : '' }}" aria-current="page" href="{{ route('subscription') }}">Subscription</a>
         </li>
-        
+        <li class="nav-item">
+          <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
+        </li>
       
       </ul>
      

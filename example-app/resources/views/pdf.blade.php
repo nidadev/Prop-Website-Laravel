@@ -37,6 +37,12 @@ table, th, td {
   background-color:#740979;
   color:#fff;
 }
+
+.sold_com
+{
+  background-color:#d0c009;
+  color:#fff;
+}
 </style>
 </head>
 <body>
@@ -243,6 +249,37 @@ Legal Description:<br>
   </tr>
  
 </table>
+<h6>Sold Comps Overview</h6>
+<table>
+  <tr>
+    <th class="sold_com">Acreage</th>
+    <th class="sold_com">Price</th>
+    <th class="sold_com">Price/Acre </th>
+    <th class="sold_com">Distance</th>
+    <th class="sold_com">city</th>
+    <th class="sold_com">County</th>
+    <th class="sold_com">Source</th>
 
+  </tr>
+  @if($acre_real)
+  <tr> 
+    <td> {{$acre_real}}</td>
+    <td> ${{ $list_p_real}}</td>
+    <td> {{ $real_price_per}} </td>
+    <td> {{ $dis_zill }} miles</td>
+    <td> {{$real_cty}}</td>
+    <td> {{$real_coun}}</td>
+    <td> <a href="{{$href_real}}">Realtor</a></td>
+  </tr>
+  <tr> 
+    <td> {{$acre_real1}}</td>
+    <td> ${{ $list_p_real1}}</td>
+    <td> {{ $real_price_per1}} </td>
+    <td> {{ $dis_zill}} miles</td>
+    <td> {{$real_cty1}}</td>
+    <td> {{$real_coun1}}</td>
+    <td> <a href="{{$href_real1}}">Realtor</a></td>
+  </tr>
+  @endif
 </body>
 </html>
