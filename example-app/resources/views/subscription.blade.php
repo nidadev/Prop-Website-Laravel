@@ -159,11 +159,12 @@ if(window.Stripe)
 
 function createSubscription(token)
 {
+  var planID = $('#planId').val();
 $.ajax(
 {
   url: "{{ route('CreateSubscription')}}",
   type: "POST",
-  data:{ data:token,_token: "{{ csrf_token() }}"},
+  data:{ plan_id: planID,data:token,_token: "{{ csrf_token() }}"},
   success:function(response)
   {
     if(response.success)

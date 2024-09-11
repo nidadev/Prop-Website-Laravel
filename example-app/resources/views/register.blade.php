@@ -20,24 +20,28 @@
       <div class="col-md-12">
         <div class="login_1m p-4 w-50 mx-auto bg-light">
           <h2 class="text-center mb-3">Register </h2>
-          <form method="post" action="{{ url('register') }}" id="register">
+          @if(Session::has('error'))
+        <p class="incorrect">{{ Session::get('error') }}</p>
+
+        @endif
+        <p class="result"> @if(Session::has('success')) {{ Session::get('success') }} @endif</p>
+
+          <form method="post" action="{{ url('register') }}">
             @csrf
             <h6 class="mb-3 fw-bold">Name</h6>
             <input class="form-control" type="text" name="name" autocomplete="on" placeholder="Enter Name:">Enter Name:
-            <span class="error name_err"></span>
-            <!--h6 class="mb-3 fw-bold">Phone</h6-->
-            <!--input class="form-control" type="text" name="phone" autocomplete="on" placeholder="Enter Phone:" maxlength="15">Enter Phone:<span style="color:blue">valid format:123-123-1234</span-->
-            <span class="error phone_err"></span>
+            <span class="error name_err">@error('name') {{$message}} @enderror</span>
+             <span class="error phone_err"></span>
             <h6 class="mb-3 fw-bold mt-4">Email</h6>
             <input class="form-control" type="email" name="email" autocomplete="on" placeholder="Enter email:">Enter Email:
-            <span class="error email_err"></span>
+            <span class="error email_err">@error('email') {{$message}} @enderror</span>
             <h6 class="mb-3 fw-bold mt-4">Password</h6>
             <input class="form-control" type="password" name="password" autocomplete="on" placeholder="Enter Password:">Enter password:
-            <span class="error password_err"></span>
+            <span class="error password_err">@error('password') {{$message}} @enderror</span>
             <h6 class="mb-3 fw-bold mt-4">Confirm Password</h6>
             <!--input class="form-control" placeholder="Password" type="Password"-->
             <input class="form-control" type="password" name="password_confirmation" autocomplete="on" placeholder="Enter Confirm Password:">Enter confirmed password:
-            <span class="error password_confirmation_err"></span>
+            <span class="error password_confirmation_err">@error('password_confirmation') {{$message}} @enderror</span>
 
             <div class="form-check mt-3">
               <input type="checkbox" class="form-check-input" id="customCheck1">
@@ -45,7 +49,6 @@
               <span class="error agree_err"></span>
             </div>
             <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center reg">SIGN UP</button></h6>
-            <p class="result"></p>
             <p class="mt-3 mb-0 text-center">Already have an account? <a class="fw-bold col_blue" href="{{ url('/login') }} "> Login</a></p>
           </form>
         </div>

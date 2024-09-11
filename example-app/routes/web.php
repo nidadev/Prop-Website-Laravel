@@ -68,9 +68,9 @@ Route::group(['middleware' => ['guest']],function(){
     Route::get('/home', [ApiController::class, 'loadHome'])->name('home')->middleware(IsCorsMiddleware::class);
     Route::get('/login2', [ApiController::class, 'loadLogin']);
     Route::post('/login2', [ApiController::class,'userLogin'])->name('userLogin');
-    Route::get('/register', function () {
-        return view('register');
-    });
+    Route::get('/register', [ApiController::class,'loadRegister'])->name('loadRegister');
+    Route::post('/register', [ApiController::class,'register'])->name('register');
+
 });
 
 Route::group(['middleware' => ['userAuth']],function(){
