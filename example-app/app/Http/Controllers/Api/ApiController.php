@@ -448,6 +448,27 @@ class ApiController extends BaseController
     public function GetPriceReport(Request $request)
     {
         //dd($request);
+        $my_states_array = [
+            'ca' => 6,
+            'al' => 1,
+            'ak' => 2,
+            'az' => 4,
+            'ar' => 5,
+            'co' => 8,
+            'ct' => 9,
+            'de' => 10,
+            'dc' => 11,
+            'fl' => 12,
+            'sc' => 45            
+            ];
+            foreach($my_states_array as $key => $val)
+            {
+                if(ltrim($request['state'], '0') == $key)
+                {
+                    $st = $val;
+                }
+            }
+            
         $client = new GuzzleHttp\Client();
         $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
             'headers' => [
@@ -462,11 +483,10 @@ class ApiController extends BaseController
         ]);
         $authenticate = json_decode($login->getBody(), true);
         //dd($authenticate);
-        $st = $request->state;
-        $acr1 = $request->acr1;
-        $acr2 = $request->acr2;
-        $avg_acr = $acr1 + $acr2 / 2;
-        $cp = $request->cp;
+        //$acr1 = $request->acr1;
+        //$acr2 = $request->acr2;
+        //$avg_acr = $acr1 + $acr2 / 2;
+        $cp = ltrim($request['cp'], '0');
 
         //$info = [$acr1,$acr2];
 
