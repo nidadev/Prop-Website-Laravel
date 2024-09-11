@@ -1653,7 +1653,7 @@ else
         });
         ////////////////////////////
         //////////////////////////priceland
-        $("#priceland_search_form").submit(function(event) {
+        /*$("#priceland_search_form").submit(function(event) {
             event.preventDefault();
             var dataArray = $(this).serializeArray(),
                 dataObj = {};
@@ -1879,7 +1879,7 @@ else
                 });
             } /////forloop                       
 
-        }); ///////click
+        /*});*/ ///////click
 
 
         /////////////////////////////div click//////////////
