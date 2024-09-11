@@ -34,7 +34,9 @@ class ApiController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return redirect()->route('register')->withErrors($validator);
+
+           // return response()->json($validator->errors());
         }
 
 
@@ -67,34 +69,22 @@ class ApiController extends BaseController
 
             //set client id and secret
 
-            $client_id = config('app.client_id');
-            $client_secret = config('app.client_secret');
+            //$client_id = config('app.client_id');
+            //$client_secret = config('app.client_secret');
 
-            $user->client_id = $client_id;
-            $user->client_secret = $client_secret;
+            //$user->client_id = $client_id;
+            //$user->client_secret = $client_secret;
             //$user->save();
-
+ 
             $user->save();
-
-
-            return response()->json([
-                'status' => true,
-                'success' => true,
-                'message' => 'User registered and verification email send successfully',
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'User not found',
-            ]);
+            return redirect()->back()->with('success','user registered successfully');
         }
-        /////////////
+        else
+        {
+          return redirect()->back()->with('error','User not found');
+      
+        }
 
-        /*return response()->json([
-            "status" => true,
-            "message" => "User registered successfully",
-            "data" => []
-        ]);*/
     }
     //research 
     public function research(Request $request)
@@ -121,59 +111,11 @@ class ApiController extends BaseController
     }
     //
     // Login API - POST (email, password)
-    public function login(Request $request)
-    {
-        //dd('123');
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|min:5'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
-
-        //auth facade
-        $token = Auth::attempt(
-            [
-                'email' => $request->email,
-                'password' => $request->password,
-                'is_verified' => 1,
-            ]
-        );
-
-        //get user 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$token) {
-            return response()->json([
-                'status' => false,
-                'success' => false,
-                'message' => 'Incorrect Username or Password or Email not verified',
-            ]);
-        }
-
-        return $this->respondWithToken($token, $user);
-    }
-
+  
     public function me()
     {
         return response()->json(auth()->user());
-    }
-
-    //protected function
-    protected function respondWithToken($token, $user)
-    {
-        return response()->json([
-            'status' => true,
-            'success' => true,
-            'message' => 'user logged in successfully',
-            'token' => $token,
-            'user' => $user,
-            'token_type' => 'Bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
-        ]);
-    }
+    }   
 
     protected function respondWithToken2($token)
     {
@@ -326,7 +268,7 @@ class ApiController extends BaseController
             $user->is_verified = 1;
             $user->save();
 
-            return "<h1>email verified successfully <a href='http://165.140.69.88/~plotplaza/checkapi/example-app/public/login'>Sign in </a></h1>";
+            return "<h1>email verified successfully <a href='http://165.140.69.88/~plotplaza/checkapi/example-app/public/login2'>Sign in </a></h1>";
         } else {
             return view('404');
         }
@@ -335,6 +277,10 @@ class ApiController extends BaseController
     public function loadLogin()
     {
         return view('login2');
+    }
+    public function loadRegister()
+    {
+        return view('register');
     }
 
     public function userLogin(Request $request)
