@@ -36,7 +36,7 @@ class ApiController extends BaseController
         if ($validator->fails()) {
             return redirect()->route('register')->withErrors($validator);
 
-           // return response()->json($validator->errors());
+            // return response()->json($validator->errors());
         }
 
 
@@ -75,16 +75,12 @@ class ApiController extends BaseController
             //$user->client_id = $client_id;
             //$user->client_secret = $client_secret;
             //$user->save();
- 
-            $user->save();
-            return redirect()->back()->with('success','user registered successfully');
-        }
-        else
-        {
-          return redirect()->back()->with('error','User not found');
-      
-        }
 
+            $user->save();
+            return redirect()->back()->with('success', 'user registered successfully');
+        } else {
+            return redirect()->back()->with('error', 'User not found');
+        }
     }
     //research 
     public function research(Request $request)
@@ -111,11 +107,11 @@ class ApiController extends BaseController
     }
     //
     // Login API - POST (email, password)
-  
+
     public function me()
     {
         return response()->json(auth()->user());
-    }   
+    }
 
     protected function respondWithToken2($token)
     {
@@ -156,26 +152,6 @@ class ApiController extends BaseController
         ]);
     }
 
-    // Logout API - GET (JWT Auth Token)
-    /*public function logout()
-    {
-
-        try {
-            auth()->logout();
-            return response()->json([
-                'status' => true,
-                'success' => true,
-                'message' => 'user logged out'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
-        }
-        // return $this->refreshToken();
-    }*/
     public function updateProfile(Request $request)
     {
         if (auth()->user()) {
@@ -183,7 +159,6 @@ class ApiController extends BaseController
                 'id' => 'required',
                 'email' => 'required|email',
                 'name' => 'required|string|min:5',
-                //'phone' => 'required|min:6',
             ]);
             if ($validator->fails()) {
                 return response()->json($validator->errors());
@@ -194,10 +169,6 @@ class ApiController extends BaseController
                 $user->is_verified = 0;
             }
             $user->email = $request->email;
-            //$user->phone = $request->phone;
-            // dd($user->email);
-
-
             $user->save();
             return response()->json([
                 'success' => true,
@@ -305,7 +276,6 @@ class ApiController extends BaseController
         if ($success) {
             return view('dashboard', ['data' => $token]);
         }
-        //return redirect()->route('userLogin')->withErrors('uSer password mismatch');
     }
 
     public function dashboard()
@@ -365,11 +335,8 @@ class ApiController extends BaseController
             $poperty_id = $data['Reports']['0']['PropertyId'];
             //dd();
             $maxcount = 1;
-            $mainval = $maxcount * 0.02;
-            //dd($dt);
-            //echo '$("#mytable4").append("<tr><td>'.$data['Reports'][0]['PropertyId'].'</td></tr>")';
+            $mainval = $maxcount * 2.00;
 
-            //return $this->getCompData($data);
 
             return view('compreport2', compact('dt', 'maxcount', 'mainval', 'poperty_id'));
         } catch (\Exception $e) {
@@ -391,6 +358,1599 @@ class ApiController extends BaseController
         return view('priceland');
     }
 
+    public function loadPriceHouseReport()
+    {
+        return view('pricehouse');
+    }
+
+    public function loadPriceResearchReport()
+    {
+        return view('research');
+    }
+
+   
+public function GetPriceHouseReport(Request $request)
+{
+    //dd($request);
+    $my_states_array = [
+        'ca' => 6,
+        'al' => 1,
+        'ak' => 2,
+        'az' => 4,
+        'ar' => 5,
+        'co' => 8,
+        'ct' => 9,
+        'de' => 10,
+        'dc' => 11,
+        'fl' => 12,
+        'sc' => 45
+    ];
+    foreach ($my_states_array as $key => $val) {
+        if (ltrim($request['state'], '0') == $key) {
+            $st = $val;
+        }
+    }
+
+    $client = new GuzzleHttp\Client();
+    $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+        'headers' => [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+
+        ],
+        'body' => json_encode([
+            'ClientId' => config('app.client_id'),
+            'ClientSecretKey' => config('app.client_secret')
+        ])
+    ]);
+    $authenticate = json_decode($login->getBody(), true);
+
+    $cp = ltrim($request['cp'], '0');
+
+
+    try {     
+
+        ///////////////////////
+        $acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+       
+        foreach($acre_arr as $ac)
+        {
+            $data[] = $ac;
+        }
+        //dd($data);
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                        "ProductNames": [
+                            "SalesComparables"
+                        ],
+                        "SearchType": "Filter",
+            
+                        "SearchRequest": {
+                            "ReferenceId": "1",
+                            "ProductName": "SearchLite",
+                            "MaxReturn": "1",
+                            "Filters": [
+                             
+                                {
+                                    "FilterName": "LotAcreage",
+                                    "FilterOperator": "is between",
+                                    "FilterValues": [
+                                        '.$data[0].',
+                                        '.$data[1].'
+                                        
+                                    ]
+                                },
+                                {
+                                    "FilterName": "StateFips",
+                                    "FilterOperator": "is",
+                                    "FilterValues": [
+                                        "' . $st . '"
+                                    ],
+                                    "FilterGroup": 1
+                                },
+                                {
+                                    "FilterName": "CountyFips",
+                                    "FilterOperator": "is",
+                                    "FilterValues": [
+                                        ' . $cp . '
+                                    ],
+                                    "FilterGroup": 1
+                                },
+                                {
+                                    "FilterName": "SalePrice",
+            
+                                    "FilterOperator": "is between",
+            
+                                    "FilterValues": ["1", "10000000"],
+            
+                                    "FilterGroup": 1
+            
+                                },
+                                
+                            ] //
+                        } //
+                    }',
+            ]);
+                   $de[] = json_decode($res->getBody(), true);
+
+                   $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'Content-Type' => 'application/json',
+                        'Authorization' => 'Bearer ' . $authenticate,
+                    ],
+                    'body' => '{
+                            "ProductNames": [
+                                "SalesComparables"
+                            ],
+                            "SearchType": "Filter",
+                
+                            "SearchRequest": {
+                                "ReferenceId": "1",
+                                "ProductName": "SearchLite",
+                                "MaxReturn": "1",
+                                "Filters": [
+                                 
+                                    {
+                                        "FilterName": "LotAcreage",
+                                        "FilterOperator": "is between",
+                                        "FilterValues": [
+                                            '.$data[1].',
+                                            '.$data[2].'
+                                            
+                                        ]
+                                    },
+                                    {
+                                        "FilterName": "StateFips",
+                                        "FilterOperator": "is",
+                                        "FilterValues": [
+                                            "' . $st . '"
+                                        ],
+                                        "FilterGroup": 1
+                                    },
+                                    {
+                                        "FilterName": "CountyFips",
+                                        "FilterOperator": "is",
+                                        "FilterValues": [
+                                            ' . $cp . '
+                                        ],
+                                        "FilterGroup": 1
+                                    },
+                                    {
+                                        "FilterName": "SalePrice",
+                
+                                        "FilterOperator": "is between",
+                
+                                        "FilterValues": ["1", "10000000"],
+                
+                                        "FilterGroup": 1
+                
+                                    },
+                                    
+                                ] //
+                            } //
+                        }',
+                ]);
+                       $de[] = json_decode($res->getBody(), true);
+
+                       /******************when 10-15 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[2].',
+                                                '.$data[3].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /**********************10-15 end */
+                       /********15-20 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[3].',
+                                                '.$data[4].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /*************15-20 end */
+                       /**************20-25 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[4].',
+                                                '.$data[5].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /********************20-25 end */
+                       /******************25-30 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[5].',
+                                                '.$data[6].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /********************25-30end */
+                       /********30-35 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[6].',
+                                                '.$data[7].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /**********30-35 end */
+                       /************35-40 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[7].',
+                                                '.$data[8].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /**************35-40 end */
+                       /*************40-45 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[8].',
+                                                '.$data[9].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /********************40-45 end */
+                       /******************45-50 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[9].',
+                                                '.$data[10].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /***************45-50 end */
+                       /*************50-55 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[10].',
+                                                '.$data[11].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /*************50-55 */
+                       /*******55-60 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[11].',
+                                                '.$data[12].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /**********55-60**** */
+                       /********60-65 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[12].',
+                                                '.$data[13].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /************60-65 */
+                       /***********65-70 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[13].',
+                                                '.$data[14].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /****************65-70 */
+                       /***********70-75 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[14].',
+                                                '.$data[15].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /*************70-75 */
+                       /***********75-80 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[15].',
+                                                '.$data[16].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /***********75-80 */
+                       /********80-85 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[16].',
+                                                '.$data[17].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /*********80-85 */
+                       /*********85-90 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[17].',
+                                                '.$data[18].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /****************85-90 */
+                       /*********90-95 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[18].',
+                                                '.$data[19].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /*********90-95 */
+                       /********95-100 */
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[19].',
+                                                '.$data[20].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
+                       /***********95-100 */
+           
+           //dd($de);
+           foreach($de as $d)
+           {
+            //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
+
+            $pid[] = $d['LitePropertyList'];
+           
+           }
+           foreach($pid as $pd)
+           {
+               $pid_all[] = $pd;
+           }
+           //dd($pid_all);
+           $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[0][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[1][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[2][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[3][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[4][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[5][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[6][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[7][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[8][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[9][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[10][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[11][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[12][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[13][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[14][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[15][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[16][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[17][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[18][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);
+        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => json_encode([
+                'ProductNames' => ['TotalViewReport'],
+
+                "SearchType" => "PROPERTY",
+                "PropertyId" => $pid_all[19][0]['PropertyId']
+            ]),
+        ]);
+        $price[] = json_decode($getProperty->getBody(), true);           
+        //dd($de);
+        ///////////////////////////
+        $mainval = 1 * 0.1;
+        return view('pricehouse', compact('mainval','de','price'));
+
+    } catch (\Exception $e) {
+        //throw new HttpException(500, $e->getMessage());
+        //dd($e->getMessage());
+        $response = $e->getResponse();
+        $emsg = $e->getMessage();
+        //dd($response);
+        $fromserver = 'No records found . or Server error';
+        $msg = json_decode($response->getBody()->getContents(), true);
+        $error = $emsg;
+        //dd($response['reasonPhrase']);
+        return  redirect()->to('pricehouse')->with('error', $error);
+    }
+}
+
     public function GetPriceReport(Request $request)
     {
         //dd($request);
@@ -405,16 +1965,14 @@ class ApiController extends BaseController
             'de' => 10,
             'dc' => 11,
             'fl' => 12,
-            'sc' => 45            
-            ];
-            foreach($my_states_array as $key => $val)
-            {
-                if(ltrim($request['state'], '0') == $key)
-                {
-                    $st = $val;
-                }
+            'sc' => 45
+        ];
+        foreach ($my_states_array as $key => $val) {
+            if (ltrim($request['state'], '0') == $key) {
+                $st = $val;
             }
-            
+        }
+
         $client = new GuzzleHttp\Client();
         $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
             'headers' => [
@@ -428,1561 +1986,1539 @@ class ApiController extends BaseController
             ])
         ]);
         $authenticate = json_decode($login->getBody(), true);
-        //dd($authenticate);
-        //$acr1 = $request->acr1;
-        //$acr2 = $request->acr2;
-        //$avg_acr = $acr1 + $acr2 / 2;
+
         $cp = ltrim($request['cp'], '0');
 
-        //$info = [$acr1,$acr2];
 
-        try {
-            $res0 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        0,
-                                        5
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d0 = json_decode($res0->getBody(), true);
-            $res1 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        5,
-                                        10
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d1 = json_decode($res1->getBody(), true);
+        try {     
 
-            $res2 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        10,
-                                        15
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d2 = json_decode($res2->getBody(), true);
-            $res3 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        15,
-                                        20
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d3 = json_decode($res3->getBody(), true);
-            $res4 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        20,
-                                        25
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d4 = json_decode($res4->getBody(), true);
-            $res5 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        25,
-                                        30
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d5 = json_decode($res5->getBody(), true);
-            $res6 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        30,
-                                        35
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d6 = json_decode($res6->getBody(), true);
-            $res7 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        35,
-                                        40
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d7 = json_decode($res7->getBody(), true);
-            $res8 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        40,
-                                        45
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d8 = json_decode($res8->getBody(), true);
-            $res9 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        45,
-                                        50
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d9 = json_decode($res9->getBody(), true);
-            $res10 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        50,
-                                        55
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d10 = json_decode($res10->getBody(), true);
-            $res11 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        55,
-                                        60
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d11 = json_decode($res11->getBody(), true);
-            $res12 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        60,
-                                        65
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d12 = json_decode($res12->getBody(), true);
-            $res13 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        65,
-                                        70
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d13 = json_decode($res13->getBody(), true);
-            $res14 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        70,
-                                        75
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d14 = json_decode($res14->getBody(), true);
-            $res15 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        75,
-                                        80
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d15 = json_decode($res15->getBody(), true);
-
-            $res16 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        80,
-                                        85
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d16 = json_decode($res16->getBody(), true);
-            $res17 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        85,
-                                        90
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d17 = json_decode($res17->getBody(), true);
-            $res18 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                        "ProductNames": [
-                            "SalesComparables"
-                        ],
-                        "SearchType": "Filter",
-            
-                        "SearchRequest": {
-                            "ReferenceId": "1",
-                            "ProductName": "SearchLite",
-                            "MaxReturn": "1",
-                            "Filters": [
-                             
-                                {
-                                    "FilterName": "LotAcreage",
-                                    "FilterOperator": "is between",
-                                    "FilterValues": [
-                                        90,
-                                        95
-                                    ]
-                                },
-                                {
-                                    "FilterName": "StateFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        "' . $st . '"
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "CountyFips",
-                                    "FilterOperator": "is",
-                                    "FilterValues": [
-                                        ' . $cp . '
-                                    ],
-                                    "FilterGroup": 1
-                                },
-                                {
-                                    "FilterName": "SalePrice",
-            
-                                    "FilterOperator": "is between",
-            
-                                    "FilterValues": ["1", "10000000"],
-            
-                                    "FilterGroup": 1
-            
-                                },
-                                
-                            ] //
-                        } //
-                    }',
-            ]);
-            $d18 = json_decode($res18->getBody(), true);
-            //dd($data_st['res1']);
-            $data = [
-                'res0' => $d0,
-                'res1' => $d1,
-                'res2' => $d2,
-                'res3' => $d3,
-                'res4' => $d4,
-                'res5' => $d5,
-                'res6' => $d6,
-                'res7' => $d7,
-                'res8' => $d8,
-                'res9' => $d9,
-                'res10' => $d10,
-                'res11' => $d11,
-                'res12' => $d12,
-                'res13' => $d13,
-                'res14' => $d14,
-                'res15' => $d15,
-                'res16' => $d16,
-                'res17' => $d17,
-                'res18' => $d18,
-            ];
+            ///////////////////////
+            $acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+           
+            foreach($acre_arr as $ac)
+            {
+                $data[] = $ac;
+            }
             //dd($data);
-
-            //$maxcount = $data[0]['MaxResultsCount'];
-            //$acr_range = $acr1 . '-' . $acr2;
-            //$acr_range = $info[$i] . '-' . $info[$i+1];
-            $pd1 = isset($data['res0']['LitePropertyList'][0]['PropertyId']) ? $data['res0']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd2 = isset($data['res1']['LitePropertyList'][0]['PropertyId']) ? $data['res1']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd3 = isset($data['res2']['LitePropertyList'][0]['PropertyId']) ? $data['res2']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd4 = isset($data['res3']['LitePropertyList'][0]['PropertyId']) ? $data['res3']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd5 = isset($data['res4']['LitePropertyList'][0]['PropertyId']) ? $data['res4']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd6 = isset($data['res5']['LitePropertyList'][0]['PropertyId']) ? $data['res5']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd7 = isset($data['res6']['LitePropertyList'][0]['PropertyId']) ? $data['res6']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd8 = isset($data['res7']['LitePropertyList'][0]['PropertyId']) ? $data['res7']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd9 = isset($data['res8']['LitePropertyList'][0]['PropertyId']) ? $data['res8']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd10 = isset($data['res9']['LitePropertyList'][0]['PropertyId']) ? $data['res9']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd11 = isset($data['res10']['LitePropertyList'][0]['PropertyId']) ? $data['res10']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd12 = isset($data['res11']['LitePropertyList'][0]['PropertyId']) ? $data['res11']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd13 = isset($data['res12']['LitePropertyList'][0]['PropertyId']) ? $data['res12']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd14 = isset($data['res13']['LitePropertyList'][0]['PropertyId']) ? $data['res13']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd15 = isset($data['res14']['LitePropertyList'][0]['PropertyId']) ? $data['res14']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd16 = isset($data['res15']['LitePropertyList'][0]['PropertyId']) ? $data['res15']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd17 = isset($data['res16']['LitePropertyList'][0]['PropertyId']) ? $data['res16']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd18 = isset($data['res17']['LitePropertyList'][0]['PropertyId']) ? $data['res17']['LitePropertyList'][0]['PropertyId'] : 0;
-            $pd19 = isset($data['res18']['LitePropertyList'][0]['PropertyId']) ? $data['res18']['LitePropertyList'][0]['PropertyId'] : 0;
-
-            $p_id = [
-                's1' => $pd1,
-                's2' => $pd1,
-                's3' => $pd2,
-                's4' => $pd3,
-                's5' => $pd4,
-                's6' => $pd5,
-                's7' => $pd6,
-                's8' => $pd7,
-                's9' => $pd8,
-                's10' => $pd9,
-                's11' => $pd10,
-                's12' => $pd11,
-                's13' => $pd12,
-                's14' => $pd13,
-                's15' => $pd14,
-                's16' => $pd15,
-                's17' => $pd16,
-                's18' => $pd17,
-                's19' => $pd18,
-                's20' => $pd19
-            ];
-            //dd($p_id);
-            //$loop = $data[0]['LitePropertyList'];
-            if ($p_id['s1'] != 0) {
-                $getProperty0 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
                     'headers' => [
                         'Accept' => 'application/json',
                         'Content-Type' => 'application/json',
                         'Authorization' => 'Bearer ' . $authenticate,
                     ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s1']
-                    ]),
+                    'body' => '{
+                            "ProductNames": [
+                                "SalesComparables"
+                            ],
+                            "SearchType": "Filter",
+                
+                            "SearchRequest": {
+                                "ReferenceId": "1",
+                                "ProductName": "SearchLite",
+                                "MaxReturn": "1",
+                                "Filters": [
+                                 
+                                    {
+                                        "FilterName": "LotAcreage",
+                                        "FilterOperator": "is between",
+                                        "FilterValues": [
+                                            '.$data[0].',
+                                            '.$data[1].'
+                                            
+                                        ]
+                                    },
+                                    {
+                                        "FilterName": "StateFips",
+                                        "FilterOperator": "is",
+                                        "FilterValues": [
+                                            "' . $st . '"
+                                        ],
+                                        "FilterGroup": 1
+                                    },
+                                    {
+                                        "FilterName": "CountyFips",
+                                        "FilterOperator": "is",
+                                        "FilterValues": [
+                                            ' . $cp . '
+                                        ],
+                                        "FilterGroup": 1
+                                    },
+                                    {
+                                        "FilterName": "SalePrice",
+                
+                                        "FilterOperator": "is between",
+                
+                                        "FilterValues": ["1", "10000000"],
+                
+                                        "FilterGroup": 1
+                
+                                    },
+                                    
+                                ] //
+                            } //
+                        }',
                 ]);
+                       $de[] = json_decode($res->getBody(), true);
 
-                $price0 = json_decode($getProperty0->getBody(), true);
-            }
-            if ($p_id['s2'] != 0) {
-                $getProperty1 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        'headers' => [
+                            'Accept' => 'application/json',
+                            'Content-Type' => 'application/json',
+                            'Authorization' => 'Bearer ' . $authenticate,
+                        ],
+                        'body' => '{
+                                "ProductNames": [
+                                    "SalesComparables"
+                                ],
+                                "SearchType": "Filter",
+                    
+                                "SearchRequest": {
+                                    "ReferenceId": "1",
+                                    "ProductName": "SearchLite",
+                                    "MaxReturn": "1",
+                                    "Filters": [
+                                     
+                                        {
+                                            "FilterName": "LotAcreage",
+                                            "FilterOperator": "is between",
+                                            "FilterValues": [
+                                                '.$data[1].',
+                                                '.$data[2].'
+                                                
+                                            ]
+                                        },
+                                        {
+                                            "FilterName": "StateFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                "' . $st . '"
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "CountyFips",
+                                            "FilterOperator": "is",
+                                            "FilterValues": [
+                                                ' . $cp . '
+                                            ],
+                                            "FilterGroup": 1
+                                        },
+                                        {
+                                            "FilterName": "SalePrice",
+                    
+                                            "FilterOperator": "is between",
+                    
+                                            "FilterValues": ["1", "10000000"],
+                    
+                                            "FilterGroup": 1
+                    
+                                        },
+                                        
+                                    ] //
+                                } //
+                            }',
+                    ]);
+                           $de[] = json_decode($res->getBody(), true);
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s2']
-                    ]),
-                ]);
+                           /******************when 10-15 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[2].',
+                                                    '.$data[3].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /**********************10-15 end */
+                           /********15-20 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[3].',
+                                                    '.$data[4].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /*************15-20 end */
+                           /**************20-25 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[4].',
+                                                    '.$data[5].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /********************20-25 end */
+                           /******************25-30 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[5].',
+                                                    '.$data[6].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /********************25-30end */
+                           /********30-35 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[6].',
+                                                    '.$data[7].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /**********30-35 end */
+                           /************35-40 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[7].',
+                                                    '.$data[8].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /**************35-40 end */
+                           /*************40-45 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[8].',
+                                                    '.$data[9].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /********************40-45 end */
+                           /******************45-50 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[9].',
+                                                    '.$data[10].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /***************45-50 end */
+                           /*************50-55 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[10].',
+                                                    '.$data[11].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /*************50-55 */
+                           /*******55-60 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[11].',
+                                                    '.$data[12].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /**********55-60**** */
+                           /********60-65 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[12].',
+                                                    '.$data[13].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /************60-65 */
+                           /***********65-70 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[13].',
+                                                    '.$data[14].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /****************65-70 */
+                           /***********70-75 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[14].',
+                                                    '.$data[15].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /*************70-75 */
+                           /***********75-80 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[15].',
+                                                    '.$data[16].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /***********75-80 */
+                           /********80-85 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[16].',
+                                                    '.$data[17].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /*********80-85 */
+                           /*********85-90 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[17].',
+                                                    '.$data[18].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /****************85-90 */
+                           /*********90-95 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[18].',
+                                                    '.$data[19].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /*********90-95 */
+                           /********95-100 */
+                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                            'headers' => [
+                                'Accept' => 'application/json',
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $authenticate,
+                            ],
+                            'body' => '{
+                                    "ProductNames": [
+                                        "SalesComparables"
+                                    ],
+                                    "SearchType": "Filter",
+                        
+                                    "SearchRequest": {
+                                        "ReferenceId": "1",
+                                        "ProductName": "SearchLite",
+                                        "MaxReturn": "1",
+                                        "Filters": [
+                                         
+                                            {
+                                                "FilterName": "LotAcreage",
+                                                "FilterOperator": "is between",
+                                                "FilterValues": [
+                                                    '.$data[19].',
+                                                    '.$data[20].'
+                                                    
+                                                ]
+                                            },
+                                            {
+                                                "FilterName": "StateFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    "' . $st . '"
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "CountyFips",
+                                                "FilterOperator": "is",
+                                                "FilterValues": [
+                                                    ' . $cp . '
+                                                ],
+                                                "FilterGroup": 1
+                                            },
+                                            {
+                                                "FilterName": "SalePrice",
+                        
+                                                "FilterOperator": "is between",
+                        
+                                                "FilterValues": ["1", "10000000"],
+                        
+                                                "FilterGroup": 1
+                        
+                                            },
+                                            
+                                        ] //
+                                    } //
+                                }',
+                        ]);
+                               $de[] = json_decode($res->getBody(), true);
+                           /***********95-100 */
+               
+               //dd($de);
+               foreach($de as $d)
+               {
+                //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
 
+                $pid[] = $d['LitePropertyList'];
+               
+               }
+               foreach($pid as $pd)
+               {
+                   $pid_all[] = $pd;
+               }
+               //dd($pid_all);
+               $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price1 = json_decode($getProperty1->getBody(), true);
-            }
-            if ($p_id['s3'] != 0) {
-                $getProperty2 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[0][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s3']
-                    ]),
-                ]);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price2 = json_decode($getProperty2->getBody(), true);
-            }
-            if ($p_id['s4'] != 0) {
-                $getProperty3 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[1][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s4']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[2][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price3 = json_decode($getProperty3->getBody(), true);
-            }
-            if ($p_id['s5'] != 0) {
-                $getProperty4 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[3][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s5']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[4][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price4 = json_decode($getProperty4->getBody(), true);
-            }
-            if ($p_id['s6'] != 0) {
-                $getProperty5 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[5][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s6']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[6][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price5 = json_decode($getProperty5->getBody(), true);
-            }
-            if ($p_id['s7'] != 0) {
-                $getProperty6 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[7][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s7']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[8][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price6 = json_decode($getProperty6->getBody(), true);
-            }
-            if ($p_id['s8'] != 0) {
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[9][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $getProperty7 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[10][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s8']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[11][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price7 = json_decode($getProperty7->getBody(), true);
-            }
-            if ($p_id['s9'] != 0) {
-                $getProperty8 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[12][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s9']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[13][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price8 = json_decode($getProperty8->getBody(), true);
-            }
-            if ($p_id['s10'] != 0) {
-                $getProperty9 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[14][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s10']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[15][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
 
-                $price9 = json_decode($getProperty9->getBody(), true);
-            }
-            if ($p_id['s11'] != 0) {
-                $getProperty10 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s11']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[16][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price10 = json_decode($getProperty10->getBody(), true);
-            }
-            if ($p_id['s12'] != 0) {
-                $getProperty11 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[17][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s12']
-                    ]),
-                ]);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[18][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-                $price11 = json_decode($getProperty11->getBody(), true);
-            }
-            if ($p_id['s13'] != 0) {
-                $getProperty12 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[19][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);           
+            //dd($pid_all);
+            ///////////////////////////
+            $mainval = 1 * 0.1;
+            return view('priceland', compact('mainval','de','price'));
 
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s13']
-                    ]),
-                ]);
-
-                $price12 = json_decode($getProperty12->getBody(), true);
-            }
-            if ($p_id['s14'] != 0) {
-                $getProperty13 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s14']
-                    ]),
-                ]);
-                $price13 = json_decode($getProperty13->getBody(), true);
-            }
-            if ($p_id['s15'] != 0) {
-
-                $getProperty14 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s15']
-                    ]),
-                ]);
-
-                $price14 = json_decode($getProperty14->getBody(), true);
-            }
-            //dd($p_id['s16']);
-            if ($p_id['s16'] != 0) {
-                $getProperty15 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s16']
-                    ]),
-                ]);
-                $price15 = json_decode($getProperty15->getBody(), true);
-            }
-            if ($p_id['s17'] != 0) {
-
-                $getProperty16 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s17']
-                    ]),
-                ]);
-
-                $price16 = json_decode($getProperty16->getBody(), true);
-            }
-            if ($p_id['s18'] != 0) {
-                $getProperty17 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s18']
-                    ]),
-                ]);
-                $price17 = json_decode($getProperty17->getBody(), true);
-            }
-            if ($p_id['s19'] != 0) {
-
-                $getProperty18 = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => json_encode([
-                        'ProductNames' => ['PropertyDetailReport'],
-
-                        "SearchType" => "PROPERTY",
-                        "PropertyId" => $p_id['s19']
-                    ]),
-                ]);
-                $price18 = json_decode($getProperty18->getBody(), true);
-            }
-            $sp1 = isset($price0['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price0['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp2 = isset($price1['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price1['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp3 = isset($price2['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price2['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp4 = isset($price3['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price3['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp5 = isset($price4['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price4['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp6 = isset($price5['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price5['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp7 = isset($price6['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price6['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp8 = isset($price7['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price7['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp9 = isset($price8['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price8['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp10 = isset($price9['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price9['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp11 = isset($price10['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price10['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp12 = isset($price11['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price11['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp13 = isset($price12['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price12['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp14 = isset($price13['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price13['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp15 = isset($price14['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price14['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp16 = isset($price15['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price15['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp17 = isset($price16['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price16['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp18 = isset($price17['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price17['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-            $sp19 = isset($price18['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice']) ? $price18['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'] : 0;
-
-            $sale_price[] = [
-                'p0' => $sp1,
-                'p1' => $sp2,
-                'p2' => $sp3,
-                'p3' => $sp4,
-                'p4' => $sp5,
-                'p5' => $sp6,
-                'p6' => $sp7,
-                'p7' => $sp8,
-                'p8' => $sp9,
-                'p9' => $sp10,
-                'p10' => $sp11,
-                'p11' => $sp12,
-                'p12' => $sp13,
-                'p13' => $sp14,
-                'p14' => $sp15,
-                'p15' => $sp16,
-                'p16' => $sp17,
-                'p17' => $sp18,
-                'p18' => $sp19
-            ];
-            //dd($data);
-            $mainval = 1 * 0.01;
-
-            //now get property id sal eprice 
-            return view('priceland', compact('mainval', 'data', 'sale_price'));
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
             //dd($e->getMessage());
@@ -1991,7 +3527,7 @@ class ApiController extends BaseController
             //dd($response);
             $fromserver = 'No records found . or Server error';
             $msg = json_decode($response->getBody()->getContents(), true);
-            $error = $msg ? $msg : $fromserver;
+            $error = $emsg;
             //dd($response['reasonPhrase']);
             return  redirect()->to('priceland')->with('error', $error);
         }
@@ -2009,11 +3545,9 @@ class ApiController extends BaseController
         } catch (\Exception $e) {
             return response()->json(['success' => false]);
         }
-        //return redirect()->to('login2');
     }
     public function pdf_download2(Request $request)
     {
-        //return view('test');
         //dd($request->id);
         $client = new GuzzleHttp\Client();
         $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
@@ -2069,33 +3603,31 @@ class ApiController extends BaseController
             $price[0] = $this->getPrice($salesdata);
             $mar_pr = $price[0][0][0];
             $add_data[0] = $this->getPropertyData($salesdata);
+
             $total_rc = count($add_data[0]);
+
             //dd($add_data[0]);
             $zill_acre_avg = (float)($add_data[0][1] / $total_rc);
+
             $zill_acre_avg_ = (float)($add_data[0][1]);
 
             $dis_zill = number_format((float)($add_data[0][2] / $total_rc), 2);
-
             $average_price_river = $sum_sale[0][0];
             //dd($average_price_river);
             //dd($add_data[0]);
 
             $address_property = isset($add_data[0][0][2]) ? $add_data[0][0][2] : $add_data[0][0][1];
 
-
-            //return  $add_data[0][1];
-
             //get zillow data 
             $zillow_sales = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/byaddress?propertyaddress=' . $address_property . '', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    //'Authorization' => 'Bearer ' . $authenticate,
                     'x-rapidapi-host' => 'zillow-working-api.p.rapidapi.com',
                     'x-rapidapi-key' => config('app.rapid_key')
                 ],
                 'body' => json_encode([
-                    'propertyaddress' => '2762 DOWNING Street, Jacksonville, FL 32205'
+                    'propertyaddress' => ''
                 ]),
             ]);
             $zillow_data = json_decode($zillow_sales->getBody(), true);
@@ -2108,77 +3640,138 @@ class ApiController extends BaseController
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    //'Authorization' => 'Bearer ' . $authenticate,
                     'x-rapidapi-host' => 'zillow-com1.p.rapidapi.com',
                     'x-rapidapi-key' => config('app.rapid_key')
                 ],
-                'body' => json_encode([
-                    //'propertyaddress' => '2762 DOWNING Street, Jacksonville, FL 32205'
-                ]),
+                'body' => json_encode([]),
             ]);
+            //zillow sold comps 
+            $zillow_sold_comp = $client->request('GET', 'https://zillow-com1.p.rapidapi.com/similarSales?zpid=' . $zpid . '', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'zillow-com1.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            /////sold comp end
             $city_red = $add_data[0][3][0];
             //dd($city_red);
             $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/auto-complete?query=' . $city_red . '&limit=1', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    //'Authorization' => 'Bearer ' . $authenticate,
                     'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
                     'x-rapidapi-key' => config('app.rapid_key')
                 ],
-                'body' => json_encode([
-                    //'propertyaddress' => '2762 DOWNING Street, Jacksonville, FL 32205'
-                ]),
+                'body' => json_encode([]),
             ]);
             //dd(config('app.rapid_key'));
             $redfin_comp_data = json_decode($redfin_sales_comp->getBody(), true);
             //dd($redfin_comp_data);
             $region_id = $redfin_comp_data['data'][0]['rows'][0]['id'];
             //dd($region_id);
-            $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sale?regionId=' . $region_id . '&lotSize=10890%2C21780', [
+            $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sale?regionId=' . $region_id . '&lotSize=10890%2C21780&limit=20', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    //'Authorization' => 'Bearer ' . $authenticate,
                     'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
                     'x-rapidapi-key' => config('app.rapid_key')
                 ],
-                'body' => json_encode([
-                    //'propertyaddress' => '2762 DOWNING Street, Jacksonville, FL 32205'
-                ]),
+                'body' => json_encode([]),
             ]);
+
+            //redfin sold homes
+            //dd($region_id);
+            $redfin_sold_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sold?regionId=' . $region_id . '&lotSize=10890%2C21780&limit=20', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+
+            //redfin sold home end
             $redfin_data = json_decode($redfin_sales_comp->getBody(), true);
+            $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
+            //dd($redfin_sold_data);
+            //dd($redfin_data);
+
             //dd($redfin_data);
             $redfin_d = $this->getRedfinData($redfin_data);
+            //dd($redfin_d);
+            //sold data
+            $redfin_sold_d = $this->getRedfinData($redfin_sold_data);
+           // dd($redfin_sold_d);
             $redfin_d = isset($redfin_d) ? $redfin_d : 0;
             //dd($redfin_d);
             $sum_acre = isset($redfin_d['sum_acre']) ? $redfin_d['sum_acre'] : 0;
+            $sum_acre_sold = isset($redfin_sold_d['sum_acre']) ? $redfin_sold_d['sum_acre'] : 0;
+
             //dd($sum_acre);
             $total_red = isset($redfin_d['p_id']) ? count($redfin_d['p_id']) : 0;
+            $total_red_sold = isset($redfin_sold_d['p_id']) ? count($redfin_sold_d['p_id']) : 0;
+
             $total_prce_sum_red = isset($redfin_d['pr_sum']) ? str_replace(',', '', $redfin_d['pr_sum']) : 0;
+            $total_prce_sum_red_sold = isset($redfin_sold_d['pr_sum']) ? str_replace(',', '', $redfin_sold_d['pr_sum']) : 0;
+
             if ($sum_acre > 0) {
                 $av_acr = number_format($sum_acre / $total_red, 2);
                 $avg_sc_r = number_format($total_prce_sum_red / $sum_acre, 2);
-                $red_av_ac = number_format($redfin_d['price']/$redfin_d['acre_'],2);
+                $red_av_ac = number_format($redfin_d['price'] / $redfin_d['acre_'], 2);
+            };
+
+            if ($sum_acre_sold > 0) {
+                $av_acr_sold = number_format($sum_acre_sold / $total_red_sold, 2);
+                $avg_sc_r_sold = number_format($total_prce_sum_red_sold / $sum_acre_sold, 2);
+                $red_av_ac_sold = number_format($redfin_sold_d['price'] / $redfin_sold_d['acre_'], 2);
             };
 
             $av_acre_red = isset($av_acr) ? $av_acr : 0;
+            $av_acre_red_sold = isset($av_acr_sold) ? $av_acr_sold : 0;
+
             $average_red = isset($redfin_d['pr_sum']) ? number_format($redfin_d['pr_sum'] / $total_red, 2) : 0;
+            $average_red_sold = isset($redfin_sold_d['pr_sum']) ? number_format($redfin_sold_d['pr_sum'] / $total_red_sold, 2) : 0;
 
             $avg_per_acre_red = isset($avg_sc_r) ? $avg_sc_r : 0;
+            $avg_per_acre_red_sold = isset($avg_sc_r_sold) ? $avg_sc_r_sold : 0;
+
 
 
             $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
+            //
+            $zillow_comp_data_sold = json_decode($zillow_sold_comp->getBody(), true);
+
+            //
             //dd($zillow_comp_data);
             $z_D = $this->getZillowData($zillow_comp_data);
+            $z_D_sold = $this->getZillowData($zillow_comp_data_sold);
+            //dd($z_D_sold['acre_all']);
+
             $t_c = count($z_D);
-           // dd($z_D);
+            $t_c_sold = count($zillow_comp_data_sold);
+           
+
+
+            // dd($z_D);
+                        //dd($z_D_sold);
+
 
             $total_rec = count($zillow_comp_data);
+            $total_rec_sold = count($zillow_comp_data_sold);
+            //dd($zillow_comp_data_sold);
+
             //$avg_acr_zll = $this->getZillowData($zillow_comp_data);
             $avg_acr_ll = str_replace(',', '', number_format((float)($z_D['sum'] / $total_rec), 2));
+            $avg_acr_ll_sold = str_replace(',', '', number_format((float)($z_D_sold['sum'] / $total_rec_sold), 2));
+
             $avg_acr_ll_ = str_replace(',', '', number_format((float)($z_D['sum']), 2));
-           // dd($avg_acr_ll_);
+            $avg_acr_ll_sold = str_replace(',', '', number_format((float)($z_D_sold['sum']), 2));
+
+             //dd($z_D_sold);
             $salecount =  $salesdata['Reports'][0]['Data']['ComparableCount'];
             //dd($sum_sale[0][0]);
             $avr_pr = str_replace(',', '', number_format((float)($sum_sale[0][0] / $salecount), 2));
@@ -2191,31 +3784,50 @@ class ApiController extends BaseController
 
             $avr_d = number_format((float)($sum_sale[0][2] / $salecount), 2);
             //dd($avr_d);
-            //return $avr_acr;
-            //dd($sum_sale[0][0],$sum_sale[0][1]);
+
             $aver_per_ac = number_format((float)($sum_sale[0][0] / $sum_sale[0][1]), 2);
             //avg per acre zillow
-            //  dd($avg_acr_ll_,$zill_acre_avg_,$sum_sale[0][1]); 
+            $avg_acre_zll_sold = number_format((float)($z_D_sold['acre_all'])/$t_c_sold,2);
+            //dd($avg_acre_zll_sold);
+
             $av_per_acre_zill = number_format((float)($avg_acr_ll_ / $zill_acre_avg_), 2);
+            $av_per_acre_zill_sold= number_format($avg_acre_zll_sold, 2);
+
             //dd($city_red);
-            $realtor_sales_comp = $client->request('GET', 'https://us-real-estate-listings.p.rapidapi.com/for-sale?location=' . $city_red . '"&offset=0&limit=50&sort=relevance&days_on=1&expand_search_radius=1', [
+            $realtor_sales_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-buy?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    //'Authorization' => 'Bearer ' . $authenticate,
-                    'x-rapidapi-host' => 'us-real-estate-listings.p.rapidapi.com',
+                    'x-rapidapi-host' => 'realtor-search.p.rapidapi.com',
                     'x-rapidapi-key' => config('app.rapid_key')
                 ],
-                'body' => json_encode([
-                    //'propertyaddress' => '2762 DOWNING Street, Jacksonville, FL 32205'
-                ]),
+                'body' => json_encode([]),
+            ]);
+            $realtor_sold_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-sold?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'realtor-search.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
             ]);
 
+
             $realtor = json_decode($realtor_sales_comp->getBody(), true);
+            $realtor_sold = json_decode($realtor_sold_comp->getBody(), true);
+
+            //dd($realtor);
             $price_data_real = $this->getRealtorData($realtor);
-            $realto_s = isset($realtor['totalResultCount']) ? $realtor['totalResultCount'] : 0;
-           // dd($price_data_real);
-            $avg_pr_realtor = 0;$avg_ac = 0; $av_pr_ac_real = 0;
+            $price_data_real_sold = $this->getRealtorData($realtor_sold);
+
+            $realto_s = isset($realtor['data']['count']) ? $realtor['data']['count'] : 0;
+            $realto_s_sold = isset($realtor_sold['data']['count']) ? $realtor_sold['data']['count'] : 0;
+
+            //dd($price_data_real);
+            $avg_pr_realtor = 0;
+            $avg_ac = 0;
+            $av_pr_ac_real = 0;
             if ($price_data_real > 0) {
                 //dd('inside');
 
@@ -2224,8 +3836,20 @@ class ApiController extends BaseController
                 $avg_ac = number_format($price_data_real['acre_sum'] / $realto_s, 2);
                 $av_pr_ac_real = number_format($avg_pr_realtor / $avg_ac, 2);
             }
-            //dd($realtor);
-            //LastMarketSaleInformation['SalePrice']
+
+
+            $avg_pr_realtor_sold = 0;
+            $avg_ac_sold = 0;
+            $av_pr_ac_real_sold = 0;
+            if ($price_data_real_sold > 0) {
+                //dd('inside');
+
+                $avg_pr_realtor_sold = str_replace(',', '', number_format($price_data_real_sold['price_sum'] / $realto_s_sold, 2));
+                //dd($avg_pr_realtor);
+                $avg_ac_sold = number_format($price_data_real_sold['acre_sum'] / $realto_s_sold, 2);
+                $av_pr_ac_real_sold = number_format($avg_pr_realtor_sold / $avg_ac_sold, 2);
+            }
+
             $data = [
                 'address' => $propertydata['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'],
                 'city' => $city_red,
@@ -2271,42 +3895,80 @@ class ApiController extends BaseController
                 'avg_ac' => $avg_ac,
                 'av_pr_ac_real' => $av_pr_ac_real,
                 'href_real' => isset($price_data_real['source_all'][0]) ? $price_data_real['source_all'][0] : 0,
-                'list_p_real' => isset($price_data_real['price_all'][0]) ? $price_data_real['price_all'][0] : 0 ,
-                'acre_real' => isset($price_data_real['acre_all'][0]) ? $price_data_real['acre_all'][0]: 0,
-                'real_price_per' => isset($price_data_real['price_all'][0]) ? number_format($price_data_real['price_all'][0]/$price_data_real['acre_all'][0],2) : 0,
-                'real_coun' => isset($price_data_real['county_all'][0]) ? $price_data_real['county_all'][0] : 0 ,
+                'list_p_real' => isset($price_data_real['price_all'][0]) ? $price_data_real['price_all'][0] : 0,
+                'acre_real' => isset($price_data_real['acre_all'][0]) ? $price_data_real['acre_all'][0] : 0,
+                'real_price_per' => isset($price_data_real['price_all'][0]) ? number_format($price_data_real['price_all'][0] / $price_data_real['acre_all'][0], 2) : 0,
+                'real_coun' => isset($price_data_real['county_all'][0]) ? $price_data_real['county_all'][0] : 0,
                 'real_cty' => isset($price_data_real['city_all'][0]) ? $price_data_real['city_all'][0] : 0,
                 'href_real1' => isset($price_data_real['source_all'][1]) ? $price_data_real['source_all'][1] : 0,
                 'list_p_real1' => isset($price_data_real['price_all'][1]) ? $price_data_real['price_all'][1] : 0,
                 'acre_real1' => isset($price_data_real['acre_all'][1]) ? $price_data_real['acre_all'][1] : 0,
-                'real_price_per1' => isset($price_data_real['price_all'][1]) ? number_format($price_data_real['price_all'][1]/$price_data_real['acre_all'][1],2) : 0,
+                'real_price_per1' => isset($price_data_real['price_all'][1]) ? number_format($price_data_real['price_all'][1] / $price_data_real['acre_all'][1], 2) : 0,
                 'real_coun1' => isset($price_data_real['county_all'][1]) ? $price_data_real['county_all'][1] : 0,
-                'real_cty1' => isset($price_data_real['city_all'][1]) ? $price_data_real['city_all'][1] : 0 ,
+                'real_cty1' => isset($price_data_real['city_all'][1]) ? $price_data_real['city_all'][1] : 0,
                 'href_redfin' => isset($redfin_d['source']) ? $redfin_d['source'] : '',
                 'list_p_red' => isset($redfin_d['price']) ? $redfin_d['price'] : 0,
                 'acre_red' => isset($redfin_d['acre_']) ? $redfin_d['acre_'] : 0,
                 'red_price_per' => isset($red_av_ac) ? $red_av_ac : 0,
                 'red_coun' => isset($redfin_d['county']) ? $redfin_d['county'] : '',
                 'red_cty' => isset($redfin_d['city']) ? $redfin_d['city'] : '',
-                'href_zll' => $z_D['source_all'][$t_c-1],
-                'list_p_zll' => $z_D['price_all'][$t_c-1],
-                'acre_zll' => $z_D['acre_all'][$t_c-1],
-                'zll_price_per' => number_format($z_D['price_all'][$t_c-1]/$z_D['acre_all'][$t_c-1],2),
-                'zll_coun' => $z_D['county_all'][$t_c-1],
-                'zll_cty' => $z_D['city_all'][$t_c-1],
-                'href_zll1' => $z_D['source_all'][$t_c-2],
-                'list_p_zll1' => $z_D['price_all'][$t_c-2],
-                'acre_zll1' => $z_D['acre_all'][$t_c-2],
-                'zll_price_per1' => number_format($z_D['price_all'][$t_c-2]/$z_D['acre_all'][$t_c-2],2),
-                'zll_coun1' => $z_D['county_all'][$t_c-2],
-                'zll_cty1' => $z_D['city_all'][$t_c-2],               
 
-                'href_zll2' => $z_D['source_all'][$t_c-3],
-                'list_p_zll2' => $z_D['price_all'][$t_c-3],
-                'acre_zll2' => $z_D['acre_all'][$t_c-3],
-                'zll_price_per2' => number_format($z_D['price_all'][$t_c-3]/$z_D['acre_all'][$t_c-3],2),
-                'zll_coun2' => $z_D['county_all'][$t_c-3],
-                'zll_cty2' => $z_D['city_all'][$t_c-3],
+                'href_redfin_sold' => isset($redfin_sold_d['source']) ? $redfin_sold_d['source'] : '',
+                'list_p_red_sold' => isset($redfin_sold_d['price']) ? $redfin_sold_d['price'] : 0,
+                'acre_red_sold' => isset($redfin_sold_d['acre_']) ? $redfin_sold_d['acre_'] : 0,
+                'red_price_per_sold' => isset($red_av_ac_sold) ? $red_av_ac_sold : 0,
+                'red_coun_sold' => isset($redfin_sold_d['county']) ? $redfin_sold_d['county'] : '',
+                'red_cty_sold' => isset($redfin_sold_d['city']) ? $redfin_sold_d['city'] : '',
+
+                'href_zll' => $z_D['source_all'][$t_c - 1],
+                'list_p_zll' => $z_D['price_all'][$t_c - 1],
+                'acre_zll' => $z_D['acre_all'][$t_c - 1],
+                'zll_price_per' => number_format($z_D['price_all'][$t_c - 1] / $z_D['acre_all'][$t_c - 1], 2),
+                'zll_coun' => $z_D['county_all'][$t_c - 1],
+                'zll_cty' => $z_D['city_all'][$t_c - 1],
+                'href_zll1' => $z_D['source_all'][$t_c - 2],
+                'list_p_zll1' => $z_D['price_all'][$t_c - 2],
+                'acre_zll1' => $z_D['acre_all'][$t_c - 2],
+                'zll_price_per1' => number_format($z_D['price_all'][$t_c - 2] / $z_D['acre_all'][$t_c - 2], 2),
+                'zll_coun1' => $z_D['county_all'][$t_c - 2],
+                'zll_cty1' => $z_D['city_all'][$t_c - 2],
+
+                'href_zll_sold' => $z_D_sold['source_all'][$t_c_sold - 1],
+                'list_p_zll_sold' => $z_D_sold['price_all'][$t_c_sold - 1],
+                'acre_zll_sold' => $av_per_acre_zill_sold,
+                'zll_price_per_sold' => number_format($z_D_sold['price_all'][$t_c_sold - 1] / $av_per_acre_zill_sold, 2),
+                'zll_coun_sold' => $z_D_sold['county_all'][$t_c_sold - 1],
+                'zll_cty_sold' => $z_D_sold['city_all'][$t_c_sold - 1],
+
+
+                'href_zll1_sold' => $z_D_sold['source_all'][$t_c_sold - 2],
+                'list_p_zll1_sold' => $z_D_sold['price_all'][$t_c_sold - 2],
+                'acre_zll1_sold' => $av_per_acre_zill_sold,
+                'zll_price_per1_sold' => number_format($z_D_sold['price_all'][$t_c_sold - 2] / $av_per_acre_zill_sold, 2),
+                'zll_coun1_sold' => $z_D_sold['county_all'][$t_c_sold - 2],
+                'zll_cty1_sold' => $z_D_sold['city_all'][$t_c_sold - 2],
+
+                'href_zll2_sold' => $z_D_sold['source_all'][$t_c_sold - 3],
+                'list_p_zll2_sold' => $z_D_sold['price_all'][$t_c_sold - 3],
+                'acre_zll2_sold' => $av_per_acre_zill_sold,
+                'zll_price_per2_sold' => number_format($z_D_sold['price_all'][$t_c_sold - 3] / $av_per_acre_zill_sold, 2),
+                'zll_coun2_sold' => $z_D_sold['county_all'][$t_c_sold - 3],
+                'zll_cty2_sold' => $z_D_sold['city_all'][$t_c_sold - 3],
+
+                'href_real_sold' => isset($price_data_real_sold['source_all'][0]) ? $price_data_real_sold['source_all'][0] : 0,
+                'list_p_real_sold' => isset($price_data_real_sold['price_all'][0]) ? $price_data_real_sold['price_all'][0] : 0,
+                'acre_real_sold' => isset($price_data_real_sold['acre_all'][0]) ? $price_data_real_sold['acre_all'][0] : 0,
+                'real_price_per_sold' => isset($price_data_real_sold['price_all'][0]) ? number_format($price_data_real_sold['price_all'][0] / $price_data_real_sold['acre_all'][0], 2) : 0,
+                'real_coun_sold' => isset($price_data_real_sold['county_all'][0]) ? $price_data_real_sold['county_all'][0] : 0,
+                'real_cty_sold' => isset($price_data_real_sold['city_all'][0]) ? $price_data_real_sold['city_all'][0] : 0,
+               
+
+                'href_zll2' => $z_D['source_all'][$t_c - 3],
+                'list_p_zll2' => $z_D['price_all'][$t_c - 3],
+                'acre_zll2' => $z_D['acre_all'][$t_c - 3],
+                'zll_price_per2' => number_format($z_D['price_all'][$t_c - 3] / $z_D['acre_all'][$t_c - 3], 2),
+                'zll_coun2' => $z_D['county_all'][$t_c - 3],
+                'zll_cty2' => $z_D['city_all'][$t_c - 3],
 
             ];
             //dd($data);
@@ -2335,14 +3997,13 @@ class ApiController extends BaseController
             echo "Error decoding JSON data.";
             return;
         }
-
         // Get states array
         $salescomps = $data['Reports'][0]['Data']['ComparableProperties'];
         //echo "Sales Price:\n";
         $sum = 0;
         $sum_acr = 0;
         $sum_d = 0;
-$arr = 0;
+        $arr = 0;
 
         foreach ($salescomps as $salescomp) {
             $sum += $salescomp['LastMarketSaleInformation']['SalePrice'];
@@ -2358,13 +4019,6 @@ $arr = 0;
 
             $arr = [$sum, $sum_acr, $sum_d, $cities];
         }
-        /*foreach ($salescomps as $salescomp) {
-        if(!empty($salescomp['SitusAddress']['City']))
-        {
-        $price = $salescomp['LastMarketSaleInformation']['SalePrice'];
-        $arr = [$price];
-        }
-    }*/
 
         return $arr;
     }
@@ -2442,20 +4096,24 @@ $arr = 0;
 
         foreach ($redfincomps as $redfincomp) {
             $p_id[] = $redfincomp['homeData']['propertyId'];
-            $price_sum += $redfincomp['homeData']['priceInfo']['amount'];
-            $sqft = $redfincomp['homeData']['lotSize']['amount'];
+            $pric = isset($redfincomp['homeData']['priceInfo']) ? $redfincomp['homeData']['priceInfo']['amount'] : 0;
+            $price_sum += $pric;
+            $sqft = isset($redfincomp['homeData']['lotSize']['amount']) ? $redfincomp['homeData']['lotSize']['amount'] : 0;
+            //dd($pric);
 
             $acre_ = number_format($sqft / 43560, 2);
             $source = $redfincomp['homeData']['url'];
-            $list_price = $redfincomp['homeData']['priceInfo']['amount'];
+            $list_price = isset($redfincomp['homeData']['priceInfo']) ? $redfincomp['homeData']['priceInfo']['amount'] : 0;
             $county = $redfincomp['homeData']['addressInfo']['state'];
-            $city = $redfincomp['homeData']['addressInfo']['city'];
+            $city = isset($redfincomp['homeData']['addressInfo']['city']) ? $redfincomp['homeData']['addressInfo']['city'] : '';
 
             $acre[] = number_format($sqft / 43560, 2);
             $acre_sum += number_format($sqft / 43560, 2);
             $redf = [
+                'data' => $redfincomp,
                 'p_id' => $p_id,
                 'pr_sum' => $price_sum,
+                'pric' => $pric,
                 'acre' => $acre,
                 'sum_acre' => $acre_sum,
                 'acre_' => $acre_,
@@ -2493,14 +4151,15 @@ $arr = 0;
             $list_price = $zillowcomp['price'];
             $county = $zillowcomp['address']['state'];
             $city = $zillowcomp['address']['city'];
-            
+
             $price_all[] = $zillowcomp['price'];
             $source_all[] = $zillowcomp['zpid'];
             $county_all[] = $zillowcomp['address']['state'];
             $city_all[] = $zillowcomp['address']['city'];
             $sum += $price;
-            $sale_sum = ['sum' => $sum,
-        'acre' => $acre_,
+            $sale_sum = [
+                'sum' => $sum,
+                'acre' => $acre_,
                 'source' =>  $source,
                 'price' => $list_price,
                 'county' => $county,
@@ -2509,7 +4168,8 @@ $arr = 0;
                 'city_all' => $city_all,
                 'acre_all' => $acre_all,
                 'price_all' => $price_all,
-                'source_all' => $source_all, ];
+                'source_all' => $source_all,
+            ];
         }
         return $sale_sum;
     }
@@ -2524,7 +4184,7 @@ $arr = 0;
         }
 
         // Get states array
-        $realtorcomps = $data['listings'];
+        $realtorcomps = $data['data']['results'];
         $sale_sum = 0;
         $sum = 0;
         $acre_sum = 0;
@@ -2547,7 +4207,8 @@ $arr = 0;
 
 
             $sale_sum = [
-                'price_sum' => $sum,               
+                'price_sum' => $sum,
+                'pr' => $price,
                 'acre_sum' => $acre_sum,
                 'data' => $realtorcomp,
                 'county_all' => $county_all,

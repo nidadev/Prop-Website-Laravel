@@ -6,29 +6,14 @@ use App\Http\Middleware\IsCorsMiddleware;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\SubscriptionController;
 
-
-
-
-
-Route::get('/login', function () {
-    return view('login');
-});
-
 Route::get('/profile', function () {
     return view('profile');
 });
 
-/*Route::get('/me', function () {
-    return view('layouts.nav');
-})*/
 
 Route::get('/subscription', function () {
     return view('subscription');
 });
-
-/*Route::get('/logout', function () {
-    return view('logout');
-});*/
 
 Route::get('/research', function () {
     return view('research');
@@ -46,20 +31,6 @@ Route::get('/how-it-works-lands', function () {
 Route::get('/how-it-works-houses', function () {
     return view('how-it-works-houses');
 });
-
-
-
-
-/*Route::get('/compreport2', function () {
-    return view('compreport');
-});*/
-Route::get('/priceland', function () {
-    return view('priceland');
-});
-Route::get('/pricehouse', function () {
-    return view('pricehouse');
-});
-
 Route::get('/about', function () {
     return view('about');
 });
@@ -90,21 +61,23 @@ Route::group(['middleware' => ['IsAuth']],function(){
 
     Route::get('/priceland', [ApiController::class,'loadPriceReport'])->name('priceland');
     Route::post('/priceland', [ApiController::class,'GetPriceReport'])->name('priceland');
+
+    Route::get('/pricehouse', [ApiController::class,'loadPriceHouseReport'])->name('pricehouse');
+    Route::post('/pricehouse', [ApiController::class,'GetPriceHouseReport'])->name('pricehouse');
+    Route::get('/research', [ApiController::class,'loadPriceResearchReport'])->name('research');
+    Route::post('/research', [ApiController::class,'GetPriceResearchReport'])->name('research');
+    
+    
     Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
 
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
-
-
-
 
 Route::get('/support', function () {
     return view('support');
 });
 
 Route::get('/verify-mail/{token}', [ApiController::class, 'verifyEmailToken']);
-
-
 
 //Route::post('/register', [ ApiController::class,'register']);
 //Route::post('/login', [ ApiController::class,'login']);

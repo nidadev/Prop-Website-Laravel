@@ -11,11 +11,9 @@
           <div class="col-md-8">
             @if(Session::has('success'))
             <p class="result">{{ Session::get('success') }}</p>
-
             @endif
             @if(Session::has('error'))
             <p class="incorrect">{{ Session::get('error') }}</p>
-
             @endif
             <form id="priceland_search_form" method="post" action="{{ url('priceland')}}">
               @csrf
@@ -23,16 +21,16 @@
                 <div class="center_h2li row">
                   <div class="col-md-4">
                     <div class="center_h2lil">
-                    
+
                       <label for="autocomplete">State:</label>
                       <input class="form-control" id="autocomplete" name="state" type="text">
-                 
+
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="center_h2lil">
                       <label for="autocomplete">County:</label><select id="counties" name="cp" class="form-select"></select>
-                    
+
                     </div>
                   </div>
                   <!--div class="col-md-4">
@@ -44,7 +42,7 @@
                 </div-->
                   <div class="col-md-4">
                     <div class="center_h2lil">
-                    <br><input type="submit" style="border:none" class="button run" value="Run Report">
+                      <br><input type="submit" style="border:none" class="button run" value="Run Report">
                     </div>
                   </div>
 
@@ -227,32 +225,33 @@
 
                 </tr>
               <tbody id="mytable4">
-                @if(isset($data))
-                <?php //dd($sale_price);
+                @if(isset($price))
+                <?php //dd($price);
                 ?>
 
 
-                <?php for ($i = 0; $i <= count($data) - 1; $i++) {
+                <?php for ($i = 0; $i < count($price) - 1; $i++) {
+
                   $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
 
-                  $res = 'res' . $i;
-                  $pr = 'p' . $i;
-                  $total = $data[$res]['MaxResultsCount'] * $mainval;
-                  $maxc = $data[$res]['MaxResultsCount'];
-                  $ct = isset($data[$res]['LitePropertyList'][0]['County']) ? $data[$res]['LitePropertyList'][0]['County'] : 0;
-                  $st = isset($data[$res]['LitePropertyList'][0]['State']) ? $data[$res]['LitePropertyList'][0]['State'] : 0;
-                  $info = ['0-5', '5-10', '10-15', '15-20', '20-25', '25-30', '30-35', '40-45', '45-50', '50-55', '55-60', '60-65', '65-70', '70-75', '75-80', '80-85', '85-90', '90-95', '95-100'];//echo $res; 
-                  $price_per_acre = number_format($sale_price[0][$pr]/$acre[$i+1],2);
-                ?>
+                  $total = $de[$i]['MaxResultsCount'] * $mainval;
+                  $maxc = $de[$i]['MaxResultsCount'];
+                
+                  $sl_pr = $price[$i]['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
+                  $pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
+                  $ct = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County'] : 0;
+                  $st = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State'] : 0;
+      
+                  $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105']; //echo $res; 
+    ?>
                   <tr>
                     <td>{{ $info[$i] }}</td>
-                    <td>{{ $data[$res]['MaxResultsCount']}}</td>
+                    <td>{{ $maxc}}</td>
                     <td>{{ $st}}</td>
 
                     <td>{{ $ct}}</td>
-                    <td>${{ $sale_price[0][$pr]}}</td>
-                    <td>${{ $price_per_acre }}</td>
-                    <!--td></td-->
+                    <td>${{ $sl_pr }}</td>
+                    <td>${{ $pr_per_acre }}</td>
 
                     <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
 
@@ -261,6 +260,7 @@
                 <?php } ?>
                 @endif
               </tbody>
+              
             </table>
             <a href="#">Download Table</a>
         </div>

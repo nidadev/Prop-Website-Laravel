@@ -31,6 +31,14 @@ class SubscriptionController extends Controller
             
             $customer_id = $customer['id'];
             $subPlan = SubscriptionPlan::where('id', $request->plan_id)->first();
+
+            //start and change subscription conditions
+            //check if exist any active current subscription
+            $subscriptionDetail = SubscriptionDetail::where(['user_id',$user_id , 'status' => 'active', 'cancel' => 0])->orderBy('id','desc')->first();
+            //check if any subscription avaailable of user
+            $subscriptionDetailCount = SubscriptionDetail::where(['user_id',$user_id])->orderBy('id','desc')->count();          
+            //start and change subscription conditions end
+
             if($subPlan->type == 0)
             {
                 $subscriptionData = SubscriptionHelper::start_monthly_trial_subscription($customer_id,$user_id,$subPlan);

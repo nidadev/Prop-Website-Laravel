@@ -159,6 +159,7 @@ Legal Description:<br>
     <td> {{ $zill_acre_avg }}<</td>
     <td> {{ $dis_zill }}</td>
   </tr>
+  @if($total_red > 0)
   <tr> 
     <td> Redfin </td>
     <td> {{ $total_red }}</td>
@@ -167,6 +168,7 @@ Legal Description:<br>
     <td>{{ $av_acre_red}}</td>
     <td> </td>
   </tr>
+  @endif
   <tr> 
     <td> Realtor </td>
     <td> {{ $realto_s }}</td>
@@ -188,9 +190,9 @@ Legal Description:<br>
     <th class="sale_com">Source</th>
 
   </tr>
-  @if($acre_real)
+  @if($acre_real > 0 )
   <tr> 
-    <td> {{$acre_real}}</td>
+    <td> {{ number_format($acre_real,1)}}</td>
     <td> ${{ $list_p_real}}</td>
     <td> {{ $real_price_per}} </td>
     <td> {{ $dis_zill }} miles</td>
@@ -198,8 +200,10 @@ Legal Description:<br>
     <td> {{$real_coun}}</td>
     <td> <a href="{{$href_real}}">Realtor</a></td>
   </tr>
+  @else
+  if($acre_real1 > 0)
   <tr> 
-    <td> {{$acre_real1}}</td>
+    <td> {{number_format($acre_real1,1)}}</td>
     <td> ${{ $list_p_real1}}</td>
     <td> {{ $real_price_per1}} </td>
     <td> {{ $dis_zill}} miles</td>
@@ -210,7 +214,7 @@ Legal Description:<br>
   @endif
   @if($acre_red)
   <tr> 
-    <td> {{$acre_red}}</td>
+    <td> {{number_format($acre_red,1)}}</td>
     <td> ${{ $list_p_red}}</td>
     <td> {{ $red_price_per}} </td>
     <td> {{ $dis_zill }}</td>
@@ -220,7 +224,7 @@ Legal Description:<br>
   </tr>
  @endif
  <tr> 
-    <td> {{$acre_zll}}</td>
+    <td> {{ $acre_zll}}</td>
     <td> ${{ $list_p_zll}}</td>
     <td> {{ $zll_price_per}} </td>
     <td> {{ $dis_zill }} miles</td>
@@ -230,7 +234,7 @@ Legal Description:<br>
   </tr>
  
   <tr> 
-    <td> {{$acre_zll1}}</td>
+    <td> {{ $acre_zll1}}</td>
     <td> ${{ $list_p_zll1}}</td>
     <td> {{ $zll_price_per1}} </td>
     <td> {{ $dis_zill }} miles</td>
@@ -261,25 +265,82 @@ Legal Description:<br>
     <th class="sold_com">Source</th>
 
   </tr>
-  @if($acre_real)
+  @if($acre_red_sold)
   <tr> 
-    <td> {{$acre_real}}</td>
-    <td> ${{ $list_p_real}}</td>
-    <td> {{ $real_price_per}} </td>
+    <td> {{ number_format($acre_red_sold,1)}}</td>
+    <td> ${{ $list_p_red_sold}}</td>
+    <td> {{ $red_price_per_sold}} </td>
+    <td> {{ $dis_zill }}</td>
+    <td> {{$red_cty_sold}}</td>
+    <td> {{$red_coun_sold}}</td>
+    <td> <a href="https://redfin.com{{$href_redfin_sold}}">Redfin</a></td>
+  </tr>
+ @endif
+ <tr> 
+    <td> {{$acre_zll_sold}}</td>
+    <td> ${{ $list_p_zll_sold}}</td>
+    <td> {{ $zll_price_per_sold}} </td>
     <td> {{ $dis_zill }} miles</td>
-    <td> {{$real_cty}}</td>
-    <td> {{$real_coun}}</td>
-    <td> <a href="{{$href_real}}">Realtor</a></td>
+    <td> {{$zll_cty_sold}}</td>
+    <td> {{$zll_coun_sold}}</td>
+    <td> <a href="https://zillow.com/homedetails/{{$href_zll_sold}}_zpid">Zillow</a></td>
   </tr>
   <tr> 
-    <td> {{$acre_real1}}</td>
-    <td> ${{ $list_p_real1}}</td>
-    <td> {{ $real_price_per1}} </td>
-    <td> {{ $dis_zill}} miles</td>
-    <td> {{$real_cty1}}</td>
-    <td> {{$real_coun1}}</td>
-    <td> <a href="{{$href_real1}}">Realtor</a></td>
+    <td> {{$acre_zll1_sold}}</td>
+    <td> ${{ $list_p_zll1_sold}}</td>
+    <td> {{ $zll_price_per1_sold}} </td>
+    <td> {{ $dis_zill }} miles</td>
+    <td> {{$zll_cty1_sold}}</td>
+    <td> {{$zll_coun1_sold}}</td>
+    <td> <a href="https://zillow.com/homedetails/{{$href_zll1_sold}}_zpid">Zillow</a></td>
   </tr>
-  @endif
+  <tr> 
+    <td> {{$acre_zll2_sold}}</td>
+    <td> ${{ $list_p_zll2_sold}}</td>
+    <td> {{ $zll_price_per2_sold}} </td>
+    <td> {{ $dis_zill }} miles</td>
+    <td> {{$zll_cty2_sold}}</td>
+    <td> {{$zll_coun2_sold}}</td>
+    <td> <a href="https://zillow.com/homedetails/{{$href_zll2_sold}}_zpid">Zillow</a></td>
+  </tr>
+  <tr> 
+    <td> {{ number_format($acre_real_sold,1)}}</td>
+    <td> ${{ $list_p_real_sold}}</td>
+    <td> {{ $real_price_per_sold}} </td>
+    <td> {{ $dis_zill }} miles</td>
+    <td> {{$real_cty_sold}}</td>
+    <td> {{$real_coun_sold}}</td>
+    <td> <a href="{{$href_real_sold}}">Realtor</a></td>
+  </tr> 
+</table>
+  <h6>Offer Price Appendix</h6>
+  <table>
+    <th>Percent of Market Value </th>
+    <th>County Offer </th>
+
+    <th>City Offer </th>
+    <th>Geo Adjusted Offer Price
+    </th>
+
+    <?php 
+   
+    $cal_arr = [100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0];
+    //dd($county);
+    for($i=0; $i<count($cal_arr)-1; $i++)
+    { 
+      $total_per_c = $county_av * $cal_arr[$i]/100;
+      $total_per_ct = $mar_pr * $cal_arr[$i];
+      $total_per_geo = $geo_adjusted * $cal_arr[$i];
+      ?>
+    <tr>
+      <td>{{ $cal_arr[$i]}}%</td>
+      <td>${{ $total_per_c }}</td>
+      <td>${{ $total_per_ct }}</td>
+
+      <td>${{ $total_per_geo }}</td>
+
+    </tr>
+    <?php } ?>
+  </table>
 </body>
 </html>
