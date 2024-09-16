@@ -228,21 +228,40 @@
               <tbody id="mytable4">
                 @if(isset($data))
                 <?php //dd($research);
+                /*function showDups($array)
+{
+  $array_temp = array();
+
+   foreach($array as $val)
+   {
+     if (!in_array($val, $array_temp))
+     {
+       $array_temp[] = $val;
+     }
+     else
+     {
+       echo 'duplicate = ' . $val . '<br />';
+     }
+   }
+   //dd($array_temp);
+}
+showDups($research);*/
+
                 ?>
 
 
-                <?php for ($i=0; $i<21; $i++) {                
+                <?php for ($i=0; $i<count($research)-1; $i++) {                
                   //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
                   //$ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
                   //$st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
                   $zp = isset($data['zip'][$i]) ? $data['zip'][$i] : 0;
                   $st = isset($data['state'][$i]) ? $data['state'][$i] : 0;
                   $ct = isset($data['county'][$i]) ? $data['county'][$i] : 0;
-                  $sold_home = $research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['SoldHomes'];
-                  $sale_home = $research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['HomesForSale'];
-                  $avg_days  = $research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'];
+                  $sold_home = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['SoldHomes']: 0;
+                  $sale_home = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['HomesForSale'] : 0;
+                  $avg_days  = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'] : 0;
                     $total_comp = $sold_home + $sale_home;
-                    $avg_price  = $research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['AvgSoldPriceChange'];
+                    $avg_price  = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['AvgSoldPriceChange'] : 0 ;
 
                     
 
