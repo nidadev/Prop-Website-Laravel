@@ -2030,11 +2030,13 @@ class ApiController extends BaseController
             $de = json_decode($res->getBody(), true);
             //dd($de);
             $dl = $de['LitePropertyList'];
+            
 
             //dd($de);
             foreach ($dl as $d) {
                 //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
-              if($d['Zip']> 0 || $d['Zip'] !=null)
+               
+                if($d['Zip']> 0 || $d['Zip'] !=null)
               {
                 $pid[] = $d['PropertyId'];
                 $apn[] = $d['Apn'];
@@ -2485,7 +2487,7 @@ class ApiController extends BaseController
             ]);
             $research[] = json_decode($getresearch->getBody(), true);*/
 
-    //dd($research);
+    //dd($data);
             ///////////////////////////
             $mainval = 1 * 0.1;
             return view('research', compact('mainval', 'data','research'));
