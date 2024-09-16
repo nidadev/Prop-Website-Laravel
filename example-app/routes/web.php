@@ -15,13 +15,6 @@ Route::get('/subscription', function () {
     return view('subscription');
 });
 
-Route::get('/research', function () {
-    return view('research');
-});
-
-Route::get('/research2', function () {
-    return view('research2');
-});
 Route::get('/faq', function () {
     return view('faq');
 });
