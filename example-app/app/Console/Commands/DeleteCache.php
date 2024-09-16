@@ -28,6 +28,7 @@ class DeleteCache extends Command
     {
         //
         Artisan::call('cache:clear');
+        Artisan::call('config:clear');
         $this->info('cache deleted successfully');
     }
 }
