@@ -363,62 +363,62 @@ class ApiController extends BaseController
         return view('pricehouse');
     }
 
+
     public function loadPriceResearchReport()
     {
         return view('research');
     }
 
-   
-public function GetPriceHouseReport(Request $request)
-{
-    //dd($request);
-    $my_states_array = [
-        'ca' => 6,
-        'al' => 1,
-        'ak' => 2,
-        'az' => 4,
-        'ar' => 5,
-        'co' => 8,
-        'ct' => 9,
-        'de' => 10,
-        'dc' => 11,
-        'fl' => 12,
-        'sc' => 45
-    ];
-    foreach ($my_states_array as $key => $val) {
-        if (ltrim($request['state'], '0') == $key) {
-            $st = $val;
+
+    public function GetPriceHouseReport(Request $request)
+    {
+        //dd($request);
+        $my_states_array = [
+            'ca' => 6,
+            'al' => 1,
+            'ak' => 2,
+            'az' => 4,
+            'ar' => 5,
+            'co' => 8,
+            'ct' => 9,
+            'de' => 10,
+            'dc' => 11,
+            'fl' => 12,
+            'sc' => 45
+        ];
+        foreach ($my_states_array as $key => $val) {
+            if (ltrim($request['state'], '0') == $key) {
+                $st = $val;
+            }
         }
-    }
 
-    $client = new GuzzleHttp\Client();
-    $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
-        'headers' => [
-            'Accept' => 'application/json',
-            'Content-Type' => 'application/json',
+        $client = new GuzzleHttp\Client();
+        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
 
-        ],
-        'body' => json_encode([
-            'ClientId' => config('app.client_id'),
-            'ClientSecretKey' => config('app.client_secret')
-        ])
-    ]);
-    $authenticate = json_decode($login->getBody(), true);
+            ],
+            'body' => json_encode([
+                'ClientId' => config('app.client_id'),
+                'ClientSecretKey' => config('app.client_secret')
+            ])
+        ]);
+        $authenticate = json_decode($login->getBody(), true);
 
-    $cp = ltrim($request['cp'], '0');
+        $cp = ltrim($request['cp'], '0');
 
 
-    try {     
+        try {
 
-        ///////////////////////
-        //$acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
-        $acre_arr = [0,2,5,15,22,32,42,52,62,72,82,92,102,122,124,125,130,140,150,160,170];
-       
-        foreach($acre_arr as $ac)
-        {
-            $data[] = $ac;
-        }
-        //dd($data);
+            ///////////////////////
+            //$acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+            $acre_arr = [0, 2, 5, 15, 22, 32, 42, 52, 62, 72, 82, 92, 102, 122, 124, 125, 130, 140, 150, 160, 170];
+
+            foreach ($acre_arr as $ac) {
+                $data[] = $ac;
+            }
+            //dd($data);
             $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
                 'headers' => [
                     'Accept' => 'application/json',
@@ -441,8 +441,8 @@ public function GetPriceHouseReport(Request $request)
                                     "FilterName": "LotAcreage",
                                     "FilterOperator": "is between",
                                     "FilterValues": [
-                                        '.$data[0].',
-                                        '.$data[1].'
+                                        ' . $data[0] . ',
+                                        ' . $data[1] . '
                                         
                                     ]
                                 },
@@ -477,15 +477,15 @@ public function GetPriceHouseReport(Request $request)
                         } //
                     }',
             ]);
-                   $de[] = json_decode($res->getBody(), true);
+            $de[] = json_decode($res->getBody(), true);
 
-                   $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => '{
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                             "ProductNames": [
                                 "SalesComparables"
                             ],
@@ -501,8 +501,8 @@ public function GetPriceHouseReport(Request $request)
                                         "FilterName": "LotAcreage",
                                         "FilterOperator": "is between",
                                         "FilterValues": [
-                                            '.$data[1].',
-                                            '.$data[2].'
+                                            ' . $data[1] . ',
+                                            ' . $data[2] . '
                                             
                                         ]
                                     },
@@ -536,17 +536,17 @@ public function GetPriceHouseReport(Request $request)
                                 ] //
                             } //
                         }',
-                ]);
-                       $de[] = json_decode($res->getBody(), true);
+            ]);
+            $de[] = json_decode($res->getBody(), true);
 
-                       /******************when 10-15 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            /******************when 10-15 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -562,8 +562,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[2].',
-                                                '.$data[3].'
+                                                ' . $data[2] . ',
+                                                ' . $data[3] . '
                                                 
                                             ]
                                         },
@@ -597,17 +597,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /**********************10-15 end */
-                       /********15-20 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**********************10-15 end */
+            /********15-20 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -623,8 +623,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[3].',
-                                                '.$data[4].'
+                                                ' . $data[3] . ',
+                                                ' . $data[4] . '
                                                 
                                             ]
                                         },
@@ -658,17 +658,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /*************15-20 end */
-                       /**************20-25 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*************15-20 end */
+            /**************20-25 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -684,8 +684,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[4].',
-                                                '.$data[5].'
+                                                ' . $data[4] . ',
+                                                ' . $data[5] . '
                                                 
                                             ]
                                         },
@@ -719,17 +719,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /********************20-25 end */
-                       /******************25-30 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /********************20-25 end */
+            /******************25-30 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -745,8 +745,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[5].',
-                                                '.$data[6].'
+                                                ' . $data[5] . ',
+                                                ' . $data[6] . '
                                                 
                                             ]
                                         },
@@ -780,17 +780,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /********************25-30end */
-                       /********30-35 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /********************25-30end */
+            /********30-35 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -806,8 +806,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[6].',
-                                                '.$data[7].'
+                                                ' . $data[6] . ',
+                                                ' . $data[7] . '
                                                 
                                             ]
                                         },
@@ -841,17 +841,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /**********30-35 end */
-                       /************35-40 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**********30-35 end */
+            /************35-40 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -867,8 +867,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[7].',
-                                                '.$data[8].'
+                                                ' . $data[7] . ',
+                                                ' . $data[8] . '
                                                 
                                             ]
                                         },
@@ -902,17 +902,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /**************35-40 end */
-                       /*************40-45 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**************35-40 end */
+            /*************40-45 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -928,8 +928,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[8].',
-                                                '.$data[9].'
+                                                ' . $data[8] . ',
+                                                ' . $data[9] . '
                                                 
                                             ]
                                         },
@@ -963,17 +963,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /********************40-45 end */
-                       /******************45-50 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /********************40-45 end */
+            /******************45-50 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -989,8 +989,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[9].',
-                                                '.$data[10].'
+                                                ' . $data[9] . ',
+                                                ' . $data[10] . '
                                                 
                                             ]
                                         },
@@ -1024,17 +1024,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /***************45-50 end */
-                       /*************50-55 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /***************45-50 end */
+            /*************50-55 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1050,8 +1050,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[10].',
-                                                '.$data[11].'
+                                                ' . $data[10] . ',
+                                                ' . $data[11] . '
                                                 
                                             ]
                                         },
@@ -1085,17 +1085,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /*************50-55 */
-                       /*******55-60 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*************50-55 */
+            /*******55-60 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1111,8 +1111,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[11].',
-                                                '.$data[12].'
+                                                ' . $data[11] . ',
+                                                ' . $data[12] . '
                                                 
                                             ]
                                         },
@@ -1146,17 +1146,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /**********55-60**** */
-                       /********60-65 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**********55-60**** */
+            /********60-65 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1172,8 +1172,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[12].',
-                                                '.$data[13].'
+                                                ' . $data[12] . ',
+                                                ' . $data[13] . '
                                                 
                                             ]
                                         },
@@ -1207,17 +1207,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /************60-65 */
-                       /***********65-70 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /************60-65 */
+            /***********65-70 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1233,8 +1233,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[13].',
-                                                '.$data[14].'
+                                                ' . $data[13] . ',
+                                                ' . $data[14] . '
                                                 
                                             ]
                                         },
@@ -1268,17 +1268,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /****************65-70 */
-                       /***********70-75 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /****************65-70 */
+            /***********70-75 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1294,8 +1294,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[14].',
-                                                '.$data[15].'
+                                                ' . $data[14] . ',
+                                                ' . $data[15] . '
                                                 
                                             ]
                                         },
@@ -1329,17 +1329,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /*************70-75 */
-                       /***********75-80 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*************70-75 */
+            /***********75-80 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1355,8 +1355,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[15].',
-                                                '.$data[16].'
+                                                ' . $data[15] . ',
+                                                ' . $data[16] . '
                                                 
                                             ]
                                         },
@@ -1390,17 +1390,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /***********75-80 */
-                       /********80-85 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /***********75-80 */
+            /********80-85 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1416,8 +1416,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[16].',
-                                                '.$data[17].'
+                                                ' . $data[16] . ',
+                                                ' . $data[17] . '
                                                 
                                             ]
                                         },
@@ -1451,17 +1451,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /*********80-85 */
-                       /*********85-90 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*********80-85 */
+            /*********85-90 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1477,8 +1477,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[17].',
-                                                '.$data[18].'
+                                                ' . $data[17] . ',
+                                                ' . $data[18] . '
                                                 
                                             ]
                                         },
@@ -1512,17 +1512,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /****************85-90 */
-                       /*********90-95 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /****************85-90 */
+            /*********90-95 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1538,8 +1538,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[18].',
-                                                '.$data[19].'
+                                                ' . $data[18] . ',
+                                                ' . $data[19] . '
                                                 
                                             ]
                                         },
@@ -1573,17 +1573,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /*********90-95 */
-                       /********95-100 */
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*********90-95 */
+            /********95-100 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -1599,8 +1599,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[19].',
-                                                '.$data[20].'
+                                                ' . $data[19] . ',
+                                                ' . $data[20] . '
                                                 
                                             ]
                                         },
@@ -1634,323 +1634,875 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
-                       /***********95-100 */
-           
-           //dd($de);
-           foreach($de as $d)
-           {
-            //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /***********95-100 */
 
-            $pid[] = $d['LitePropertyList'];
-           
-           }
-           foreach($pid as $pd)
-           {
-               $pid_all[] = $pd;
-           }
-           //dd($pid_all);
-           $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+            //dd($de);
+            foreach ($de as $d) {
+                //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[0][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
+                $pid[] = $d['LitePropertyList'];
+            }
+            foreach ($pid as $pd) {
+                $pid_all[] = $pd;
+            }
+            //dd($pid_all);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[0][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[1][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[2][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[1][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[3][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[2][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[4][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[3][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[5][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[4][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[6][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[5][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[7][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[6][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[8][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[7][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[9][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[8][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[10][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[9][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[11][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[10][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[12][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[11][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[13][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[12][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[14][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[13][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[15][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[14][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[15][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[16][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[17][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[16][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[18][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[17][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $pid_all[19][0]['PropertyId']
-            ]),
-        ]);
-        $price[] = json_decode($getProperty->getBody(), true);           
-        //dd($de);
-        ///////////////////////////
-        $mainval = 1 * 0.1;
-        return view('pricehouse', compact('mainval','de','price'));
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[18][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['TotalViewReport'],
 
-    } catch (\Exception $e) {
-        //throw new HttpException(500, $e->getMessage());
-        //dd($e->getMessage());
-        $response = $e->getResponse();
-        $emsg = $e->getMessage();
-        //dd($response);
-        $fromserver = 'No records found . or Server error';
-        $msg = json_decode($response->getBody()->getContents(), true);
-        $error = $emsg;
-        //dd($response['reasonPhrase']);
-        return  redirect()->to('pricehouse')->with('error', $error);
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $pid_all[19][0]['PropertyId']
+                ]),
+            ]);
+            $price[] = json_decode($getProperty->getBody(), true);
+            //dd($de);
+            ///////////////////////////
+            $mainval = 1 * 0.1;
+            return view('pricehouse', compact('mainval', 'de', 'price'));
+        } catch (\Exception $e) {
+            //throw new HttpException(500, $e->getMessage());
+            //dd($e->getMessage());
+            $response = $e->getResponse();
+            $emsg = $e->getMessage();
+            //dd($response);
+            $fromserver = 'No records found . or Server error';
+            $msg = json_decode($response->getBody()->getContents(), true);
+            $error = $emsg;
+            //dd($response['reasonPhrase']);
+            return  redirect()->to('pricehouse')->with('error', $error);
+        }
     }
-}
+
+    public function GetPriceResearchReport(Request $request)
+    {
+        //dd($request);
+        $my_states_array = [
+            'ca' => 6,
+            'al' => 1,
+            'ak' => 2,
+            'az' => 4,
+            'ar' => 5,
+            'co' => 8,
+            'ct' => 9,
+            'de' => 10,
+            'dc' => 11,
+            'fl' => 12,
+            'sc' => 45
+        ];
+        foreach ($my_states_array as $key => $val) {
+            if (ltrim($request['state'], '0') == $key) {
+                $st = $val;
+            }
+        }
+
+        $client = new GuzzleHttp\Client();
+        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+
+            ],
+            'body' => json_encode([
+                'ClientId' => config('app.client_id'),
+                'ClientSecretKey' => config('app.client_secret')
+            ])
+        ]);
+        $authenticate = json_decode($login->getBody(), true);
+
+        $cp = ltrim($request['cp'], '0');
+
+
+        try {
+
+            ///////////////////////
+            //$acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+            $acre_arr = [0, 2, 5, 15, 22, 32, 42, 52, 62, 72, 82, 92, 102, 122, 124, 125, 130, 140, 150, 160, 170];
+
+            foreach ($acre_arr as $ac) {
+                $data[] = $ac;
+            }
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                         
+                            {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                    "' . $st . '"
+                                ],
+                                "FilterGroup": 1
+                            }
+                            
+                        ] //
+                    } //
+                }',
+            ]);
+            $de = json_decode($res->getBody(), true);
+            //dd($de);
+            $dl = $de['LitePropertyList'];
+
+            //dd($de);
+            foreach ($dl as $d) {
+                //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
+              if($d['Zip']> 0 || $d['Zip'] !=null)
+              {
+                $pid[] = $d['PropertyId'];
+                $apn[] = $d['Apn'];
+                $county[] = $d['County'];
+                $stt[] = $d['State'];
+
+                $zip[] = $d['Zip'];
+              }
+            }
+            foreach ($pid as $pd) {
+                $pid_all[] = $pd;
+            }
+            foreach ($stt as $ste) {
+                $st_all[] = $ste;
+            }
+            foreach ($county as $ct) {
+                $ct_all[] = $ct;
+            }
+            foreach ($apn as $ap) {
+                //if($d['Zip'] > 0 || $d['Zip'] != null)
+                //{
+                $apn_all[] = $ap;
+                //}
+            }
+            foreach ($zip as $zp) {
+
+                //if($zp > 0 || $zp != null)
+                //{
+                $zip_all[] = $zp;
+                //}
+            }
+            //dd($de);
+            //dd($pid_all);
+            $data = [
+                'zip' => $zip_all,
+                'state' => $st_all,
+                'county' => $ct_all,
+                'apn' => $apn_all,
+                'p_id' => $pid_all
+            ];
+            //dd($data);
+           //dd(str_replace("","",$apn_all[0]));
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[0].'",
+                  "ZipCode": "'.$zip_all[0].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[1].'",
+                  "ZipCode": "'.$zip_all[1].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[2].'",
+                  "ZipCode": "'.$zip_all[2].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[3].'",
+                  "ZipCode": "'.$zip_all[3].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[4].'",
+                  "ZipCode": "'.$zip_all[4].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[5].'",
+                  "ZipCode": "'.$zip_all[5].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[6].'",
+                  "ZipCode": "'.$zip_all[6].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[7].'",
+                  "ZipCode": "'.$zip_all[7].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[8].'",
+                  "ZipCode": "'.$zip_all[8].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[9].'",
+                  "ZipCode": "'.$zip_all[9].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[10].'",
+                  "ZipCode": "'.$zip_all[10].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[11].'",
+                  "ZipCode": "'.$zip_all[11].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[12].'",
+                  "ZipCode": "'.$zip_all[12].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[13].'",
+                  "ZipCode": "'.$zip_all[13].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[14].'",
+                  "ZipCode": "'.$zip_all[14].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[15].'",
+                  "ZipCode": "'.$zip_all[15].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[16].'",
+                  "ZipCode": "'.$zip_all[16].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[17].'",
+                  "ZipCode": "'.$zip_all[17].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[18].'",
+                  "ZipCode": "'.$zip_all[18].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[19].'",
+                  "ZipCode": "'.$zip_all[19].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[20].'",
+                  "ZipCode": "'.$zip_all[20].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            /*$getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[21].'",
+                  "ZipCode": "'.$zip_all[21].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[22].'",
+                  "ZipCode": "'.$zip_all[22].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[23].'",
+                  "ZipCode": "'.$zip_all[23].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);
+
+            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
+                "ProductNames": ["TotalViewReport"],
+                "SearchType": "APN",
+                "ApnDetail": {
+                  "APN": "'.$apn_all[24].'",
+                  "ZipCode": "'.$zip_all[24].'"
+                }
+              }',
+            ]);
+            $research[] = json_decode($getresearch->getBody(), true);*/
+
+    //dd($research);
+            ///////////////////////////
+            $mainval = 1 * 0.1;
+            return view('research', compact('mainval', 'data','research'));
+        } catch (\Exception $e) {
+            //throw new HttpException(500, $e->getMessage());
+            //dd($e->getMessage());
+            $response = $e->getResponse();
+            $emsg = $e->getMessage();
+            //dd($response);
+            $fromserver = 'No records found . or Server error';
+            $msg = json_decode($response->getBody()->getContents(), true);
+            $error = $emsg;
+            //dd($response['reasonPhrase']);
+            return  redirect()->to('research')->with('error', $error);
+        }
+    }
+
 
     public function GetPriceReport(Request $request)
     {
@@ -1991,23 +2543,22 @@ public function GetPriceHouseReport(Request $request)
         $cp = ltrim($request['cp'], '0');
 
 
-        try {     
+        try {
 
             ///////////////////////
-            $acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
-           
-            foreach($acre_arr as $ac)
-            {
+            $acre_arr = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+
+            foreach ($acre_arr as $ac) {
                 $data[] = $ac;
             }
             //dd($data);
-                $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                    'headers' => [
-                        'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
-                        'Authorization' => 'Bearer ' . $authenticate,
-                    ],
-                    'body' => '{
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                             "ProductNames": [
                                 "SalesComparables"
                             ],
@@ -2023,8 +2574,8 @@ public function GetPriceHouseReport(Request $request)
                                         "FilterName": "LotAcreage",
                                         "FilterOperator": "is between",
                                         "FilterValues": [
-                                            '.$data[0].',
-                                            '.$data[1].'
+                                            ' . $data[0] . ',
+                                            ' . $data[1] . '
                                             
                                         ]
                                     },
@@ -2058,16 +2609,16 @@ public function GetPriceHouseReport(Request $request)
                                 ] //
                             } //
                         }',
-                ]);
-                       $de[] = json_decode($res->getBody(), true);
+            ]);
+            $de[] = json_decode($res->getBody(), true);
 
-                       $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                 "ProductNames": [
                                     "SalesComparables"
                                 ],
@@ -2083,8 +2634,8 @@ public function GetPriceHouseReport(Request $request)
                                             "FilterName": "LotAcreage",
                                             "FilterOperator": "is between",
                                             "FilterValues": [
-                                                '.$data[1].',
-                                                '.$data[2].'
+                                                ' . $data[1] . ',
+                                                ' . $data[2] . '
                                                 
                                             ]
                                         },
@@ -2118,17 +2669,17 @@ public function GetPriceHouseReport(Request $request)
                                     ] //
                                 } //
                             }',
-                    ]);
-                           $de[] = json_decode($res->getBody(), true);
+            ]);
+            $de[] = json_decode($res->getBody(), true);
 
-                           /******************when 10-15 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            /******************when 10-15 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2144,8 +2695,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[2].',
-                                                    '.$data[3].'
+                                                    ' . $data[2] . ',
+                                                    ' . $data[3] . '
                                                     
                                                 ]
                                             },
@@ -2179,17 +2730,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /**********************10-15 end */
-                           /********15-20 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**********************10-15 end */
+            /********15-20 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2205,8 +2756,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[3].',
-                                                    '.$data[4].'
+                                                    ' . $data[3] . ',
+                                                    ' . $data[4] . '
                                                     
                                                 ]
                                             },
@@ -2240,17 +2791,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /*************15-20 end */
-                           /**************20-25 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*************15-20 end */
+            /**************20-25 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2266,8 +2817,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[4].',
-                                                    '.$data[5].'
+                                                    ' . $data[4] . ',
+                                                    ' . $data[5] . '
                                                     
                                                 ]
                                             },
@@ -2301,17 +2852,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /********************20-25 end */
-                           /******************25-30 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /********************20-25 end */
+            /******************25-30 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2327,8 +2878,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[5].',
-                                                    '.$data[6].'
+                                                    ' . $data[5] . ',
+                                                    ' . $data[6] . '
                                                     
                                                 ]
                                             },
@@ -2362,17 +2913,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /********************25-30end */
-                           /********30-35 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /********************25-30end */
+            /********30-35 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2388,8 +2939,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[6].',
-                                                    '.$data[7].'
+                                                    ' . $data[6] . ',
+                                                    ' . $data[7] . '
                                                     
                                                 ]
                                             },
@@ -2423,17 +2974,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /**********30-35 end */
-                           /************35-40 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**********30-35 end */
+            /************35-40 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2449,8 +3000,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[7].',
-                                                    '.$data[8].'
+                                                    ' . $data[7] . ',
+                                                    ' . $data[8] . '
                                                     
                                                 ]
                                             },
@@ -2484,17 +3035,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /**************35-40 end */
-                           /*************40-45 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**************35-40 end */
+            /*************40-45 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2510,8 +3061,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[8].',
-                                                    '.$data[9].'
+                                                    ' . $data[8] . ',
+                                                    ' . $data[9] . '
                                                     
                                                 ]
                                             },
@@ -2545,17 +3096,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /********************40-45 end */
-                           /******************45-50 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /********************40-45 end */
+            /******************45-50 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2571,8 +3122,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[9].',
-                                                    '.$data[10].'
+                                                    ' . $data[9] . ',
+                                                    ' . $data[10] . '
                                                     
                                                 ]
                                             },
@@ -2606,17 +3157,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /***************45-50 end */
-                           /*************50-55 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /***************45-50 end */
+            /*************50-55 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2632,8 +3183,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[10].',
-                                                    '.$data[11].'
+                                                    ' . $data[10] . ',
+                                                    ' . $data[11] . '
                                                     
                                                 ]
                                             },
@@ -2667,17 +3218,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /*************50-55 */
-                           /*******55-60 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*************50-55 */
+            /*******55-60 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2693,8 +3244,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[11].',
-                                                    '.$data[12].'
+                                                    ' . $data[11] . ',
+                                                    ' . $data[12] . '
                                                     
                                                 ]
                                             },
@@ -2728,17 +3279,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /**********55-60**** */
-                           /********60-65 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /**********55-60**** */
+            /********60-65 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2754,8 +3305,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[12].',
-                                                    '.$data[13].'
+                                                    ' . $data[12] . ',
+                                                    ' . $data[13] . '
                                                     
                                                 ]
                                             },
@@ -2789,17 +3340,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /************60-65 */
-                           /***********65-70 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /************60-65 */
+            /***********65-70 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2815,8 +3366,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[13].',
-                                                    '.$data[14].'
+                                                    ' . $data[13] . ',
+                                                    ' . $data[14] . '
                                                     
                                                 ]
                                             },
@@ -2850,17 +3401,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /****************65-70 */
-                           /***********70-75 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /****************65-70 */
+            /***********70-75 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2876,8 +3427,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[14].',
-                                                    '.$data[15].'
+                                                    ' . $data[14] . ',
+                                                    ' . $data[15] . '
                                                     
                                                 ]
                                             },
@@ -2911,17 +3462,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /*************70-75 */
-                           /***********75-80 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*************70-75 */
+            /***********75-80 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2937,8 +3488,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[15].',
-                                                    '.$data[16].'
+                                                    ' . $data[15] . ',
+                                                    ' . $data[16] . '
                                                     
                                                 ]
                                             },
@@ -2972,17 +3523,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /***********75-80 */
-                           /********80-85 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /***********75-80 */
+            /********80-85 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -2998,8 +3549,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[16].',
-                                                    '.$data[17].'
+                                                    ' . $data[16] . ',
+                                                    ' . $data[17] . '
                                                     
                                                 ]
                                             },
@@ -3033,17 +3584,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /*********80-85 */
-                           /*********85-90 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*********80-85 */
+            /*********85-90 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -3059,8 +3610,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[17].',
-                                                    '.$data[18].'
+                                                    ' . $data[17] . ',
+                                                    ' . $data[18] . '
                                                     
                                                 ]
                                             },
@@ -3094,17 +3645,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /****************85-90 */
-                           /*********90-95 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /****************85-90 */
+            /*********90-95 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -3120,8 +3671,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[18].',
-                                                    '.$data[19].'
+                                                    ' . $data[18] . ',
+                                                    ' . $data[19] . '
                                                     
                                                 ]
                                             },
@@ -3155,17 +3706,17 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /*********90-95 */
-                           /********95-100 */
-                           $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                            'headers' => [
-                                'Accept' => 'application/json',
-                                'Content-Type' => 'application/json',
-                                'Authorization' => 'Bearer ' . $authenticate,
-                            ],
-                            'body' => '{
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /*********90-95 */
+            /********95-100 */
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => '{
                                     "ProductNames": [
                                         "SalesComparables"
                                     ],
@@ -3181,8 +3732,8 @@ public function GetPriceHouseReport(Request $request)
                                                 "FilterName": "LotAcreage",
                                                 "FilterOperator": "is between",
                                                 "FilterValues": [
-                                                    '.$data[19].',
-                                                    '.$data[20].'
+                                                    ' . $data[19] . ',
+                                                    ' . $data[20] . '
                                                     
                                                 ]
                                             },
@@ -3216,24 +3767,21 @@ public function GetPriceHouseReport(Request $request)
                                         ] //
                                     } //
                                 }',
-                        ]);
-                               $de[] = json_decode($res->getBody(), true);
-                           /***********95-100 */
-               
-               //dd($de);
-               foreach($de as $d)
-               {
+            ]);
+            $de[] = json_decode($res->getBody(), true);
+            /***********95-100 */
+
+            //dd($de);
+            foreach ($de as $d) {
                 //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
 
                 $pid[] = $d['LitePropertyList'];
-               
-               }
-               foreach($pid as $pd)
-               {
-                   $pid_all[] = $pd;
-               }
-               //dd($pid_all);
-               $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            }
+            foreach ($pid as $pd) {
+                $pid_all[] = $pd;
+            }
+            //dd($pid_all);
+            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -3514,12 +4062,11 @@ public function GetPriceHouseReport(Request $request)
                     "PropertyId" => $pid_all[19][0]['PropertyId']
                 ]),
             ]);
-            $price[] = json_decode($getProperty->getBody(), true);           
+            $price[] = json_decode($getProperty->getBody(), true);
             //dd($pid_all);
             ///////////////////////////
             $mainval = 1 * 0.1;
-            return view('priceland', compact('mainval','de','price'));
-
+            return view('priceland', compact('mainval', 'de', 'price'));
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
             //dd($e->getMessage());
@@ -3706,7 +4253,7 @@ public function GetPriceHouseReport(Request $request)
             //dd($redfin_d);
             //sold data
             $redfin_sold_d = $this->getRedfinData($redfin_sold_data);
-           // dd($redfin_sold_d);
+            // dd($redfin_sold_d);
             $redfin_d = isset($redfin_d) ? $redfin_d : 0;
             //dd($redfin_d);
             $sum_acre = isset($redfin_d['sum_acre']) ? $redfin_d['sum_acre'] : 0;
@@ -3754,11 +4301,11 @@ public function GetPriceHouseReport(Request $request)
 
             $t_c = count($z_D);
             $t_c_sold = count($zillow_comp_data_sold);
-           
+
 
 
             // dd($z_D);
-                        //dd($z_D_sold);
+            //dd($z_D_sold);
 
 
             $total_rec = count($zillow_comp_data);
@@ -3772,7 +4319,7 @@ public function GetPriceHouseReport(Request $request)
             $avg_acr_ll_ = str_replace(',', '', number_format((float)($z_D['sum']), 2));
             $avg_acr_ll_sold = str_replace(',', '', number_format((float)($z_D_sold['sum']), 2));
 
-             //dd($z_D_sold);
+            //dd($z_D_sold);
             $salecount =  $salesdata['Reports'][0]['Data']['ComparableCount'];
             //dd($sum_sale[0][0]);
             $avr_pr = str_replace(',', '', number_format((float)($sum_sale[0][0] / $salecount), 2));
@@ -3788,11 +4335,11 @@ public function GetPriceHouseReport(Request $request)
 
             $aver_per_ac = number_format((float)($sum_sale[0][0] / $sum_sale[0][1]), 2);
             //avg per acre zillow
-            $avg_acre_zll_sold = number_format((float)($z_D_sold['acre_all'])/$t_c_sold,2);
+            $avg_acre_zll_sold = number_format((float)($z_D_sold['acre_all']) / $t_c_sold, 2);
             //dd($avg_acre_zll_sold);
 
             $av_per_acre_zill = number_format((float)($avg_acr_ll_ / $zill_acre_avg_), 2);
-            $av_per_acre_zill_sold= number_format($avg_acre_zll_sold, 2);
+            $av_per_acre_zill_sold = number_format($avg_acre_zll_sold, 2);
 
             //dd($city_red);
             $realtor_sales_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-buy?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
@@ -3962,7 +4509,7 @@ public function GetPriceHouseReport(Request $request)
                 'real_price_per_sold' => isset($price_data_real_sold['price_all'][0]) ? number_format($price_data_real_sold['price_all'][0] / $price_data_real_sold['acre_all'][0], 2) : 0,
                 'real_coun_sold' => isset($price_data_real_sold['county_all'][0]) ? $price_data_real_sold['county_all'][0] : 0,
                 'real_cty_sold' => isset($price_data_real_sold['city_all'][0]) ? $price_data_real_sold['city_all'][0] : 0,
-               
+
 
                 'href_zll2' => $z_D['source_all'][$t_c - 3],
                 'list_p_zll2' => $z_D['price_all'][$t_c - 3],
