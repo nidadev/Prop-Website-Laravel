@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('property_details', function (Blueprint $table) {
             $table->id();
-            $table->string('property_id');
-            $table->string('state');
-            $table->string('county');
-            $table->string('zipcode');
-            $table->string('apn');
+            $table->string('property_id')->nullable();
+            $table->string('state')->nullable();
+            $table->string('county')->nullable();
+            $table->string('zipcode')->nullable();
+            $table->string('apn')->nullable();
             $table->timestamps();
         });
     }
