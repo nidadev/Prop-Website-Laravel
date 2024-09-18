@@ -27,6 +27,7 @@
 
                     </div>
                   </div>
+
                   <!--div class="col-md-4">
                     <div class="center_h2lil">
                       <label for="autocomplete">County:</label><select id="counties" name="cp" class="form-select"></select>
@@ -226,8 +227,8 @@
 
                 </tr>
               <tbody id="mytable4">
-                @if(isset($data))
-                <?php //dd($research);
+                @if(isset($price))
+                <?php //dd($price);
                 /*function showDups($array)
 {
   $array_temp = array();
@@ -245,23 +246,23 @@
    }
    //dd($array_temp);
 }
-showDups($research);*/
+showDups($price);*/
 
                 ?>
 
 
-                <?php for ($i=0; $i<count($research)-1; $i++) {                
+                <?php for ($i=0; $i<count($price); $i++) {                
                   //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
                   //$ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
                   //$st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
-                  $zp = isset($data['zip'][$i]) ? $data['zip'][$i] : 0;
-                  $st = isset($data['state'][$i]) ? $data['state'][$i] : 0;
-                  $ct = isset($data['county'][$i]) ? $data['county'][$i] : 0;
-                  $sold_home = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['SoldHomes']: 0;
-                  $sale_home = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['HomesForSale'] : 0;
-                  $avg_days  = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'] : 0;
+                  $zp = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['Zip9']) ?  $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['Zip9']: 0;
+                  $st = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']) ?  $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']: 0;
+                  $ct = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']: 0;
+                  $sold_home = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['SoldHomes']: 0;
+                  $sale_home = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['HomesForSale'] : 0;
+                  $avg_days  = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'] : 0;
                     $total_comp = $sold_home + $sale_home;
-                    $avg_price  = isset($research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $research[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['AvgSoldPriceChange'] : 0 ;
+                    $avg_price  = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['AvgSoldPriceChange'] : 0 ;
 
                     
 
