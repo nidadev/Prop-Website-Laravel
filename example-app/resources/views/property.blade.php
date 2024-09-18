@@ -15,7 +15,7 @@
             @if(Session::has('error'))
             <p class="incorrect">{{ Session::get('error') }}</p>
             @endif
-            <form id="priceland_search_form" method="post" action="{{ url('priceland')}}">
+            <form method="post" action="{{ url('getproperty')}}">
               @csrf
               <div class="center_h2l">
                 <div class="center_h2li row">
@@ -33,8 +33,6 @@
 
                     </div>
                   </div>
-                  <input type="hidden" name="county_name" id="county_name">
-
                   <!--div class="col-md-4">
                   <div class="center_h2lil">
                   <span>
@@ -189,7 +187,7 @@
   <div class="container-xl">
     <div class="row work_h1 text-center mb-4">
       <div class="col-md-12">
-        <h2>Price Land Searches</h2>
+        <h2>Price House Searches</h2>
         <hr class="line mx-auto">
         <!--Export all<input type='checkbox' id='sm' onclick="javascript:toggle('')" ; class='su' value="" name='sum[]' style='border:14px solid green;width:30px;height:30px;'>-->
       </div>
@@ -219,20 +217,21 @@
                 <tr>
                   <th>Acreage</th>
                   <th>Total Comps</th>
+                  <th>ZipCode</th>
                   <th>State</th>
                   <th>County</th>
-                  <th>Price</th>
-                  <th>Market Price/Acre</th>
+                  <th>Median Sale Price</th>
+                  <th>Avg Days On Market</th>
                   <th>Export Records</th>
 
                 </tr>
               <tbody id="mytable4">
                 @if(isset($price))
-                <?php //dd($price);
+                <?php //dd($de);
                 ?>
 
 
-                <?php for ($i = 0; $i < count($price); $i++) {
+                <?php for ($i = 0; $i < count($price) - 1; $i++) {
 
                   $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
 
@@ -240,20 +239,22 @@
                   $maxc = $de[$i]['MaxResultsCount'];
                 
                   $sl_pr = $price[$i]['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
-                  $pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
-                  $ct = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County'] : 0;
-                  $st = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State'] : 0;
-      
+                  //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
+                  $ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
+                  $st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
+                  $zp = isset($de[$i]['LitePropertyList'][0]['Zip']) ? $de[$i]['LitePropertyList'][0]['Zip'] : 0;
+
+                  $avg = $price[$i]['Reports'][0]['Data']['ListingPropertyDetail']['DaysOnMarket'];
                   $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105']; //echo $res; 
     ?>
                   <tr>
                     <td>{{ $info[$i] }}</td>
                     <td>{{ $maxc}}</td>
+                    <td>{{ $zp}}</td>
                     <td>{{ $st}}</td>
-
                     <td>{{ $ct}}</td>
-                    <td>${{ $sl_pr }}</td>
-                    <td>${{ $pr_per_acre }}</td>
+                    <td>${{ $sl_pr}}</td>
+                    <td>{{ $avg }}</td>
 
                     <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
 

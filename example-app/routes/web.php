@@ -60,6 +60,12 @@ Route::group(['middleware' => ['IsAuth']],function(){
     Route::get('/research', [ApiController::class,'loadPriceResearchReport'])->name('research');
     Route::post('/research', [ApiController::class,'GetPriceResearchReport'])->name('research');
     
+//
+Route::get('/getproperty', [ApiController::class,'loadProperty'])->name('getproperty');
+Route::post('/getproperty', [ApiController::class,'insert_prop_detail'])->name('getproperty');
+
+
+
     
     Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
 

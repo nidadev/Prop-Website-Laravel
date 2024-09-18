@@ -33,6 +33,7 @@
 
                     </div>
                   </div>
+                  <input type="hidden" name="county_name" id="county_name">
                   <!--div class="col-md-4">
                   <div class="center_h2lil">
                   <span>
@@ -227,25 +228,25 @@
                 </tr>
               <tbody id="mytable4">
                 @if(isset($price))
-                <?php //dd($de);
+                <?php //count($de);
                 ?>
 
 
-                <?php for ($i = 0; $i < count($price) - 1; $i++) {
+                <?php for ($i = 0; $i < count($price); $i++) {
 
-                  $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
+                  $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,100,150,200,250,300];
 
                   $total = $de[$i]['MaxResultsCount'] * $mainval;
                   $maxc = $de[$i]['MaxResultsCount'];
-                
+                  $avg_s = $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'];
                   $sl_pr = $price[$i]['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
                   //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
                   $ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
                   $st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
-                  $zp = isset($de[$i]['LitePropertyList'][0]['Zip']) ? $de[$i]['LitePropertyList'][0]['Zip'] : 0;
+                  $zp = isset($data[$i]['zipcode']) ? $data[$i]['zipcode'] : 0;
 
-                  $avg = $price[$i]['Reports'][0]['Data']['ListingPropertyDetail']['DaysOnMarket'];
-                  $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105']; //echo $res; 
+                  $avg = isset($avg_s) ? $avg_s : 0;
+                  $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105','105-110','110-115','115-120','120-125']; //echo $res; 
     ?>
                   <tr>
                     <td>{{ $info[$i] }}</td>
@@ -261,7 +262,9 @@
 
                   </tr>
                 <?php } ?>
+             
                 @endif
+
               </tbody>
               
             </table>

@@ -1509,6 +1509,2586 @@
             "value": "08121"
           }
         ],
+        "de":[
+  {
+    "label": "New Castle County",
+    "value": "10003"
+  },
+  {
+    "label": "Kent County",
+    "value": "10001"
+  },
+  {
+    "label": "Sussex County",
+    "value": "10005"
+  }
+],
+"dc":[
+  {
+    "label": "District of Columbia",
+    "value": "11001"  // Note: There is no official FIPS code for D.C. counties, so this is a placeholder.
+  }
+],
+"ga":[
+  {
+    "label": "Appling County",
+    "value": "13001"
+  },
+  {
+    "label": "Atkinson County",
+    "value": "13003"
+  },
+  {
+    "label": "Bacon County",
+    "value": "13005"
+  },
+  {
+    "label": "Baker County",
+    "value": "13007"
+  },
+  {
+    "label": "Baldwin County",
+    "value": "13009"
+  },
+  {
+    "label": "Banks County",
+    "value": "13011"
+  },
+  {
+    "label": "Barrow County",
+    "value": "13013"
+  },
+  {
+    "label": "Bartow County",
+    "value": "13015"
+  },
+  {
+    "label": "Ben Hill County",
+    "value": "13017"
+  },
+  {
+    "label": "Berrien County",
+    "value": "13019"
+  },
+  {
+    "label": "Bibb County",
+    "value": "13021"
+  },
+  {
+    "label": "Bleckley County",
+    "value": "13023"
+  },
+  {
+    "label": "Brantley County",
+    "value": "13025"
+  },
+  {
+    "label": "Brooks County",
+    "value": "13027"
+  },
+  {
+    "label": "Bryan County",
+    "value": "13029"
+  },
+  {
+    "label": "Bulloch County",
+    "value": "13031"
+  },
+  {
+    "label": "Burke County",
+    "value": "13033"
+  },
+  {
+    "label": "Butts County",
+    "value": "13035"
+  },
+  {
+    "label": "Calhoun County",
+    "value": "13037"
+  },
+  {
+    "label": "Camden County",
+    "value": "13039"
+  },
+  {
+    "label": "Candler County",
+    "value": "13043"
+  },
+  {
+    "label": "Carroll County",
+    "value": "13045"
+  },
+  {
+    "label": "Catoosa County",
+    "value": "13047"
+  },
+  {
+    "label": "Charlton County",
+    "value": "13049"
+  },
+  {
+    "label": "Chatham County",
+    "value": "13051"
+  },
+  {
+    "label": "Chattahoochee County",
+    "value": "13053"
+  },
+  {
+    "label": "Cherokee County",
+    "value": "13057"
+  },
+  {
+    "label": "Clarke County",
+    "value": "13059"
+  },
+  {
+    "label": "Clay County",
+    "value": "13061"
+  },
+  {
+    "label": "Clayton County",
+    "value": "13063"
+  },
+  {
+    "label": "Clinch County",
+    "value": "13065"
+  },
+  {
+    "label": "Cobb County",
+    "value": "13067"
+  },
+  {
+    "label": "Coffee County",
+    "value": "13069"
+  },
+  {
+    "label": "Colquitt County",
+    "value": "13071"
+  },
+  {
+    "label": "Columbia County",
+    "value": "13073"
+  },
+  {
+    "label": "Cook County",
+    "value": "13075"
+  },
+  {
+    "label": "Coweta County",
+    "value": "13077"
+  },
+  {
+    "label": "Crawford County",
+    "value": "13079"
+  },
+  {
+    "label": "Crisp County",
+    "value": "13081"
+  },
+  {
+    "label": "Dade County",
+    "value": "13083"
+  },
+  {
+    "label": "Dawson County",
+    "value": "13085"
+  },
+  {
+    "label": "DeKalb County",
+    "value": "13087"
+  },
+  {
+    "label": "Decatur County",
+    "value": "13089"
+  },
+  {
+    "label": "Dodge County",
+    "value": "13091"
+  },
+  {
+    "label": "Dooly County",
+    "value": "13093"
+  },
+  {
+    "label": "Dougherty County",
+    "value": "13095"
+  },
+  {
+    "label": "Douglas County",
+    "value": "13097"
+  },
+  {
+    "label": "Early County",
+    "value": "13099"
+  },
+  {
+    "label": "Echols County",
+    "value": "13101"
+  },
+  {
+    "label": "Effingham County",
+    "value": "13103"
+  },
+  {
+    "label": "Elbert County",
+    "value": "13105"
+  },
+  {
+    "label": "Emanuel County",
+    "value": "13107"
+  },
+  {
+    "label": "Evans County",
+    "value": "13109"
+  },
+  {
+    "label": "Fannin County",
+    "value": "13111"
+  },
+  {
+    "label": "Fayette County",
+    "value": "13113"
+  },
+  {
+    "label": "Floyd County",
+    "value": "13115"
+  },
+  {
+    "label": "Forsyth County",
+    "value": "13117"
+  },
+  {
+    "label": "Franklin County",
+    "value": "13119"
+  },
+  {
+    "label": "Fulton County",
+    "value": "13121"
+  },
+  {
+    "label": "Gilmer County",
+    "value": "13123"
+  },
+  {
+    "label": "Glascock County",
+    "value": "13125"
+  },
+  {
+    "label": "Glynn County",
+    "value": "13127"
+  },
+  {
+    "label": "Gordon County",
+    "value": "13129"
+  },
+  {
+    "label": "Grady County",
+    "value": "13131"
+  },
+  {
+    "label": "Greene County",
+    "value": "13133"
+  },
+  {
+    "label": "Gwinnett County",
+    "value": "13135"
+  },
+  {
+    "label": "Habersham County",
+    "value": "13137"
+  },
+  {
+    "label": "Hall County",
+    "value": "13139"
+  },
+  {
+    "label": "Hancock County",
+    "value": "13141"
+  },
+  {
+    "label": "Haralson County",
+    "value": "13143"
+  },
+  {
+    "label": "Harris County",
+    "value": "13145"
+  },
+  {
+    "label": "Hart County",
+    "value": "13147"
+  },
+  {
+    "label": "Heard County",
+    "value": "13149"
+  },
+  {
+    "label": "Henry County",
+    "value": "13151"
+  },
+  {
+    "label": "Houston County",
+    "value": "13153"
+  },
+  {
+    "label": "Irwin County",
+    "value": "13155"
+  },
+  {
+    "label": "Jackson County",
+    "value": "13157"
+  },
+  {
+    "label": "Jasper County",
+    "value": "13159"
+  },
+  {
+    "label": "Jeff Davis County",
+    "value": "13161"
+  },
+  {
+    "label": "Jefferson County",
+    "value": "13163"
+  },
+  {
+    "label": "Jenkins County",
+    "value": "13165"
+  },
+  {
+    "label": "Johnson County",
+    "value": "13167"
+  },
+  {
+    "label": "Jones County",
+    "value": "13169"
+  },
+  {
+    "label": "Lamar County",
+    "value": "13171"
+  },
+  {
+    "label": "Lanier County",
+    "value": "13173"
+  },
+  {
+    "label": "Laurens County",
+    "value": "13175"
+  },
+  {
+    "label": "Lee County",
+    "value": "13177"
+  },
+  {
+    "label": "Liberty County",
+    "value": "13179"
+  },
+  {
+    "label": "Lincoln County",
+    "value": "13181"
+  },
+  {
+    "label": "Long County",
+    "value": "13183"
+  },
+  {
+    "label": "Lowndes County",
+    "value": "13185"
+  },
+  {
+    "label": "Lumpkin County",
+    "value": "13187"
+  },
+  {
+    "label": "McDuffie County",
+    "value": "13189"
+  },
+  {
+    "label": "McIntosh County",
+    "value": "13191"
+  },
+  {
+    "label": "Macon County",
+    "value": "13193"
+  },
+  {
+    "label": "Madison County",
+    "value": "13195"
+  },
+  {
+    "label": "Marion County",
+    "value": "13197"
+  },
+  {
+    "label": "Meriwether County",
+    "value": "13199"
+  },
+  {
+    "label": "Miller County",
+    "value": "13201"
+  },
+  {
+    "label": "Mitchell County",
+    "value": "13205"
+  },
+  {
+    "label": "Monroe County",
+    "value": "13207"
+  },
+  {
+    "label": "Montgomery County",
+    "value": "13209"
+  },
+  {
+    "label": "Morgan County",
+    "value": "13211"
+  },
+  {
+    "label": "Murray County",
+    "value": "13213"
+  },
+  {
+    "label": "Muscogee County",
+    "value": "13215"
+  },
+  {
+    "label": "Newton County",
+    "value": "13217"
+  },
+  {
+    "label": "Oconee County",
+    "value": "13219"
+  },
+  {
+    "label": "Oglethorpe County",
+    "value": "13221"
+  },
+  {
+    "label": "Paulding County",
+    "value": "13223"
+  },
+  {
+    "label": "Peach County",
+    "value": "13225"
+  },
+  {
+    "label": "Pickens County",
+    "value": "13227"
+  },
+  {
+    "label": "Pierce County",
+    "value": "13229"
+  },
+  {
+    "label": "Pike County",
+    "value": "13231"
+  },
+  {
+    "label": "Polk County",
+    "value": "13233"
+  },
+  {
+    "label": "Pulaski County",
+    "value": "13235"
+  },
+  {
+    "label": "Putnam County",
+    "value": "13237"
+  },
+  {
+    "label": "Quitman County",
+    "value": "13239"
+  },
+  {
+    "label": "Rabun County",
+    "value": "13241"
+  },
+  {
+    "label": "Randolph County",
+    "value": "13243"
+  },
+  {
+    "label": "Richmond County",
+    "value": "13245"
+  },
+  {
+    "label": "Rockdale County",
+    "value": "13247"
+  },
+  {
+    "label": "Schley County",
+    "value": "13249"
+  },
+  {
+    "label": "Seminole County",
+    "value": "13251"
+  },
+  {
+    "label": "Spalding County",
+    "value": "13253"
+  },
+  {
+    "label": "Stephens County",
+    "value": "13255"
+  },
+  {
+    "label": "Stewart County",
+    "value": "13257"
+  },
+  {
+    "label": "Sumter County",
+    "value": "13259"
+  },
+  {
+    "label": "Talbot County",
+    "value": "13261"
+  },
+  {
+    "label": "Taliaferro County",
+    "value": "13263"
+  },
+  {
+    "label": "Tattnall County",
+    "value": "13265"
+  },
+  {
+    "label": "Taylor County",
+    "value": "13267"
+  },
+  {
+    "label": "Terrell County",
+    "value": "13269"
+  },
+  {
+    "label": "Thomas County",
+    "value": "13271"
+  },
+  {
+    "label": "Tift County",
+    "value": "13273"
+  },
+  {
+    "label": "Toombs County",
+    "value": "13275"
+  },
+  {
+    "label": "Towns County",
+    "value": "13277"
+  },
+  {
+    "label": "Treutlen County",
+    "value": "13279"
+  },
+  {
+    "label": "Troup County",
+    "value": "13281"
+  },
+  {
+    "label": "Turner County",
+    "value": "13283"
+  },
+  {
+    "label": "Twiggs County",
+    "value": "13285"
+  },
+  {
+    "label": "Union County",
+    "value": "13287"
+  },
+  {
+    "label": "Upson County",
+    "value": "13289"
+  },
+  {
+    "label": "Walker County",
+    "value": "13291"
+  },
+  {
+    "label": "Walton County",
+    "value": "13293"
+  },
+  {
+    "label": "Ware County",
+    "value": "13295"
+  },
+  {
+    "label": "Warren County",
+    "value": "13297"
+  },
+  {
+    "label": "Washington County",
+    "value": "13299"
+  },
+  {
+    "label": "Wayne County",
+    "value": "13301"
+  },
+  {
+    "label": "Webster County",
+    "value": "13303"
+  },
+  {
+    "label": "Wheeler County",
+    "value": "13305"
+  },
+  {
+    "label": "White County",
+    "value": "13307"
+  },
+  {
+    "label": "Whitfield County",
+    "value": "13309"
+  },
+  {
+    "label": "Wilcox County",
+    "value": "13311"
+  },
+  {
+    "label": "Wilkes County",
+    "value": "13313"
+  },
+  {
+    "label": "Williamson County",
+    "value": "13315"
+  },
+  {
+    "label": "Worth County",
+    "value": "13317"
+  }
+],
+"hi":[
+  {
+    "label": "Hawaii County",
+    "value": "15001"
+  },
+  {
+    "label": "Honolulu County",
+    "value": "15003"
+  },
+  {
+    "label": "Kalawao County",
+    "value": "15005"
+  },
+  {
+    "label": "Kauai County",
+    "value": "15007"
+  },
+  {
+    "label": "Maui County",
+    "value": "15009"
+  }
+],
+"id" : [
+  {
+    "label": "Ada County",
+    "value": "16001"
+  },
+  {
+    "label": "Adams County",
+    "value": "16003"
+  },
+  {
+    "label": "Bannock County",
+    "value": "16005"
+  },
+  {
+    "label": "Bear Lake County",
+    "value": "16007"
+  },
+  {
+    "label": "Benewah County",
+    "value": "16009"
+  },
+  {
+    "label": "Bingham County",
+    "value": "16011"
+  },
+  {
+    "label": "Blaine County",
+    "value": "16013"
+  },
+  {
+    "label": "Boise County",
+    "value": "16015"
+  },
+  {
+    "label": "Bonner County",
+    "value": "16017"
+  },
+  {
+    "label": "Bonners Ferry County",
+    "value": "16019"
+  },
+  {
+    "label": "Boundary County",
+    "value": "16021"
+  },
+  {
+    "label": "Butte County",
+    "value": "16023"
+  },
+  {
+    "label": "Camas County",
+    "value": "16025"
+  },
+  {
+    "label": "Canyon County",
+    "value": "16027"
+  },
+  {
+    "label": "Caribou County",
+    "value": "16029"
+  },
+  {
+    "label": "Cassia County",
+    "value": "16031"
+  },
+  {
+    "label": "Clark County",
+    "value": "16033"
+  },
+  {
+    "label": "Clearwater County",
+    "value": "16035"
+  },
+  {
+    "label": "Custer County",
+    "value": "16037"
+  },
+  {
+    "label": "Elmore County",
+    "value": "16039"
+  },
+  {
+    "label": "Franklin County",
+    "value": "16041"
+  },
+  {
+    "label": "Fremont County",
+    "value": "16043"
+  },
+  {
+    "label": "Gem County",
+    "value": "16045"
+  },
+  {
+    "label": "Gooding County",
+    "value": "16047"
+  },
+  {
+    "label": "Idaho County",
+    "value": "16049"
+  },
+  {
+    "label": "Jefferson County",
+    "value": "16051"
+  },
+  {
+    "label": "Jerome County",
+    "value": "16053"
+  },
+  {
+    "label": "Kootenai County",
+    "value": "16055"
+  },
+  {
+    "label": "Latah County",
+    "value": "16057"
+  },
+  {
+    "label": "Lemhi County",
+    "value": "16059"
+  },
+  {
+    "label": "Lewis County",
+    "value": "16061"
+  },
+  {
+    "label": "Lincoln County",
+    "value": "16063"
+  },
+  {
+    "label": "Madison County",
+    "value": "16065"
+  },
+  {
+    "label": "Minidoka County",
+    "value": "16067"
+  },
+  {
+    "label": "Nez Perce County",
+    "value": "16069"
+  },
+  {
+    "label": "Owyhee County",
+    "value": "16071"
+  },
+  {
+    "label": "Payette County",
+    "value": "16073"
+  },
+  {
+    "label": "Power County",
+    "value": "16075"
+  },
+  {
+    "label": "Shoshone County",
+    "value": "16077"
+  },
+  {
+    "label": "Teton County",
+    "value": "16079"
+  },
+  {
+    "label": "Twin Falls County",
+    "value": "16081"
+  },
+  {
+    "label": "Valley County",
+    "value": "16083"
+  },
+  {
+    "label": "Washington County",
+    "value": "16085"
+  }
+],
+"il" : [
+  {
+    "label": "Adams County",
+    "value": "17001"
+  },
+  {
+    "label": "Bond County",
+    "value": "17003"
+  },
+  {
+    "label": "Boone County",
+    "value": "17005"
+  },
+  {
+    "label": "Brown County",
+    "value": "17007"
+  },
+  {
+    "label": "Bureau County",
+    "value": "17009"
+  },
+  {
+    "label": "Calhoun County",
+    "value": "17011"
+  },
+  {
+    "label": "Carroll County",
+    "value": "17013"
+  },
+  {
+    "label": "Cass County",
+    "value": "17015"
+  },
+  {
+    "label": "Champaign County",
+    "value": "17017"
+  },
+  {
+    "label": "Christian County",
+    "value": "17019"
+  },
+  {
+    "label": "Clark County",
+    "value": "17021"
+  },
+  {
+    "label": "Clay County",
+    "value": "17023"
+  },
+  {
+    "label": "Clinton County",
+    "value": "17025"
+  },
+  {
+    "label": "Coles County",
+    "value": "17027"
+  },
+  {
+    "label": "Cook County",
+    "value": "17031"
+  },
+  {
+    "label": "Crawford County",
+    "value": "17033"
+  },
+  {
+    "label": "Cumberland County",
+    "value": "17035"
+  },
+  {
+    "label": "DeKalb County",
+    "value": "17037"
+  },
+  {
+    "label": "Douglas County",
+    "value": "17039"
+  },
+  {
+    "label": "DuPage County",
+    "value": "17043"
+  },
+  {
+    "label": "Edgar County",
+    "value": "17045"
+  },
+  {
+    "label": "Edwards County",
+    "value": "17047"
+  },
+  {
+    "label": "Effingham County",
+    "value": "17049"
+  },
+  {
+    "label": "Fayette County",
+    "value": "17051"
+  },
+  {
+    "label": "Ford County",
+    "value": "17053"
+  },
+  {
+    "label": "Franklin County",
+    "value": "17055"
+  },
+  {
+    "label": "Fulton County",
+    "value": "17057"
+  },
+  {
+    "label": "Gallatin County",
+    "value": "17059"
+  },
+  {
+    "label": "Greene County",
+    "value": "17061"
+  },
+  {
+    "label": "Grundy County",
+    "value": "17063"
+  },
+  {
+    "label": "Hamilton County",
+    "value": "17065"
+  },
+  {
+    "label": "Hancock County",
+    "value": "17067"
+  },
+  {
+    "label": "Hardin County",
+    "value": "17069"
+  },
+  {
+    "label": "Henderson County",
+    "value": "17071"
+  },
+  {
+    "label": "Henry County",
+    "value": "17073"
+  },
+  {
+    "label": "Iroquois County",
+    "value": "17075"
+  },
+  {
+    "label": "Jackson County",
+    "value": "17077"
+  },
+  {
+    "label": "Jasper County",
+    "value": "17079"
+  },
+  {
+    "label": "Jefferson County",
+    "value": "17081"
+  },
+  {
+    "label": "Jersey County",
+    "value": "17083"
+  },
+  {
+    "label": "Jo Daviess County",
+    "value": "17085"
+  },
+  {
+    "label": "Johnson County",
+    "value": "17087"
+  },
+  {
+    "label": "Kane County",
+    "value": "17089"
+  },
+  {
+    "label": "Kankakee County",
+    "value": "17091"
+  },
+  {
+    "label": "Kendall County",
+    "value": "17093"
+  },
+  {
+    "label": "Knox County",
+    "value": "17095"
+  },
+  {
+    "label": "LaSalle County",
+    "value": "17097"
+  },
+  {
+    "label": "Lake County",
+    "value": "17099"
+  },
+  {
+    "label": "Lawrence County",
+    "value": "17101"
+  },
+  {
+    "label": "Lee County",
+    "value": "17103"
+  },
+  {
+    "label": "Livingston County",
+    "value": "17105"
+  },
+  {
+    "label": "Logan County",
+    "value": "17107"
+  },
+  {
+    "label": "Macoupin County",
+    "value": "17109"
+  },
+  {
+    "label": "Madison County",
+    "value": "17111"
+  },
+  {
+    "label": "Marion County",
+    "value": "17113"
+  },
+  {
+    "label": "Marshall County",
+    "value": "17115"
+  },
+  {
+    "label": "Mason County",
+    "value": "17117"
+  },
+  {
+    "label": "Massac County",
+    "value": "17119"
+  },
+  {
+    "label": "Menard County",
+    "value": "17121"
+  },
+  {
+    "label": "Mercer County",
+    "value": "17123"
+  },
+  {
+    "label": "Monroe County",
+    "value": "17125"
+  },
+  {
+    "label": "Montgomery County",
+    "value": "17127"
+  },
+  {
+    "label": "Morgan County",
+    "value": "17129"
+  },
+  {
+    "label": "Moultrie County",
+    "value": "17131"
+  },
+  {
+    "label": "Ogle County",
+    "value": "17133"
+  },
+  {
+    "label": "Peoria County",
+    "value": "17135"
+  },
+  {
+    "label": "Perry County",
+    "value": "17137"
+  },
+  {
+    "label": "Piatt County",
+    "value": "17139"
+  },
+  {
+    "label": "Pike County",
+    "value": "17141"
+  },
+  {
+    "label": "Pope County",
+    "value": "17143"
+  },
+  {
+    "label": "Pulaski County",
+    "value": "17145"
+  },
+  {
+    "label": "Putnam County",
+    "value": "17147"
+  },
+  {
+    "label": "Randolph County",
+    "value": "17149"
+  },
+  {
+    "label": "Richland County",
+    "value": "17151"
+  },
+  {
+    "label": "Rock Island County",
+    "value": "17153"
+  },
+  {
+    "label": "Saline County",
+    "value": "17155"
+  },
+  {
+    "label": "Sangamon County",
+    "value": "17157"
+  },
+  {
+    "label": "Schuyler County",
+    "value": "17159"
+  },
+  {
+    "label": "Scott County",
+    "value": "17161"
+  },
+  {
+    "label": "Shelby County",
+    "value": "17163"
+  },
+  {
+    "label": "St. Clair County",
+    "value": "17165"
+  },
+  {
+    "label": "Stark County",
+    "value": "17167"
+  },
+  {
+    "label": "Stephenson County",
+    "value": "17169"
+  },
+  {
+    "label": "Tazewell County",
+    "value": "17171"
+  },
+  {
+    "label": "Union County",
+    "value": "17173"
+  },
+  {
+    "label": "Vermilion County",
+    "value": "17175"
+  },
+  {
+    "label": "Wabash County",
+    "value": "17177"
+  },
+  {
+    "label": "Warren County",
+    "value": "17179"
+  },
+  {
+    "label": "Washington County",
+    "value": "17181"
+  },
+  {
+    "label": "Wayne County",
+    "value": "17183"
+  },
+  {
+    "label": "White County",
+    "value": "17185"
+  },
+  {
+    "label": "Whiteside County",
+    "value": "17187"
+  },
+  {
+    "label": "Will County",
+    "value": "17189"
+  },
+  {
+    "label": "Williamson County",
+    "value": "17191"
+  },
+  {
+    "label": "Winnebago County",
+    "value": "17193"
+  },
+  {
+    "label": "Woodford County",
+    "value": "17195"
+  }
+],
+"in" : [
+  {
+    "label": "Adams County",
+    "value": "18001"
+  },
+  {
+    "label": "Allen County",
+    "value": "18003"
+  },
+  {
+    "label": "Bartholomew County",
+    "value": "18005"
+  },
+  {
+    "label": "Benton County",
+    "value": "18007"
+  },
+  {
+    "label": "Blackford County",
+    "value": "18009"
+  },
+  {
+    "label": "Boone County",
+    "value": "18011"
+  },
+  {
+    "label": "Brown County",
+    "value": "18013"
+  },
+  {
+    "label": "Carroll County",
+    "value": "18015"
+  },
+  {
+    "label": "Cass County",
+    "value": "18017"
+  },
+  {
+    "label": "Clark County",
+    "value": "18019"
+  },
+  {
+    "label": "Clay County",
+    "value": "18021"
+  },
+  {
+    "label": "Clinton County",
+    "value": "18023"
+  },
+  {
+    "label": "Crawford County",
+    "value": "18025"
+  },
+  {
+    "label": "Daviess County",
+    "value": "18027"
+  },
+  {
+    "label": "Dearborn County",
+    "value": "18029"
+  },
+  {
+    "label": "Decatur County",
+    "value": "18031"
+  },
+  {
+    "label": "DeKalb County",
+    "value": "18033"
+  },
+  {
+    "label": "Delaware County",
+    "value": "18035"
+  },
+  {
+    "label": "Dubois County",
+    "value": "18037"
+  },
+  {
+    "label": "Elkhart County",
+    "value": "18039"
+  },
+  {
+    "label": "Fayette County",
+    "value": "18041"
+  },
+  {
+    "label": "Floyd County",
+    "value": "18043"
+  },
+  {
+    "label": "Fountain County",
+    "value": "18045"
+  },
+  {
+    "label": "Franklin County",
+    "value": "18047"
+  },
+  {
+    "label": "Fulton County",
+    "value": "18049"
+  },
+  {
+    "label": "Gibson County",
+    "value": "18051"
+  },
+  {
+    "label": "Grant County",
+    "value": "18053"
+  },
+  {
+    "label": "Greene County",
+    "value": "18055"
+  },
+  {
+    "label": "Hamilton County",
+    "value": "18057"
+  },
+  {
+    "label": "Hancock County",
+    "value": "18059"
+  },
+  {
+    "label": "Harrison County",
+    "value": "18061"
+  },
+  {
+    "label": "Hendricks County",
+    "value": "18063"
+  },
+  {
+    "label": "Henry County",
+    "value": "18065"
+  },
+  {
+    "label": "Jackson County",
+    "value": "18067"
+  },
+  {
+    "label": "Jasper County",
+    "value": "18069"
+  },
+  {
+    "label": "Jay County",
+    "value": "18071"
+  },
+  {
+    "label": "Jefferson County",
+    "value": "18073"
+  },
+  {
+    "label": "Jennings County",
+    "value": "18075"
+  },
+  {
+    "label": "Johnson County",
+    "value": "18077"
+  },
+  {
+    "label": "Knox County",
+    "value": "18079"
+  },
+  {
+    "label": "Kosciusko County",
+    "value": "18081"
+  },
+  {
+    "label": "LaGrange County",
+    "value": "18083"
+  },
+  {
+    "label": "Lake County",
+    "value": "18085"
+  },
+  {
+    "label": "LaPorte County",
+    "value": "18087"
+  },
+  {
+    "label": "Lawrence County",
+    "value": "18089"
+  },
+  {
+    "label": "Madison County",
+    "value": "18091"
+  },
+  {
+    "label": "Marion County",
+    "value": "18093"
+  },
+  {
+    "label": "Marshall County",
+    "value": "18095"
+  },
+  {
+    "label": "Martin County",
+    "value": "18097"
+  },
+  {
+    "label": "Miami County",
+    "value": "18099"
+  },
+  {
+    "label": "Monroe County",
+    "value": "18101"
+  },
+  {
+    "label": "Montgomery County",
+    "value": "18103"
+  },
+  {
+    "label": "Morgan County",
+    "value": "18105"
+  },
+  {
+    "label": "Newton County",
+    "value": "18107"
+  },
+  {
+    "label": "Noble County",
+    "value": "18109"
+  },
+  {
+    "label": "Ohio County",
+    "value": "18111"
+  },
+  {
+    "label": "Orange County",
+    "value": "18113"
+  },
+  {
+    "label": "Owen County",
+    "value": "18115"
+  },
+  {
+    "label": "Parke County",
+    "value": "18117"
+  },
+  {
+    "label": "Perry County",
+    "value": "18119"
+  },
+  {
+    "label": "Posey County",
+    "value": "18121"
+  },
+  {
+    "label": "Pulaski County",
+    "value": "18123"
+  },
+  {
+    "label": "Putnam County",
+    "value": "18125"
+  },
+  {
+    "label": "Randolph County",
+    "value": "18127"
+  },
+  {
+    "label": "Ripley County",
+    "value": "18129"
+  },
+  {
+    "label": "Rush County",
+    "value": "18131"
+  },
+  {
+    "label": "St. Joseph County",
+    "value": "18133"
+  },
+  {
+    "label": "Starke County",
+    "value": "18135"
+  },
+  {
+    "label": "Steuben County",
+    "value": "18137"
+  },
+  {
+    "label": "Sullivan County",
+    "value": "18139"
+  },
+  {
+    "label": "Switzerland County",
+    "value": "18141"
+  },
+  {
+    "label": "Tippecanoe County",
+    "value": "18143"
+  },
+  {
+    "label": "Tipton County",
+    "value": "18145"
+  },
+  {
+    "label": "Union County",
+    "value": "18147"
+  },
+  {
+    "label": "Vanderburgh County",
+    "value": "18149"
+  },
+  {
+    "label": "Vermillion County",
+    "value": "18151"
+  },
+  {
+    "label": "Vigo County",
+    "value": "18153"
+  },
+  {
+    "label": "Wabash County",
+    "value": "18155"
+  },
+  {
+    "label": "Warren County",
+    "value": "18157"
+  },
+  {
+    "label": "Warrick County",
+    "value": "18159"
+  },
+  {
+    "label": "Washington County",
+    "value": "18161"
+  },
+  {
+    "label": "Wayne County",
+    "value": "18163"
+  },
+  {
+    "label": "Wells County",
+    "value": "18165"
+  },
+  {
+    "label": "White County",
+    "value": "18167"
+  },
+  {
+    "label": "Whitley County",
+    "value": "18169"
+  }
+],
+"ia" : [
+  {
+    "label": "Adair County",
+    "value": "19001"
+  },
+  {
+    "label": "Adams County",
+    "value": "19003"
+  },
+  {
+    "label": "Allamakee County",
+    "value": "19005"
+  },
+  {
+    "label": "Appanoose County",
+    "value": "19007"
+  },
+  {
+    "label": "Audubon County",
+    "value": "19009"
+  },
+  {
+    "label": "Benton County",
+    "value": "19011"
+  },
+  {
+    "label": "Black Hawk County",
+    "value": "19013"
+  },
+  {
+    "label": "Boone County",
+    "value": "19015"
+  },
+  {
+    "label": "Bremer County",
+    "value": "19017"
+  },
+  {
+    "label": "Buchanan County",
+    "value": "19019"
+  },
+  {
+    "label": "Buena Vista County",
+    "value": "19021"
+  },
+  {
+    "label": "Butler County",
+    "value": "19023"
+  },
+  {
+    "label": "Calhoun County",
+    "value": "19025"
+  },
+  {
+    "label": "Carroll County",
+    "value": "19027"
+  },
+  {
+    "label": "Cass County",
+    "value": "19029"
+  },
+  {
+    "label": "Cedar County",
+    "value": "19031"
+  },
+  {
+    "label": "Cerro Gordo County",
+    "value": "19033"
+  },
+  {
+    "label": "Cherokee County",
+    "value": "19035"
+  },
+  {
+    "label": "Chickasaw County",
+    "value": "19037"
+  },
+  {
+    "label": "Clarke County",
+    "value": "19039"
+  },
+  {
+    "label": "Clay County",
+    "value": "19041"
+  },
+  {
+    "label": "Clayton County",
+    "value": "19043"
+  },
+  {
+    "label": "Clinton County",
+    "value": "19045"
+  },
+  {
+    "label": "Crawford County",
+    "value": "19047"
+  },
+  {
+    "label": "Dallas County",
+    "value": "19049"
+  },
+  {
+    "label": "Davis County",
+    "value": "19051"
+  },
+  {
+    "label": "Decatur County",
+    "value": "19053"
+  },
+  {
+    "label": "Delaware County",
+    "value": "19055"
+  },
+  {
+    "label": "Des Moines County",
+    "value": "19057"
+  },
+  {
+    "label": "Dickinson County",
+    "value": "19059"
+  },
+  {
+    "label": "Dubuque County",
+    "value": "19061"
+  },
+  {
+    "label": "Emmet County",
+    "value": "19063"
+  },
+  {
+    "label": "Fayette County",
+    "value": "19065"
+  },
+  {
+    "label": "Floyd County",
+    "value": "19067"
+  },
+  {
+    "label": "Franklin County",
+    "value": "19069"
+  },
+  {
+    "label": "Fremont County",
+    "value": "19071"
+  },
+  {
+    "label": "Greene County",
+    "value": "19073"
+  },
+  {
+    "label": "Grundy County",
+    "value": "19075"
+  },
+  {
+    "label": "Guthrie County",
+    "value": "19077"
+  },
+  {
+    "label": "Hamilton County",
+    "value": "19079"
+  },
+  {
+    "label": "Hancock County",
+    "value": "19081"
+  },
+  {
+    "label": "Hardin County",
+    "value": "19083"
+  },
+  {
+    "label": "Harrison County",
+    "value": "19085"
+  },
+  {
+    "label": "Henry County",
+    "value": "19087"
+  },
+  {
+    "label": "Howard County",
+    "value": "19089"
+  },
+  {
+    "label": "Humboldt County",
+    "value": "19091"
+  },
+  {
+    "label": "Ida County",
+    "value": "19093"
+  },
+  {
+    "label": "Iowa County",
+    "value": "19095"
+  },
+  {
+    "label": "Jackson County",
+    "value": "19097"
+  },
+  {
+    "label": "Jasper County",
+    "value": "19099"
+  },
+  {
+    "label": "Jefferson County",
+    "value": "19101"
+  },
+  {
+    "label": "Johnson County",
+    "value": "19103"
+  },
+  {
+    "label": "Jones County",
+    "value": "19105"
+  },
+  {
+    "label": "Keokuk County",
+    "value": "19107"
+  },
+  {
+    "label": "Kossuth County",
+    "value": "19109"
+  },
+  {
+    "label": "Lee County",
+    "value": "19111"
+  },
+  {
+    "label": "Linn County",
+    "value": "19113"
+  },
+  {
+    "label": "Louisa County",
+    "value": "19115"
+  },
+  {
+    "label": "Lucas County",
+    "value": "19117"
+  },
+  {
+    "label": "Lyon County",
+    "value": "19119"
+  },
+  {
+    "label": "Madison County",
+    "value": "19121"
+  },
+  {
+    "label": "Mahaska County",
+    "value": "19123"
+  },
+  {
+    "label": "Marion County",
+    "value": "19125"
+  },
+  {
+    "label": "Marshall County",
+    "value": "19127"
+  },
+  {
+    "label": "Mills County",
+    "value": "19129"
+  },
+  {
+    "label": "Mitchell County",
+    "value": "19131"
+  },
+  {
+    "label": "Monona County",
+    "value": "19133"
+  },
+  {
+    "label": "Monroe County",
+    "value": "19135"
+  },
+  {
+    "label": "Montgomery County",
+    "value": "19137"
+  },
+  {
+    "label": "Muscatine County",
+    "value": "19139"
+  },
+  {
+    "label": "O'Brien County",
+    "value": "19141"
+  },
+  {
+    "label": "Osceola County",
+    "value": "19143"
+  },
+  {
+    "label": "Page County",
+    "value": "19145"
+  },
+  {
+    "label": "Palo Alto County",
+    "value": "19147"
+  },
+  {
+    "label": "Plymouth County",
+    "value": "19149"
+  },
+  {
+    "label": "Polk County",
+    "value": "19151"
+  },
+  {
+    "label": "Pottawattamie County",
+    "value": "19153"
+  },
+  {
+    "label": "Poweshiek County",
+    "value": "19155"
+  },
+  {
+    "label": "Ringgold County",
+    "value": "19157"
+  },
+  {
+    "label": "Sac County",
+    "value": "19159"
+  },
+  {
+    "label": "Scott County",
+    "value": "19161"
+  },
+  {
+    "label": "Shelby County",
+    "value": "19163"
+  },
+  {
+    "label": "Sioux County",
+    "value": "19165"
+  },
+  {
+    "label": "Story County",
+    "value": "19167"
+  },
+  {
+    "label": "Tama County",
+    "value": "19169"
+  },
+  {
+    "label": "Taylor County",
+    "value": "19171"
+  },
+  {
+    "label": "Union County",
+    "value": "19173"
+  },
+  {
+    "label": "Wapello County",
+    "value": "19175"
+  },
+  {
+    "label": "Warren County",
+    "value": "19177"
+  },
+  {
+    "label": "Washington County",
+    "value": "19179"
+  },
+  {
+    "label": "Wayne County",
+    "value": "19181"
+  },
+  {
+    "label": "Webster County",
+    "value": "19183"
+  },
+  {
+    "label": "Winnebago County",
+    "value": "19185"
+  },
+  {
+    "label": "Winneshiek County",
+    "value": "19187"
+  },
+  {
+    "label": "Woodbury County",
+    "value": "19189"
+  },
+  {
+    "label": "Worth County",
+    "value": "19191"
+  },
+  {
+    "label": "Wright County",
+    "value": "19193"
+  }
+],
+"ks" : [
+  {
+    "label": "Allen County",
+    "value": "20001"
+  },
+  {
+    "label": "Anderson County",
+    "value": "20003"
+  },
+  {
+    "label": "Atchison County",
+    "value": "20005"
+  },
+  {
+    "label": "Barber County",
+    "value": "20007"
+  },
+  {
+    "label": "Barton County",
+    "value": "20009"
+  },
+  {
+    "label": "Bourbon County",
+    "value": "20011"
+  },
+  {
+    "label": "Brown County",
+    "value": "20013"
+  },
+  {
+    "label": "Butler County",
+    "value": "20015"
+  },
+  {
+    "label": "Chase County",
+    "value": "20017"
+  },
+  {
+    "label": "Chautauqua County",
+    "value": "20019"
+  },
+  {
+    "label": "Cherokee County",
+    "value": "20021"
+  },
+  {
+    "label": "Cheyenne County",
+    "value": "20023"
+  },
+  {
+    "label": "Clark County",
+    "value": "20025"
+  },
+  {
+    "label": "Clay County",
+    "value": "20027"
+  },
+  {
+    "label": "Cloud County",
+    "value": "20029"
+  },
+  {
+    "label": "Coffey County",
+    "value": "20031"
+  },
+  {
+    "label": "Comanche County",
+    "value": "20033"
+  },
+  {
+    "label": "Cowley County",
+    "value": "20035"
+  },
+  {
+    "label": "Crawford County",
+    "value": "20037"
+  },
+  {
+    "label": "Decatur County",
+    "value": "20039"
+  },
+  {
+    "label": "Dickinson County",
+    "value": "20041"
+  },
+  {
+    "label": "Doniphan County",
+    "value": "20043"
+  },
+  {
+    "label": "Douglas County",
+    "value": "20045"
+  },
+  {
+    "label": "Edwards County",
+    "value": "20047"
+  },
+  {
+    "label": "Elk County",
+    "value": "20049"
+  },
+  {
+    "label": "Ellis County",
+    "value": "20051"
+  },
+  {
+    "label": "Ellsworth County",
+    "value": "20053"
+  },
+  {
+    "label": "Finney County",
+    "value": "20055"
+  },
+  {
+    "label": "Ford County",
+    "value": "20057"
+  },
+  {
+    "label": "Franklin County",
+    "value": "20059"
+  },
+  {
+    "label": "Geary County",
+    "value": "20061"
+  },
+  {
+    "label": "Gove County",
+    "value": "20063"
+  },
+  {
+    "label": "Graham County",
+    "value": "20065"
+  },
+  {
+    "label": "Grant County",
+    "value": "20067"
+  },
+  {
+    "label": "Gray County",
+    "value": "20069"
+  },
+  {
+    "label": "Greeley County",
+    "value": "20071"
+  },
+  {
+    "label": "Greenwood County",
+    "value": "20073"
+  },
+  {
+    "label": "Hamilton County",
+    "value": "20075"
+  },
+  {
+    "label": "Harper County",
+    "value": "20077"
+  },
+  {
+    "label": "Harrison County",
+    "value": "20079"
+  },
+  {
+    "label": "Jackson County",
+    "value": "20081"
+  },
+  {
+    "label": "Jefferson County",
+    "value": "20083"
+  },
+  {
+    "label": "Jewell County",
+    "value": "20085"
+  },
+  {
+    "label": "Johnson County",
+    "value": "20087"
+  },
+  {
+    "label": "Kearny County",
+    "value": "20089"
+  },
+  {
+    "label": "Kingman County",
+    "value": "20091"
+  },
+  {
+    "label": "Kiowa County",
+    "value": "20093"
+  },
+  {
+    "label": "Labette County",
+    "value": "20095"
+  },
+  {
+    "label": "Lane County",
+    "value": "20097"
+  },
+  {
+    "label": "Leavenworth County",
+    "value": "20099"
+  },
+  {
+    "label": "Lincoln County",
+    "value": "20101"
+  },
+  {
+    "label": "Linn County",
+    "value": "20103"
+  },
+  {
+    "label": "Logan County",
+    "value": "20105"
+  },
+  {
+    "label": "Lyon County",
+    "value": "20107"
+  },
+  {
+    "label": "Marion County",
+    "value": "20109"
+  },
+  {
+    "label": "Marshall County",
+    "value": "20111"
+  },
+  {
+    "label": "McPherson County",
+    "value": "20113"
+  },
+  {
+    "label": "Meade County",
+    "value": "20115"
+  },
+  {
+    "label": "Miami County",
+    "value": "20117"
+  },
+  {
+    "label": "Mitchell County",
+    "value": "20119"
+  },
+  {
+    "label": "Montgomery County",
+    "value": "20121"
+  },
+  {
+    "label": "Morris County",
+    "value": "20123"
+  },
+  {
+    "label": "Morton County",
+    "value": "20125"
+  },
+  {
+    "label": "Nemaha County",
+    "value": "20127"
+  },
+  {
+    "label": "Neosho County",
+    "value": "20129"
+  },
+  {
+    "label": "Ness County",
+    "value": "20131"
+  },
+  {
+    "label": "Norton County",
+    "value": "20133"
+  },
+  {
+    "label": "Osage County",
+    "value": "20135"
+  },
+  {
+    "label": "Osborne County",
+    "value": "20137"
+  },
+  {
+    "label": "Ottawa County",
+    "value": "20139"
+  },
+  {
+    "label": "Pawnee County",
+    "value": "20141"
+  },
+  {
+    "label": "Phillips County",
+    "value": "20143"
+  },
+  {
+    "label": "Pottawatomie County",
+    "value": "20145"
+  },
+  {
+    "label": "Pratt County",
+    "value": "20147"
+  },
+  {
+    "label": "Rawlins County",
+    "value": "20149"
+  },
+  {
+    "label": "Reno County",
+    "value": "20151"
+  },
+  {
+    "label": "Republic County",
+    "value": "20153"
+  },
+  {
+    "label": "Rice County",
+    "value": "20155"
+  },
+  {
+    "label": "Riley County",
+    "value": "20157"
+  },
+  {
+    "label": "Rooks County",
+    "value": "20159"
+  },
+  {
+    "label": "Rush County",
+    "value": "20161"
+  },
+  {
+    "label": "Russell County",
+    "value": "20163"
+  },
+  {
+    "label": "Saline County",
+    "value": "20165"
+  },
+  {
+    "label": "Scott County",
+    "value": "20167"
+  },
+  {
+    "label": "Sedgwick County",
+    "value": "20169"
+  },
+  {
+    "label": "Seward County",
+    "value": "20171"
+  },
+  {
+    "label": "Shawnee County",
+    "value": "20173"
+  },
+  {
+    "label": "Sheridan County",
+    "value": "20175"
+  },
+  {
+    "label": "Sherman County",
+    "value": "20177"
+  },
+  {
+    "label": "Smith County",
+    "value": "20179"
+  },
+  {
+    "label": "Stafford County",
+    "value": "20181"
+  },
+  {
+    "label": "Stanton County",
+    "value": "20183"
+  },
+  {
+    "label": "Stevens County",
+    "value": "20185"
+  },
+  {
+    "label": "Sumner County",
+    "value": "20187"
+  },
+  {
+    "label": "Thomas County",
+    "value": "20189"
+  },
+  {
+    "label": "Trego County",
+    "value": "20191"
+  },
+  {
+    "label": "Wabaunsee County",
+    "value": "20193"
+  },
+  {
+    "label": "Wallace County",
+    "value": "20195"
+  },
+  {
+    "label": "Washington County",
+    "value": "20197"
+  },
+  {
+    "label": "Wichita County",
+    "value": "20199"
+  },
+  {
+    "label": "Wilson County",
+    "value": "20201"
+  },
+  {
+    "label": "Woodson County",
+    "value": "20203"
+  },
+  {
+    "label": "Wyandotte County",
+    "value": "20205"
+  }
+],
+"ky" : [
+  {
+    "label": "Adair County",
+    "value": "21001"
+  },
+  {
+    "label": "Allen County",
+    "value": "21003"
+  },
+  {
+    "label": "Anderson County",
+    "value": "21005"
+  },
+  {
+    "label": "Bourbon County",
+    "value": "21007"
+  },
+  {
+    "label": "Boyd County",
+    "value": "21009"
+  },
+  {
+    "label": "Bracken County",
+    "value": "21011"
+  },
+  {
+    "label": "Breathitt County",
+    "value": "21013"
+  },
+  {
+    "label": "Campbell County",
+    "value": "21015"
+  },
+  {
+    "label": "Carter County",
+    "value": "21017"
+  },
+  {
+    "label": "Clark County",
+    "value": "21019"
+  },
+  {
+    "label": "Clay County",
+    "value": "21021"
+  },
+  {
+    "label": "Elliott County",
+    "value": "21023"
+  },
+  {
+    "label": "Estill County",
+    "value": "21025"
+  },
+  {
+    "label": "Fayette County",
+    "value": "21027"
+  },
+  {
+    "label": "Fleming County",
+    "value": "21029"
+  },
+  {
+    "label": "Floyd County",
+    "value": "21031"
+  },
+  {
+    "label": "Gallatin County",
+    "value": "21033"
+  },
+  {
+    "label": "Grant County",
+    "value": "21035"
+  },
+  {
+    "label": "Greenup County",
+    "value": "21037"
+  },
+  {
+    "label": "Harlan County",
+    "value": "21039"
+  },
+  {
+    "label": "Harrison County",
+    "value": "21041"
+  },
+  {
+    "label": "Jackson County",
+    "value": "21043"
+  },
+  {
+    "label": "Jessamine County",
+    "value": "21045"
+  },
+  {
+    "label": "Johnson County",
+    "value": "21047"
+  },
+  {
+    "label": "Kenton County",
+    "value": "21049"
+  },
+  {
+    "label": "Knott County",
+    "value": "21051"
+  },
+  {
+    "label": "Knox County",
+    "value": "21053"
+  },
+  {
+    "label": "Laurel County",
+    "value": "21055"
+  },
+  {
+    "label": "Lawrence County",
+    "value": "21057"
+  },
+  {
+    "label": "Lee County",
+    "value": "21059"
+  },
+  {
+    "label": "Leslie County",
+    "value": "21061"
+  },
+  {
+    "label": "Letcher County",
+    "value": "21063"
+  },
+  {
+    "label": "Lewis County",
+    "value": "21065"
+  },
+  {
+    "label": "Lincoln County",
+    "value": "21067"
+  },
+  {
+    "label": "Madison County",
+    "value": "21069"
+  },
+  {
+    "label": "Magoffin County",
+    "value": "21071"
+  },
+  {
+    "label": "Martin County",
+    "value": "21073"
+  },
+  {
+    "label": "Menifee County",
+    "value": "21075"
+  },
+  {
+    "label": "Morgan County",
+    "value": "21077"
+  },
+  {
+    "label": "Montgomery County",
+    "value": "21079"
+  },
+  {
+    "label": "Owsley County",
+    "value": "21081"
+  },
+  {
+    "label": "Pendleton County",
+    "value": "21083"
+  },
+  {
+    "label": "Perry County",
+    "value": "21085"
+  },
+  {
+    "label": "Powell County",
+    "value": "21087"
+  },
+  {
+    "label": "Robertson County",
+    "value": "21089"
+  },
+  {
+    "label": "Rockcastle County",
+    "value": "21091"
+  },
+  {
+    "label": "Rowan County",
+    "value": "21093"
+  },
+  {
+    "label": "Knox County",
+    "value": "21095"
+  },
+  {
+    "label": "Whitley County",
+    "value": "21097"
+  },
+  {
+    "label": "Wolfe County",
+    "value": "21099"
+  },
+  {
+    "label": "Woodford County",
+    "value": "21101"
+  }
+],
       };
 
 
@@ -1530,6 +4110,7 @@
               countySelect.append(
                 $('<option>').val(county.value).text(county.label)
               );
+
             });
           } else {
             countySelect.append('<option value="">No counties available</option>');
@@ -1537,7 +4118,10 @@
         }
       });
     });
-
+    $("#counties").on("change", function() {
+        var selectedLabel = $("#counties option:selected").text();
+        $("#county_name").val(selectedLabel);  // Store the selected county label in the hidden input
+    });
     function toggle(data) {
       if ($('.su').is(':checked')) {
         $("#chk").show();
