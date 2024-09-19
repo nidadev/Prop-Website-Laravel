@@ -8,7 +8,6 @@ use GuzzleHttp;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\PropertyDetail;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -17,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Http\Controllers\BaseController as ControllersBaseController;
+use ZipArchive;
 
 class ApiController extends BaseController
 {
@@ -1582,40 +1581,7 @@ class ApiController extends BaseController
             foreach ($acre_arr as $ac) {
                 $dat[] = $ac;
             }
-            /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                    "ProductNames": [
-                        "SalesComparables"
-                    ],
-                    "SearchType": "Filter",
-        
-                    "SearchRequest": {
-                        "ReferenceId": "1",
-                        "ProductName": "SearchLite",
-                        "MaxReturn": "1",
-                        "Filters": [
-                         
-                            {
-                                "FilterName": "StateFips",
-                                "FilterOperator": "is",
-                                "FilterValues": [
-                                    "' . $st . '"
-                                ],
-                                "FilterGroup": 1
-                            }
-                            
-                        ] //
-                    } //
-                }',
-            ]);
-            $de = json_decode($res->getBody(), true);
-            dd($de);
-            $dl = $de['LitePropertyList'];*/
+
 
             $prop_id = DB::table('property_details')->where(
                 'state',
@@ -1641,49 +1607,6 @@ class ApiController extends BaseController
             }
             //dd($zp);
 
-            /*foreach ($data as $d) {
-                //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
-
-                if ($d['zipcode'] > 0 || $d['Zip'] != null) {
-                    $pid[] = $d['PropertyId'];
-                    $apn[] = $d['Apn'];
-                    $county[] = $d['County'];
-                    $stt[] = $d['State'];
-
-                    $zip[] = $d['Zip'];
-                }
-            }
-            foreach ($pid as $pd) {
-                $pid_all[] = $pd;
-            }
-            foreach ($stt as $ste) {
-                $st_all[] = $ste;
-            }
-            foreach ($county as $ct) {
-                $ct_all[] = $ct;
-            }
-            foreach ($apn as $ap) {
-                //if($d['Zip'] > 0 || $d['Zip'] != null)
-                //{
-                $apn_all[] = $ap;
-                //}
-            }
-            foreach ($zip as $zp) {
-
-                //if($zp > 0 || $zp != null)
-                //{
-                $zip_all[] = $zp;
-                //}
-            }
-            //dd($de);
-            //dd($pid_all);
-            $data1 = [
-                'zip' => $zip_all,
-                'state' => $st_all,
-                'county' => $ct_all,
-                'apn' => $apn_all,
-                'p_id' => $pid_all
-            ];*/
 
             if ($cnt > 0) {
                 //dd(count($data));
@@ -1712,47 +1635,6 @@ class ApiController extends BaseController
 
                     }
                     //dd($zp);
-                    /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => '{
-                                    "ProductNames": [
-                                        "SalesComparables"
-                                    ],
-                                    "SearchType": "Filter",
-                        
-                                    "SearchRequest": {
-                                        "ReferenceId": "1",
-                                        "ProductName": "SearchLite",
-                                        "MaxReturn": "1",
-                                        "Filters": [
-                                         
-                                            {
-                                                "FilterName": "LotAcreage",
-                                                "FilterOperator": "is between",
-                                                "FilterValues": [
-                                                    ' . $dat[$i] . ',
-                                                    ' . $dat[$i + 1] . '
-                                                    
-                                                ]
-                                            },
-                                            {
-                                                "FilterName": "StateFips",
-                                                "FilterOperator": "is",
-                                                "FilterValues": [
-                                                    "' . $st . '"
-                                                ],
-                                                "FilterGroup": 1
-                                            },
-                                                                                       
-                                        ] //
-                                    } //
-                                }',
-                    ]);
-                    $de[] = json_decode($res->getBody(), true);*/
 
                 }
                 //dd($price);
@@ -1788,20 +1670,7 @@ class ApiController extends BaseController
 
         //dd($data);
         ///////////////////////////
-        /*$mainval = 1 * 0.1;
-            return view('research', compact('mainval', 'data', 'research'));
-        } catch (\Exception $e) {
-            //throw new HttpException(500, $e->getMessage());
-            //dd($e->getMessage());
-            $response = $e->getResponse();
-            $emsg = $e->getMessage();
-            //dd($response);
-            $fromserver = 'No records found . or Server error';
-            $msg = json_decode($response->getBody()->getContents(), true);
-            $error = $emsg;
-            //dd($response['reasonPhrase']);
-            return  redirect()->to('research')->with('error', $error);
-        }*/
+
     }
 
 
@@ -2044,6 +1913,7 @@ class ApiController extends BaseController
             //dd($salesdata);
 
             $sum_sale[0] = $this->getJsonArrayElements($salesdata);
+            //dd($sum_sale[0]);
             $price[0] = $this->getPrice($salesdata);
             $mar_pr = $price[0][0][0];
             $add_data[0] = $this->getPropertyData($salesdata);
@@ -2140,6 +2010,7 @@ class ApiController extends BaseController
 
             //redfin sold home end
             $redfin_data = json_decode($redfin_sales_comp->getBody(), true);
+            //dd($redfin_data);
             $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
             //dd($redfin_sold_data);
             //dd($redfin_data);
@@ -2186,12 +2057,14 @@ class ApiController extends BaseController
 
 
             $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
+            //dd($zillow_comp_data);
             //
             $zillow_comp_data_sold = json_decode($zillow_sold_comp->getBody(), true);
 
             //
             //dd($zillow_comp_data);
             $z_D = $this->getZillowData($zillow_comp_data);
+            //dd($z_D);
             $z_D_sold = $this->getZillowData($zillow_comp_data_sold);
             //dd($z_D_sold['acre_all']);
 
@@ -2415,9 +2288,68 @@ class ApiController extends BaseController
                 'zll_cty2' => $z_D['city_all'][$t_c - 3],
 
             ];
-            //dd($data);
+            // dd($data);
+            $datatree = $data['long'] . ',' . $data['lat'];
+            $zillowcor = $zillow_comp_data[0]['longitude'] . ',' . $zillow_comp_data[0]['latitude'];
+            $zillowcor1 = $zillow_comp_data[3]['longitude'] . ',' . $zillow_comp_data[3]['latitude'];
+
+            $redfincor = $redfin_data['data'][0]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfin_data['data'][0]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
+            $redfincor1 = $redfin_data['data'][3]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfin_data['data'][3]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
+
+            $getallcordinates[] = $datatree;
+            $getallcordinates[] = $zillowcor;
+            $getallcordinates[] = $zillowcor1;
+
+            $getallcordinates[] = $redfincor;
+            $getallcordinates[] = $redfincor1;
+
+            //dd($getallcordinates);
+            $zip = new ZipArchive();
+            $zipFileName = 'files.zip';
+            $zip->open(public_path($zipFileName), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+            $xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+            $xmlContent .= '<kml xmlns="http://www.opengis.net/kml/2.2">' . "\n";
+            $xmlContent .= '  <Document>' . "\n";
+            $xmlContent .= '    <name>KmlFile</name>' . "\n";
+            foreach ($getallcordinates as $gc) {
+                $xmlContent .= ' <Style id="icon_style_2">' . "\n";
+                $xmlContent .= '  <IconStyle>' . "\n";
+                $xmlContent .= '  <Icon>' . "\n";
+                $xmlContent .= '  <href>https://maps.google.com/mapfiles/kml/paddle/purple-diamond.png</href>' . "\n";
+                $xmlContent .= '  </Icon>' . "\n";
+                $xmlContent .= '  </IconStyle>' . "\n";
+                $xmlContent .= '  </Style>' . "\n";
+
+                $xmlContent .= '  <Placemark>' . "\n";
+                $xmlContent .= '    <name>Simple placemark</name>' . "\n";
+                $xmlContent .= '    <description>This place features an amazing view.</description>' . "\n";
+
+                $xmlContent .= '    <Point>' . "\n";
+
+                $xmlContent .= '      <coordinates>' . $gc . ',0</coordinates>' . "\n";
+
+                $xmlContent .= '    </Point>' . "\n";
+
+                $xmlContent .= '  </Placemark>' . "\n";
+            }
+            $xmlContent .= '  </Document>' . "\n";
+            $xmlContent .= '</kml>';
+            $zip->addFromString('file.kml', $xmlContent);
             $pdf = Pdf::loadView('pdf', $data);
-            return $pdf->download('compreport.pdf');
+            $pdfFileName = 'compreport.pdf';
+            $pdfContent = $pdf->output();
+            $zip->addFromString($pdfFileName, $pdfContent);
+    
+            // Close the ZIP file
+            $zip->close();
+    
+            // Return the ZIP file as a download
+            return response()->download(public_path($zipFileName))->deleteFileAfterSend(true);
+      
+
+            //download xml function call
+
         } catch (\Exception $e) {
             //$response = $e->getResponse();
             $emsg = $e->getMessage();
@@ -2465,6 +2397,29 @@ class ApiController extends BaseController
         }
 
         return $arr;
+    }
+
+    public function xmldownload(Request $request,$data)
+    {
+        //dd($cordata);
+        //dd($data);
+
+        // Create the XML content
+        $xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xmlContent .= '<kml xmlns="http://www.opengis.net/kml/2.2">' . "\n";
+        $xmlContent .= '  <Placemark>' . "\n";
+        $xmlContent .= '    <name>Simple placemark</name>' . "\n";
+        $xmlContent .= '    <description>Attached to the ground. Intelligently places itself at the height of the underlying terrain.</description>' . "\n";
+        $xmlContent .= '    <Point>' . "\n";
+        $xmlContent .= '      <coordinates>-122.0822035425683,37.42228990140251,0</coordinates>' . "\n";
+        $xmlContent .= '    </Point>' . "\n";
+        $xmlContent .= '  </Placemark>' . "\n";
+        $xmlContent .= '</kml>';
+
+        // Create a response with the XML content
+        return response($xmlContent)
+            ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
+            ->header('Content-Disposition', 'attachment; filename="simple_placemark.kml"');
     }
 
     function getPrice($jsonData)

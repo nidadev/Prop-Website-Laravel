@@ -3094,343 +3094,50 @@ public function GetPriceHouseReport(Request $request)
             ]);
             $price[] = json_decode($getProperty->getBody(), true);
 
+            
+            /*foreach ($data as $d) {
+                //$pd = isset($d['LitePropertyList'][0]['PropertyId']) ? $d[0]['LitePropertyList'][0]['PropertyId'] : 0;
 
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[0] . '",
-                  "ZipCode": "' . $zip_all[0] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[1] . '",
-                  "ZipCode": "' . $zip_all[1] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[2] . '",
-                  "ZipCode": "' . $zip_all[2] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[3] . '",
-                  "ZipCode": "' . $zip_all[3] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[4] . '",
-                  "ZipCode": "' . $zip_all[4] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[5] . '",
-                  "ZipCode": "' . $zip_all[5] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[6] . '",
-                  "ZipCode": "' . $zip_all[6] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[7] . '",
-                  "ZipCode": "' . $zip_all[7] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[8] . '",
-                  "ZipCode": "' . $zip_all[8] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[9] . '",
-                  "ZipCode": "' . $zip_all[9] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[10] . '",
-                  "ZipCode": "' . $zip_all[10] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[11] . '",
-                  "ZipCode": "' . $zip_all[11] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[12] . '",
-                  "ZipCode": "' . $zip_all[12] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[13] . '",
-                  "ZipCode": "' . $zip_all[13] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[14] . '",
-                  "ZipCode": "' . $zip_all[14] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[15] . '",
-                  "ZipCode": "' . $zip_all[15] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[16] . '",
-                  "ZipCode": "' . $zip_all[16] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[17] . '",
-                  "ZipCode": "' . $zip_all[17] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
+                if ($d['zipcode'] > 0 || $d['Zip'] != null) {
+                    $pid[] = $d['PropertyId'];
+                    $apn[] = $d['Apn'];
+                    $county[] = $d['County'];
+                    $stt[] = $d['State'];
 
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[18] . '",
-                  "ZipCode": "' . $zip_all[18] . '"
+                    $zip[] = $d['Zip'];
                 }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
+            }
+            foreach ($pid as $pd) {
+                $pid_all[] = $pd;
+            }
+            foreach ($stt as $ste) {
+                $st_all[] = $ste;
+            }
+            foreach ($county as $ct) {
+                $ct_all[] = $ct;
+            }
+            foreach ($apn as $ap) {
+                //if($d['Zip'] > 0 || $d['Zip'] != null)
+                //{
+                $apn_all[] = $ap;
+                //}
+            }
+            foreach ($zip as $zp) {
 
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[19] . '",
-                  "ZipCode": "' . $zip_all[19] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
+                //if($zp > 0 || $zp != null)
+                //{
+                $zip_all[] = $zp;
+                //}
+            }
+            //dd($de);
+            //dd($pid_all);
+            $data1 = [
+                'zip' => $zip_all,
+                'state' => $st_all,
+                'county' => $ct_all,
+                'apn' => $apn_all,
+                'p_id' => $pid_all
+            ];*/
 
-            $getresearch = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => '{
-                "ProductNames": ["TotalViewReport"],
-                "SearchType": "APN",
-                "ApnDetail": {
-                  "APN": "' . $apn_all[20] . '",
-                  "ZipCode": "' . $zip_all[20] . '"
-                }
-              }',
-            ]);
-            $research[] = json_decode($getresearch->getBody(), true);
+/*********************** */
+            

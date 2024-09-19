@@ -59,18 +59,18 @@ Route::group(['middleware' => ['IsAuth']],function(){
     Route::post('/pricehouse', [ApiController::class,'GetPriceHouseReport'])->name('pricehouse');
     Route::get('/research', [ApiController::class,'loadPriceResearchReport'])->name('research');
     Route::post('/research', [ApiController::class,'GetPriceResearchReport'])->name('research');
-    
+     
+
 //
 Route::get('/getproperty', [ApiController::class,'loadProperty'])->name('getproperty');
 Route::post('/getproperty', [ApiController::class,'insert_prop_detail'])->name('getproperty');
-
-
-
     
     Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
 
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
+Route::get('/xml/{id}', [ApiController::class, 'xmldownload']);
+
 
 Route::get('/support', function () {
     return view('support');
@@ -78,5 +78,3 @@ Route::get('/support', function () {
 
 Route::get('/verify-mail/{token}', [ApiController::class, 'verifyEmailToken']);
 
-//Route::post('/register', [ ApiController::class,'register']);
-//Route::post('/login', [ ApiController::class,'login']);
