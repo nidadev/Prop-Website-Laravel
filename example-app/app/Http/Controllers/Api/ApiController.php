@@ -2304,9 +2304,7 @@ class ApiController extends BaseController
             $getallcordinates[] = $redfincor1;
 
             //dd($getallcordinates);
-            $zip = new ZipArchive();
-            $zipFileName = 'files.zip';
-            $zip->open(public_path($zipFileName), ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
 
             $xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
             $xmlContent .= '<kml xmlns="http://www.opengis.net/kml/2.2">' . "\n";
@@ -2335,18 +2333,17 @@ class ApiController extends BaseController
             }
             $xmlContent .= '  </Document>' . "\n";
             $xmlContent .= '</kml>';
-            $zip->addFromString('file.kml', $xmlContent);
-            $pdf = Pdf::loadView('pdf', $data);
-            $pdfFileName = 'compreport.pdf';
-            $pdfContent = $pdf->output();
-            $zip->addFromString($pdfFileName, $pdfContent);
-    
-            // Close the ZIP file
-            $zip->close();
-    
-            // Return the ZIP file as a download
-            return response()->download(public_path($zipFileName))->deleteFileAfterSend(true);
-      
+            return response($xmlContent)
+                ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
+                ->header('Content-Disposition', 'attachment; filename="simple_placemark.kml"');
+
+
+            // Create a response with the XML content
+            if ($getallcordinates) {
+                $pdf = Pdf::loadView('pdf', $data);
+                return $pdf->download('compreport.pdf');
+            }
+           
 
             //download xml function call
 
