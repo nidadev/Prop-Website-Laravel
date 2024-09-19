@@ -120,6 +120,7 @@
                   <td>Accessed Value</td>
                   <td>Export</td>
                   <td>Download</td>
+                  <td>xml</td>
                   <!--td>Lot area</td-->
                 </tr>
               <tbody id="mytable4">
