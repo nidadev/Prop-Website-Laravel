@@ -17,32 +17,33 @@
       </div>
       <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
         <div class="col-md-8">
-        @if(Session::has('success'))
-        <p class="result">{{ Session::get('success') }}</p>
+          @if(Session::has('success'))
+          <p class="result">{{ Session::get('success') }}</p>
 
-        @endif
-        @if(Session::has('error'))
-        <p class="incorrect">{{ Session::get('error') }}</p>
+          @endif
+          @if(Session::has('error'))
+          <p class="incorrect">{{ Session::get('error') }}</p>
 
-        @endif
+          @endif
           <form id="compreport_search_form" method="post" action="{{ url('compreport')}}">
-@csrf
+            @csrf
             <div class="center_h2l">
               <div class="center_h2li row">
                 <div class="col-md-4">
                   <div class="center_h2lil">
-                    <label>State Name</label>
+
                     <label for="autocomplete">State:</label>
-                      <input class="form-control" id="autocomplete" name="state" type="text">
-                  
+                    <input class="form-control" id="autocomplete" name="state" type="text">
+
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="center_h2lil">
-                  <label for="autocomplete">County:</label><select id="counties" name="cp" class="form-select"></select>
+                    <label for="autocomplete">County:</label><select id="counties" name="cp" class="form-select"></select>
 
                   </div>
                 </div>
+                <input type="hidden" name="county_name" id="county_name">
                 <div class="col-md-4">
                   <div class="center_h2lil">
                     <label>APN </label><input type="text" class="form-control" name="apn" id="apn" placeholder="7056-010-019">
@@ -95,8 +96,8 @@
     <div class="row work_h2">
       <div class="col-md-12">
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
-        <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
-        <div class="center_h2lil">
+          <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
+          <div class="center_h2lil">
             <span>
               <br><span><input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"> </span>
             </span>
@@ -120,30 +121,32 @@
                   <td>Accessed Value</td>
                   <td>Export</td>
                   <td>Download</td>
-                  <td>xml</td>
                   <!--td>Lot area</td-->
                 </tr>
               <tbody id="mytable4">
-              @if(isset($dt))
-              <tr>
-                <td>{{ $dt[0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'] }}</td>
-                <td>{{ $dt[0]['Data']['SubjectProperty']['SitusAddress']['City'] }}</td>
+                @if(isset($price))
+                <?php //dd($price); 
+                ?>
+                <tr>
+                  <td>{{ $price['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'] }}</td>
+                  <td>{{ $price['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['City'] }}</td>
 
-                <td>{{ $dt[0]['Data']['SubjectProperty']['SitusAddress']['State'] }}</td>
-                <td>{{ $dt[0]['Data']['OwnerInformation']['Owner1FullName'] }}</td>
-                <td>{{ $dt[0]['Data']['SiteInformation']['Zoning'] }}</td>
-                <td>{{ $dt[0]['Data']['SiteInformation']['CountyUse'] }}</td>
-                <td>{{ $dt[0]['Data']['SiteInformation']['Acres'] }}</td>
-                <td>${{ $dt[0]['Data']['TaxInformation']['AssessedValue']}}</td>
-                <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')"; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
-                <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="">Download</a></td>
+                  <td>{{ $price['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State'] }}</td>
+                  <td>{{ $price['Reports'][0]['Data']['OwnerInformation']['Owner1FullName'] }}</td>
+                  <td>{{ $price['Reports'][0]['Data']['PropertyDetailData']['SiteInformation']['Zoning'] }}</td>
+                  <td>{{ $price['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County'] }}</td>
+                  <td>{{ $price['Reports'][0]['Data']['PropertyDetailData']['SiteInformation']['Acres'] }}</td>
+                  <td>${{ $price['Reports'][0]['Data']['TaxStatusData']['Taxes']['AssessedValue']}}</td>
+                  <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')" ; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+                  <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="">Download</a></td>
 
 
-              </tr>
-              @endif
+
+                </tr>
+                @endif
               </tbody>
             </table>
-            
+
           </form>
 
         </div>
