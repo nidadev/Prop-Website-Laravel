@@ -79,7 +79,7 @@
   <div class="container-xl">
     <div class="row work_h1 text-center mb-4">
       <div class="col-md-12">
-        <h2>Property Detail Report</h2>
+        <h2>Sale Comp Report</h2>
         <hr class="line mx-auto">
         <p class="error"></p>
         <div class="loader" style="display:none"></div>

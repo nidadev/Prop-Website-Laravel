@@ -286,7 +286,7 @@ class ApiController extends BaseController
 
     public function loadCompReport()
     {
-        return view('compreport2');
+        return view('compreport');
     }
 
     public function GetCompReport(Request $request)
@@ -359,7 +359,7 @@ class ApiController extends BaseController
             $mainval = $maxcount * 2.00;
 
 
-            return view('compreport2', compact('price','maxcount', 'mainval', 'poperty_id'));
+            return view('compreport', compact('price','maxcount', 'mainval', 'poperty_id'));
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
             $response = $e->getResponse();
@@ -369,7 +369,7 @@ class ApiController extends BaseController
             $msg = json_decode($response->getBody()->getContents(), true);
             $error = $msg ? $msg : $fromserver;
             //dd($response['reasonPhrase']);
-            return  redirect()->to('compreport2')->with('error', $error);
+            return  redirect()->to('compreport')->with('error', $error);
         }
         //dd($data);
     }
@@ -2389,9 +2389,9 @@ $acre_not_zero = $redfin_sold_d['sum_acre'] / count($redfin_sold_d['acre']);
 
             $xmlContent .= '  </Document>' . "\n";
             $xmlContent .= '</kml>';
-            return response($xmlContent)
-                ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
-                ->header('Content-Disposition', 'attachment; filename="simple_placemark.kml"');
+            //return response($xmlContent)
+              //  ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
+                //->header('Content-Disposition', 'attachment; filename="simple_placemark.kml"');
 
 
             // Create a response with the XML content
