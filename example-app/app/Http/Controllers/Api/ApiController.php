@@ -1926,9 +1926,10 @@ class ApiController extends BaseController
             ]);
 
             $propertydata = json_decode($res->getBody(), true);
-            //dd($propertydata);
 
             $salesdata = json_decode($sales->getBody(), true);
+            //dd($salesdata);
+
             if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
                 $error = 'Records not found';
                 return  redirect()->to('compreport')->with('error', $error);
@@ -2039,6 +2040,7 @@ class ApiController extends BaseController
 
             //dd($redfin_data);
             $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
+            $redcountsold = count($redfin_sold_data);
             //dd($redfin_sold_data);
             //dd($redfin_data);
 
@@ -2094,11 +2096,11 @@ class ApiController extends BaseController
             $z_D = $this->getZillowData($zillow_comp_data);
             //dd($z_D);
             $z_D_sold = $this->getZillowData($zillow_comp_data_sold);
+            
             //dd($z_D_sold['acre_all']);
 
             $t_c = count($z_D);
             $t_c_sold = count($zillow_comp_data_sold);
-
 
 
             // dd($z_D);
@@ -2169,6 +2171,7 @@ class ApiController extends BaseController
 
             $realto_s = isset($realtor['data']['count']) ? $realtor['data']['count'] : 0;
             $realto_s_sold = isset($realtor_sold['data']['count']) ? $realtor_sold['data']['count'] : 0;
+            $t_sold = $redcountsold + $t_c_sold + $realto_s_sold;
 
             //dd($price_data_real);
             $avg_pr_realtor = 0;
@@ -2197,6 +2200,7 @@ class ApiController extends BaseController
             }
 
             $data = [
+                'sold_comp' => $t_sold,
                 'address' => $propertydata['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'],
                 'city' => $city_red,
                 'state' => $propertydata['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State'],
