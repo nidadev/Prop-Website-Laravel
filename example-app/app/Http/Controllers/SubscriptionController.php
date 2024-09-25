@@ -50,13 +50,21 @@ class SubscriptionController extends Controller
             //if monthly availabel and change into yearly
             if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month' && $subPlan->type == 1) {
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+                $subscriptionData = SubscriptionHelper::start_yearly_subscription($customer_id, $user_id, $subPlan, $stripe);
+
             }
             //if monthly availabel and change into lifetime
             else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month' && $subPlan->type == 2) {
+                SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+
             }
             //if yearly availabel and change into monthly
 
-            else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'year' && $subPlan->type == 0) {
+            else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'yearly' && $subPlan->type == 0) {
+                SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+                $subscriptionData = SubscriptionHelper::start_monthly_subscription($customer_id, $user_id, $subPlan, $stripe);
+
+
             }
 
             //if yearly availabel and change into lifetim

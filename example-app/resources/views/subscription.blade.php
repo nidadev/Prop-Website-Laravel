@@ -138,14 +138,19 @@ if(window.Stripe)
     //handle form submission and create token
     var submitBtn = document.getElementById('buyPlanSubmit');
 
+
     submitBtn.addEventListener('click',function(ev)
     {
+      submitBtn.innerHTML = 'Please wait ...<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>';
+      submitBtn.setAttribute("disabled","disabled");
       stripe.createToken(card).then(function(result){
         if(result.error)
       {
         var errorElemnt = document.getElementById('card-errors');
 
         errorElemnt.textContent = result.error.message;
+        submitBtn.innerHTML = 'Buy Plan';
+      submitBtn.removeAttribute("disabled");
       }
       else
       {
@@ -169,11 +174,16 @@ $.ajax(
   {
     if(response.success)
   {
- console.log(response);
+ //console.log(response);
+ alert(response.msg);
+ window.location.reload();
   }
   else
   {
     alert('something wrong');
+    $('#buyPlanSubmit').html("Buy Plan");
+
+    $('#buyPlanSubmit').removeAttr("disabled");
   }
 
   }

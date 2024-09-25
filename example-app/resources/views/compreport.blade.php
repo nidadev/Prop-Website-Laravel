@@ -120,8 +120,8 @@
                   <td>Acres</td>
                   <td>Accessed Value</td>
                   <td>Export</td>
-                  <td>Download</td>
-                  <!--td>Lot area</td-->
+                  <td>Pdf</td>
+                  <td>Kml</td>
                 </tr>
               <tbody id="mytable4">
                 @if(isset($price))
@@ -139,21 +139,15 @@
                   <td>${{ $price['Reports'][0]['Data']['TaxStatusData']['Taxes']['AssessedValue']}}</td>
                   <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')" ; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
                   <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="">Download</a></td>
-
-
-
+                  <td><a href="{{ url('/download/xml/'.$poperty_id.'')}}">Kml File</a></td>
                 </tr>
                 @endif
               </tbody>
             </table>
-
           </form>
-
         </div>
       </div>
-
 </section>
-
 @endsection
 <style>
   .error {
