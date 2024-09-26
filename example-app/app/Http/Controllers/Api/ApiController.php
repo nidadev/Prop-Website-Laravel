@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use ZipArchive;
+use App\Exports\CompExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApiController extends BaseController
 {
@@ -357,8 +358,6 @@ class ApiController extends BaseController
             //dd($price);
             $maxcount = 1;
             $mainval = $maxcount * 2.00;
-
-
             return view('compreport', compact('price', 'maxcount', 'mainval', 'poperty_id'));
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
@@ -373,7 +372,11 @@ class ApiController extends BaseController
         }
         //dd($data);
     }
-
+    public function export_comp($id) 
+    {
+        //when stripe payment done then can download report
+        return Excel::download(new CompExport($id), 'comp.xlsx');
+    }
     public function loadPriceReport()
     {
         return view('priceland');
@@ -1928,7 +1931,7 @@ class ApiController extends BaseController
             $propertydata = json_decode($res->getBody(), true);
 
             $salesdata = json_decode($sales->getBody(), true);
-            //dd($salesdata);
+            //dd($propertydata);
 
             if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
                 $error = 'Records not found';
@@ -2493,8 +2496,20 @@ class ApiController extends BaseController
 
         $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
         //dd($redfin_data);
+        $rc = count($redfin_data);
+        $zcs = count($zillow_comp_data);
+        if($rc < $zcs)
+        {
+            $count = $rc;
+        }
+
+        if($zcs < $rc)
+        {
+            $count = $zcs;
+        }
+        //dd($count);
         if (!empty($redfin_data['data']) && !empty($zillow_comp_data)) {
-            for ($i = 0; $i < count($zillow_comp_data); $i++) {
+            for ($i = 0; $i < $count; $i++) {
                 $redfincor[] = $redfin_data['data'][$i];
 
                 $zillowcor[] = $zillow_comp_data[$i]['longitude'] . ',' . $zillow_comp_data[$i]['latitude'];
@@ -2537,7 +2552,7 @@ class ApiController extends BaseController
             $xmlContent .= '      </Style>' . "\n";
             $xmlContent .= '    </Placemark>' . "\n";
 
-            for ($i = 0; $i < count($getallcordinates['zc']); $i++) {
+            for ($i = 0; $i < $count; $i++) {
 
                 //dd($marker);
 

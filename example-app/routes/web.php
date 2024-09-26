@@ -69,6 +69,8 @@ Route::post('/getproperty', [ApiController::class,'insert_prop_detail'])->name('
 
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
+Route::get('/export/{id}', [ApiController::class, 'export_comp']);
+
 Route::get('/download/xml/{id}', [ApiController::class, 'xmldownload'])->name('download.xml');
 
 
