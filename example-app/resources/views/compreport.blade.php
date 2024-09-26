@@ -86,6 +86,8 @@
         <p class="sm-txt" style="display:none">Wait for 5 minutes.Getting Comp Records...</p>
 
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
+        @if(isset($price))
+
           Total Amount:<span id="total_val"></span>
           <span class="pec"></span>
 
@@ -96,7 +98,8 @@
     <div class="row work_h2">
       <div class="col-md-12">
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
-          <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
+          <div id="amnt" style="display:none;"><span id="total_val"></span>
+        <button type="button" class="button" style="border:none;"><a href="{{ url('/export/'.$poperty_id.'')}}" style="color:#fff !important;">Export</a></button></div>
           <div class="center_h2lil">
             <span>
               <br><span><input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"> </span>
@@ -120,11 +123,12 @@
                   <td>Acres</td>
                   <td>Accessed Value</td>
                   <td>Export</td>
+                  <!--td>Download Export</td-->
                   <td>Pdf</td>
                   <td>Kml</td>
                 </tr>
               <tbody id="mytable4">
-                @if(isset($price))
+                
                 <?php //dd($price); 
                 ?>
                 <tr>
@@ -138,6 +142,8 @@
                   <td>{{ $price['Reports'][0]['Data']['PropertyDetailData']['SiteInformation']['Acres'] }}</td>
                   <td>${{ $price['Reports'][0]['Data']['TaxStatusData']['Taxes']['AssessedValue']}}</td>
                   <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')" ; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+                  <!--td><a href="{{ url('/export/'.$poperty_id.'')}}">Export Excel</a></td-->
+
                   <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="">Download</a></td>
                   <td><a href="{{ url('/download/xml/'.$poperty_id.'')}}">Kml File</a></td>
                 </tr>
