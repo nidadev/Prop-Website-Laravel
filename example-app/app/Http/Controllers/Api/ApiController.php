@@ -2496,19 +2496,15 @@ class ApiController extends BaseController
 
         $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
         //dd($redfin_data);
-        $rc = count($redfin_data);
-        $zcs = count($zillow_comp_data);
-        if($rc < $zcs)
-        {
-            $count = $rc;
-        }
-
-        if($zcs < $rc)
-        {
-            $count = $zcs;
-        }
-        //dd($count);
+        
         if (!empty($redfin_data['data']) && !empty($zillow_comp_data)) {
+            $rc = count($redfin_data['data']);
+            //dd($rc);
+        $zcs = count($zillow_comp_data);
+        //dd($zcs);
+        $count = $rc <= $zcs ? $rc : $zcs;
+
+        //dd($count);
             for ($i = 0; $i < $count; $i++) {
                 $redfincor[] = $redfin_data['data'][$i];
 
@@ -2537,7 +2533,7 @@ class ApiController extends BaseController
 
             //dd($markers);
             $xmlContent .= '    <Placemark>' . "\n";
-            $xmlContent .= '      <name>This is red marker</name>' . "\n";
+            $xmlContent .= '      <name>Ths is main comp</name>' . "\n";
             $xmlContent .= '      <description>Ths is main comp</description>' . "\n";
             $xmlContent .= '      <Point>' . "\n";
             $xmlContent .= '        <coordinates>' . $getallcordinates['dt'] . ',0</coordinates>' . "\n";
@@ -2589,30 +2585,11 @@ class ApiController extends BaseController
                 $xmlContent .= '    </Placemark>' . "\n";
             }
 
-            // foreach ($markers as $marker) {
-            //     $xmlContent .= '    <Placemark>' . "\n";
-            //     $xmlContent .= '      <name>' . $marker['name'] . '</name>' . "\n";
-            //     $xmlContent .= '      <description>' . $marker['description'] . '</description>' . "\n";
-            //     $xmlContent .= '      <Point>' . "\n";
-            //     $xmlContent .= '        <coordinates>' . $marker['coordinates'] . '</coordinates>' . "\n";
-            //     $xmlContent .= '      </Point>' . "\n";
-            //     $xmlContent .= '      <Style>' . "\n";
-            //     $xmlContent .= '        <IconStyle>' . "\n";
-            //     $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
-            //     $xmlContent .= '          <Icon>' . "\n";
-            //     $xmlContent .= '            <href>' . $marker['icon'] . '</href>' . "\n";
-            //     $xmlContent .= '          </Icon>' . "\n";
-            //     $xmlContent .= '        </IconStyle>' . "\n";
-            //     $xmlContent .= '      </Style>' . "\n";
-            //     $xmlContent .= '    </Placemark>' . "\n";
-            // }
-
-
             $xmlContent .= '  </Document>' . "\n";
             $xmlContent .= '</kml>';
             return response($xmlContent)
                 ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
-                ->header('Content-Disposition', 'attachment; filename="simple_placemark.kml"');
+                ->header('Content-Disposition', 'attachment; filename="comp_placemark.kml"');
         } else {
             $error = 'sale comp data not found';
             return  redirect()->to('compreport')->with('error', $error);
