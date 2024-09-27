@@ -29,6 +29,7 @@ class InsertPropertyData extends Command
         //
         $controller = new \App\Http\Controllers\Api\ApiController();
         $controller->insert_prop_detail();
+        $controller->insert_prop_detail2();
         $this->info('record inserted success');
     }
 }

@@ -64,6 +64,9 @@ Route::group(['middleware' => ['IsAuth']],function(){
 //
 Route::get('/getproperty', [ApiController::class,'loadProperty'])->name('getproperty');
 Route::post('/getproperty', [ApiController::class,'insert_prop_detail'])->name('getproperty');
+
+Route::get('/getproperty2', [ApiController::class,'loadProperty2'])->name('getproperty2');
+Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name('getproperty2');
     
     Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
 

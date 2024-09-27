@@ -397,6 +397,620 @@ class ApiController extends BaseController
         return view('property');
     }
 
+    public function loadProperty2()
+    {
+        return view('property2');
+    }
+    public function insert_prop_detail2()
+    {
+        //dd('123');
+
+        $client = new GuzzleHttp\Client();
+        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+
+            ],
+            'body' => json_encode([
+                'ClientId' => config('app.client_id'),
+                'ClientSecretKey' => config('app.client_secret')
+            ])
+        ]);
+        $authenticate = json_decode($login->getBody(), true);
+
+        ///////////////////////          
+       
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   41
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+    
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   37
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   38
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   39
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   40
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   42
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   46
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   44
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   45
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   47
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   48
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   49
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   50
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   51
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   53
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   54
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   55
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   56
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        //dd($de);
+        foreach ($de as $d) {
+            $l_id[] = $d['LitePropertyList'];
+        }
+        //dd($l_id);
+        for ($i = 0; $i < count($l_id); $i++) {
+            //foreach($l_id[$i] )
+            $pt_id[] = $l_id[$i];
+        }
+        foreach ($pt_id as $pd) {
+            for ($i = 0; $i < count($pd) - 1; $i++) {
+                //foreach($l_id[$i] )
+                //(isset($pd[$i])){
+                $p_id[] = $pd[$i]['PropertyId'];
+                $s_id[] = $pd[$i]['State'];
+                $c_id[] = $pd[$i]['County'];
+                $z_id[] = $pd[$i]['Zip'];
+                $a_id[] = $pd[$i]['Apn'];
+                //}
+            }
+        }
+        //dd($p_id);
+        DB::table('property_details')->delete();
+        $dat = [
+            'PropertyId' => $p_id,
+            'State' => $s_id,
+            'County' => $c_id,
+            'Zipcode' => $z_id,
+            'Apn' => $a_id,
+        ];
+        for ($j = 0; $j < count($p_id); $j++) {
+
+            $prop = DB::table('property_details')->insert([
+                'property_id' => $dat['PropertyId'][$j],
+                'state' => $dat['State'][$j],
+                'county' => $dat['County'][$j],
+                'zipcode' => $dat['Zipcode'][$j],
+                'apn' => $dat['Apn'][$j]
+            ]);
+        }
+
+        if ($prop) {
+            $msg = 'record insert successfully';
+            echo $msg;
+        } else {
+            dd($dat);
+        }
+    }
 
     public function insert_prop_detail()
     {
@@ -1317,6 +1931,307 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   31
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   32
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   33
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   34
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   35
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   36
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   37
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   38
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   39
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);*/
+        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $authenticate,
+            ],
+            'body' => '{
+                    "ProductNames": [
+                        "SalesComparables"
+                    ],
+                    "SearchType": "Filter",
+        
+                    "SearchRequest": {
+                        "ReferenceId": "1",
+                        "ProductName": "SearchLite",
+                        "MaxReturn": "1",
+                        "Filters": [
+                               {
+                                "FilterName": "StateFips",
+                                "FilterOperator": "is",
+                                "FilterValues": [
+                                   40
+                                ],
+                                "FilterGroup": 1
+                            }                              
+                        ] //
+                    } //
+                }',
+        ]);
+        $de[] = json_decode($res->getBody(), true);
+        //dd($de);
         foreach ($de as $d) {
             $l_id[] = $d['LitePropertyList'];
         }
