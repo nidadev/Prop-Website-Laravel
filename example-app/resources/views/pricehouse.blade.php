@@ -217,6 +217,7 @@
               <thead class="bg-grey-50">
                 <tr>
                   <th>Acreage</th>
+                  <th>Data tree Owner Records</th>
                   <th>Total Comps</th>
                   <th>ZipCode</th>
                   <th>State</th>
@@ -233,10 +234,10 @@
 
 
                 <?php for ($i = 0; $i < count($price); $i++) {
-
+$datatree = $sts[$i]['sum'];
                   $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,100,150,200,250,300];
 
-                  $total = $de[$i]['MaxResultsCount'] * $mainval;
+                  $total = $datatree * $mainval;
                   $maxc = $de[$i]['MaxResultsCount'];
                   $avg_s = $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'];
                   $sl_pr = $price[$i]['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
@@ -250,6 +251,7 @@
     ?>
                   <tr>
                     <td>{{ $info[$i] }}</td>
+                    <td>{{ $datatree }}</td>                    
                     <td>{{ $maxc}}</td>
                     <td>{{ $zp}}</td>
                     <td>{{ $st}}</td>
@@ -257,7 +259,7 @@
                     <td>${{ $sl_pr}}</td>
                     <td>{{ $avg }}</td>
 
-                    <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+                    <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $datatree }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
 
 
                   </tr>

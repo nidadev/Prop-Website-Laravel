@@ -1422,8 +1422,8 @@ class ApiController extends BaseController
         try {
 
             ///////////////////////
-            //$acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
-            $acre_arr = [0, 2, 5, 15, 22, 32, 42, 52, 62, 72, 82, 92, 102, 122, 124, 125, 130, 140, 150, 160, 170, 200, 210, 230, 300, 350, 400];
+            $acre_arr = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
+            //$acre_arr = [0, 2, 5, 15, 22, 32, 42, 52, 62, 72, 82, 92, 102, 122, 124, 125, 130, 140, 150, 160, 170, 200, 210, 230, 300, 350, 400];
 
             foreach ($acre_arr as $ac) {
                 $dat[] = $ac;
@@ -1515,13 +1515,78 @@ class ApiController extends BaseController
                         ]),
                     ]);
                     $price[] = json_decode($getProperty->getBody(), true);
+                    /*dd(count($de));
+                    for($j=0; $j<count($de); $j++)
+{
+    $propdata[] = $dprop;
+}
+dd($propdata[1]);*/
+    
                 }
                 $price = isset($price) ? $price : '';
+                //dd($de);
+            //dd($price);
+                //dd(count($de));
+                for($j=0; $j<count($de); $j++)
+                {
+                    $dl[] = $de[$j]['LitePropertyList'];
+                    /*for($k=0; $k<25; $k++)
+                {
+                    $own[] = $dl[$j][$k]['Owner'];
+                }*/
+                    
+                    /*for($k=0; $k<count($dl[0]); $k++)
+                    {
+                    $dt[] = $dl[0][$k]['LitePropertyList'];
+                    dd($dt);
+                    }*/
+                }
+                //dd($dl);
+                /*foreach($dl as $d => $x)
+                {
+                    $p[] = $x;
+                }*/
+                //dd($dl[0][0]['Owner']);
+                $result = [];
+                for($n=0; $n<count($dl); $n++)
+                {
+                    //print_r($dl[$n]['Owner']);
+                    $res = 'res'.$n;
+                    for($o=0; $o<25;$o++)
+                    {
+                        $data1[$o] = $dl[$n][$o]['Owner'];
+                        if (strpos($data1[$o], '/') !== FALSE) {
+                            $count[$o] = 2;
+                            //dd($own[20]);
+                            // String contains '\'
+                        }
+                        else
+                        {
+                            $count[$o] = 1;
+                        }
 
-                //dd($price);
+                     
+                        //dd(
+                    }
+                    //dd($count);
+                    $sum_arr = array_sum($count);
+                    //dd($data1);
+                    $sts[] = [
+                        $res => $data1,
+                        'count' => $count,
+                        'sum' => $sum_arr
+                    ];
+                    /*$sts[] = [
+                        $res => $dl[$n][0]['Owner'],
+                    ];*/
+                    //dd($sts);
+                    
+                   
+                }
+                //dd($sts);
                 ///////////////////////////
                 $mainval = 1 * 0.1;
-                return view('pricehouse', compact('mainval', 'de', 'data', 'price'));
+                return view('pricehouse', compact('mainval', 'de','sts','data', 'price'));
             } else {
                 $error = 'Data not found';
                 return  redirect()->to('pricehouse')->with('error', $error);
@@ -2495,7 +2560,7 @@ class ApiController extends BaseController
         $redfin_data = json_decode($redfin_sales_comp->getBody(), true);
 
         $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
-        //dd($redfin_data);
+       // dd($zillow_comp_data);
         
         if (!empty($redfin_data['data']) && !empty($zillow_comp_data)) {
             $rc = count($redfin_data['data']);
