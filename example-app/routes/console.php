@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 //Schedule::command(DeleteCache::class)->everyFiveSeconds();
-Schedule::command(InsertPropertyData::class)->weekly();
+Schedule::command(InsertPropertyData::class)->everyTwoSeconds();
