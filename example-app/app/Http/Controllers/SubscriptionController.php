@@ -182,4 +182,29 @@ class SubscriptionController extends Controller
             ]
         );
     }
+
+    public function CancelSubscription()
+    {
+        try{
+            $user_id = auth()->user()->id;
+            $subscriptionDetail = SubscriptionDetail::where(['user_id' => $user_id, 'status' => 'active', 'cancel' => 0])->orderBy('id', 'desc')->first();
+
+            SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+            $response = [
+                'success' => true,
+                //'data' => $result,
+                'msg' => 'Subscription Canceled'
+            ];
+            return response()->json($response);
+        }
+        catch (\Exception $e) { {
+            $response = [
+                'success' => false,
+                //'data' => $result,
+                'msg' => $e->getMessage()
+            ];
+            return response()->json($response);
+        }
+    }
+    }
 }

@@ -27,4 +27,9 @@ class SubscriptionDetail extends Model
         'cancel',
         'canceled_at','created_at','updated_at'
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id');
+    }
 }
