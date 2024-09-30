@@ -69,6 +69,7 @@ Route::get('/getproperty2', [ApiController::class,'loadProperty2'])->name('getpr
 Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name('getproperty2');
     
     Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
+    Route::post('/cancel-subscription', [SubscriptionController::class,'CancelSubscription'])->name('CancelSubscription');
 
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);

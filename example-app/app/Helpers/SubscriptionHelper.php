@@ -369,4 +369,145 @@ class SubscriptionHelper
             return \Log::info($e->getMessage());
         }
     }
+
+    public static function getCurrentSubscription()
+    {
+        $currentSubscription = SubscriptionDetail::where([
+            'user_id' => auth()->user()->id,
+            'status' => 'active',
+            'cancel' => 0,
+            ])->orderBy('id','desc')->first();
+            return $currentSubscription;
+    }
+
+    //below renew subscription 
+    public static function renew_monthly_subscription($subscriptionDetail, $user_id, $subPlan, $stripe)
+    {
+        try {
+            $stripeData = null;
+            $millisecondsDate = strtotime(date("Y-m-") . "01");
+
+            $current_period_start =  date("Y-m-d", strtotime("+1 month", $millisecondsDate)) . ' 00:00:00';
+            $current_period_end =  date("Y-m-t", strtotime("+1 month")) . ' 23:59:59';
+            //\Log::info($stripe);
+
+            $stripeData =  $stripe->subscriptions->create([
+                'customer' => $subscriptionDetail->strip_customer_id,
+                'items' => [['price' => $subPlan->stripe_price_id]],
+                'billing_cycle_anchor' => strtotime($current_period_start),
+                'proration_behavior' => 'none',
+            ]);
+            $stripeData = $stripeData->jsonSerialize();
+            //dd($stripeData);                         
+            //\Log::info($stripeData['items']);
+
+            if (!empty($stripeData)) {
+                $subscriptionId = $stripeData['id'];
+                $customerId = $stripeData['customer'];
+                if (!empty($stripeData['items'])) {
+                    $planId = $stripeData['items']['data'][0]['plan']['id'];
+                } else {
+                    $planId = $stripeData['plan']['id'];
+                }
+                //\Log::info($planId);
+                $priceData = $stripe->plans->retrieve($planId, []);
+                //\Log::info($priceData);
+                $planAmount = ($priceData->amount / 100);
+                $planCurrency = $priceData->currency;
+                $planInterval = $priceData->interval;
+                $planIntervalCount = $priceData->interval_count;
+
+                $created = date("Y-m-d H:i:s", $stripeData['created']);
+                $subscriptionDetailsData = [
+                    'user_id' => $user_id,
+                    'stripe_subscription_id' => $subscriptionId,
+                    'stripe_subscription_schedule_id' => "",
+                    'stripe_customer_id' => $customerId,
+                    'subscription_plan_price_id' => $planId,
+                    'plan_amount' => $planAmount,
+                    'plan_amount_currency' => $planCurrency,
+                    'plan_interval' => $planInterval,
+                    'plan_interval_count' => $planIntervalCount,
+                    'created' => $created,
+                    'plan_period_start' => $current_period_start,
+                    'plan_period_end' => $current_period_end,
+                    'trial_end' => NULL,
+                    'status' => 'active',
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ];
+                $stripeData = SubscriptionDetail::where('id',$subscriptionDetail->id)->update($subscriptionDetailsData);
+                User::where('id', $user_id)->update(['is_subscribed' => 1]);
+            }
+
+            return $stripeData;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public static function renew_yearly_subscription($subscriptionDetail, $user_id, $subPlan, $stripe)
+    {
+        try {
+            $stripeData = null;
+
+            $current_period_start =  date("Y-", strtotime("+1 year")) . '01-01 00:00:00';
+            $current_period_end =  date("Y-", strtotime("+1 year")) . '12-31 23:59:59';
+            //\Log::info($stripe);
+
+            $stripeData =  $stripe->subscriptions->create([
+                'customer' => $subscriptionDetail->strip_customer_id,
+                'items' => [['price' => $subPlan->stripe_price_id]],
+                'billing_cycle_anchor' => strtotime($current_period_start),
+                'proration_behavior' => 'none',
+            ]);
+            $stripeData = $stripeData->jsonSerialize();
+            //dd($stripeData);                         
+            //\Log::info($stripeData['items']);
+
+            if (!empty($stripeData)) {
+                $subscriptionId = $stripeData['id'];
+                $customerId = $stripeData['customer'];
+                if (!empty($stripeData['items'])) {
+                    $planId = $stripeData['items']['data'][0]['plan']['id'];
+                } else {
+                    $planId = $stripeData['plan']['id'];
+                }
+                //\Log::info($planId);
+                $priceData = $stripe->plans->retrieve($planId, []);
+                //\Log::info($priceData);
+                $planAmount = ($priceData->amount / 100);
+                $planCurrency = $priceData->currency;
+                $planInterval = $priceData->interval;
+                $planIntervalCount = $priceData->interval_count;
+
+                $created = date("Y-m-d H:i:s", $stripeData['created']);
+                $subscriptionDetailsData = [
+                    'user_id' => $user_id,
+                    'stripe_subscription_id' => $subscriptionId,
+                    'stripe_subscription_schedule_id' => "",
+                    'stripe_customer_id' => $customerId,
+                    'subscription_plan_price_id' => $planId,
+                    'plan_amount' => $planAmount,
+                    'plan_amount_currency' => $planCurrency,
+                    'plan_interval' => $planInterval,
+                    'plan_interval_count' => $planIntervalCount,
+                    'created' => $created,
+                    'plan_period_start' => $current_period_start,
+                    'plan_period_end' => $current_period_end,
+                    'trail_end' => NULL,
+                    'status' => 'active',
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ];
+                $stripeData = SubscriptionDetail::where('id',$subscriptionDetail->id)->update($subscriptionDetailsData);
+                User::where('id', $user_id)->update(['is_subscribed' => 1]);
+            }
+
+            return $stripeData;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
 }
