@@ -74,6 +74,8 @@ Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
 Route::get('/export/{id}', [ApiController::class, 'export_comp']);
+Route::get('/export_price/{pricehouseid}', [ApiController::class, 'export_house_comp']);
+
 
 Route::get('/download/xml/{id}', [ApiController::class, 'xmldownload'])->name('download.xml');
 

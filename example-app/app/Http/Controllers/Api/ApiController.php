@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Exports\CompExport;
+use App\Exports\PriceHouseExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ApiController extends BaseController
@@ -376,6 +377,13 @@ class ApiController extends BaseController
     {
         //when stripe payment done then can download report
         return Excel::download(new CompExport($id), 'comp.xlsx');
+    }
+    public function export_house_comp($ids)
+    {
+        //dd($ids);
+        $convert = json_decode($ids,true);
+        //when stripe payment done then can download report
+        return Excel::download(new PriceHouseExport($convert), 'comp.xlsx');
     }
     public function loadPriceReport()
     {
@@ -2534,15 +2542,19 @@ class ApiController extends BaseController
                     $dl[] = $de[$j]['LitePropertyList'];
                    
                 }
+                //dd($dl);
                 
                 $result = [];
                 for($n=0; $n<count($dl); $n++)
                 {
                     //print_r($dl[$n]['Owner']);
+                    //$prop_id[] = $dl[$n];
+
                     $res = 'res'.$n;
                     for($o=0; $o<25;$o++)
                     {
                         $data1[$o] = $dl[$n][$o]['Owner'];
+                        $prop_id[] = json_decode($dl[$n][$o]['PropertyId'],true);
                         if (strpos($data1[$o], '/') !== FALSE) {
                             $count[$o] = 2;
                             //dd($own[20]);
@@ -2557,20 +2569,23 @@ class ApiController extends BaseController
                         //dd(
                     }
                     //dd($count);
+
                     $sum_arr = array_sum($count);
                     //dd($data1);
                     $sts[] = [
                         $res => $data1,
+                        'prop' => $prop_id,
                         'count' => $count,
                         'sum' => $sum_arr
                     ];              
                     
                    
                 }
+                //dd($prop_id);
                 //dd($sts);
                 ///////////////////////////
                 $mainval = 1 * 0.1;
-                return view('pricehouse', compact('mainval', 'de','sts','data', 'price'));          
+                return view('pricehouse', compact('mainval','prop_id', 'de','sts','data', 'price'));          
 
         } catch (\Exception $e) {
            

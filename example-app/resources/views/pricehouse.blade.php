@@ -203,6 +203,10 @@
 
           <div class="work_h2i p-4 rounded_10 shadow_box text-center">
             <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
+            @if(isset($prop_id))
+            <?php //dd($prop_id[0]); ?>
+            <button type="button" class="button" style="border:none;"><a href="{{ url('/export_price/'.$prop_id.'')}}" style="color:#fff !important;">Export</a></button></div>
+@endif
           </div>
           <div class="center_h2lil">
             <span>
