@@ -2439,8 +2439,10 @@ class ApiController extends BaseController
 
                 else if ($cnt <= 0) {
                     //dd($cnt);
-                //dd(count($data));
+                
                 for ($z = 0; $z <19; $z++) {
+                    //dd($dat[$z+1]);
+                    $res = 'res'.$z;
                     $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
                         'headers' => [
                             'Accept' => 'application/json',
@@ -2517,7 +2519,7 @@ class ApiController extends BaseController
                     $price[] = json_decode($getProperty->getBody(), true);
                     
                 }
-                //dd($de);
+                //dd($price);
             }
             else {
                 $error = 'Data not found';
@@ -2561,16 +2563,14 @@ class ApiController extends BaseController
                         $res => $data1,
                         'count' => $count,
                         'sum' => $sum_arr
-                    ];
-                  
+                    ];              
                     
                    
                 }
                 //dd($sts);
                 ///////////////////////////
                 $mainval = 1 * 0.1;
-                return view('pricehouse', compact('mainval', 'de','sts','data', 'price'));
-             
+                return view('pricehouse', compact('mainval', 'de','sts','data', 'price'));          
 
         } catch (\Exception $e) {
            

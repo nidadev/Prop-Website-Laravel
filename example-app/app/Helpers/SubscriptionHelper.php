@@ -389,17 +389,17 @@ class SubscriptionHelper
 
             $current_period_start =  date("Y-m-d", strtotime("+1 month", $millisecondsDate)) . ' 00:00:00';
             $current_period_end =  date("Y-m-t", strtotime("+1 month")) . ' 23:59:59';
-            //\Log::info($stripe);
+            //\Log::info($subscriptionDetail);
 
             $stripeData =  $stripe->subscriptions->create([
-                'customer' => $subscriptionDetail->strip_customer_id,
+                'customer' => $subscriptionDetail->stripe_customer_id,
                 'items' => [['price' => $subPlan->stripe_price_id]],
                 'billing_cycle_anchor' => strtotime($current_period_start),
                 'proration_behavior' => 'none',
             ]);
             $stripeData = $stripeData->jsonSerialize();
             //dd($stripeData);                         
-            //\Log::info($stripeData['items']);
+            \Log::info($stripeData);
 
             if (!empty($stripeData)) {
                 $subscriptionId = $stripeData['id'];
@@ -436,6 +436,8 @@ class SubscriptionHelper
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s")
                 ];
+                \Log::info($subscriptionDetailsData);
+
                 $stripeData = SubscriptionDetail::where('id',$subscriptionDetail->id)->update($subscriptionDetailsData);
                 User::where('id', $user_id)->update(['is_subscribed' => 1]);
             }
@@ -456,7 +458,7 @@ class SubscriptionHelper
             //\Log::info($stripe);
 
             $stripeData =  $stripe->subscriptions->create([
-                'customer' => $subscriptionDetail->strip_customer_id,
+                'customer' => $subscriptionDetail->stripe_customer_id,
                 'items' => [['price' => $subPlan->stripe_price_id]],
                 'billing_cycle_anchor' => strtotime($current_period_start),
                 'proration_behavior' => 'none',
