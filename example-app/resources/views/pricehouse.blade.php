@@ -204,9 +204,9 @@
           <div class="work_h2i p-4 rounded_10 shadow_box text-center">
             <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
             @if(isset($prop_id))
-            <?php //dd($prop_id[0]); ?>
-            <button type="button" class="button" style="border:none;"><a href="{{ url('/export_price/'.$prop_id.'')}}" style="color:#fff !important;">Export</a></button></div>
-@endif
+            <?php //dd($prop_id[0]); 
+            ?>
+            @endif
           </div>
           <div class="center_h2lil">
             <span>
@@ -229,6 +229,8 @@
                   <th>Median Sale Price</th>
                   <th>Avg Days On Market</th>
                   <th>Export Records</th>
+                  <th>Export Data</th>
+
 
                 </tr>
               <tbody id="mytable4">
@@ -238,11 +240,12 @@
 
 
                 <?php for ($i = 0; $i < count($price); $i++) {
-$datatree = $sts[$i]['sum'];
-                  $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,100,150,200,250,300];
+                  $datatree = $sts[$i]['sum'];
+                  $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 150, 200, 250, 300];
 
                   //$total = $datatree * $mainval;
-                  
+                  //$prop = 'prop'.$i;
+                  // dd($sts);
 
                   $maxc = $de[$i]['MaxResultsCount'];
                   $total = $maxc * $mainval;
@@ -252,13 +255,25 @@ $datatree = $sts[$i]['sum'];
                   $ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
                   $st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
                   $zp = isset($data[$i]['zipcode']) ? $data[$i]['zipcode'] : 0;
+                  $exp =implode(",",$sts[$i]['prop']);
+
+                  /*foreach ($exp as $x => $x_value) {
+                    echo "Key=" . $x . ", Value=" . $x_value;
+                    echo "<br>";
+                  }
+                  dd($x_value);*/
+                  /*for($y=0; $y<count($exp); $y++)
+                  {
+                    $pro[] = $exp[$y];
+                  }*/
+                  //dd($exp);
 
                   $avg = isset($avg_s) ? $avg_s : 0;
-                  $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105','105-110','110-115','115-120','120-125']; //echo $res; 
-    ?>
+                  $info = ['0-5', '5-10', '10-15', '15-20', '20-25', '25-30', '30-35', '35-40', '40-45', '45-50', '50-55', '60-65', '65-70', '70-75', '75-80', '80-85', '85-90', '90-95', '95-100', '100-105', '105-110', '110-115', '115-120', '120-125']; //echo $res; 
+                ?>
                   <tr>
                     <td>{{ $info[$i] }}</td>
-                    <!--td>{{ $datatree }}</td-->                    
+                    <!--td>{{ $datatree }}</td-->
                     <td>{{ $maxc}}</td>
                     <td>{{ $zp}}</td>
                     <td>{{ $st}}</td>
@@ -267,19 +282,21 @@ $datatree = $sts[$i]['sum'];
                     <td>{{ $avg }}</td>
 
                     <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
-
-
-                  </tr>
-                <?php } ?>
-             
-                @endif
-
-              </tbody>
-              
-            </table>
-            <a href="#">Download Table</a>
+                    <td> <button type="button" class="button" style="border:none;"><a href="{{ url('/export_price/['.$exp.']')}}" style="color:#fff !important;">Export</a></button>
         </div>
+        </td>
+
+        </tr>
+      <?php } ?>
+
+      @endif
+
+      </tbody>
+
+      </table>
+      <a href="#">Download Table</a>
       </div>
+    </div>
 
 </section>
 
