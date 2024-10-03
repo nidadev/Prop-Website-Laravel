@@ -2551,10 +2551,13 @@ class ApiController extends BaseController
                     //$prop_id[] = $dl[$n];
 
                     $res = 'res'.$n;
+                    $prop = 'prop'.$n;
                     for($o=0; $o<25;$o++)
                     {
                         $data1[$o] = $dl[$n][$o]['Owner'];
-                        $prop_id[] = json_decode($dl[$n][$o]['PropertyId'],true);
+                        //$prop_id[] = json_decode($dl[$n][$o]['PropertyId'],true);
+                        $propid[$o] = $dl[$n][$o]['PropertyId'];
+
                         if (strpos($data1[$o], '/') !== FALSE) {
                             $count[$o] = 2;
                             //dd($own[20]);
@@ -2569,12 +2572,13 @@ class ApiController extends BaseController
                         //dd(
                     }
                     //dd($count);
+                    //dd($propid);
 
                     $sum_arr = array_sum($count);
                     //dd($data1);
                     $sts[] = [
                         $res => $data1,
-                        'prop' => $prop_id,
+                        'prop' => $propid,
                         'count' => $count,
                         'sum' => $sum_arr
                     ];              
