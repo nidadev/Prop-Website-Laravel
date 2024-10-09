@@ -112,15 +112,12 @@
           }
         });
       });
-      $(".run").click(function() { //alert('')
+      $(".run,.chk").click(function() { //alert('')
         $('.loader').show();
         $('.sm-txt').show();
+        setTimeout("hide()", 620); 
       });
       $("#myDataTable4").DataTable();
-
-
-
-
     });
     $(document).ready(function() {
       $.noConflict();
@@ -4136,20 +4133,43 @@
       if ($('.su').is(':checked')) {
         $("#chk").show();
         $("#amnt").show();
+        $("#show_exp").show();
+
       } else {
         $("#chk").hide();
         $("#amnt").hide();
       }
       var total = 0;
+      var exp_data1 = [];
       $('.su:checked').each(function() { // iterate through each checked element.
 
         total += isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val());
         actual = total.toFixed(2);
-
+        //exp_data = $(this).data('element');
+        exp_data2 = $(this).data('element');
+       // exp_data1 = exp_data1.push(exp_data2);
+        //alert($("#exp_id").attr('href'));
       });
+      var exp_multi;
+      exp_data1 =  exp_data2;
+
+      var searchIDs = $(".su:checked").map(function(){
+        exp_data1 = $(this).data('element');
+      return exp_data1;
+    }).get(); // <----
+    console.log(searchIDs);
+     //console.log(myJsonString);
+      //exp_d = exp_data1[0];
+      
+      //alert(exp_multi);
       $("#total_val").text(actual);
       $("#quan").val(actual);
+      $("#chk").val(searchIDs);
 
+      //$("#show_exp").text(searchIDs);
+      //$("#show_exp").text(exp_data1[1]);
 
     }
+
+  
   </script>

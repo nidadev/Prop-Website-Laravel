@@ -83,7 +83,7 @@
         <hr class="line mx-auto">
         <p class="error"></p>
         <div class="loader" style="display:none"></div>
-        <p class="sm-txt" style="display:none">Wait for 5 minutes.Getting Comp Records...</p>
+        <p class="sm-txt" style="display:none">Wait for a minutes.Getting Comp Records...</p>
 
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
         @if(isset($price))

@@ -199,10 +199,12 @@
           <p class="error"></p>
           <div class="loader" style="display:none">
           </div>
-          <p class="sm-txt" style="display:none">Wait for 5 minutes.Getting Comp Records...</p>
+          <p class="sm-txt" style="display:none">Wait for a minutes.Getting Comp Records...</p>
 
           <div class="work_h2i p-4 rounded_10 shadow_box text-center">
-            <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
+            <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span>
+          
+          <span id="show_exp"></span></div>
             @if(isset($prop_id))
             <?php //dd($prop_id[0]); 
             ?>
@@ -216,7 +218,7 @@
 
         <input type="hidden" name="quantity" value="1">
 
-        <button type="submit" id="chk" style="display:none;border:none" class="button">Checkout with Stripe</button>
+        <button type="submit" id="chk" style="display:none;border:none" class="button" name="exp_data_download[]" value="">Checkout with Stripe</button>
 
 
     </form>
@@ -240,7 +242,7 @@
                   <th>Median Sale Price</th>
                   <th>Avg Days On Market</th>
                   <th>Export Records</th>
-                  <th>Export Data</th>
+                  <!--th>Export Data</th-->
 
 
                 </tr>
@@ -294,8 +296,8 @@
                     <td>${{ $sl_pr}}</td>
                     <td>{{ $avg }}</td>
 
-                    <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
-                    <td> <button type="button" class="button" style="border:none;"><a href="{{ url('/export_price/['.$exp.']')}}" style="color:#fff !important;">Export</a></button>
+                    <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' data-element="{{$exp}}" style='border:14px solid green;width:30px;height:30px;'></td>
+                    <!--td> <button type="button" class="button" style="border:none;" onclick="javascript:toggle_export('{{$maxc}}')" ><a href="{{ url('/export_price/['.$exp.']')}}" id="exp_id" name="exp_data[]" style="color:#fff !important;">Export</a></button-->
         </div>
         </td>
 
