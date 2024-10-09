@@ -15,6 +15,49 @@ use App\Helpers\SubscriptionHelper;
 class SubscriptionController extends Controller
 {
     //
+
+    public function stripe(Request $request)
+    {
+        // Set your secret key. Remember to switch to your live secret key in production.
+        // See your keys here: https://dashboard.stripe.com/apikeys
+        $stripe = new \Stripe\StripeClient(config('app.stripe_secret'));
+
+        $response = $stripe->checkout->sessions->create([
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => ['name' => $request->product_name],
+                        'unit_amount' => $request->price*100,
+                        'tax_behavior' => 'exclusive',
+                    ],
+                    'adjustable_quantity' => [
+                        'enabled' => true,
+                        'minimum' => 1,
+                        'maximum' => 10,
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+            'automatic_tax' => ['enabled' => true],
+            'mode' => 'payment',
+            'success_url' => route('success').'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('cancel'),
+        ]);
+        //dd($response);
+        if(isset($response->id) && $response->id!= '')
+        {
+            session()->put('product_name',$request->product_name);
+            session()->put('quantity',$request->quantity);
+            session()->put('price',$request->price);
+            return redirect($response->url);
+        }
+        else
+        {
+            return redirect()->route('cancel');
+
+        }
+    }
     public function loadSubscription()
     {
         $plans = SubscriptionPlan::where('enabled', 1)->get();
@@ -26,11 +69,11 @@ class SubscriptionController extends Controller
             $user_id = auth()->user()->id;
             $secretKey = config('app.stripe_secret');
             Stripe::setApiKey($secretKey);
-            
+
             $stripeData = $request->data;
             $subscriptionData = null;
 
-                                    //\Log::info($request->data);
+            //\Log::info($request->data);
 
 
             $stripe = new StripeClient($secretKey);
@@ -51,20 +94,16 @@ class SubscriptionController extends Controller
             if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month' && $subPlan->type == 1) {
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
                 $subscriptionData = SubscriptionHelper::start_yearly_subscription($customer_id, $user_id, $subPlan, $stripe);
-
             }
             //if monthly availabel and change into lifetime
             else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month' && $subPlan->type == 2) {
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
-
             }
             //if yearly availabel and change into monthly
 
             else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'yearly' && $subPlan->type == 0) {
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
                 $subscriptionData = SubscriptionHelper::start_monthly_subscription($customer_id, $user_id, $subPlan, $stripe);
-
-
             }
 
             //if yearly availabel and change into lifetim
@@ -88,15 +127,13 @@ class SubscriptionController extends Controller
                 } else { //if user all subscriptions canceled
 
                     if ($subPlan->type == 0) {   //\Log::info($subscriptionData);  //monthly subscription
-                        SubscriptionHelper::capture_monthly_pending_fees($customer_id, $user_id, auth()->user()->name , $subPlan, $stripe);
+                        SubscriptionHelper::capture_monthly_pending_fees($customer_id, $user_id, auth()->user()->name, $subPlan, $stripe);
                         //$s = json_decode(json_encode($stripe),true);
                         //\Log::info($s);
                         $subscriptionData = SubscriptionHelper::start_monthly_subscription($customer_id, $user_id, $subPlan, $stripe);
                     } else if ($subPlan->type == 1) { //yearly subscription
-                        SubscriptionHelper::capture_yearly_pending_fees($customer_id, $user_id, auth()->user()->name , $subPlan, $stripe);
+                        SubscriptionHelper::capture_yearly_pending_fees($customer_id, $user_id, auth()->user()->name, $subPlan, $stripe);
                         $subscriptionData = SubscriptionHelper::start_yearly_subscription($customer_id, $user_id, $subPlan, $stripe);
-
-
                     } else if ($subPlan->type == 2) { //lifetime subscription
                     }
                 }
@@ -110,8 +147,7 @@ class SubscriptionController extends Controller
                     'msg' => 'Subscription purchased',
                     //'customer' => $customer
                 ]);
-            } 
-            else {
+            } else {
                 return response()->json(['success' => false, 'msg' => 'subscription failed']);
             }
         } catch (\Exception $e) {
@@ -185,7 +221,7 @@ class SubscriptionController extends Controller
 
     public function CancelSubscription()
     {
-        try{
+        try {
             $user_id = auth()->user()->id;
             $subscriptionDetail = SubscriptionDetail::where(['user_id' => $user_id, 'status' => 'active', 'cancel' => 0])->orderBy('id', 'desc')->first();
 
@@ -196,15 +232,133 @@ class SubscriptionController extends Controller
                 'msg' => 'Subscription Canceled'
             ];
             return response()->json($response);
-        }
-        catch (\Exception $e) { {
-            $response = [
-                'success' => false,
-                //'data' => $result,
-                'msg' => $e->getMessage()
-            ];
-            return response()->json($response);
+        } catch (\Exception $e) { {
+                $response = [
+                    'success' => false,
+                    //'data' => $result,
+                    'msg' => $e->getMessage()
+                ];
+                return response()->json($response);
+            }
         }
     }
+
+    public function webhookSubscription(Request $request)
+    {
+
+        $endpoint_secret = env('STRIPE_WEBHOOK');
+
+        $payload = @file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sig_header,
+                $endpoint_secret
+            );
+        } catch (\UnexpectedValueException $e) {
+            // Invalid payload
+            http_response_code(400);
+            exit();
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            // Invalid signature
+            http_response_code(400);
+            exit();
+        }
+        switch ($event->type) {
+            case 'customer.subscription.deleted':
+                $subscription = $event->data->object;
+                SubscriptionDetail::where('stripe_subscription_id', $subscription->id)->update([
+                    'cancel' => 1,
+                    'canceled_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                break;
+            case 'customer.subscription.paused':
+                $subscription = $event->data->object;
+                SubscriptionDetail::where('stripe_subscription_id', $subscription->id)->update([
+                    'cancel' => 1,
+                    'canceled_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                break;
+
+            case 'customer.subscription.resumed':
+                $subscription = $event->data->object;
+                SubscriptionDetail::where('stripe_subscription_id', $subscription->id)->update([
+                    'cancel' => 1,
+                    'canceled_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                break;
+            case 'invoice.payment_succeeded':
+                $stripeSubscriptionId = $event->data->object->subscription;
+                if ($stripeSubscriptionId) {
+                    $stripeSubscription = $this->findSubscription($stripeSubscriptionId);
+                    $this->handleSubscriptionPaid($stripeSubscription);
+                }
+                break;
+            case 'subscription_schedule.aborted':
+                $subscriptionSchedule = $event->data->object;
+                SubscriptionDetail::where('stripe_subscription_id', $subscriptionSchedule->id)->update([
+                    'cancel' => 1,
+                    'canceled_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                break;
+            case 'subscription_schedule.canceled':
+                $subscriptionSchedule = $event->data->object;
+                SubscriptionDetail::where('stripe_subscription_id', $subscriptionSchedule->id)->update([
+                    'cancel' => 1,
+                    'canceled_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                break;
+                // ... handle other event types
+            default:
+                echo 'Received unknown event type ' . $event->type;
+        }
+    }
+    public function findSubscription($stripeSubscriptionId)
+    {
+
+        $secretKey = config('app.stripe_secret');
+        Stripe::setApiKey($secretKey);
+        return \Stripe\Subscription::retrieve($stripeSubscriptionId);
+    }
+
+    public function handleSubscriptionPaid($stripeSubscription)
+    {
+        $newPeriodEnd = $stripeSubscription->current_period_end;
+        $subscriptionDetail = SubscriptionDetail::where('stripe_subscription_id', $stripeSubscription->id)->first();
+        if ($subscriptionDetail) {
+            $secretKey = config('app.stripe_secret');
+            Stripe::setApiKey($secretKey);
+            $user_id = $subscriptionDetail->user_id;
+            if ($stripeSubscription->id == $subscriptionDetail->stripe_subscription_id) {
+                $isRenewal = $newPeriodEnd > strtotime($subscriptionDetail->plan_period_end);
+                if ($isRenewal) {
+                    $apiError = '';
+                    try {
+                        $stripeSubscription =  \Stripe\Subscription::retrieve($subscriptionDetail->stripe_subscription_id);
+                    } catch (\Exception $e) {
+                        $apiError = $e->getMessage();
+                    }
+
+                    if (empty($apiError) && $stripeSubscription) {
+                        $subscriptionData = $stripeSubscription->jsonSerialize();
+                        SubscriptionDetail::where('user_id', $user_id)->update([
+                            'stripe_subscription_id' => $stripeSubscription->id,
+                            'plan_interval_count' => $stripeSubscription['plan']['interval_count'],
+                            'plan_period_end' => date('Y-m-d H:i:s', $stripeSubscription->current_period_end),
+                        ]);
+                    } else {
+                        \Log::info($apiError);
+                    }
+                }
+            }
+        }
     }
 }

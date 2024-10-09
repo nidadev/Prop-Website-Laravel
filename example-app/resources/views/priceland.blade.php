@@ -224,6 +224,8 @@
                   <th>Price</th>
                   <th>Market Price/Acre</th>
                   <th>Export Records</th>
+                  <th>Export Data</th>
+
 
                 </tr>
               <tbody id="mytable4">
@@ -232,10 +234,10 @@
                 ?>
 
 
-                <?php for ($i = 0; $i < count($price); $i++) {
+                <?php for ($i = 0; $i < count($price)-1; $i++) {
 
                   $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
-
+$mainval = 0.1;
                   $total = $de[$i]['MaxResultsCount'] * $mainval;
                   $maxc = $de[$i]['MaxResultsCount'];
                 
@@ -243,7 +245,8 @@
                   $pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
                   $ct = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County'] : 0;
                   $st = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State'] : 0;
-      
+                  $exp =implode(",",$sts[$i]['prop']);
+
                   $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105']; //echo $res; 
     ?>
                   <tr>
@@ -256,6 +259,7 @@
                     <td>${{ $pr_per_acre }}</td>
 
                     <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+                    <td> <button type="button" class="button" style="border:none;"><a href="{{ url('/export_price/['.$exp.']')}}" style="color:#fff !important;">Export</a></button>
 
 
                   </tr>

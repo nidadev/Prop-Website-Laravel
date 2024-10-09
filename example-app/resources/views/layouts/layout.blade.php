@@ -4148,6 +4148,8 @@
 
       });
       $("#total_val").text(actual);
+      $("#quan").val(actual);
+
 
     }
   </script>
