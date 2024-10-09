@@ -99,10 +99,19 @@
       <div class="col-md-12">
         <div class="work_h2i p-4 rounded_10 shadow_box text-center">
           <div id="amnt" style="display:none;"><span id="total_val"></span>
-        <button type="button" class="button" style="border:none;"><a href="{{ url('/export/'.$poperty_id.'')}}" style="color:#fff !important;">Export</a></button></div>
+        <!--button type="button" class="button" style="border:none;"><a href="{{ url('/export/'.$poperty_id.'')}}" style="color:#fff !important;">Export</a></button--></div>
           <div class="center_h2lil">
+          <form method="post" action="{{ route('stripe') }}">
+        @csrf
+        <input type="hidden" name="price" value="" id="quan">
+        <input type="hidden" name="product_name" value="download_files">
+
+        <input type="hidden" name="quantity" value="1">
+
+        <button type="submit" id="chk" style="display:none;border:none" class="button" name="exp_data_download[]" value="">Checkout with Stripe</button>
+
             <span>
-              <br><span><input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"> </span>
+              <br><span><!--input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"--> </span>
             </span>
 
 
@@ -141,10 +150,10 @@
                   <td>{{ $price['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County'] }}</td>
                   <td>{{ $price['Reports'][0]['Data']['PropertyDetailData']['SiteInformation']['Acres'] }}</td>
                   <td>${{ $price['Reports'][0]['Data']['TaxStatusData']['Taxes']['AssessedValue']}}</td>
-                  <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')" ; class='su' value="{{ $mainval }}" name='sum[]' style='border:14px solid green;width:30px;height:30px;'></td>
+                  <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')" ; class='su' value="{{ $mainval }}" name='sum[]' data-element="{{$poperty_id}}" style='border:14px solid green;width:30px;height:30px;'></td>
                   <!--td><a href="{{ url('/export/'.$poperty_id.'')}}">Export Excel</a></td-->
 
-                  <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="">Download</a></td>
+                  <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="run">Download</a></td>
                   <td><a href="{{ url('/download/xml/'.$poperty_id.'')}}">Kml File</a></td>
                 </tr>
                 @endif
