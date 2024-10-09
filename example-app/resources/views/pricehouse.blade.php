@@ -209,8 +209,19 @@
             @endif
           </div>
           <div class="center_h2lil">
+          <form method="post" action="{{ route('stripe') }}">
+        @csrf
+        <input type="hidden" name="price" value="" id="quan">
+        <input type="hidden" name="product_name" value="download_files">
+
+        <input type="hidden" name="quantity" value="1">
+
+        <button type="submit" id="chk" style="display:none;border:none" class="button">Checkout with Stripe</button>
+
+
+    </form>
             <span>
-              <br><span><input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"> </span>
+              <br><span><!--input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"--> </span>
             </span>
 
 
@@ -234,8 +245,9 @@
 
                 </tr>
               <tbody id="mytable4">
+                <?php //dd($price);?>
                 @if(isset($price))
-                <?php //count($de);
+                <?php //count($data);
                 ?>
 
 
@@ -247,13 +259,14 @@
                   //$prop = 'prop'.$i;
                   // dd($sts);
 
-                  $maxc = $de[$i]['MaxResultsCount'];
+                  $maxc = $data[$i]['MaxResultsCount'];
                   $total = $maxc * $mainval;
                   $avg_s = $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'];
+                  $avg_s  = isset($avg_s) ? $avg_s : '';
                   $sl_pr = $price[$i]['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
                   //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
-                  $ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
-                  $st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
+                  $ct = isset($data[$i]['LitePropertyList'][0]['County']) ? $data[$i]['LitePropertyList'][0]['County'] : 0;
+                  $st = isset($data[$i]['LitePropertyList'][0]['State']) ? $data[$i]['LitePropertyList'][0]['State'] : 0;
                   $zp = isset($data[$i]['zipcode']) ? $data[$i]['zipcode'] : 0;
                   $exp =implode(",",$sts[$i]['prop']);
 
@@ -267,7 +280,7 @@
                     $pro[] = $exp[$y];
                   }*/
                   //dd($exp);
-
+//if payment is not complete or unpaid then export data button will be disabled
                   $avg = isset($avg_s) ? $avg_s : 0;
                   $info = ['0-5', '5-10', '10-15', '15-20', '20-25', '25-30', '30-35', '35-40', '40-45', '45-50', '50-55', '60-65', '65-70', '70-75', '75-80', '80-85', '85-90', '90-95', '95-100', '100-105', '105-110', '110-115', '115-120', '120-125']; //echo $res; 
                 ?>

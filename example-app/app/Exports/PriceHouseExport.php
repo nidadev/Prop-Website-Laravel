@@ -10,6 +10,7 @@ use GuzzleHttp;
 
 class PriceHouseExport implements FromArray, WithHeadings
 {
+    
     protected $userIds;
 
     public function __construct(array $userIds)
@@ -66,6 +67,14 @@ class PriceHouseExport implements FromArray, WithHeadings
 
     public function array(): array
     {
+        set_time_limit(520);
+    
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => 1.0,
+                'ignore_errors' => true,
+            ]
+        ]);
         
             // Return the data in an array format
             $client = new GuzzleHttp\Client();
@@ -83,28 +92,7 @@ class PriceHouseExport implements FromArray, WithHeadings
             $authenticate = json_decode($login->getBody(), true);
       
         $formattedData = [];
-        /*$userId = $this->userIds;
-        //echo $userId[0];
-        $cnt = count($this->userIds);
-        for($i=0; $i<$cnt; $i++)
-        {
-        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['TotalViewReport'],
-
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $userId[$i]
-            ]),
-        ]);
-        $data[] = json_decode($getProperty->getBody(), true);
-    }
-    print_r($data);*/
-   
+        
         foreach ($this->userIds as $userId) {
             // Replace with your API endpoint
             $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
@@ -121,11 +109,6 @@ class PriceHouseExport implements FromArray, WithHeadings
                 ]),
             ]);
             $data = json_decode($getProperty->getBody(), true);
-           // var_dump($data);
-//var_dump($data['Reports'][0]["Data"]['SubjectProperty']['PropertyId']);
-            //dd($data);
-            //print_r($this->userIds);
-//print_r(json_encode($data));
             // Process the data if necessary and format it for export
             if (isset($data['Reports']) && is_array($data['Reports']) && !empty($data['Reports'])) {
                 $subjectProperty = $data['Reports'][0]['Data']['SubjectProperty'] ?? [];

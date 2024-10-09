@@ -71,10 +71,17 @@ Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name
     Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
     Route::post('/cancel-subscription', [SubscriptionController::class,'CancelSubscription'])->name('CancelSubscription');
 
+//checkout stripe
+    Route::post('stripe',[SubscriptionController::class,'stripe'])->name('stripe');
+    Route::get('success',[SubscriptionController::class,'success'])->name('success');
+    Route::get('cancel',[SubscriptionController::class,'cancel'])->name('cancel');
+
 });
 Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
 Route::get('/export/{id}', [ApiController::class, 'export_comp']);
 Route::get('/export_price/{pricehouseid}', [ApiController::class, 'export_house_comp']);
+
+//Route::post('/webhook-subscription',SubscriptionController::class,'webhookSubscription')->name('webhookSubscription');
 
 
 Route::get('/download/xml/{id}', [ApiController::class, 'xmldownload'])->name('download.xml');

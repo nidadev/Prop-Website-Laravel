@@ -12,13 +12,13 @@ return [
     | other UI elements where an application name needs to be displayed.
     |
     */
-
+    
     'name' => env('APP_NAME', 'Laravel'),
-    'client_id' => env('CLIENT_ID', ''),
-    'client_secret' => env('CLIENT_SECRET', ''),
-    'rapid_key' => env('RAPID_KEY', ''),
-    'stripe_public' => env('STRIPE_PUBLIC_KEY', ''),
-    'stripe_secret' => env('STRIPE_SECRET', ''),
+    'client_id' => env('CLIENT_ID', '8e2c1c1b-dc1f-47f9-86cd-6b01dc8de457'),
+    'client_secret' => env('CLIENT_SECRET', 'hM58Q~uwzAj~2po4hZlxFVSBRHRy.~8DxQhCTc4t'),
+    'rapid_key' => env('RAPID_KEY', '896c054dd8mshb6b3aa6ff000d3fp19756djsnc2c76cac4add'),
+    'stripe_public' => env('STRIPE_PUBLIC_KEY', 'pk_test_51PoqhA095841vAfR3SJUmuWz2dDBpvxOhhJUz20bpvj9iaJN049VS3jLfMH60366PA6oDNP7ySOjZnnFfie9W58H00gYsi9Rgj'),
+    'stripe_secret' => env('STRIPE_SECRET', 'sk_test_51PoqhA095841vAfR6fFWs3JKGm7GLejcItBAIX9jC899arAGyOaCrofJ6tPp0fbIrvxpYZkMPZwPAayzByjLKVuM00DeohfSfQ'),
 
     /*
     |--------------------------------------------------------------------------

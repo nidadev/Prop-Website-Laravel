@@ -265,6 +265,15 @@
       <td> {{$zll_coun2}}</td>
       <td> <a href="https://zillow.com/homedetails/{{$href_zll2}}_zpid">Zillow</a></td>
     </tr>
+    <tr>
+      <td> {{$acre_zll3}}</td>
+      <td> ${{ $list_p_zll3}}</td>
+      <td> {{ $zll_price_per3}} </td>
+      <td> {{ $dis_zill }} miles</td>
+      <td> {{$zll_cty3}}</td>
+      <td> {{$zll_coun3}}</td>
+      <td> <a href="https://zillow.com/homedetails/{{$href_zll3}}_zpid">Zillow</a></td>
+    </tr>
 
   </table>
   <h6>Sold Comps Overview</h6>
@@ -316,6 +325,16 @@
       <td> {{$zll_cty2_sold}}</td>
       <td> {{$zll_coun2_sold}}</td>
       <td> <a href="https://zillow.com/homedetails/{{$href_zll2_sold}}_zpid">Zillow</a></td>
+    </tr>
+
+    <tr>
+      <td> {{$acre_zll3_sold}}</td>
+      <td> ${{ $list_p_zll3_sold}}</td>
+      <td> {{ $zll_price_per3_sold}} </td>
+      <td> {{ $dis_zill }} miles</td>
+      <td> {{$zll_cty3_sold}}</td>
+      <td> {{$zll_coun3_sold}}</td>
+      <td> <a href="https://zillow.com/homedetails/{{$href_zll3_sold}}_zpid">Zillow</a></td>
     </tr>
     <tr>
       <td> {{ number_format($acre_real_sold,1)}}</td>
