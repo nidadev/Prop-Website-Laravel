@@ -67,7 +67,7 @@ class PriceHouseExport implements FromArray, WithHeadings
 
     public function array(): array
     {
-        set_time_limit(520);
+        set_time_limit(1520);
     
         $context = stream_context_create([
             'http' => [

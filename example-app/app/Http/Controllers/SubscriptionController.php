@@ -11,6 +11,7 @@ use Stripe\Customer;
 use Stripe\StripeClient;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\SubscriptionHelper;
+use App\Models\Payment;
 
 class SubscriptionController extends Controller
 {
@@ -18,9 +19,11 @@ class SubscriptionController extends Controller
 
     public function stripe(Request $request)
     {
+        //dd($request);
         // Set your secret key. Remember to switch to your live secret key in production.
         // See your keys here: https://dashboard.stripe.com/apikeys
         $stripe = new \Stripe\StripeClient(config('app.stripe_secret'));
+        $exp_data_download = $request->exp_data_download;
 
         $response = $stripe->checkout->sessions->create([
             'line_items' => [
@@ -50,6 +53,7 @@ class SubscriptionController extends Controller
             session()->put('product_name',$request->product_name);
             session()->put('quantity',$request->quantity);
             session()->put('price',$request->price);
+            session()->put('exp_data_download',$request->exp_data_download);
             return redirect($response->url);
         }
         else
@@ -57,6 +61,61 @@ class SubscriptionController extends Controller
             return redirect()->route('cancel');
 
         }
+    }
+
+    public function success(Request $request)
+    {
+       //dd($request);
+        if(isset($request->session_id))
+        {
+            $stripe = new \Stripe\StripeClient(config('app.stripe_secret'));
+
+            $response = $stripe->checkout->sessions->retrieve($request->session_id); 
+            //dd($response);
+            $payment = new Payment();
+            $payment->payment_id = $response->id;
+            $payment->product_name = session()->get('product_name');
+
+            $payment->quantity = session()->get('quantity');
+            $payment->amount = session()->get('price');
+            $payment->currency = $response->currency;
+            $payment->payer_name = $response->customer_details->name;
+            $payment->payer_email = $response->customer_details->email;
+            $payment->payment_status = $response->status;
+            $payment->payment_method = 'Stripe';
+
+            $payment->created_at = date("Y-m-d H:i:s");
+            $payment->updated_at = date("Y-m-d H:i:s");
+            $payment->user_id = auth()->user()->id;
+            $payment->save();
+            //
+            //dd($request);
+            $val_ids = session()->get('exp_data_download')[0];
+            return view('payment_success',['data' => $val_ids]);
+            //['data' => $val_ids]
+
+            //return 'Payemnt is successfull'.'<button type="button" class="button" style="border:none;"><a href="http://localhost:8000/export_price/['.$val_ids.']")}}">Export</a></button>';
+
+            session()->forget('product_name');
+            session()->forget('quantity');
+
+            session()->forget('price');
+
+        }
+        else
+        {
+            return redirect()->route('cancel');
+
+        }
+        //return 'Success';
+        //return view('success');
+
+    }
+    public function cancel()
+    {
+        return 'This is cancel';
+        //return view('cancel');
+
     }
     public function loadSubscription()
     {
