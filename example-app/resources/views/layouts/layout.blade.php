@@ -56,9 +56,9 @@
   <link href="{{ asset('css/global.css') }}" rel="stylesheet">
   <link href="{{ asset('css/contact.css') }}" rel="stylesheet">
   <link href="{{ asset('css/index.css') }}" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" rel="stylesheet" crossorigin="anonymous">
   <!-- autocomplete-->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -80,7 +80,7 @@
 </head>
 
 <body>
-  @include('layouts.navbar')
+  @include('layouts.navbar');
   @yield('content')
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -114,18 +114,20 @@
           }
         });
       });
-      $(".run").click(function() { //alert('')
+      $(".run,.chk").click(function() { //alert('')
         $('.loader').show();
         $('.sm-txt').show();
+        setTimeout("hide()", 720); 
       });
       $("#myDataTable4").DataTable();
-
+      
       $("#map_id").click(function() {
             $('html,body').animate({
                 scrollTop: $(".tabmap").offset().top
               },
               'slow');
           });
+
     });
     $(document).ready(function() {
       $.noConflict();
@@ -4141,21 +4143,43 @@
       if ($('.su').is(':checked')) {
         $("#chk").show();
         $("#amnt").show();
+        $("#show_exp").show();
+
       } else {
         $("#chk").hide();
         $("#amnt").hide();
       }
       var total = 0;
+      var exp_data1 = [];
       $('.su:checked').each(function() { // iterate through each checked element.
 
         total += isNaN(parseFloat($(this).val())) ? 0 : parseFloat($(this).val());
         actual = total.toFixed(2);
-
+        //exp_data = $(this).data('element');
+        exp_data2 = $(this).data('element');
+       // exp_data1 = exp_data1.push(exp_data2);
+        //alert($("#exp_id").attr('href'));
       });
+      var exp_multi;
+      exp_data1 =  exp_data2;
+
+      var searchIDs = $(".su:checked").map(function(){
+        exp_data1 = $(this).data('element');
+      return exp_data1;
+    }).get(); // <----
+    console.log(searchIDs);
+     //console.log(myJsonString);
+      //exp_d = exp_data1[0];
+      
+      //alert(exp_multi);
       $("#total_val").text(actual);
+      $("#quan").val(actual);
+      $("#chk").val(searchIDs);
+
+      //$("#show_exp").text(searchIDs);
+      //$("#show_exp").text(exp_data1[1]);
 
     }
 
-    
-    
+  
   </script>
