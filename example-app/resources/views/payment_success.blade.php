@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app2')
 @section('content')
 
 <h4>Hi {{ auth()->user()->name }}</h4> Your payment is successfully done.You can download records<br>

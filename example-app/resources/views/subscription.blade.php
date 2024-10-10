@@ -25,18 +25,7 @@
 		 </div>
 		 <div class="col-md-4">
 		    <div class="subs_1r text-end">
-			    <!--ul class="nav nav-tabs mb-0 border-0">
-    <li class="nav-item d-inline-block me-2">
-        <a href="#home" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-            <span class="d-md-block">Monthly</span>
-        </a>
-    </li>
-    <li class="nav-item d-inline-block">
-        <a href="#profile" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
-            <span class="d-md-block">Yearly</span>
-        </a>
-    </li>
-</ul-->
+			   
 			</div>
 		 </div>
 	  </div> 
