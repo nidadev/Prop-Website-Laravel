@@ -9,9 +9,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-0 nav_left">
-                    <!--li class="nav-item">
-          <a class="nav-link " aria-current="page" href="{{ url('/') }}">Home</a>
-        </li-->
+                  
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/about')}}" id="ab">About </a>
@@ -21,33 +19,13 @@
                         <a class="nav-link dropdown-toggle active" href="#" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         How it works                        </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                        <!--li><a class="dropdown-item" href="#" id="hw">How it works</a></li-->
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-houses')}}" id="hw-it-hs">  How it works for houses</a></li>
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-lands')}}" id="hw-it-lnd">  How it works for lands</a></li>
                         <li><a class="dropdown-item" href="{{ url('/faq')}}" id="fq"> Faq</a></li>
 
                         </ul>
                     </li>
-                    <!--li class="nav-item">
-                        <a class="nav-link" href="{{ url('/priceland')}}" id="pl">Price Land </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/pricehouse') }}" id="ph" role="button">
-                            Price Houses
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/compreport')}}" id="cprp" role="button">
-                            Comp Report
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/research')}}" role="button" id="rs">
-                            Research
-                        </a>
-                    </li-->
+                   
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
                             Subscription
@@ -59,9 +37,7 @@
                             Account
                         </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
-                            <!--li><a class="dropdown-item" href="{{ url('/profile')}}" id="pf"> Profile</a></li-->
-                            <!--li><a class="dropdown-item logout" href="{{ url('/api/logout')}}" id="lg"> Logout</a></li-->
-                            <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
+                         <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
                             <li><a class="dropdown-item" href="{{ url('/login2')}}" id="ln"> Login</a></li>
                         </ul>
                     </li>
@@ -100,89 +76,3 @@
     </nav>
 </section>
 
-<script>
-     /*$(document).ready(function() {
-       var token = localStorage.getItem('user_token2');
-        if (token) {
-            $('#lg').show();
-            $('#pf').show();
-            $("#ph").show();
-            $("#pl").show();
-            $("#cprp").show();
-            $("#rs").show();
-            $('#ab').hide();
-            $('#hw').hide();
-            $('#sp').hide();
-            $('#rg').hide();
-            $('#ln').hide();
-            $("#login_b").remove();
-
-        } else {
-            $("#lg").remove();
-            $("#pf").remove();
-            $("#ph").remove();
-            $("#pl").remove();
-            $("#cprp").remove();
-            $("#rs").remove();
-        }
-
-
-
-    });
-    /*$.ajax({
-        url: '{{ url("/api/profile") }}',
-        type: "GET",
-        headers: {
-            'Authorization': localStorage.getItem('user_token2')
-        },
-        success: function(data) {
-            console.log(data);
-            if (data.status == true) {
-                console.log(data.user);
-                $('.name').text(data.user.name);
-                $('#name').val(data.user.name);
-                $('#email').val(data.user.email);
-               
-                //localStorage.removeItem('user_token');
-                //window.open('/login','_self');
-            } else {
-                /*$("#lg").hide();
-                $("#ph").hide();
-                $("#pl").hide();
-                $("#cprp").hide();
-                $("#rs").hide();*/
-
-
-
-    //$('#lg').hide();
-    /*alert(data.message);
-
-            }
-        },
-        statusCode: {
-            401: function() {
-                //alert("401");
-                $("#lg").remove();
-                $("#pf").remove();
-                $("#ph").remove();
-                $("#pl").remove();
-                $("#cprp").remove();
-                $("#rs").remove();
-
-
-            },
-            500: function() {
-                //alert("401");
-                $("#lg").remove();
-                $("#pf").remove();
-                $("#ph").remove();
-                $("#pl").remove();
-                $("#cprp").remove();
-                $("#rs").remove();
-
-
-
-            }
-        },
-    });*/
-</script>
