@@ -2896,6 +2896,8 @@ class ApiController extends BaseController
     public function pdf_download2(Request $request)
     {
         //dd($request->id);
+        set_time_limit(520); // Increase the max execution time
+
         $client = new GuzzleHttp\Client();
         $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
             'headers' => [

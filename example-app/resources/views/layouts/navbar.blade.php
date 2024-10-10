@@ -1,6 +1,8 @@
+<section id="header">
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{{ route('home') }}">Home</a>
+    <!--a class="navbar-brand" href="{{ route('home') }}">Home</a-->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -22,9 +24,7 @@
         <li class="nav-item">
           <a class="nav-link {{ Route::is('priceland') ? 'active' : '' }}" aria-current="page" href="{{ route('priceland') }}">PriceLand</a>
         </li>
-        <!--li class="nav-item">
-          <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
-        </li-->
+       
         @endif
         <li class="nav-item">
           <a class="nav-link {{ Route::is('subscription') ? 'active' : '' }}" aria-current="page" href="{{ route('subscription') }}">Subscription</a>
@@ -37,3 +37,4 @@
     </div>
   </div>
 </nav>
+</section>

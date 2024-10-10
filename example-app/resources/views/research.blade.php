@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.app2')
 
 @section('content')
 
@@ -28,19 +28,6 @@
                     </div>
                   </div>
 
-                  <!--div class="col-md-4">
-                    <div class="center_h2lil">
-                      <label for="autocomplete">County:</label><select id="counties" name="cp" class="form-select"></select>
-
-                    </div>
-                  </div-->
-                  <!--div class="col-md-4">
-                  <div class="center_h2lil">
-                  <span>
-                          Acreage (Miles)</span><input class="form-control w-50 bg-light" id="acr1" name="acr1" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-                        <input class="form-control w-50 bg-light" id="acr2" name="acr2" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-                  </div>
-                </div-->
                   <div class="col-md-4">
                     <div class="center_h2lil">
                       <br><input type="submit" style="border:none" class="button run" value="Run Report">
@@ -228,34 +215,8 @@
                 </tr>
               <tbody id="mytable4">
                 @if(isset($price))
-                <?php //dd($price);
-                /*function showDups($array)
-{
-  $array_temp = array();
-
-   foreach($array as $val)
-   {
-     if (!in_array($val, $array_temp))
-     {
-       $array_temp[] = $val;
-     }
-     else
-     {
-       echo 'duplicate = ' . $val . '<br />';
-     }
-   }
-   //dd($array_temp);
-}
-showDups($price);*/
-
-                ?>
-
-
-                <?php for ($i=0; $i<count($price); $i++) {                
-                  //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
-                  //$ct = isset($de[$i]['LitePropertyList'][0]['County']) ? $de[$i]['LitePropertyList'][0]['County'] : 0;
-                  //$st = isset($de[$i]['LitePropertyList'][0]['State']) ? $de[$i]['LitePropertyList'][0]['State'] : 0;
-                  $zp = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['Zip9']) ?  $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['Zip9']: 0;
+               <?php for ($i=0; $i<count($price); $i++) {                
+                    $zp = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['Zip9']) ?  $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['Zip9']: 0;
                   $st = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']) ?  $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']: 0;
                   $ct = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']: 0;
                   $sold_home = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['SoldHomes']: 0;
@@ -263,12 +224,7 @@ showDups($price);*/
                   $avg_days  = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'] : 0;
                     $total_comp = $sold_home + $sale_home;
                     $avg_price  = isset($price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']) ? $price[$i]['Reports'][0]['Data']['MarketTrendData']['SalesDetails']['AvgSoldPriceChange'] : 0 ;
-
-                    
-
-                  //$avg = $price[$i]['Reports'][0]['Data']['ListingPropertyDetail']['DaysOnMarket'];
-                  //$info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105']; //echo $res; 
-    ?>
+  ?>
                   <tr>
                     <td>{{ $zp }}</td>
                     <td> {{ $total_comp }}</td>
