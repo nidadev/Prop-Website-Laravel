@@ -54,17 +54,17 @@
       
 		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
      ${{ $plan->amount}} Charge</h4>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> 10 Listing Per Login</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> 110+ Users</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Enquiry On Listing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> 24 Hrs Support</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Custom Review</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Impact Reporting</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Onboarding & Account</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> API Access</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Transaction Tracking</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Branding</h6>
-     @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id)
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> External List Upload Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Comp Reporting
+     </h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Full Customer Support
+     </h6>
+		 @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id)
         <button class="btn btn-danger subscriptionCancel" style="width:100%;">Cancel</button>
 
         @else
