@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app2')
 
-@section('main')
+@section('content')
 <section id="center" class="center_reg">
     <div class="center_om bg_backo">
         <div class="container-xl">
