@@ -287,12 +287,9 @@
     $.ajax({
       url: "{{ route('CreateSubscription')}}",
       type: "POST",
-      data: {
-        plan_id: planID,
-        data: token,
-        _token: "{{ csrf_token() }}"
-      },
+      data: {plan_id:planID, data:token, _token: "{{ csrf_token() }}"},
       success: function(response) {
+        alert(response);
         if (response.success) {
           console.log(response);
           alert(response.msg);
