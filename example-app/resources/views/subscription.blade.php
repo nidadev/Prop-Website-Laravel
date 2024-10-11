@@ -247,8 +247,8 @@
   if (window.Stripe) {
     var stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY')}}");
     //create an instan of card elemnt
-    var elemnts = stripe.elements();
-    var card = elemnts.create("card", {
+    var elements = stripe.elements();
+    var card = elements.create("card", {
       hidePostalCode: true
     });
     //add instan of card elemn into the card elem div
@@ -269,12 +269,13 @@
       submitBtn.setAttribute("disabled", "disabled");
       stripe.createToken(card).then(function(result) {
         if (result.error) {
-          var errorElemnt = document.getElementById('card-errors');
-          errorElemnt.textContent = result.error.message;
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
           submitBtn.innerHTML = 'Buy Plan';
           submitBtn.removeAttribute("disabled");
         } else {
           console.log(result);
+          alert(result.token);
           createSubscription(result.token);
         }
       });
@@ -285,22 +286,23 @@
   function createSubscription(token) {
 
     var planID = $('#planId').val();
-    alert(planID);
-    alert(token);
-    alert(csrf_token());
+    //alert(planID);
+    //alert(token.id);
+    //alert(csrf_token());
     $.ajax({
       url: "{{ route('CreateSubscription')}}",
       type: "POST",
       data: {plan_id:planID, data:token, _token: "{{ csrf_token() }}"},
       success: function(response) {
-        alert(response);
+        //alert(data._token);
+        alert(response.success);
         if (response.success) {
-          console.log(response);
+          //console.log(response);
           alert(response.msg);
           window.location.reload();
         } else {
-          alert(data);
-          alert(response);
+          //alert(data);
+          //alert(response);
           alert('something wrong');
           $('#buyPlanSubmit').html("Buy Plan");
 
