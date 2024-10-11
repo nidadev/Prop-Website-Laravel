@@ -298,6 +298,7 @@
           alert(response.msg);
           window.location.reload();
         } else {
+          alert(data);
           alert(response);
           alert('something wrong');
           $('#buyPlanSubmit').html("Buy Plan");
