@@ -297,12 +297,13 @@
         //alert(data._token);
         alert(response.success);
         if (response.success) {
-          //console.log(response);
+          console.log(response);
           alert(response.msg);
           window.location.reload();
         } else {
           //alert(data);
           //alert(response);
+          console.log(response);
           alert('something wrong');
           $('#buyPlanSubmit').html("Buy Plan");
 
