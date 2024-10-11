@@ -13,7 +13,7 @@
    </div>   
 </section>
 
-<section id="subs" class="p_3">
+<!--section id="subs" class="p_3">
    <div class="container-xl">
 	 <div class="row subs_1 mb-4">
 		 <div class="col-md-8">
@@ -88,13 +88,13 @@
 	  </div>
     </div-->
     
-</div>
+<!--/div>
 	 </div>
 	</div>
   </div>   
- </section>
+ </section-->
 <!----------------------------------- -->
- <!--div class="container">
+ <div class="container">
   <div class="row">
     @php
     $currentPlan = app('subscription_helper')->getCurrentSubscription();
