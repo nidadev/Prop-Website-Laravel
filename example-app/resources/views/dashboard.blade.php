@@ -1,5 +1,5 @@
-@extends('layouts.app2')
+@extends('layouts.layout')
 @section('content')
-<h1>Welcome {{ auth()->user()->name }}</h1>
+<h1>Dashboard view {{ auth()->user()->name }}</h1>
 @endsection
 
