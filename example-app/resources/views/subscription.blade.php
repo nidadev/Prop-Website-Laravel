@@ -193,6 +193,7 @@
             var html = '';
             $('#confirmationModalTitle').text(data.name + ' {$' + data.amount + '}');
             html += `<p>` + response.msg + `</p>`;
+            console.log(html);
             $('.confirmation-data').html(html);
           } else {
             alert('something went wrong');
@@ -224,7 +225,7 @@
         },
         success: function(response) {
           if (response.success) {
-            //console.log(response);
+            console.log(response);
             alert(response.msg);
             window.location.reload();
           } else {
@@ -295,7 +296,7 @@
       },
       success: function(response) {
         if (response.success) {
-          //console.log(response);
+          console.log(response);
           alert(response.msg);
           window.location.reload();
         } else {
