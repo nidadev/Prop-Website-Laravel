@@ -153,7 +153,6 @@
         </button>
       </div>
       <div class="modal-body">
-
         <input type="hidden" name="planId" id="planId">
         <!-- stripe card -->
         <div id="card-element"></div>
@@ -265,14 +264,12 @@
     //handle form submission and create token
     var submitBtn = document.getElementById('buyPlanSubmit');
 
-
     submitBtn.addEventListener('click', function(ev) {
       submitBtn.innerHTML = 'Please wait ...<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>';
       submitBtn.setAttribute("disabled", "disabled");
       stripe.createToken(card).then(function(result) {
         if (result.error) {
           var errorElemnt = document.getElementById('card-errors');
-
           errorElemnt.textContent = result.error.message;
           submitBtn.innerHTML = 'Buy Plan';
           submitBtn.removeAttribute("disabled");
@@ -301,6 +298,7 @@
           alert(response.msg);
           window.location.reload();
         } else {
+          alert(response);
           alert('something wrong');
           $('#buyPlanSubmit').html("Buy Plan");
 
