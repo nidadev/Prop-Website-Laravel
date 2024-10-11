@@ -190,6 +190,7 @@
         success: function(response) {
           if (response.success) {
             var data = response.data;
+            console.log(data);
             var html = '';
             $('#confirmationModalTitle').text(data.name + ' {$' + data.amount + '}');
             html += `<p>` + response.msg + `</p>`;
