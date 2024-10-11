@@ -132,7 +132,7 @@ class SubscriptionController extends Controller
             $stripeData = $request->data;
             $subscriptionData = null;
 
-            //\Log::info($request->data);
+            \Log::info($request->data);
 
 
             $stripe = new StripeClient($secretKey);
