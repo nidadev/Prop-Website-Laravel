@@ -10,8 +10,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        @if(auth()->user())
-        @if(auth()->user()->is_subscribed == 1)
+        
+        @if(auth()->user() && auth()->user()->is_subscribed == 1)
         <li class="nav-item">
           <a class="nav-link {{ Route::is('dashboard') ? 'active' : '' }}" aria-current="page" href="{{ route('dashboard') }}">Home</a>
         </li>
@@ -31,7 +31,18 @@
           <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
         </li>
         @endif
-        @else
+        @if(auth()->user() && auth()->user()->is_subscribed == 0)
+      
+        <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
+                            Subscription
+                        </a>
+                    </li>
+                    <li class="nav-item">
+          <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
+        </li>
+                    @endif
+        @if(!auth()->user())
         
         <li class="nav-item">
                         <a class="nav-link" href="{{ url('/about')}}" id="ab">About </a>
@@ -45,11 +56,7 @@
                         <li><a class="dropdown-item" href="{{ url('/faq')}}" id="fq"> Faq</a></li>
 
                         </ul>
-                        <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
-                            Subscription
-                        </a>
-                    </li>
+                       
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="{{ url('/profile')}}" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
