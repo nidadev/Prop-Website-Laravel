@@ -283,7 +283,11 @@
   }
 
   function createSubscription(token) {
+
     var planID = $('#planId').val();
+    alert(planID);
+    alert(token);
+    alert(csrf_token());
     $.ajax({
       url: "{{ route('CreateSubscription')}}",
       type: "POST",
