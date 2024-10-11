@@ -172,7 +172,7 @@ class SubscriptionController extends Controller
                 if ($subscriptionDetailCount == 0) { //new user
                     if ($subPlan->type == 0) {
                         $subscriptionData = SubscriptionHelper::start_monthly_trial_subscription($customer_id, $user_id, $subPlan);
-                        //\Log::info($subscriptionData);
+                        \Log::info($subscriptionData);
                         //monthly trial
                     } else if ($subPlan->type == 1) {
                         $subscriptionData = SubscriptionHelper::start_yearly_trial_subscription($customer_id, $user_id, $subPlan);
