@@ -30,6 +30,11 @@
         <li class="nav-item">
           <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
         </li>
+        <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
+                            Subscription
+                        </a>
+                    </li>
         @endif
         @if(auth()->user() && auth()->user()->is_subscribed == 0)
       
