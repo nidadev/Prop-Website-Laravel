@@ -2861,7 +2861,7 @@ class ApiController extends BaseController
             $price[] = json_decode($propertyResponse->getBody(), true);
         }
         $mainval = 1 * 0.1;
-        dd($data);
+        //dd($data);
 
         return view('priceland', compact('de', 'mainval', 'data', 'price'));
     }
