@@ -2,8 +2,7 @@
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-  <a class="text-black p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/home') }}"> Prope <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="col_red">Lyze</span></a>
-
+  <a class="text-black p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/home') }}"><img src="{{ asset('img/logo.png') }}" class="img-fluid" alt="abc"></a>
     <!--a class="navbar-brand" href="{{ route('home') }}">Home</a-->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -50,11 +49,10 @@
         @if(!auth()->user())
         
         <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/about')}}" id="ab">About </a>
-                    </li>
+        <a class="nav-link {{ Request::segment(1) === 'about' ? 'active' : null }}" href="{{ url('/about')}}" id="ab">About </a>                    </li>
+        
         <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="#" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        How it works                        </a>
+        <a class="nav-link dropdown-toggle" href="#" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">                        How it works                        </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-houses')}}" id="hw-it-hs">  How it works for houses</a></li>
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-lands')}}" id="hw-it-lnd">  How it works for lands</a></li>
@@ -64,8 +62,7 @@
                        
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle active" href="{{ url('/profile')}}" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Account
+                    <a class="nav-link dropdown-toggle" href="{{ url('/profile')}}" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">                            Account
                         </a>
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                          <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
@@ -73,12 +70,12 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/support')}}" role="button" id="sp">
-                            Contact
+                    <a class="nav-link {{ Request::segment(1) === 'support' ? 'active' : null }}" href="{{ url('/support')}}" role="button" id="sp">                            Contact
                         </a>
                     </li>
       
       </ul>
+      
       <ul class="navbar-nav mb-0 ms-auto">
                     <li class="nav-item" id="login_b">
                         <a class="nav-link button mx-3" href="{{ url('/login2') }}"><i class="fa fa-user-plus me-1"></i>Login </a>

@@ -132,18 +132,18 @@
     <tr>
       <td>{{ $city }} City Price </td>
       <td> ${{ $mar_pr}}</td>
-      <td></td>
+      <td>${{$city_market_av}}</td>
     </tr>
 
     <tr>
       <td>Average Price </td>
       <td> ${{ $average_price_river}}</td>
-      <td></td>
+      <td>${{ $avg_price_river_market_av}}</td>
     </tr>
     <tr>
       <td>Geo Adjusted Price </td>
       <td> ${{ $geo_adjusted }}</td>
-      <td></td>
+      <td> $ {{ $geo_adjusted_market_av }}</td>
     </tr>
 
   </table>
@@ -403,8 +403,8 @@
   <tr>
     <td>{{ $avr_acr }}</td>
     <td>${{ $market_av }}</td>
-    <td>${{ $market_av }}</td>
-    <td>${{ $market_av }}</td>
+    <td>${{ $city_market_av }}</td>
+    <td>${{ $geo_adjusted_market_av }}</td>
     <td>{{ $sold_comp }}Parcels</td>
     <td>{{ $salecount + $total_rec + $total_red + $realto_s }} Parcels</td>
   </tr>

@@ -104,6 +104,7 @@
         <input type="hidden" name="product_name" value="download_files">
 
         <input type="hidden" name="quantity" value="1">
+        <input type="hidden" id="pdc" name="pdf_check" value="">
 
         <button type="submit" id="chk" style="display:none;border:none" class="button" name="exp_data_download[]" value="">Checkout with Stripe</button>
 
@@ -130,8 +131,8 @@
                   <td>Accessed Value</td>
                   <td>Export</td>
                   <!--td>Download Export</td-->
-                  <td>Pdf</td>
-                  <td>Kml</td>
+                  <td>Download Pdf</td>
+                  <!--td>Kml</td-->
                 </tr>
               <tbody id="mytable4">
                 
@@ -149,9 +150,10 @@
                   <td>${{ $price['Reports'][0]['Data']['TaxStatusData']['Taxes']['AssessedValue']}}</td>
                   <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxcount }}')" ; class='su' value="{{ $mainval }}" name='sum[]' data-element="{{$poperty_id}}" style='border:14px solid green;width:30px;height:30px;'></td>
                   <!--td><a href="{{ url('/export/'.$poperty_id.'')}}">Export Excel</a></td-->
+                  <td><input type='checkbox' id='pdf1' onclick="javascript:getPdf()" ; class='su1' value="1" name='pdf' data-element="{{$poperty_id}}" style='border:14px solid green;width:30px;height:30px;'></td>
 
-                  <td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="run">Download</a></td>
-                  <td><a href="{{ url('/download/xml/'.$poperty_id.'')}}">Kml File</a></td>
+                  <!--td><a href="{{ url('/pdf/'.$poperty_id.'') }}" class="run">Download</a></td>
+                  <td><a href="{{ url('/download/xml/'.$poperty_id.'')}}">Kml File</a></td-->
                 </tr>
                 @endif
               </tbody>

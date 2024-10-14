@@ -24,6 +24,7 @@ class SubscriptionController extends Controller
         // See your keys here: https://dashboard.stripe.com/apikeys
         $stripe = new \Stripe\StripeClient(config('app.stripe_secret'));
         $exp_data_download = $request->exp_data_download;
+        //dd($request);
 
         $response = $stripe->checkout->sessions->create([
             'line_items' => [
@@ -54,6 +55,8 @@ class SubscriptionController extends Controller
             session()->put('quantity',$request->quantity);
             session()->put('price',$request->price);
             session()->put('exp_data_download',$request->exp_data_download);
+            session()->put('pdf_check',$request->pdf_check);
+
             return redirect($response->url);
         }
         else
@@ -78,6 +81,7 @@ class SubscriptionController extends Controller
 
             $payment->quantity = session()->get('quantity');
             $payment->amount = session()->get('price');
+            $pdf_check = session()->get('pdf_check');
             $payment->currency = $response->currency;
             $payment->payer_name = $response->customer_details->name;
             $payment->payer_email = $response->customer_details->email;
@@ -89,9 +93,9 @@ class SubscriptionController extends Controller
             $payment->user_id = auth()->user()->id;
             $payment->save();
             //
-            //dd($request);
+           // dd($request);
             $val_ids = session()->get('exp_data_download')[0];
-            return view('payment_success',['data' => $val_ids]);
+            return view('payment_success',['data' => $val_ids, 'pdf_check' => $pdf_check]);
             //['data' => $val_ids]
 
             //return 'Payemnt is successfull'.'<button type="button" class="button" style="border:none;"><a href="http://localhost:8000/export_price/['.$val_ids.']")}}">Export</a></button>';
