@@ -25,7 +25,6 @@
                 <div class="center_h2li row">
                   <div class="col-md-4">
                     <div class="center_h2lil">
-
                       <label for="autocomplete">State:</label>
                       <input class="form-control" id="autocomplete" name="state" type="text">
 
