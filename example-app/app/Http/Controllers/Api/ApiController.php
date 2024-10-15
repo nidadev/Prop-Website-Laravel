@@ -3684,7 +3684,7 @@ class ApiController extends BaseController
 
         $salesdata = json_decode($sales->getBody(), true);
         if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
-            $error = 'Records not found';
+            $error = 'We are unable to get Comp Records...';
             return  redirect()->to('compreport')->with('error', $error);
         }
 
