@@ -244,7 +244,7 @@
                 </tr>
               <tbody id="mytable4">
                 @if(isset($price))
-                <?php //dd($price);
+                <?php //dd($sts);
                 ?>
 
 
