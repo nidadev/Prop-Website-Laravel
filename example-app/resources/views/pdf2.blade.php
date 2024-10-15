@@ -142,7 +142,7 @@
 </head>
 
 <body>
-<img src="{{ $logo }}" alt="Company Logo"> <!-- Replace with actual logo URL -->
+<img src="{{ $logo }}" alt="Company Logo" width="245px" height="38"> <!-- Replace with actual logo URL -->
 
     <!--header>
     </header-->
