@@ -2463,8 +2463,10 @@ class ApiController extends BaseController
 
             //return view('pricehouse', compact('data'));
         } catch (\Exception $e) {
-            \Log::error($e->getMessage());
-            return redirect()->to('pricehouse')->with('error', 'An error occurred: ' . $e->getMessage());
+            \Log::info($e->getMessage());
+           // return redirect()->to('pricehouse')->with('error', 'An error occurred: ' . $e->getMessage());
+            return redirect()->to('pricehouse')->with('error', 'An error occurred: ');
+
         }
     }
 
@@ -2839,8 +2841,12 @@ class ApiController extends BaseController
             $response = $e->getMessage();
 
             $error = isset($response) ? $response : '';
+            \Log::info($e->getMessage());
+
             //dd($response['reasonPhrase']);
-            return  redirect()->to('priceland')->with('error', $error);
+            return redirect()->to('priceland')->with('error', 'An error occurred: ');
+
+            //return  redirect()->to('priceland')->with('error', $error);
         }
     }
 

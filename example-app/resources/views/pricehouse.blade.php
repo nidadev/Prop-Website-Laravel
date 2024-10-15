@@ -15,7 +15,7 @@
             @if(Session::has('error'))
             <p class="incorrect">{{ Session::get('error') }}</p>
             @endif
-            <form method="post" action="{{ url('pricehouse')}}">
+            <form method="post" action="{{ route('pricehouse') }}">
               @csrf
               <div class="center_h2l">
                 <div class="center_h2li row">
@@ -34,18 +34,13 @@
                     </div>
                   </div>
                   <input type="hidden" name="county_name" id="county_name">
-                  <!--div class="col-md-4">
-                  <div class="center_h2lil">
-                  <span>
-                          Acreage (Miles)</span><input class="form-control w-50 bg-light" id="acr1" name="acr1" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-                        <input class="form-control w-50 bg-light" id="acr2" name="acr2" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
-                  </div>
-                </div-->
+                
                   <div class="col-md-4">
                     <div class="center_h2lil">
                       <br><input type="submit" style="border:none" class="button run" value="Run Report">
                     </div>
                   </div>
+                  </form>
 
                 </div>
               </div>
@@ -176,7 +171,6 @@
                   </div>
                 </div>
 
-              </form>
             </div><!--------- 1st col-12 test3----->
           </div><!-- accordion -->
         </div><!-- accordion-->
