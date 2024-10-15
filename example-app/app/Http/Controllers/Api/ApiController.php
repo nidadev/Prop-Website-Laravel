@@ -157,6 +157,7 @@ class ApiController extends BaseController
 
     public function updateProfile(Request $request)
     {
+        //dd($request);
         if (auth()->user()) {
             $validator = Validator::make($request->all(), [
                 'id' => 'required',
@@ -164,21 +165,27 @@ class ApiController extends BaseController
                 'name' => 'required|string|min:5',
             ]);
             if ($validator->fails()) {
-                return response()->json($validator->errors());
+                return redirect()->route('dashboard')->withErrors($validator);
+
+                //return response()->json($validator->errors());
             }
             $user = User::find($request->id);
+            //dd($user);
             $user->name = $request->name;
             if ($user->email != $request->email) {
                 $user->is_verified = 0;
             }
             $user->email = $request->email;
             $user->save();
-            return response()->json([
+            return redirect()->back()->with('success', 'user updated successfully');
+
+            /*return response()->json([
                 'success' => true,
                 'message' => 'User updated successfully',
                 'data' => $user
-            ]);
+            ]);*/
         } else {
+
             return response()->json([
                 'success' => false,
                 'message' => 'User not authenticated',

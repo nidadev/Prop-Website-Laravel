@@ -128,7 +128,36 @@
               'slow');
           });
 
-    });
+          $(document).on('click', '.verify_mail', function() {
+            var APP_URL = "{{ url('') }}";
+            var emailVerify = $(this).attr('data-id');
+            var page_url = '' + APP_URL + '/send-verify-mail/' + emailVerify + '';
+            //alert(page_url);
+            $.ajax({
+                url: page_url,
+                type: "GET",
+                headers: {
+                },
+
+                success: function(data) {
+                    //alert(url);
+                    if (data.success == true) {
+                        $('.result1').text(data.message);
+                        setTimeout(() => {
+                            $('.result1').text();
+
+                        }, 1000);
+                    } else {
+                        alert(data.message);
+                    }
+                    //alert(url);
+                },
+
+            });
+
+        });
+    
+        });
     $(document).ready(function() {
       $.noConflict();
       var countries = [{
@@ -11874,4 +11903,6 @@
       $("#pdc").val(actual);    
     });
   }
+
+  
   </script>

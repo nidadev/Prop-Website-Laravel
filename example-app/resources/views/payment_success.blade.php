@@ -1,17 +1,69 @@
 @extends('layouts.app2')
 @section('content')
+<section id="center" class="center_h">
+  <div class="center_om">
+    <div class="container-xl">
 
-<h4>Hi {{ auth()->user()->name }}</h4> Your payment is successfully done.You can download records<br>
+      <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
+        <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
+          <div class="col-md-8">
+          
+              <div class="center_h2l">
+                <div class="center_h2li row">
+                  <div class="col-md-4">
+                    <div class="center_h2lil">
+
+                    <h4>Hi {{ auth()->user()->name }}</h4> Your payment is successfully done.You can download records<br>
     <button class="button run" style="border:none;"><a href="{{ url('/export_price/['.$data.']')}}" style="color:#fff;text-decoration:none;">Export Records</a></button>
-    @if(isset($pdf_check))
-    <a href="{{ url('/pdf/'.$data.'') }}" class="run">Download PDF Comp Report</a>
-                  <a href="{{ url('/download/xml/'.$data.'')}}">Kml File</a>
-    @endif
-    <br>
-    <br>
-    <div class="loader" style="display:none">
+   
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="center_h2lil">
+                    @if(isset($pdf_check))
+                    <br><br><br><br><button class="button btn-pdf" style="border:none;color:#fff !important;text-decoration:none;"><a href="{{ url('/pdf/'.$data.'') }}" class="dn">Download PDF</a></button>
+                          </div>
+                  </div>
+
+                </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="center_h2r">
+              <div class="center_h2ri row">
+                <div class="col-md-4">
+                  <div class="center_h2ril">
+                  <br><br><br><br><button class="button btn-pdf" style="border:none;color:#fff !important;text-decoration:none;"><a href="{{ url('/download/xml/'.$data.'')}}" class="dn">Kml</a></button>
+                  @endif         
+                  <div class="loader" style="display:none">
           </div>
           <p class="sm-txt" style="display:none">Wait for a minutes.Getting Export Records...</p>
 
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="center_h2rir">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- row-->
+</section>
+   
 @endsection
+<style>
+    .dn 
+    {
+        color:#fff !important;
+        text-decoration:none !important;
+    }
+    .btn-pdf{
+        margin-top:12px !important;
+    }
+    </style>
 

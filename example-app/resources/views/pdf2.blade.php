@@ -142,18 +142,12 @@
 </head>
 
 <body>
+<img src="{{ $logo }}" alt="Company Logo"> <!-- Replace with actual logo URL -->
 
-    <header>
-        <img src="{{ $logo }}" alt="Company Logo"> <!-- Replace with actual logo URL -->
-        <h3>Comp Report</h3>
-    </header>
-
-    <div>
-        <table class="main">
-            <tr>
-                <td><img src="{{ $image }}" width="150" height="150" alt="Property Image"></td> <!-- Replace with actual image URL -->
-            </tr>
-        </table>
+    <!--header>
+    </header-->
+    <div>       
+    <img src="{{ $image }}" width="150" height="150" alt="Property Image"></td> <!-- Replace with actual image URL -->
     </div>
     <h6>Comps Overview</h6>
     <table>
