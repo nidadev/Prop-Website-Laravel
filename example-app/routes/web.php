@@ -76,8 +76,8 @@ Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name
     Route::get('success',[SubscriptionController::class,'success'])->name('success');
     Route::get('cancel',[SubscriptionController::class,'cancel'])->name('cancel');
 
-});
-Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
+
+    Route::get('/pdf/{id}', [ApiController::class, 'pdf_download2']);
 Route::get('/export/{id}', [ApiController::class, 'export_comp']);
 Route::get('/export_price/{pricehouseid}', [ApiController::class, 'export_house_comp'])->name('export_house');
 
@@ -85,6 +85,12 @@ Route::get('/export_price/{pricehouseid}', [ApiController::class, 'export_house_
 
 
 Route::get('/download/xml/{id}', [ApiController::class, 'xmldownload'])->name('download.xml');
+
+Route::get('/profile-update', [ApiController::class, 'profile']);
+Route::post('/profile-update', [ApiController::class,'updateProfile'])->name('profile-update');
+Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
+
+});
 
 
 Route::get('/support', function () {
