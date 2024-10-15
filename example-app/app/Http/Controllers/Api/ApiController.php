@@ -3047,7 +3047,7 @@ class ApiController extends BaseController
             //dd($propertydata);
 
             if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
-                $error = 'Records not found';
+                $error = 'We are unable to get Comp Records...';
                 return  redirect()->to('compreport')->with('error', $error);
             }
             //dd($salesdata);
