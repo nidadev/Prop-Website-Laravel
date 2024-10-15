@@ -10,7 +10,7 @@
         <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
         <div class="col-md-12">
 	         <h2 class="text-white">PriceLand</h2>
-		  <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Pricing Land </h6>
+		  <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning"></span> Pricing Land </h6>
 	 </div>
           <div class="col-md-8">
             @if(Session::has('success'))
@@ -19,7 +19,7 @@
             @if(Session::has('error'))
             <p class="incorrect">{{ Session::get('error') }}</p>
             @endif
-            <form id="priceland_search_form" method="post" action="{{ url('priceland')}}">
+            <form id="priceland_search_form" method="post" action="{{ url('priceland') }}">
               @csrf
               <div class="center_h2l">
                 <div class="center_h2li row">

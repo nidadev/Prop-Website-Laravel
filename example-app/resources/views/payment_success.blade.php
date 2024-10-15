@@ -15,11 +15,8 @@
 
                     <h4>Hi {{ auth()->user()->name }}</h4> Your payment is successfully done.You can download records<br>
 
-                    <form method="get" action="{{ url('/export_price/['.$data.']') }}" id="profile_form">
-                    @csrf
-                    <input type="submit" class="button dn" value="Export Records">
-</form>
-    <!--button class="button run" style="border:none;"><a href="{{ url('/export_price/['.$data.']')}}" style="color:#fff;text-decoration:none;">Export Records</a></button-->
+                   
+    <button class="button run" style="border:none;"><a href="{{ url('/export_price/['.$data.']')}}" style="color:#fff;text-decoration:none;">Export Records</a></button>
    
                     </div>
                   </div>
