@@ -2739,7 +2739,7 @@ class ApiController extends BaseController
 
     public function GetPriceReport(Request $request)
     {
-        set_time_limit(520); // Increase the max execution time
+        set_time_limit(720); // Increase the max execution time
 
         // State FIPS mapping
         $my_states_array = [
