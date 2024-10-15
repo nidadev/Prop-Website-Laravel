@@ -2874,9 +2874,36 @@ class ApiController extends BaseController
             $price[] = json_decode($propertyResponse->getBody(), true);
         }
         $mainval = 1 * 0.1;
+        for ($j = 0; $j < count($de); $j++) {
+            $dl[] = $de[$j]['LitePropertyList'];
+        }
+        for ($n = 0; $n < count($dl); $n++) {
+            $data1 = [];
+            $propid = [];
+            $count = [];
+            //dd($dl);
+            // Loop through each property in the current list
+            for ($o = 0; $o < min(25, count($dl)); $o++) {
+                $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
+                $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
+
+                // Count the number of owners based on the presence of '/'
+                $count[$o] = (strpos($data1[$o], '/') !== false) ? 2 : 1;
+            }
+
+            $sum_arr = array_sum($count);
+
+            $sts[] = [
+                'res' . $n => $data1,
+                'prop' => $propid,
+                'count' => $count,
+                'sum' => $sum_arr,
+            ];
+        }
+        
         //dd($data);
 
-        return view('priceland', compact('de', 'mainval', 'data', 'price'));
+        return view('priceland', compact('de', 'mainval', 'data', 'price','sts'));
     }
 
     private function fetchDefaultData($client, $authenticate, $acre_arr, $st, $cp)
@@ -2931,6 +2958,7 @@ class ApiController extends BaseController
                 'sum' => $sum_arr,
             ];
         }
+        //dd($sts);
 
         return view('priceland', compact('de', 'price', 'sts'));
     }
