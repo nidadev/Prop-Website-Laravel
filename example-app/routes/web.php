@@ -53,10 +53,16 @@ Route::group(['middleware' => ['IsAuth']],function(){
     Route::post('/compreport', [ApiController::class,'GetCompReport'])->name('compreport');
 
     Route::get('/priceland', [ApiController::class,'loadPriceReport'])->name('priceland');
-    Route::post('/priceland', [ApiController::class,'GetPriceReport'])->name('priceland');
+    //Route::post('/priceland', [ApiController::class,'GetPriceReport'])->name('priceland');
+    Route::post('/priceland', [ApiController::class, 'GetPriceReport']);
+    Route::get('/get-report-results', [ApiController::class, 'getReportResults'])->name('get.report.results');
+
 
     Route::get('/pricehouse', [ApiController::class,'loadPriceHouseReport'])->name('pricehouse');
-    Route::post('/pricehouse', [ApiController::class,'GetPriceHouseReport'])->name('pricehouse');
+    
+    Route::post('/pricehouse', [ApiController::class,'GetPriceHouseReport']);
+    Route::get('/get-house-results', [ApiController::class, 'getReportHouseResults'])->name('get.house.results');
+
     Route::get('/research', [ApiController::class,'loadPriceResearchReport'])->name('research');
     Route::post('/research', [ApiController::class,'GetPriceResearchReport'])->name('research');
      

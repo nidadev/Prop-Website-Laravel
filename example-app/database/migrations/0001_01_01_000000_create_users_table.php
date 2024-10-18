@@ -21,9 +21,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->rememberToken();
             $table->boolean('is_subscribed')->default(0);
-            $table->string('client_id');
-            $table->string('client_secret');
-            $table->string('api_token');
             $table->timestamps();
         });
 

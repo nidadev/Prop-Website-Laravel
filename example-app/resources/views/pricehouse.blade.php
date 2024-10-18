@@ -8,6 +8,10 @@
 
       <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
         <div class="row center_h2 mt-4 rounded_10 bg-white p-4 px-3 mx-0">
+        <div class="col-md-12">
+	         <h2 class="text-white">PriceLand</h2>
+		  <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning"></span> Pricing Land </h6>
+	 </div>
           <div class="col-md-8">
             @if(Session::has('success'))
             <p class="result">{{ Session::get('success') }}</p>
@@ -15,32 +19,37 @@
             @if(Session::has('error'))
             <p class="incorrect">{{ Session::get('error') }}</p>
             @endif
-            <form method="post" action="{{ route('pricehouse') }}">
+            <form id="priceland1_search_form" method="post" action="{{ url('pricehouse') }}">
               @csrf
               <div class="center_h2l">
                 <div class="center_h2li row">
                   <div class="col-md-4">
                     <div class="center_h2lil">
-
                       <label for="autocomplete">State:</label>
-                      <input class="form-control" id="autocomplete" name="state" type="text">
+                      <input class="form-control" id="autocomplete" name="state1" type="text">
 
                     </div>
                   </div>
                   <div class="col-md-4">
                     <div class="center_h2lil">
-                      <label for="autocomplete">County:</label><select id="counties" name="cp" class="form-select"></select>
+                      <label for="autocomplete">County:</label><select id="counties" name="cp1" class="form-select"></select>
 
                     </div>
                   </div>
-                  <input type="hidden" name="county_name" id="county_name">
-                
+                  <input type="hidden" name="county_name1" id="county_name">
+
+                  <!--div class="col-md-4">
+                  <div class="center_h2lil">
+                  <span>
+                          Acreage (Miles)</span><input class="form-control w-50 bg-light" id="acr1" name="acr1" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                        <input class="form-control w-50 bg-light" id="acr2" name="acr2" class="has-custom-focus" type="number" placeholder="" aria-required="false" aria-invalid="false" autocomplete="off" step="0.001" min="0" value="">
+                  </div>
+                </div-->
                   <div class="col-md-4">
                     <div class="center_h2lil">
                       <br><input type="submit" style="border:none" class="button run" value="Run Report">
                     </div>
                   </div>
-                  </form>
 
                 </div>
               </div>
@@ -171,6 +180,7 @@
                   </div>
                 </div>
 
+              </form>
             </div><!--------- 1st col-12 test3----->
           </div><!-- accordion -->
         </div><!-- accordion-->
@@ -196,13 +206,7 @@
           <p class="sm-txt" style="display:none">Wait for a minutes.Getting Comp Records...</p>
 
           <div class="work_h2i p-4 rounded_10 shadow_box text-center">
-            <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span>
-          
-          <span id="show_exp"></span></div>
-            @if(isset($prop_id))
-            <?php //dd($prop_id[0]); 
-            ?>
-            @endif
+            <div id="amnt" style="display:none;">Total Amount:$<span id="total_val"></span></div>
           </div>
           <div class="center_h2lil">
           <form method="post" action="{{ route('stripe') }}">
@@ -216,7 +220,7 @@
 
 
     </form>
-            <span>
+    <span>
               <br><span><!--input type="button" id="chk" style="display:none;border:none" class="button" value="Checkout"--> </span>
             </span>
 
@@ -228,84 +232,63 @@
               <thead class="bg-grey-50">
                 <tr>
                   <th>Acreage</th>
-                  <!--th>Data tree Owner Records</th-->
-                  <th>Data tree Owner Records</th>
-                  <th>ZipCode</th>
+                  <th>Total Comps</th>
                   <th>State</th>
+                  <th>Zipcode</th>
                   <th>County</th>
-                  <th>Median Sale Price</th>
-                  <th>Avg Days On Market</th>
+                  <th>Price</th>
+                  <th>Market Price/Acre</th>
                   <th>Export Records</th>
                   <!--th>Export Data</th-->
 
 
                 </tr>
               <tbody id="mytable4">
-                <?php //dd($price);?>
                 @if(isset($price))
-                <?php //count($data);
+                <?php //dd($sts);
                 ?>
 
 
-                <?php for ($i = 0; $i < count($price); $i++) {
-                  $datatree = $sts[$i]['sum'];
-                  $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 150, 200, 250, 300];
+                <?php for ($i = 0; $i < count($price)-1; $i++) {
 
-                  //$total = $datatree * $mainval;
-                  //$prop = 'prop'.$i;
-                  // dd($sts);
+                  $acre = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95];
+$mainval = 0.1;
+                  $total = $de[$i]['MaxResultsCount'] * $mainval;
+                  $maxc = $de[$i]['MaxResultsCount'];
+                  $zp = isset($de[$i]['zipcode']) ? $de[$i]['zipcode'] : 0;
 
-                  $maxc = $data[$i]['MaxResultsCount'];
-                  $total = $maxc * $mainval;
-                  $avg_s = $price[$i]['Reports'][0]['Data']['MarketTrendData']['ListingDetails']['AvgDaysOnMarket'];
-                  $avg_s  = isset($avg_s) ? $avg_s : '';
+                
                   $sl_pr = $price[$i]['Reports'][0]['Data']['LastMarketSaleInformation']['SalePrice'];
-                  //$pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
-                  $ct = isset($data[$i]['LitePropertyList'][0]['County']) ? $data[$i]['LitePropertyList'][0]['County'] : 0;
-                  $st = isset($data[$i]['LitePropertyList'][0]['State']) ? $data[$i]['LitePropertyList'][0]['State'] : 0;
-                  $zp = isset($data[$i]['zipcode']) ? $data[$i]['zipcode'] : 0;
+                  $pr_per_acre = number_format($sl_pr/$acre[$i+1],2);
+                  $ct = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['County'] : 0;
+                  $st = isset($price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State']) ? $price[$i]['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['State'] : 0;
                   $exp =implode(",",$sts[$i]['prop']);
 
-                  /*foreach ($exp as $x => $x_value) {
-                    echo "Key=" . $x . ", Value=" . $x_value;
-                    echo "<br>";
-                  }
-                  dd($x_value);*/
-                  /*for($y=0; $y<count($exp); $y++)
-                  {
-                    $pro[] = $exp[$y];
-                  }*/
-                  //dd($exp);
-//if payment is not complete or unpaid then export data button will be disabled
-                  $avg = isset($avg_s) ? $avg_s : 0;
-                  $info = ['0-5', '5-10', '10-15', '15-20', '20-25', '25-30', '30-35', '35-40', '40-45', '45-50', '50-55', '60-65', '65-70', '70-75', '75-80', '80-85', '85-90', '90-95', '95-100', '100-105', '105-110', '110-115', '115-120', '120-125']; //echo $res; 
-                ?>
+                  $info = ['0-5', '5-10', '10-15', '15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','60-65','65-70','70-75','75-80','80-85','85-90','90-95','95-100','100-105']; //echo $res; 
+    ?>
                   <tr>
                     <td>{{ $info[$i] }}</td>
-                    <!--td>{{ $datatree }}</td-->
                     <td>{{ $maxc}}</td>
-                    <td>{{ $zp}}</td>
                     <td>{{ $st}}</td>
+                    <td>{{$zp}}</td>
+
                     <td>{{ $ct}}</td>
-                    <td>${{ $sl_pr}}</td>
-                    <td>{{ $avg }}</td>
+                    <td>${{ $sl_pr }}</td>
+                    <td>${{ $pr_per_acre }}</td>
 
                     <td><input type='checkbox' id='sm' onclick="javascript:toggle('{{ $maxc }}')" ; class='su' value="{{ $total }}" name='sum[]' data-element="{{$exp}}" style='border:14px solid green;width:30px;height:30px;'></td>
-                    <!--td> <button type="button" class="button" style="border:none;" onclick="javascript:toggle_export('{{$maxc}}')" ><a href="{{ url('/export_price/['.$exp.']')}}" id="exp_id" name="exp_data[]" style="color:#fff !important;">Export</a></button-->
+                    <!--td> <button type="button" class="button" style="border:none;"><a href="{{ url('/export_price/['.$exp.']')}}" style="color:#fff !important;">Export</a></button-->
+
+
+                  </tr>
+                <?php } ?>
+                @endif
+              </tbody>
+              
+            </table>
+            <a href="#">Download Table</a>
         </div>
-        </td>
-
-        </tr>
-      <?php } ?>
-
-      @endif
-
-      </tbody>
-
-      </table>
-      <a href="#">Download Table</a>
       </div>
-    </div>
 
 </section>
 
