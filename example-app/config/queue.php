@@ -43,6 +43,13 @@ return [
             'after_commit' => false,
         ],
 
+        'price_house_report' => [
+        'driver' => 'database',
+        'table' => 'price_house_report_jobs',
+        'queue' => 'price_house_report',
+        'retry_after' => 90,
+    ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => env('BEANSTALKD_QUEUE_HOST', 'localhost'),

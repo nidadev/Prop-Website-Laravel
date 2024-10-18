@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class DeleteCache extends Command
+class QueueWork extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:delete-cache';
+    protected $signature = 'app:queue-work';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'this command will delete cache';
+    protected $description = 'this will run queue jobs';
 
     /**
      * Execute the console command.
@@ -27,10 +27,11 @@ class DeleteCache extends Command
     public function handle()
     {
         //
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('optimize:clear');
-        Artisan::call('serve');
-        $this->info('cache deleted successfully');
+        Artisan::call('queue:work', [
+            '--timeout' => 60,
+            '--tries' => 3,
+        ]);
+        $this->info('queue call successfully');
+
     }
 }

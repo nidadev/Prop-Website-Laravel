@@ -6,19 +6,24 @@ use Pdf;
 use Mail;
 use GuzzleHttp;
 use App\Models\User;
+use App\Exports\CompExport;
+use App\Models\PriceReport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Models\PriceHouseReport;
+use App\Exports\PriceHouseExport;
+use App\Jobs\FetchPriceReportJob;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\FetchPriceHouseReportJob;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Exports\CompExport;
-use App\Exports\PriceHouseExport;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ApiController extends BaseController
 {
@@ -2294,275 +2299,27 @@ class ApiController extends BaseController
             dd($dat);
         }
     }
-
     public function GetPriceHouseReport(Request $request)
     {
-        set_time_limit(520); // Increase the max execution time
-
-        // State mapping
-        $my_states_array = [
-            'ca' => 6,
-            'al' => 1,
-            'ak' => 2,
-            'az' => 4,
-            'ar' => 5,
-            'co' => 8,
-            'ct' => 9,
-            'de' => 10,
-            'dc' => 11,
-            'fl' => 12,
-            'ga' => 13,
-            'hi' => 15,
-            'id' => 16,
-            'il' => 17,
-            'in' => 18,
-            'ia' => 19,
-            'ks' => 20,
-            'ky' => 21,
-            'la'   => 22,
-             'me'    => 23,
-              'md'   => 24,
-                'ma' => 25,
-               'mi'  => 26,
-               'mn'  => 27,
-               'ms'  => 28,
-               'mo'  => 29,
-             'mt'    => 30,
-             'ne'    => 31,
-              'nv'   => 32,
-              'nh'   => 33,
-              'nj'   => 34,
-               'nm'  => 35,
-              'ny'   => 36,
-              'nc'   => 37,
-              'nd'   => 38,
-               'oh'  => 39,
-              'ok'   => 40,
-              'or'   => 41,
-             'pa'    => 42,
-             'ri'    => 44,
-            'sc' => 45,
-             'sd'   => 46,
-             'tn'   => 47,
-             'tx'   => 48,
-             'ut'   => 49,
-             'vt'   => 50,
-             'va'   => 51,
-             'wa'   => 53,
-              'wv'  => 54,
-             'wi'   => 55,
-             'wy'   => 56];
-
-        // Validate the input
-        $request->validate([
-            'state' => 'required|string',
-            'county_name' => 'required|string',
-            'cp' => 'required|string'
+        // dd($request);
+        $validatedData = $request->validate([
+            'state1' => 'required|string',
+            'county_name1' => 'required|string',
+            'cp1' => 'required|string'
         ]);
+        //dd($validatedData);
 
-        // Determine state code
-        $stateCode = $my_states_array[ltrim($request['state'], '0')] ?? null;
-        if (!$stateCode) {
-            return redirect()->to('pricehouse')->with('error', 'Invalid state provided.');
-        }
-
-        $client = new GuzzleHttp\Client();
-
-        try {
-            // Authenticate and get the token
-            $loginResponse = $client->post('https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                ],
-                'body' => json_encode([
-                    'ClientId' => config('app.client_id'),
-                    'ClientSecretKey' => config('app.client_secret')
-                ])
-            ]);
-
-            $authData = json_decode($loginResponse->getBody(), true);
-            //dd($authData);
-            $authenticate = $authData ?? null;
-
-            if (!$authenticate) {
-                return redirect()->to('pricehouse')->with('error', 'Authentication failed. No token received.');
-            }
-
-            $cp = ltrim($request['cp'], '0');
-            $acre_arr = range(0, 100, 5); // Acreage ranges
-
-            // Fetch property details
-            $properties = DB::table('property_details')
-                ->where([
-                    'state' => $request['state'],
-                    'county' => $request['county_name']
-                ])
-                ->get()
-                ->toArray();
-
-            $data = [];
-            if (count($properties) > 0) {
-                foreach ($properties as $property) {
-                    $data[] = $this->fetchPropertyReports($client, $authenticate, $acre_arr, $stateCode, $cp, $property->property_id);
-                }
-            } else {
-                foreach ($acre_arr as $index => $acreFrom) {
-                    if (!isset($acre_arr[$index + 1])) {
-                        break;
-                    }
-                    $data[] = $this->fetchSalesComparables($client, $authenticate, $acreFrom, $acre_arr[$index + 1], $stateCode, $cp);
-                    //dd($data);
-                    $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                        'headers' => [
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                            'Authorization' => 'Bearer ' . $authenticate,
-                        ],
-                        'body' => json_encode([
-                            'ProductNames' => ['TotalViewReport'],
-
-                            "SearchType" => "PROPERTY",
-                            "PropertyId" => $data[$index]['LitePropertyList'][0]['PropertyId']
-                        ]),
-                    ]);
-                    $price[] = json_decode($getProperty->getBody(), true);
-                }
-            }
-            //dd($data);
-            //$dl = $data;
-            for ($j = 0; $j < count($data); $j++) {
-                $dl[] = $data[$j]['LitePropertyList'];
-            }
-            for ($n = 0; $n < count($dl); $n++) {
-                $data1 = [];
-                $propid = [];
-                $count = [];
-                //dd($dl);
-                // Loop through each property in the current list
-                for ($o = 0; $o < min(25, count($dl[$n])); $o++) {
-                    $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
-                    $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
-
-                    // Count the number of owners based on the presence of '/'
-                    $count[$o] = (strpos($data1[$o], '/') !== false) ? 2 : 1;
-                }
-
-                $sum_arr = array_sum($count);
-
-                $sts[] = [
-                    'res' . $n => $data1,
-                    'prop' => $propid,
-                    'count' => $count,
-                    'sum' => $sum_arr,
-                ];
-            }
-            //dd($sts);
-            $mainval = 1 * 0.1; // Example calculation; adjust as needed
-            return view('pricehouse', compact('mainval', 'sts', 'data', 'price'));
-
-            //return view('pricehouse', compact('data'));
-        } catch (\Exception $e) {
-            \Log::info($e->getMessage());
-           // return redirect()->to('pricehouse')->with('error', 'An error occurred: ' . $e->getMessage());
-            return redirect()->to('pricehouse')->with('error', 'An error occurred: ');
-
-        }
+        FetchPriceHouseReportJob::dispatch($validatedData['state1'], $validatedData['county_name1'], $validatedData['cp1']);
+        $url = route('get.house.results');
+        return redirect()->to($url)->with(
+            [
+                'message' => 'Your report is being generated. You can check back shortly.',
+                'state1' => $request['state1'],
+                'county_name1' => $request['county_name1'],
+                'cp1' => $request['cp1']
+            ]
+        );
     }
-
-    private function fetchPropertyReports($client, $authenticate, $acre_arr, $stateCode, $cp, $propertyId)
-    {
-        $results = [];
-
-        foreach ($acre_arr as $index => $acreFrom) {
-            if (!isset($acre_arr[$index + 1])) {
-                break;
-            }
-
-            $response = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => json_encode([
-                    'ProductNames' => ['SalesComparables'],
-                    'SearchType' => 'Filter',
-                    'SearchRequest' => [
-                        'ReferenceId' => '1',
-                        'ProductName' => 'SearchLite',
-                        'MaxReturn' => '1',
-                        'Filters' => [
-                            [
-                                'FilterName' => 'LotAcreage',
-                                'FilterOperator' => 'is between',
-                                'FilterValues' => [$acreFrom, $acre_arr[$index + 1]]
-                            ],
-                            [
-                                'FilterName' => 'StateFips',
-                                'FilterOperator' => 'is',
-                                'FilterValues' => [$stateCode],
-                                'FilterGroup' => 1
-                            ],
-                            [
-                                'FilterName' => 'CountyFips',
-                                'FilterOperator' => 'is',
-                                'FilterValues' => [$cp],
-                                'FilterGroup' => 1
-                            ],
-                        ]
-                    ]
-                ])
-            ]);
-
-            $results[] = json_decode($response->getBody(), true);
-        }
-
-        return $results;
-    }
-
-    private function fetchSalesComparables($client, $authenticate, $acreFrom, $acreTo, $stateCode, $cp)
-    {
-        $response = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['SalesComparables'],
-                'SearchType' => 'Filter',
-                'SearchRequest' => [
-                    'ReferenceId' => '1',
-                    'ProductName' => 'SearchLite',
-                    'MaxReturn' => '1',
-                    'Filters' => [
-                        [
-                            'FilterName' => 'LotAcreage',
-                            'FilterOperator' => 'is between',
-                            'FilterValues' => [$acreFrom, $acreTo]
-                        ],
-                        [
-                            'FilterName' => 'StateFips',
-                            'FilterOperator' => 'is',
-                            'FilterValues' => [$stateCode],
-                            'FilterGroup' => 1
-                        ],
-                        [
-                            'FilterName' => 'CountyFips',
-                            'FilterOperator' => 'is',
-                            'FilterValues' => [$cp],
-                            'FilterGroup' => 1
-                        ],
-                    ]
-                ]
-            ])
-        ]);
-
-        return json_decode($response->getBody(), true);
-    }
-
-
 
     public function GetPriceResearchReport(Request $request)
     {
@@ -2589,38 +2346,39 @@ class ApiController extends BaseController
             'ks' => 20,
             'ky' => 21,
             'la'   => 22,
-             'me'    => 23,
-              'md'   => 24,
-                'ma' => 25,
-               'mi'  => 26,
-               'mn'  => 27,
-               'ms'  => 28,
-               'mo'  => 29,
-             'mt'    => 30,
-             'ne'    => 31,
-              'nv'   => 32,
-              'nh'   => 33,
-              'nj'   => 34,
-               'nm'  => 35,
-              'ny'   => 36,
-              'nc'   => 37,
-              'nd'   => 38,
-               'oh'  => 39,
-              'ok'   => 40,
-              'or'   => 41,
-             'pa'    => 42,
-             'ri'    => 44,
+            'me'    => 23,
+            'md'   => 24,
+            'ma' => 25,
+            'mi'  => 26,
+            'mn'  => 27,
+            'ms'  => 28,
+            'mo'  => 29,
+            'mt'    => 30,
+            'ne'    => 31,
+            'nv'   => 32,
+            'nh'   => 33,
+            'nj'   => 34,
+            'nm'  => 35,
+            'ny'   => 36,
+            'nc'   => 37,
+            'nd'   => 38,
+            'oh'  => 39,
+            'ok'   => 40,
+            'or'   => 41,
+            'pa'    => 42,
+            'ri'    => 44,
             'sc' => 45,
-             'sd'   => 46,
-             'tn'   => 47,
-             'tx'   => 48,
-             'ut'   => 49,
-             'vt'   => 50,
-             'va'   => 51,
-             'wa'   => 53,
-              'wv'  => 54,
-             'wi'   => 55,
-             'wy'   => 56];
+            'sd'   => 46,
+            'tn'   => 47,
+            'tx'   => 48,
+            'ut'   => 49,
+            'vt'   => 50,
+            'va'   => 51,
+            'wa'   => 53,
+            'wv'  => 54,
+            'wi'   => 55,
+            'wy'   => 56
+        ];
         foreach ($my_states_array as $key => $val) {
             if (ltrim($request['state'], '0') == $key) {
                 $st = $val;
@@ -2736,281 +2494,86 @@ class ApiController extends BaseController
 
     }
 
-
     public function GetPriceReport(Request $request)
     {
-        set_time_limit(720); // Increase the max execution time
-
-        // State FIPS mapping
-        $my_states_array = [
-            'ca' => 6,
-            'al' => 1,
-            'ak' => 2,
-            'az' => 4,
-            'ar' => 5,
-            'co' => 8,
-            'ct' => 9,
-            'de' => 10,
-            'dc' => 11,
-            'fl' => 12,
-            'ga' => 13,
-            'hi' => 15,
-            'id' => 16,
-            'il' => 17,
-            'in' => 18,
-            'ia' => 19,
-            'ks' => 20,
-            'ky' => 21,
-            'la'   => 22,
-             'me'    => 23,
-              'md'   => 24,
-                'ma' => 25,
-               'mi'  => 26,
-               'mn'  => 27,
-               'ms'  => 28,
-               'mo'  => 29,
-             'mt'    => 30,
-             'ne'    => 31,
-              'nv'   => 32,
-              'nh'   => 33,
-              'nj'   => 34,
-               'nm'  => 35,
-              'ny'   => 36,
-              'nc'   => 37,
-              'nd'   => 38,
-               'oh'  => 39,
-              'ok'   => 40,
-              'or'   => 41,
-             'pa'    => 42,
-             'ri'    => 44,
-            'sc' => 45,
-             'sd'   => 46,
-             'tn'   => 47,
-             'tx'   => 48,
-             'ut'   => 49,
-             'vt'   => 50,
-             'va'   => 51,
-             'wa'   => 53,
-              'wv'  => 54,
-             'wi'   => 55,
-             'wy'   => 56
-            
-        ];
-
-        // Get the state FIPS code
-        $st = $my_states_array[ltrim($request['state'], '0')] ?? null;
-        if (is_null($st)) {
-            return redirect()->to('priceland')->with('error', 'Invalid state code.');
-        }
-
-        // Prepare client for API requests
-        $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ],
-            'body' => json_encode([
-                'ClientId' => config('app.client_id'),
-                'ClientSecretKey' => config('app.client_secret')
-            ])
+        // Validate input
+        $validatedData = $request->validate([
+            'state' => 'required|string',
+            'county_name' => 'required|string',
         ]);
+        $userid = auth()->user()->id;
 
-        $authenticate = json_decode($login->getBody(), true);
-        //dd($authenticate);
+        // Dispatch the job
+        FetchPriceReportJob::dispatch($validatedData['state'], $validatedData['county_name'], $request['cp'], $userid);
+        // Prepare the URL to fetch results
+        $url = route('get.report.results'); // Use named route for better practice        //return '<a href="'.$url.'">Show Results</a>';
 
-        // Clean up the county code
-        $cp = ltrim($request['cp'], '0');
-        try {
-            // Prepare acreage ranges
-            $acre_arr = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
-
-            // Fetch property details
-            $prop_id = DB::table('property_details')->where([
-                'state' => $request['state'],
-                'county' => $request['county_name']
-            ])->get();
-
-            if ($prop_id->isEmpty()) {
-                return $this->fetchDefaultData($client, $authenticate, $acre_arr, $st, $cp);
-            }
-
-            return $this->fetchPropertyData($client, $authenticate, $prop_id, $acre_arr, $st, $cp);
-        } catch (\Exception $e) {
-
-            $response = $e->getMessage();
-
-            $error = isset($response) ? $response : '';
-            \Log::info($e->getMessage());
-
-            //dd($response['reasonPhrase']);
-            return redirect()->to('priceland')->with('error', 'An error occurred: ');
-
-            //return  redirect()->to('priceland')->with('error', $error);
-        }
+        //return Redirect::intended($url);
+        return redirect()->to($url)->with(
+            [
+                'message' => 'Your report is being generated. You can check back shortly.',
+                'state' => $validatedData['state'],
+                'county' => $validatedData['county_name']
+            ],
+        );
     }
 
-    private function fetchPropertyData($client, $authenticate, $prop_id, $acre_arr, $st, $cp)
+
+    public function getReportHouseResults(Request $request)
     {
-        $de = [];
-        $price = [];
-        $data = json_decode(json_encode($prop_id), true);
+        // Validate input
+        //dd($request);
+        $state = session()->get('state1');
+        $county = session()->get('county_name1');
 
-        foreach ($data as $index => $property) {
-            $filterValues = $this->buildFilterValues($acre_arr[$index], $acre_arr[$index + 1] ?? 100, $st, $cp);
+        //dd(session()->get('message'));
 
-            // Fetch sales comparables
-            $response = $this->fetchReport($client, $authenticate, $filterValues, 'SalesComparables');
-            $de[] = json_decode($response->getBody(), true);
+        // Fetch the latest report
+        $report = PriceHouseReport::where('state', $state)
+            ->where('county_name', $county)
+            ->latest()
+            ->first();
 
-            // Fetch property detail report
-            $propertyResponse = $this->fetchReport($client, $authenticate, [
-                [
-                    'FilterName' => 'PropertyId',
-                    'FilterOperator' => 'is',
-                    'FilterValues' => [$data[$index]['property_id']]
-                ]
-            ], 'PropertyDetailReport');
-            $price[] = json_decode($propertyResponse->getBody(), true);
+        if (!$report) {
+            return redirect()->back()->with('message', 'Getting recods...');
+            //return response()->json(['message' => 'Report not available yet.'], 404);
         }
-        $mainval = 1 * 0.1;
-        for ($j = 0; $j < count($de); $j++) {
-            $dl[] = $de[$j]['LitePropertyList'];
-        }
-        for ($n = 0; $n < count($dl); $n++) {
-            $data1 = [];
-            $propid = [];
-            $count = [];
-            //dd($dl);
-            // Loop through each property in the current list
-            for ($o = 0; $o < min(25, count($dl)); $o++) {
-                $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
-                $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
 
-                // Count the number of owners based on the presence of '/'
-                $count[$o] = (strpos($data1[$o], '/') !== false) ? 2 : 1;
-            }
-
-            $sum_arr = array_sum($count);
-
-            $sts[] = [
-                'res' . $n => $data1,
-                'prop' => $propid,
-                'count' => $count,
-                'sum' => $sum_arr,
-            ];
-        }
-        
-        //dd($data);
-
-        return view('priceland', compact('de', 'mainval', 'data', 'price','sts'));
+        $de = json_decode($report['de'], true);
+        $mainval = 0.1;
+        $price = json_decode($report['price'], true);
+        //dd($price);
+        $sts = json_decode($report['sts'], true);
+        return view('pricehouse', compact('de', 'mainval', 'price', 'sts'));
     }
 
-    private function fetchDefaultData($client, $authenticate, $acre_arr, $st, $cp)
+    public function getReportResults(Request $request)
     {
-        $de = [];
-        $price = [];
+        // Validate input
+        //dd($request);
+        $state = session()->get('state');
+        $county = session()->get('county');
 
-        for ($j = 0; $j < count($acre_arr) - 1; $j++) {
-            $filterValues = $this->buildFilterValues($acre_arr[$j], $acre_arr[$j + 1], $st, $cp);
+        // Fetch the latest report
+        $report = PriceReport::where('state', $state)
+            ->where('county_name', $county)
+            ->latest()
+            ->first();
+        //dd($report);
 
-            // Fetch sales comparables
-            $response = $this->fetchReport($client, $authenticate, $filterValues, 'SalesComparables');
-            $de[] = json_decode($response->getBody(), true);
+        if (!$report) {
+            return redirect()->back()->with('message', 'Getting recods...');
 
-            // Fetch property detail report
-            if (!empty($de[$j]['LitePropertyList'])) {
-                $propertyId = $de[$j]['LitePropertyList'][0]['PropertyId'];
-                $propertyResponse = $this->fetchReport($client, $authenticate, [
-                    [
-                        'FilterName' => 'PropertyId',
-                        'FilterOperator' => 'is',
-                        'FilterValues' => [$propertyId]
-                    ]
-                ], 'PropertyDetailReport');
-                $price[] = json_decode($propertyResponse->getBody(), true);
-            }
-            //dd($de);
+            //return response()->json(['message' => 'Report not available yet.'], 404);
         }
-        for ($j = 0; $j < count($de); $j++) {
-            $dl[] = $de[$j]['LitePropertyList'];
-        }
-        for ($n = 0; $n < count($dl); $n++) {
-            $data1 = [];
-            $propid = [];
-            $count = [];
-            //dd($dl);
-            // Loop through each property in the current list
-            for ($o = 0; $o < min(25, count($dl)); $o++) {
-                $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
-                $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
+       
+        $de = json_decode($report['de'], true);
+        $mainval = 0.1;
+        $price = json_decode($report['price'], true);
+        //dd($price);
+        $sts = json_decode($report['sts'], true);
+        return view('priceland', compact('de', 'mainval', 'price', 'sts'));
 
-                // Count the number of owners based on the presence of '/'
-                $count[$o] = (strpos($data1[$o], '/') !== false) ? 2 : 1;
-            }
-
-            $sum_arr = array_sum($count);
-
-            $sts[] = [
-                'res' . $n => $data1,
-                'prop' => $propid,
-                'count' => $count,
-                'sum' => $sum_arr,
-            ];
-        }
-        //dd($sts);
-
-        return view('priceland', compact('de', 'price', 'sts'));
-    }
-
-    private function fetchReport($client, $authenticate, $filterValues, $productName)
-    {
-        return $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => [$productName],
-                'SearchType' => 'Filter',
-                'SearchRequest' => [
-                    'ReferenceId' => '1',
-                    'ProductName' => 'SearchLite',
-                    'MaxReturn' => 1,
-                    'Filters' => $filterValues,
-                ],
-            ]),
-        ]);
-    }
-
-    private function buildFilterValues($acreFrom, $acreTo, $st, $cp)
-    {
-        return [
-            [
-                'FilterName' => 'LotAcreage',
-                'FilterOperator' => 'is between',
-                'FilterValues' => [$acreFrom, $acreTo]
-            ],
-            [
-                'FilterName' => 'StateFips',
-                'FilterOperator' => 'is',
-                'FilterValues' => [$st],
-                'FilterGroup' => 1
-            ],
-            [
-                'FilterName' => 'CountyFips',
-                'FilterOperator' => 'is',
-                'FilterValues' => [$cp],
-                'FilterGroup' => 1
-            ],
-            [
-                'FilterName' => 'SalePrice',
-                'FilterOperator' => 'is between',
-                'FilterValues' => [1, 10000000],
-                'FilterGroup' => 1
-            ],
-        ];
     }
 
     public function loadHome()
@@ -3858,7 +3421,7 @@ class ApiController extends BaseController
         //dd($redfin_sold_data);
         //dd($realtor);
 
-        
+
 
         if (!empty($redfin_data['data']) && !empty($zillow_comp_data) && !empty($realtor['data']['results'])) {
             $rc = count($redfin_data['data']);
@@ -3944,22 +3507,22 @@ class ApiController extends BaseController
                 $rc_sold = count($redfin_sold_data['data']);
                 //dd($rc);
                 $zcs_sold = count($zillow_comp_data_sold);
-    
+
                 $real_c_sold = count($realtor_sold['data']['results']);
                 //dd($real_c);
                 //dd($zcs);
                 $count1_sold = $rc_sold <= $zcs_sold ? $rc_sold : $zcs_sold;
                 $count_sold = $real_c_sold <= $count1_sold ? $real_c_sold : $count1_sold;
                 //dd($real_c);
-    
+
                 //$count = 
-    
+
                 //dd($count);
                 for ($i = 0; $i < $count_sold; $i++) {
                     $redfincor_sold[] = $redfin_sold_data['data'][$i];
-    
+
                     $realtr_sold[] = $realtor_sold['data']['results'][$i];
-    
+
                     $zillowcor_sold[] = $zillow_comp_data_sold[$i]['longitude'] . ',' . $zillow_comp_data_sold[$i]['latitude'];
                 }
                 //dd($realtr);
@@ -3969,7 +3532,7 @@ class ApiController extends BaseController
                         $real_sold[] = $realtr_sold[$i]['location']['address']['coordinate']['lon'] . ',' . $realtr_sold[$i]['location']['address']['coordinate']['lat'];
                     }
                 }
-    
+
                 //$datatree = $propertydata['Reports'][0]['Data']['LocationInformation']['Longitude'] . ',' . $propertydata['Reports'][0]['Data']['LocationInformation']['Latitude'];
                 //dd($redfincor);
                 for ($i = 0; $i < count($zillowcor_sold); $i++) {
@@ -3979,31 +3542,31 @@ class ApiController extends BaseController
                 for ($i = 0; $i < count($redfincor_sold); $i++) {
                     $rf_sold[] = $redfincor_sold[$i]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfincor_sold[$i]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
                 }
-               // $getallcordinates['dt'] = $datatree;
+                // $getallcordinates['dt'] = $datatree;
                 $getallcordinates['zc_sold'] = $zc_sold;
-    
+
                 $getallcordinates['rf_sold'] = $rf_sold;
                 $getallcordinates['rea_sold'] = $real_sold;
                 $count_real_sold = count($real_sold);
                 $count_zc_sold = count($zillowcor_sold);
                 $count_red_sold = count($redfincor_sold);
-    
+
                 $count_1_sold = $count_red_sold <= $count_zc_sold ? $count_red_sold :  $count_zc_sold;
                 $cordinates_count_sold = $count_real_sold <= $count_1_sold ? $count_real_sold : $count_1_sold;
                 //dd($cordinates_count);
                 //dd($getallcordinates);
-    
-            
+
+
                 //dd($zillow_comp_data);
                 //dd($redfin_data);
                 //dd($realtr);
                 //dd($realtr[0]['location']['address']['city']);
-    
+
                 for ($i = 0; $i < $cordinates_count_sold; $i++) {
-    
+
                     //dd($marker);
                     //$href= 'https://www.zillow.com/homedetails/18143432_zpid/';
-    
+
                     $xmlContent .= '    <Placemark>' . "\n";
                     $xmlContent .= '      <name>' . htmlentities($zillow_comp_data_sold[$i]['address']['streetAddress']) . '</name>' . "\n";
                     $xmlContent .= '      <description>' . $zillow_comp_data_sold[$i]['address']['city'] . '<br />' . $zillow_comp_data_sold[$i]['homeStatus'] . '<br /><a href="https://www.zillow.com/homedetails/' . $zillow_comp_data_sold[$i]['zpid'] . '_zpid/">Zillow</a><br />$' . $zillow_comp_data_sold[$i]['price'] . '</description>' . "\n";
@@ -4019,7 +3582,7 @@ class ApiController extends BaseController
                     $xmlContent .= '        </IconStyle>' . "\n";
                     $xmlContent .= '      </Style>' . "\n";
                     $xmlContent .= '    </Placemark>' . "\n";
-    
+
                     $xmlContent .= '    <Placemark>' . "\n";
                     $xmlContent .= '      <name>' . htmlentities($redfin_sold_data['data'][$i]['homeData']['addressInfo']['formattedStreetLine']) . '</name>' . "\n";
                     $xmlContent .= '      <description>' . $redfin_sold_data['data'][$i]['homeData']['addressInfo']['city'] . '<br /><a href="https://redfin.com' . $redfin_sold_data['data'][$i]['homeData']['url'] . '">RedFin</a><br />$' . $redfin_sold_data['data'][$i]['homeData']['priceInfo']['amount'] . '</description>' . "\n";
@@ -4035,7 +3598,7 @@ class ApiController extends BaseController
                     $xmlContent .= '        </IconStyle>' . "\n";
                     $xmlContent .= '      </Style>' . "\n";
                     $xmlContent .= '    </Placemark>' . "\n";
-    
+
                     //////////////realtor
                     $xmlContent .= '    <Placemark>' . "\n";
                     $xmlContent .= '      <name>' . htmlentities($realtr_sold[$i]['location']['address']['line']) . '</name>' . "\n";
@@ -4053,10 +3616,8 @@ class ApiController extends BaseController
                     $xmlContent .= '      </Style>' . "\n";
                     $xmlContent .= '    </Placemark>' . "\n";
                 }
-    
-                
             }
-//dd($getallcordinates);
+            //dd($getallcordinates);
             for ($i = 0; $i < $cordinates_count; $i++) {
 
                 //dd($marker);
