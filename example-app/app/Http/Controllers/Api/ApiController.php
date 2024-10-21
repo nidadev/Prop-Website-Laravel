@@ -6,7 +6,9 @@ use Pdf;
 use Mail;
 use GuzzleHttp;
 use App\Models\User;
+use App\Models\Export;
 use App\Exports\CompExport;
+use App\Jobs\ExportDataJob;
 use App\Models\PriceReport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -20,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\FetchPriceHouseReportJob;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
@@ -306,6 +309,7 @@ class ApiController extends BaseController
     public function GetCompReport(Request $request)
     {
         //dd($request);
+        set_time_limit(300);
         $client = new GuzzleHttp\Client();
         $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
             'headers' => [
@@ -323,7 +327,7 @@ class ApiController extends BaseController
         $apn = $request->apn;
         //dd($apn);
         try {
-            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            $res_ = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -346,7 +350,7 @@ class ApiController extends BaseController
                 },
             }',
             ]);
-            $data = json_decode($res->getBody(), true);
+            $data = json_decode($res_->getBody(), true);
             //dd($data);
             $data = isset($data['LitePropertyList']) ? $data['LitePropertyList'][0] : $data['Reports']['0'];
             $dt  = isset($data) ? $data : $data['Data']['SubjectProperty'];
@@ -374,7 +378,9 @@ class ApiController extends BaseController
             return view('compreport', compact('price', 'maxcount', 'mainval', 'poperty_id'));
         } catch (\Exception $e) {
             //throw new HttpException(500, $e->getMessage());
+            \Log::error('ExportDataJob failed: ' . $e->getMessage());
             $response = $e->getResponse();
+
             $emsg = $e->getMessage();
             //dd($response);
             $fromserver = 'No records found . or Server error';
@@ -385,11 +391,55 @@ class ApiController extends BaseController
         }
         //dd($data);
     }
-    public function export_comp($id)
+    public function downloadExport($fileName)
     {
-        //when stripe payment done then can download report
-        return Excel::download(new CompExport($id), 'comp.xlsx');
+        // Check if the file exists in the storage
+        if (!Storage::disk('public')->exists($fileName)) {
+            return redirect()->back()->with('error', 'File not found.');
+        }
+
+        return response()->download(storage_path("app/public/{$fileName}"));
+        //Export::where('file_name', $fileName)->update(['downloaded' => true]);
+
     }
+
+    public function deletefromStorage()
+    {
+        $getFiles = Export::where('downloaded', 1)->get();
+        $arrayfiles = json_decode(json_encode($getFiles), true);
+        foreach ($arrayfiles as $getall) {
+            $filepath = 'public/' . $getall['file_name'];
+            Storage::delete($filepath);
+        }
+    }
+
+    public function showExports()
+    {
+        $exports = auth()->user()->exports; // Assuming you have a relationship set up
+
+        return view('exports', compact('exports'));
+    }
+
+    public function exportPriceHouse(Request $request)
+    {
+        // Validate incoming request
+        /*dd($request);*/
+        $validatedData = $request->validate([
+            'userIds' => 'required|array',
+            //'userIds.*' => 'integer', // Assuming user IDs are integers
+        ]);
+
+
+        // Dispatch the job for exporting
+        ExportDataJob::dispatch($validatedData['userIds'], auth()->user());
+
+        return response()->json([
+            'message' => 'Your export is being processed. You will be notified through email once it is ready.',
+        ]);
+        //return redirect()->back()->with('message', 'Your export is being processed. You will be notified once it is ready.');
+    }
+
+
     public function export_house_comp($ids)
     {
         //dd($ids);
@@ -2308,15 +2358,30 @@ class ApiController extends BaseController
             'cp1' => 'required|string'
         ]);
         //dd($validatedData);
+        $existingReport = PriceHouseReport::where([
+            'state' => $validatedData['state1'],
+            'county_name' => $validatedData['county_name1'],
+            //'user_id' => $userid, // Assuming you want to check for the specific user
+        ])->first();
+
+        if ($existingReport) {
+            // Record already exists, handle accordingly
+            //dd($existingReport['sts']);
+            return redirect()->route('get.house.results')->with(
+                [
+                    'message' => 'This report already exists. Here are your results.',
+                    'existingReport' => $existingReport // Pass the existing report data if needed
+                ]
+            );
+        }
+
 
         FetchPriceHouseReportJob::dispatch($validatedData['state1'], $validatedData['county_name1'], $validatedData['cp1']);
-        $url = route('get.house.results');
+        $url = route('pricehouse');
         return redirect()->to($url)->with(
             [
                 'message' => 'Your report is being generated. You can check back shortly.',
-                'state1' => $request['state1'],
-                'county_name1' => $request['county_name1'],
-                'cp1' => $request['cp1']
+               
             ]
         );
     }
@@ -2503,17 +2568,32 @@ class ApiController extends BaseController
         ]);
         $userid = auth()->user()->id;
 
+        $existingReport = PriceReport::where([
+            'state' => $validatedData['state'],
+            'county_name' => $validatedData['county_name'],
+            //'user_id' => $userid, // Assuming you want to check for the specific user
+        ])->first();
+
+        if ($existingReport) {
+            // Record already exists, handle accordingly
+            return redirect()->route('get.report.results')->with(
+                [
+                    'message' => 'This report already exists. Here are your results.',
+                    'existingReport' => $existingReport // Pass the existing report data if needed
+                ]
+            );
+        }
+
+
         // Dispatch the job
         FetchPriceReportJob::dispatch($validatedData['state'], $validatedData['county_name'], $request['cp'], $userid);
         // Prepare the URL to fetch results
-        $url = route('get.report.results'); // Use named route for better practice        //return '<a href="'.$url.'">Show Results</a>';
+        $url = route('priceland'); // Use named route for better practice        //return '<a href="'.$url.'">Show Results</a>';
 
         //return Redirect::intended($url);
         return redirect()->to($url)->with(
             [
                 'message' => 'Your report is being generated. You can check back shortly.',
-                'state' => $validatedData['state'],
-                'county' => $validatedData['county_name']
             ],
         );
     }
@@ -2523,7 +2603,8 @@ class ApiController extends BaseController
     {
         // Validate input
         //dd($request);
-        $state = session()->get('state1');
+        $report = session()->get('existingReport');
+        /*$state = session()->get('state1');
         $county = session()->get('county_name1');
 
         //dd(session()->get('message'));
@@ -2537,7 +2618,7 @@ class ApiController extends BaseController
         if (!$report) {
             return redirect()->back()->with('message', 'Getting recods...');
             //return response()->json(['message' => 'Report not available yet.'], 404);
-        }
+        }*/
 
         $de = json_decode($report['de'], true);
         $mainval = 0.1;
@@ -2551,7 +2632,9 @@ class ApiController extends BaseController
     {
         // Validate input
         //dd($request);
-        $state = session()->get('state');
+        $report = session()->get('existingReport');
+
+        /*$state = session()->get('state');
         $county = session()->get('county');
 
         // Fetch the latest report
@@ -2565,15 +2648,14 @@ class ApiController extends BaseController
             return redirect()->back()->with('message', 'Getting recods...');
 
             //return response()->json(['message' => 'Report not available yet.'], 404);
-        }
-       
+        }*/
+
         $de = json_decode($report['de'], true);
         $mainval = 0.1;
         $price = json_decode($report['price'], true);
         //dd($price);
         $sts = json_decode($report['sts'], true);
         return view('priceland', compact('de', 'mainval', 'price', 'sts'));
-
     }
 
     public function loadHome()
@@ -3083,8 +3165,7 @@ class ApiController extends BaseController
 
 
             ];
-            //dd($data);
-
+            //dd('122');
             /*$data = [
                 'sold_comp' => $t_sold,
                 'address' => $propertydata['Reports'][0]['Data']['SubjectProperty']['SitusAddress']['StreetAddress'],
@@ -3119,7 +3200,10 @@ class ApiController extends BaseController
                 'dis_zill' => $dis_zill,
                 'county_av' => $average_county,
                 'market_av' => $market_av,
+                'city_market_av' => $city_market_av,
+                'geo_adjusted_market_av' => $geo_adjusted_market_av,
                 'average_price_river' => $average_price_river,
+                'avg_price_river_market_av' => $avg_price_river_market_av,
                 'mar_pr' => $mar_pr,
                 'total_red' => $total_red,
                 'average_red' => $average_red,
@@ -3130,61 +3214,46 @@ class ApiController extends BaseController
                 'avg_pr_realtor' => $avg_pr_realtor,
                 'avg_ac' => $avg_ac,
                 'av_pr_ac_real' => $av_pr_ac_real,
+               
+
             ];
             
-            // Define the dynamic keys for real data
-            $realKeys = ['href_real', 'list_p_real', 'acre_real', 'real_price_per', 'real_coun', 'real_cty'];
-            $realKeys1 = ['href_real1', 'list_p_real1', 'acre_real1', 'real_price_per1', 'real_coun1', 'real_cty1'];
-            $redfinKeys = ['href_redfin', 'list_p_red', 'acre_red', 'red_price_per', 'red_coun', 'red_cty'];
-            $redfinSoldKeys = ['href_redfin_sold', 'list_p_red_sold', 'acre_red_sold', 'red_price_per_sold', 'red_coun_sold', 'red_cty_sold'];
-            $zillowKeys = ['href_zll', 'list_p_zll', 'acre_zll', 'zll_price_per', 'zll_coun', 'zll_cty'];
-            $zillow1Keys = ['href_zll1', 'list_p_zll1', 'acre_zll1', 'zll_price_per1', 'zll_coun1', 'zll_cty1'];
-            //dd($realKeys);
-            // Loop through the keys for price data
-            foreach ([$realKeys, $realKeys1, $redfinKeys, $redfinSoldKeys] as $keyGroup) {
-                foreach ($keyGroup as $index => $key) {
-                    $data[$key] = isset($price_data_real[$keyGroup[0].'s'][$index]) ? $price_data_real[$keyGroup[0].'s'][$index] : 0;
+            foreach (['real', 'red','redfin', 'zll', 'zll_sold', 'real_sold'] as $prefix) {
+                for ($i = 0; $i < 5; $i++) {
+                    $suffix = $i > 0 ? "_$i" : '';
+                    $data["href_{$prefix}{$suffix}"] = isset(${"{$prefix}_d"}['source_all'][$i]) ? ${"{$prefix}_d"}['source_all'][$i] : 0;
+                    $data["list_p_{$prefix}{$suffix}"] = isset(${"{$prefix}_d"}['price_all'][$i]) ? ${"{$prefix}_d"}['price_all'][$i] : 0;
+                    $data["acre_{$prefix}{$suffix}"] = isset(${"{$prefix}_d"}['acre_all'][$i]) ? ${"{$prefix}_d"}['acre_all'][$i] : 0;
+                    $data["{$prefix}_price_per{$suffix}"] = isset(${"{$prefix}_d"}['price_all'][$i]) ? number_format(${"{$prefix}_d"}['price_all'][$i] / ${"{$prefix}_d"}['acre_all'][$i], 2) : 0;
+                    $data["{$prefix}_coun{$suffix}"] = isset(${"{$prefix}_d"}['county_all'][$i]) ? ${"{$prefix}_d"}['county_all'][$i] : '';
+                    $data["{$prefix}_cty{$suffix}"] = isset(${"{$prefix}_d"}['city_all'][$i]) ? ${"{$prefix}_d"}['city_all'][$i] : '';
                 }
             }
             
-            // Process Zillow data
-            dd($data);
-            //dd($zillowKeys);
-            foreach ([$zillowKeys, $zillow1Keys] as $keyGroup) {
-                for ($i = 0; $i < count($keyGroup); $i++) {
-                    $data[$keyGroup[$i]] = $z_D[$keyGroup[$i]][$t_c - 1 - $i] ?? 0;
-                    if (strpos($keyGroup[$i], 'price_per') !== false) {
-                        //$data[$keyGroup[$i]] = number_format($data[$keyGroup[$i - 1]] / $data[$keyGroup[$i - 2]], 2);
-                    }
+            // For sold data specifically
+            foreach (['real','red_sold', 'zll_sold'] as $prefix) {
+                for ($i = 0; $i < 5; $i++) {
+                    $suffix = $i > 0 ? "_$i" : '';
+                    $data["href_{$prefix}{$suffix}"] = isset(${"{$prefix}_sold_d"}['source_all'][$i]) ? ${"{$prefix}_sold_d"}['source_all'][$i] : 0;
+                    $data["list_p_{$prefix}{$suffix}"] = isset(${"{$prefix}_sold_d"}['price_all'][$i]) ? ${"{$prefix}_sold_d"}['price_all'][$i] : 0;
+                    $data["acre_{$prefix}{$suffix}"] = isset(${"{$prefix}_sold_d"}['acre_all'][$i]) ? ${"{$prefix}_sold_d"}['acre_all'][$i] : 0;
+                    $data["{$prefix}_price_per{$suffix}"] = isset(${"{$prefix}_sold_d"}['price_all'][$i]) ? number_format(${"{$prefix}_sold_d"}['price_all'][$i] / ${"{$prefix}_sold_d"}['acre_all'][$i], 2) : 0;
+                    $data["{$prefix}_coun{$suffix}"] = isset(${"{$prefix}_sold_d"}['county_all'][$i]) ? ${"{$prefix}_sold_d"}['county_all'][$i] : '';
+                    $data["{$prefix}_cty{$suffix}"] = isset(${"{$prefix}_sold_d"}['city_all'][$i]) ? ${"{$prefix}_sold_d"}['city_all'][$i] : '';
                 }
-            }
-            dd($z_D[$keyGroup[$i]]);
-
-            //dd($z_D);
-            
-            // Add sold Zillow data
-            foreach (range(0, 2) as $i) {
-                foreach ([$z_D_sold] as $source) {
-                    foreach (['href_zll', 'list_p_zll', 'acre_zll'] as $key) {
-                        $data[$key . ($i ? $i : '') . '_sold'] = $source[$key . ($i ? $i : '')][$t_c_sold - ($i + 1)] ?? 0;
-                    }
-                    $data['zll_price_per' . ($i ? $i : '') . '_sold'] = number_format($source['price_all'][$t_c_sold - ($i + 1)] / $av_per_acre_zill_sold, 2);
-                    $data['zll_coun' . ($i ? $i : '') . '_sold'] = $source['county_all'][$t_c_sold - ($i + 1)] ?? '';
-                    $data['zll_cty' . ($i ? $i : '') . '_sold'] = $source['city_all'][$t_c_sold - ($i + 1)] ?? '';
-                }
-            }
-            
-            // Add final sold real data similarly
-            foreach (['href_real_sold', 'list_p_real_sold', 'acre_real_sold'] as $key) {
-                $data[$key] = isset($price_data_real_sold[$key]) ? $price_data_real_sold[$key] : 0;
             }*/
 
-
-
+            //dd($data);
             // Create a response with the XML content
             $pdf = Pdf::loadView('pdf2', $data);
             return $pdf->download('compreport.pdf');
         } catch (\Exception $e) {
+            // Log the exception
+            \Log::error('PdfDownload failed: ' . $e->getMessage());
+
+            // Optionally throw the exception to trigger a retry
+            throw $e;
+        } /*catch (\Exception $e) {
             //$response = $e->getResponse();
             $emsg = $e->getMessage();
             //dd($emsg);
@@ -3193,7 +3262,7 @@ class ApiController extends BaseController
             $error = $emsg;
             //dd($response['reasonPhrase']);
             return  redirect()->to('compreport')->with('error', $error);
-        }
+        }*/
     }
     // Function to get JSON array elements and their values
     function getJsonArrayElements($jsonData)
@@ -3234,366 +3303,422 @@ class ApiController extends BaseController
     public function xmldownload(Request $request)
     {
         //dd($request->id);
+        try {
+            $client = new GuzzleHttp\Client();
+            $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
 
-        $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
+                ],
+                'body' => json_encode([
+                    'ClientId' => config('app.client_id'),
+                    'ClientSecretKey' => config('app.client_secret')
+                ])
+            ]);
+            $authenticate = json_decode($login->getBody(), true);
+            //dd($authenticate);
+            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['PropertyDetailReport'],
 
-            ],
-            'body' => json_encode([
-                'ClientId' => config('app.client_id'),
-                'ClientSecretKey' => config('app.client_secret')
-            ])
-        ]);
-        $authenticate = json_decode($login->getBody(), true);
-        //dd($authenticate);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['PropertyDetailReport'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $request->id
+                ]),
+            ]);
+            //get sales comparable
+            $sales = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $authenticate,
+                ],
+                'body' => json_encode([
+                    'ProductNames' => ['SalesComparables'],
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $request->id
-            ]),
-        ]);
-        //get sales comparable
-        $sales = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['SalesComparables'],
+                    "SearchType" => "PROPERTY",
+                    "PropertyId" => $request->id
+                ]),
+            ]);
 
-                "SearchType" => "PROPERTY",
-                "PropertyId" => $request->id
-            ]),
-        ]);
+            $propertydata = json_decode($res->getBody(), true);
 
-        $propertydata = json_decode($res->getBody(), true);
-
-        $salesdata = json_decode($sales->getBody(), true);
-        if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
-            $error = 'We are unable to get Comp Records...';
-            return  redirect()->to('compreport')->with('error', $error);
-        }
-
-        $sum_sale[0] = $this->getJsonArrayElements($salesdata);
-        foreach ($sum_sale[0][3] as $x => $y) {
-            if ($y != null) {
-                $add_prop[] = $y;
+            $salesdata = json_decode($sales->getBody(), true);
+            if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
+                $error = 'We are unable to get Comp Records...';
+                return  redirect()->to('compreport')->with('error', $error);
             }
-        }
-        //dd($sum_sale[0]);
-        $add_data[0] = $this->getPropertyData($salesdata);
-        $address_property = isset($add_data[0][0][0]) ? $add_data[0][0][0] : $add_data[0][0][1];
-        //dd($ab);
-        //get zillow data 
-        $zillow_sales = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/byaddress?propertyaddress=' . $address_property . '', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'zillow-working-api.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([
-                'propertyaddress' => ''
-            ]),
-        ]);
-        $zillow_data = json_decode($zillow_sales->getBody(), true);
-        //dd($zillow_data);
-        $zpid = $zillow_data['PropertyZPID'];
-        //dd($zpid);
 
-        //get zillow data 
-        $zillow_sales_comp = $client->request('GET', 'https://zillow-com1.p.rapidapi.com/similarProperty?zpid=' . $zpid . '', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'zillow-com1.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-
-        /////sold comp end
-        $city_red = $add_data[0][3][0];
-
-        $zillow_sol = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/search/byaddress?location=' . $add_prop[0] . '&sortOrder=Newest&listingStatus=Sold', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'zillow-working-api.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([
-                'propertyaddress' => ''
-            ]),
-        ]);
-        $zillow_sol_data = json_decode($zillow_sol->getBody(), true);
-        // dd($zillow_sol_data);
-        $zpid_sol = $zillow_sol_data['searchResults'][0]['property']['zpid'];
-
-        $zillow_sold_comp = $client->request('GET', 'https://zillow-com1.p.rapidapi.com/similarSales?zpid=' . $zpid_sol . '', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'zillow-com1.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-        $zillow_comp_data_sold = json_decode($zillow_sold_comp->getBody(), true);
-
-        //dd($city_red);
-        $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/auto-complete?query=' . $city_red . '&limit=1', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-        $redfin_comp_data = json_decode($redfin_sales_comp->getBody(), true);
-        //dd($redfin_comp_data);
-        $region_id = $redfin_comp_data['data'][0]['rows'][0]['id'];
-        //dd($region_id);
-        $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sale?regionId=' . $region_id . '&lotSize=10890%2C21780&limit=20', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-        //dd(config('app.rapid_key'));
-
-        $redfin_data = json_decode($redfin_sales_comp->getBody(), true);
-
-        //redfin sold homes
-        $redfin_sold_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sold?regionId=' . $region_id . '&lotSize=10890%2C21780&limit=20', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-        $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
-        $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
-        // dd($zillow_comp_data);
-
-        $realtor_sales_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-buy?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'realtor-search.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-        $realtor_sold_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-sold?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'x-rapidapi-host' => 'realtor-search.p.rapidapi.com',
-                'x-rapidapi-key' => config('app.rapid_key')
-            ],
-            'body' => json_encode([]),
-        ]);
-        //dd($realtor_sales_comp);
-
-        $realtor = json_decode($realtor_sales_comp->getBody(), true);
-        $realtor_sold = json_decode($realtor_sold_comp->getBody(), true);
-
-        //dd($realtor_sold);
-        //dd($zillow_comp_data_sold);
-        //dd($redfin_sold_data);
-        //dd($realtor);
-
-
-
-        if (!empty($redfin_data['data']) && !empty($zillow_comp_data) && !empty($realtor['data']['results'])) {
-            $rc = count($redfin_data['data']);
-            //dd($rc);
-            $zcs = count($zillow_comp_data);
-
-            $real_c = count($realtor['data']['results']);
-            //dd($real_c);
-            //dd($zcs);
-            $count1 = $rc <= $zcs ? $rc : $zcs;
-            $count = $real_c <= $count1 ? $real_c : $count1;
-            //dd($real_c);
-
-            //$count = 
-
-            //dd($count);
-            for ($i = 0; $i < $count; $i++) {
-                $redfincor[] = $redfin_data['data'][$i];
-
-                $realtr[] = $realtor['data']['results'][$i];
-
-                $zillowcor[] = $zillow_comp_data[$i]['longitude'] . ',' . $zillow_comp_data[$i]['latitude'];
-            }
-            //dd($realtr);
-            //dd($realtr[0]['location']['address']['coordinate']['lon']);
-            for ($i = 0; $i < count($realtr); $i++) {
-                if ($realtr[$i]['location']['address']['coordinate'] != null) {
-                    $real[] = $realtr[$i]['location']['address']['coordinate']['lon'] . ',' . $realtr[$i]['location']['address']['coordinate']['lat'];
+            $sum_sale[0] = $this->getJsonArrayElements($salesdata);
+            foreach ($sum_sale[0][3] as $x => $y) {
+                if ($y != null) {
+                    $add_prop[] = $y;
                 }
             }
+            //dd($sum_sale[0]);
+            $add_data[0] = $this->getPropertyData($salesdata);
+            $address_property = isset($add_data[0][0][0]) ? $add_data[0][0][0] : $add_data[0][0][1];
+            //dd($ab);
+            //get zillow data 
+            $zillow_sales = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/byaddress?propertyaddress=' . $address_property . '', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'zillow-working-api.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([
+                    'propertyaddress' => ''
+                ]),
+            ]);
+            $zillow_data = json_decode($zillow_sales->getBody(), true);
+            //dd($zillow_data);
+            $zpid = $zillow_data['PropertyZPID'];
+            //dd($zpid);
 
-            $datatree = $propertydata['Reports'][0]['Data']['LocationInformation']['Longitude'] . ',' . $propertydata['Reports'][0]['Data']['LocationInformation']['Latitude'];
-            //dd($redfincor);
-            for ($i = 0; $i < count($zillowcor); $i++) {
-                $zc[] = $zillowcor[$i];
-            }
-            //dd($redfincor[0]['homeData']['addressInfo']['centroid']['centroid']['longitude']);
-            for ($i = 0; $i < count($redfincor); $i++) {
-                $rf[] = $redfincor[$i]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfincor[$i]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
-            }
-            $getallcordinates['dt'] = $datatree;
-            $getallcordinates['zc'] = $zc;
+            //get zillow data 
+            $zillow_sales_comp = $client->request('GET', 'https://zillow-com1.p.rapidapi.com/similarProperty?zpid=' . $zpid . '', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'zillow-com1.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
 
-            $getallcordinates['rf'] = $rf;
-            $getallcordinates['rea'] = $real;
-            $count_real = count($real);
-            $count_zc = count($zillowcor);
-            $count_red = count($redfincor);
+            /////sold comp end
+            $city_red = $add_data[0][3][0];
 
-            $count_1 = $count_red <= $count_zc ? $count_red :  $count_zc;
-            $cordinates_count = $count_real <= $count_1 ? $count_real : $count_1;
-            //dd($cordinates_count);
-            //dd($getallcordinates);
+            $zillow_sol = $client->request('GET', 'https://zillow-working-api.p.rapidapi.com/search/byaddress?location=' . $add_prop[0] . '&sortOrder=Newest&listingStatus=Sold', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'zillow-working-api.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([
+                    'propertyaddress' => ''
+                ]),
+            ]);
+            $zillow_sol_data = json_decode($zillow_sol->getBody(), true);
+            // dd($zillow_sol_data);
+            $zpid_sol = $zillow_sol_data['searchResults'][0]['property']['zpid'];
 
-            // Create the XML content
-            $xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-            $xmlContent .= '<kml xmlns="http://www.opengis.net/kml/2.2">' . "\n";
-            $xmlContent .= '  <Document>' . "\n";
-            $xmlContent .= '    <name>Sale Comp</name>' . "\n";
+            $zillow_sold_comp = $client->request('GET', 'https://zillow-com1.p.rapidapi.com/similarSales?zpid=' . $zpid_sol . '', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'zillow-com1.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            $zillow_comp_data_sold = json_decode($zillow_sold_comp->getBody(), true);
 
-            //dd($markers);
-            $xmlContent .= '    <Placemark>' . "\n";
-            $xmlContent .= '      <name>Ths is main comp</name>' . "\n";
-            $xmlContent .= '      <description>Ths is main comp</description>' . "\n";
-            $xmlContent .= '      <Point>' . "\n";
-            $xmlContent .= '        <coordinates>' . $getallcordinates['dt'] . ',0</coordinates>' . "\n";
-            $xmlContent .= '      </Point>' . "\n";
-            $xmlContent .= '      <Style>' . "\n";
-            $xmlContent .= '        <IconStyle>' . "\n";
-            $xmlContent .= '          <scale>2.5</scale>' . "\n"; // Adjust the scale here
-            $xmlContent .= '          <Icon>' . "\n";
-            $xmlContent .= '            <href>http://maps.google.com/mapfiles/kml/paddle/purple-diamond.png</href>' . "\n";
-            $xmlContent .= '          </Icon>' . "\n";
-            $xmlContent .= '        </IconStyle>' . "\n";
-            $xmlContent .= '      </Style>' . "\n";
-            $xmlContent .= '    </Placemark>' . "\n";
-            //dd($zillow_comp_data);
-            //dd($redfin_data);
-            //dd($realtr);
-            //dd($realtr[0]['location']['address']['city']);
+            //dd($city_red);
+            $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/auto-complete?query=' . $city_red . '&limit=1', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            $redfin_comp_data = json_decode($redfin_sales_comp->getBody(), true);
+            //dd($redfin_comp_data);
+            $region_id = $redfin_comp_data['data'][0]['rows'][0]['id'];
+            //dd($region_id);
+            $redfin_sales_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sale?regionId=' . $region_id . '&lotSize=10890%2C21780&limit=20', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            //dd(config('app.rapid_key'));
 
-            if (!empty($redfin_sold_data['data']) && !empty($zillow_comp_data_sold) && !empty($realtor_sold['data']['results'])) {
-                $rc_sold = count($redfin_sold_data['data']);
+            $redfin_data = json_decode($redfin_sales_comp->getBody(), true);
+
+            //redfin sold homes
+            $redfin_sold_comp = $client->request('GET', 'https://redfin-com-data.p.rapidapi.com/properties/search-sold?regionId=' . $region_id . '&lotSize=10890%2C21780&limit=20', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'redfin-com-data.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
+            $zillow_comp_data = json_decode($zillow_sales_comp->getBody(), true);
+            // dd($zillow_comp_data);
+
+            $realtor_sales_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-buy?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'realtor-search.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            $realtor_sold_comp = $client->request('GET', 'https://realtor-search.p.rapidapi.com/properties/search-sold?location=city%3A' . $city_red . '&sortBy=relevance&lotSize=10890%2C21780', [
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json',
+                    'x-rapidapi-host' => 'realtor-search.p.rapidapi.com',
+                    'x-rapidapi-key' => config('app.rapid_key')
+                ],
+                'body' => json_encode([]),
+            ]);
+            //dd($realtor_sales_comp);
+
+            $realtor = json_decode($realtor_sales_comp->getBody(), true);
+            $realtor_sold = json_decode($realtor_sold_comp->getBody(), true);
+
+            //dd($realtor_sold);
+            //dd($zillow_comp_data_sold);
+            //dd($redfin_sold_data);
+            //dd($realtor);
+
+
+
+            if (!empty($redfin_data['data']) && !empty($zillow_comp_data) && !empty($realtor['data']['results'])) {
+                $rc = count($redfin_data['data']);
                 //dd($rc);
-                $zcs_sold = count($zillow_comp_data_sold);
+                $zcs = count($zillow_comp_data);
 
-                $real_c_sold = count($realtor_sold['data']['results']);
+                $real_c = count($realtor['data']['results']);
                 //dd($real_c);
                 //dd($zcs);
-                $count1_sold = $rc_sold <= $zcs_sold ? $rc_sold : $zcs_sold;
-                $count_sold = $real_c_sold <= $count1_sold ? $real_c_sold : $count1_sold;
+                $count1 = $rc <= $zcs ? $rc : $zcs;
+                $count = $real_c <= $count1 ? $real_c : $count1;
                 //dd($real_c);
 
                 //$count = 
 
                 //dd($count);
-                for ($i = 0; $i < $count_sold; $i++) {
-                    $redfincor_sold[] = $redfin_sold_data['data'][$i];
+                for ($i = 0; $i < $count; $i++) {
+                    $redfincor[] = $redfin_data['data'][$i];
 
-                    $realtr_sold[] = $realtor_sold['data']['results'][$i];
+                    $realtr[] = $realtor['data']['results'][$i];
 
-                    $zillowcor_sold[] = $zillow_comp_data_sold[$i]['longitude'] . ',' . $zillow_comp_data_sold[$i]['latitude'];
+                    $zillowcor[] = $zillow_comp_data[$i]['longitude'] . ',' . $zillow_comp_data[$i]['latitude'];
                 }
                 //dd($realtr);
                 //dd($realtr[0]['location']['address']['coordinate']['lon']);
-                for ($i = 0; $i < count($realtr_sold); $i++) {
-                    if ($realtr_sold[$i]['location']['address']['coordinate'] != null) {
-                        $real_sold[] = $realtr_sold[$i]['location']['address']['coordinate']['lon'] . ',' . $realtr_sold[$i]['location']['address']['coordinate']['lat'];
+                for ($i = 0; $i < count($realtr); $i++) {
+                    if ($realtr[$i]['location']['address']['coordinate'] != null) {
+                        $real[] = $realtr[$i]['location']['address']['coordinate']['lon'] . ',' . $realtr[$i]['location']['address']['coordinate']['lat'];
                     }
                 }
 
-                //$datatree = $propertydata['Reports'][0]['Data']['LocationInformation']['Longitude'] . ',' . $propertydata['Reports'][0]['Data']['LocationInformation']['Latitude'];
+                $datatree = $propertydata['Reports'][0]['Data']['LocationInformation']['Longitude'] . ',' . $propertydata['Reports'][0]['Data']['LocationInformation']['Latitude'];
                 //dd($redfincor);
-                for ($i = 0; $i < count($zillowcor_sold); $i++) {
-                    $zc_sold[] = $zillowcor_sold[$i];
+                for ($i = 0; $i < count($zillowcor); $i++) {
+                    $zc[] = $zillowcor[$i];
                 }
                 //dd($redfincor[0]['homeData']['addressInfo']['centroid']['centroid']['longitude']);
-                for ($i = 0; $i < count($redfincor_sold); $i++) {
-                    $rf_sold[] = $redfincor_sold[$i]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfincor_sold[$i]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
+                for ($i = 0; $i < count($redfincor); $i++) {
+                    $rf[] = $redfincor[$i]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfincor[$i]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
                 }
-                // $getallcordinates['dt'] = $datatree;
-                $getallcordinates['zc_sold'] = $zc_sold;
+                $getallcordinates['dt'] = $datatree;
+                $getallcordinates['zc'] = $zc;
 
-                $getallcordinates['rf_sold'] = $rf_sold;
-                $getallcordinates['rea_sold'] = $real_sold;
-                $count_real_sold = count($real_sold);
-                $count_zc_sold = count($zillowcor_sold);
-                $count_red_sold = count($redfincor_sold);
+                $getallcordinates['rf'] = $rf;
+                $getallcordinates['rea'] = $real;
+                $count_real = count($real);
+                $count_zc = count($zillowcor);
+                $count_red = count($redfincor);
 
-                $count_1_sold = $count_red_sold <= $count_zc_sold ? $count_red_sold :  $count_zc_sold;
-                $cordinates_count_sold = $count_real_sold <= $count_1_sold ? $count_real_sold : $count_1_sold;
+                $count_1 = $count_red <= $count_zc ? $count_red :  $count_zc;
+                $cordinates_count = $count_real <= $count_1 ? $count_real : $count_1;
                 //dd($cordinates_count);
                 //dd($getallcordinates);
 
+                // Create the XML content
+                $xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+                $xmlContent .= '<kml xmlns="http://www.opengis.net/kml/2.2">' . "\n";
+                $xmlContent .= '  <Document>' . "\n";
+                $xmlContent .= '    <name>Sale Comp</name>' . "\n";
 
+                //dd($markers);
+                $xmlContent .= '    <Placemark>' . "\n";
+                $xmlContent .= '      <name>Ths is main comp</name>' . "\n";
+                $xmlContent .= '      <description>Ths is main comp</description>' . "\n";
+                $xmlContent .= '      <Point>' . "\n";
+                $xmlContent .= '        <coordinates>' . $getallcordinates['dt'] . ',0</coordinates>' . "\n";
+                $xmlContent .= '      </Point>' . "\n";
+                $xmlContent .= '      <Style>' . "\n";
+                $xmlContent .= '        <IconStyle>' . "\n";
+                $xmlContent .= '          <scale>2.5</scale>' . "\n"; // Adjust the scale here
+                $xmlContent .= '          <Icon>' . "\n";
+                $xmlContent .= '            <href>http://maps.google.com/mapfiles/kml/paddle/purple-diamond.png</href>' . "\n";
+                $xmlContent .= '          </Icon>' . "\n";
+                $xmlContent .= '        </IconStyle>' . "\n";
+                $xmlContent .= '      </Style>' . "\n";
+                $xmlContent .= '    </Placemark>' . "\n";
                 //dd($zillow_comp_data);
                 //dd($redfin_data);
                 //dd($realtr);
                 //dd($realtr[0]['location']['address']['city']);
 
-                for ($i = 0; $i < $cordinates_count_sold; $i++) {
+                if (!empty($redfin_sold_data['data']) && !empty($zillow_comp_data_sold) && !empty($realtor_sold['data']['results'])) {
+                    $rc_sold = count($redfin_sold_data['data']);
+                    //dd($rc);
+                    $zcs_sold = count($zillow_comp_data_sold);
+
+                    $real_c_sold = count($realtor_sold['data']['results']);
+                    //dd($real_c);
+                    //dd($zcs);
+                    $count1_sold = $rc_sold <= $zcs_sold ? $rc_sold : $zcs_sold;
+                    $count_sold = $real_c_sold <= $count1_sold ? $real_c_sold : $count1_sold;
+                    //dd($real_c);
+
+                    //$count = 
+
+                    //dd($count);
+                    for ($i = 0; $i < $count_sold; $i++) {
+                        $redfincor_sold[] = $redfin_sold_data['data'][$i];
+
+                        $realtr_sold[] = $realtor_sold['data']['results'][$i];
+
+                        $zillowcor_sold[] = $zillow_comp_data_sold[$i]['longitude'] . ',' . $zillow_comp_data_sold[$i]['latitude'];
+                    }
+                    //dd($realtr);
+                    //dd($realtr[0]['location']['address']['coordinate']['lon']);
+                    for ($i = 0; $i < count($realtr_sold); $i++) {
+                        if ($realtr_sold[$i]['location']['address']['coordinate'] != null) {
+                            $real_sold[] = $realtr_sold[$i]['location']['address']['coordinate']['lon'] . ',' . $realtr_sold[$i]['location']['address']['coordinate']['lat'];
+                        }
+                    }
+
+                    //$datatree = $propertydata['Reports'][0]['Data']['LocationInformation']['Longitude'] . ',' . $propertydata['Reports'][0]['Data']['LocationInformation']['Latitude'];
+                    //dd($redfincor);
+                    for ($i = 0; $i < count($zillowcor_sold); $i++) {
+                        $zc_sold[] = $zillowcor_sold[$i];
+                    }
+                    //dd($redfincor[0]['homeData']['addressInfo']['centroid']['centroid']['longitude']);
+                    for ($i = 0; $i < count($redfincor_sold); $i++) {
+                        $rf_sold[] = $redfincor_sold[$i]['homeData']['addressInfo']['centroid']['centroid']['longitude'] . ',' . $redfincor_sold[$i]['homeData']['addressInfo']['centroid']['centroid']['latitude'];
+                    }
+                    // $getallcordinates['dt'] = $datatree;
+                    $getallcordinates['zc_sold'] = $zc_sold;
+
+                    $getallcordinates['rf_sold'] = $rf_sold;
+                    $getallcordinates['rea_sold'] = $real_sold;
+                    $count_real_sold = count($real_sold);
+                    $count_zc_sold = count($zillowcor_sold);
+                    $count_red_sold = count($redfincor_sold);
+
+                    $count_1_sold = $count_red_sold <= $count_zc_sold ? $count_red_sold :  $count_zc_sold;
+                    $cordinates_count_sold = $count_real_sold <= $count_1_sold ? $count_real_sold : $count_1_sold;
+                    //dd($cordinates_count);
+                    //dd($getallcordinates);
+
+
+                    //dd($zillow_comp_data);
+                    //dd($redfin_data);
+                    //dd($realtr);
+                    //dd($realtr[0]['location']['address']['city']);
+
+                    for ($i = 0; $i < $cordinates_count_sold; $i++) {
+
+                        //dd($marker);
+                        //$href= 'https://www.zillow.com/homedetails/18143432_zpid/';
+
+                        $xmlContent .= '    <Placemark>' . "\n";
+                        $xmlContent .= '      <name>' . htmlentities($zillow_comp_data_sold[$i]['address']['streetAddress']) . '</name>' . "\n";
+                        $xmlContent .= '      <description>' . $zillow_comp_data_sold[$i]['address']['city'] . '<br />' . $zillow_comp_data_sold[$i]['homeStatus'] . '<br /><a href="https://www.zillow.com/homedetails/' . $zillow_comp_data_sold[$i]['zpid'] . '_zpid/">Zillow</a><br />$' . $zillow_comp_data_sold[$i]['price'] . '</description>' . "\n";
+                        $xmlContent .= '      <Point>' . "\n";
+                        $xmlContent .= '        <coordinates>' . $getallcordinates['zc_sold'][$i] . ',0</coordinates>' . "\n";
+                        $xmlContent .= '      </Point>' . "\n";
+                        $xmlContent .= '      <Style>' . "\n";
+                        $xmlContent .= '        <IconStyle>' . "\n";
+                        $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
+                        $xmlContent .= '          <Icon>' . "\n";
+                        $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href>' . "\n";
+                        $xmlContent .= '          </Icon>' . "\n";
+                        $xmlContent .= '        </IconStyle>' . "\n";
+                        $xmlContent .= '      </Style>' . "\n";
+                        $xmlContent .= '    </Placemark>' . "\n";
+
+                        $xmlContent .= '    <Placemark>' . "\n";
+                        $xmlContent .= '      <name>' . htmlentities($redfin_sold_data['data'][$i]['homeData']['addressInfo']['formattedStreetLine']) . '</name>' . "\n";
+                        $xmlContent .= '      <description>' . $redfin_sold_data['data'][$i]['homeData']['addressInfo']['city'] . '<br /><a href="https://redfin.com' . $redfin_sold_data['data'][$i]['homeData']['url'] . '">RedFin</a><br />$' . $redfin_sold_data['data'][$i]['homeData']['priceInfo']['amount'] . '</description>' . "\n";
+                        $xmlContent .= '      <Point>' . "\n";
+                        $xmlContent .= '        <coordinates>' . $getallcordinates['rf_sold'][$i] . ',0</coordinates>' . "\n";
+                        $xmlContent .= '      </Point>' . "\n";
+                        $xmlContent .= '      <Style>' . "\n";
+                        $xmlContent .= '        <IconStyle>' . "\n";
+                        $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
+                        $xmlContent .= '          <Icon>' . "\n";
+                        $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href>' . "\n";
+                        $xmlContent .= '          </Icon>' . "\n";
+                        $xmlContent .= '        </IconStyle>' . "\n";
+                        $xmlContent .= '      </Style>' . "\n";
+                        $xmlContent .= '    </Placemark>' . "\n";
+
+                        //////////////realtor
+                        $xmlContent .= '    <Placemark>' . "\n";
+                        $xmlContent .= '      <name>' . htmlentities($realtr_sold[$i]['location']['address']['line']) . '</name>' . "\n";
+                        $xmlContent .= '      <description>' . $realtr_sold[$i]['location']['address']['city'] . '<br />' . $realtr_sold[$i]['status'] . '<br /><a href="' . $realtr_sold[$i]['href'] . '">Realtor</a><br />$' . $realtr_sold[$i]['list_price'] . '</description>' . "\n";
+                        $xmlContent .= '      <Point>' . "\n";
+                        $xmlContent .= '        <coordinates>' . $getallcordinates['rea_sold'][$i] . ',0</coordinates>' . "\n";
+                        $xmlContent .= '      </Point>' . "\n";
+                        $xmlContent .= '      <Style>' . "\n";
+                        $xmlContent .= '        <IconStyle>' . "\n";
+                        $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
+                        $xmlContent .= '          <Icon>' . "\n";
+                        $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href>' . "\n";
+                        $xmlContent .= '          </Icon>' . "\n";
+                        $xmlContent .= '        </IconStyle>' . "\n";
+                        $xmlContent .= '      </Style>' . "\n";
+                        $xmlContent .= '    </Placemark>' . "\n";
+                    }
+                }
+                //dd($getallcordinates);
+                for ($i = 0; $i < $cordinates_count; $i++) {
 
                     //dd($marker);
                     //$href= 'https://www.zillow.com/homedetails/18143432_zpid/';
 
                     $xmlContent .= '    <Placemark>' . "\n";
-                    $xmlContent .= '      <name>' . htmlentities($zillow_comp_data_sold[$i]['address']['streetAddress']) . '</name>' . "\n";
-                    $xmlContent .= '      <description>' . $zillow_comp_data_sold[$i]['address']['city'] . '<br />' . $zillow_comp_data_sold[$i]['homeStatus'] . '<br /><a href="https://www.zillow.com/homedetails/' . $zillow_comp_data_sold[$i]['zpid'] . '_zpid/">Zillow</a><br />$' . $zillow_comp_data_sold[$i]['price'] . '</description>' . "\n";
+                    $xmlContent .= '      <name>' . htmlentities($zillow_comp_data[$i]['address']['streetAddress']) . '</name>' . "\n";
+                    $xmlContent .= '      <description>' . $zillow_comp_data[$i]['address']['city'] . '<br />' . $zillow_comp_data[$i]['homeStatus'] . '<br /><a href="https://www.zillow.com/homedetails/' . $zillow_comp_data[$i]['zpid'] . '_zpid/">Zillow</a><br />$' . $zillow_comp_data[$i]['price'] . '</description>' . "\n";
                     $xmlContent .= '      <Point>' . "\n";
-                    $xmlContent .= '        <coordinates>' . $getallcordinates['zc_sold'][$i] . ',0</coordinates>' . "\n";
+                    $xmlContent .= '        <coordinates>' . $getallcordinates['zc'][$i] . ',0</coordinates>' . "\n";
                     $xmlContent .= '      </Point>' . "\n";
                     $xmlContent .= '      <Style>' . "\n";
                     $xmlContent .= '        <IconStyle>' . "\n";
                     $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
                     $xmlContent .= '          <Icon>' . "\n";
-                    $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href>' . "\n";
+                    $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>' . "\n";
                     $xmlContent .= '          </Icon>' . "\n";
                     $xmlContent .= '        </IconStyle>' . "\n";
                     $xmlContent .= '      </Style>' . "\n";
                     $xmlContent .= '    </Placemark>' . "\n";
 
                     $xmlContent .= '    <Placemark>' . "\n";
-                    $xmlContent .= '      <name>' . htmlentities($redfin_sold_data['data'][$i]['homeData']['addressInfo']['formattedStreetLine']) . '</name>' . "\n";
-                    $xmlContent .= '      <description>' . $redfin_sold_data['data'][$i]['homeData']['addressInfo']['city'] . '<br /><a href="https://redfin.com' . $redfin_sold_data['data'][$i]['homeData']['url'] . '">RedFin</a><br />$' . $redfin_sold_data['data'][$i]['homeData']['priceInfo']['amount'] . '</description>' . "\n";
+                    $xmlContent .= '      <name>' . htmlentities($redfin_data['data'][$i]['homeData']['addressInfo']['formattedStreetLine']) . '</name>' . "\n";
+                    $xmlContent .= '      <description>' . $redfin_data['data'][$i]['homeData']['addressInfo']['city'] . '<br /><a href="https://redfin.com' . $redfin_data['data'][$i]['homeData']['url'] . '">RedFin</a><br />$' . $redfin_data['data'][$i]['homeData']['priceInfo']['amount'] . '</description>' . "\n";
                     $xmlContent .= '      <Point>' . "\n";
-                    $xmlContent .= '        <coordinates>' . $getallcordinates['rf_sold'][$i] . ',0</coordinates>' . "\n";
+                    $xmlContent .= '        <coordinates>' . $getallcordinates['rf'][$i] . ',0</coordinates>' . "\n";
                     $xmlContent .= '      </Point>' . "\n";
                     $xmlContent .= '      <Style>' . "\n";
                     $xmlContent .= '        <IconStyle>' . "\n";
                     $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
                     $xmlContent .= '          <Icon>' . "\n";
-                    $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href>' . "\n";
+                    $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>' . "\n";
                     $xmlContent .= '          </Icon>' . "\n";
                     $xmlContent .= '        </IconStyle>' . "\n";
                     $xmlContent .= '      </Style>' . "\n";
@@ -3601,86 +3726,37 @@ class ApiController extends BaseController
 
                     //////////////realtor
                     $xmlContent .= '    <Placemark>' . "\n";
-                    $xmlContent .= '      <name>' . htmlentities($realtr_sold[$i]['location']['address']['line']) . '</name>' . "\n";
-                    $xmlContent .= '      <description>' . $realtr_sold[$i]['location']['address']['city'] . '<br />' . $realtr_sold[$i]['status'] . '<br /><a href="' . $realtr_sold[$i]['href'] . '">Realtor</a><br />$' . $realtr_sold[$i]['list_price'] . '</description>' . "\n";
+                    $xmlContent .= '      <name>' . htmlentities($realtr[$i]['location']['address']['line']) . '</name>' . "\n";
+                    $xmlContent .= '      <description>' . $realtr[$i]['location']['address']['city'] . '<br />' . $realtr[$i]['status'] . '<br /><a href="' . $realtr[$i]['href'] . '">Realtor</a><br />$' . $realtr[$i]['list_price'] . '</description>' . "\n";
                     $xmlContent .= '      <Point>' . "\n";
-                    $xmlContent .= '        <coordinates>' . $getallcordinates['rea_sold'][$i] . ',0</coordinates>' . "\n";
+                    $xmlContent .= '        <coordinates>' . $getallcordinates['rea'][$i] . ',0</coordinates>' . "\n";
                     $xmlContent .= '      </Point>' . "\n";
                     $xmlContent .= '      <Style>' . "\n";
                     $xmlContent .= '        <IconStyle>' . "\n";
                     $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
                     $xmlContent .= '          <Icon>' . "\n";
-                    $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/yellow-dot.png</href>' . "\n";
+                    $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>' . "\n";
                     $xmlContent .= '          </Icon>' . "\n";
                     $xmlContent .= '        </IconStyle>' . "\n";
                     $xmlContent .= '      </Style>' . "\n";
                     $xmlContent .= '    </Placemark>' . "\n";
                 }
+
+                $xmlContent .= '  </Document>' . "\n";
+                $xmlContent .= '</kml>';
+                return response($xmlContent)
+                    ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
+                    ->header('Content-Disposition', 'attachment; filename="comp_placemark.kml"');
+            } else {
+                $error = 'kml sale comp data not found';
+                return  redirect()->to('compreport')->with('error', $error);
             }
-            //dd($getallcordinates);
-            for ($i = 0; $i < $cordinates_count; $i++) {
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::error('Xml Download failed: ' . $e->getMessage());
 
-                //dd($marker);
-                //$href= 'https://www.zillow.com/homedetails/18143432_zpid/';
-
-                $xmlContent .= '    <Placemark>' . "\n";
-                $xmlContent .= '      <name>' . htmlentities($zillow_comp_data[$i]['address']['streetAddress']) . '</name>' . "\n";
-                $xmlContent .= '      <description>' . $zillow_comp_data[$i]['address']['city'] . '<br />' . $zillow_comp_data[$i]['homeStatus'] . '<br /><a href="https://www.zillow.com/homedetails/' . $zillow_comp_data[$i]['zpid'] . '_zpid/">Zillow</a><br />$' . $zillow_comp_data[$i]['price'] . '</description>' . "\n";
-                $xmlContent .= '      <Point>' . "\n";
-                $xmlContent .= '        <coordinates>' . $getallcordinates['zc'][$i] . ',0</coordinates>' . "\n";
-                $xmlContent .= '      </Point>' . "\n";
-                $xmlContent .= '      <Style>' . "\n";
-                $xmlContent .= '        <IconStyle>' . "\n";
-                $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
-                $xmlContent .= '          <Icon>' . "\n";
-                $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>' . "\n";
-                $xmlContent .= '          </Icon>' . "\n";
-                $xmlContent .= '        </IconStyle>' . "\n";
-                $xmlContent .= '      </Style>' . "\n";
-                $xmlContent .= '    </Placemark>' . "\n";
-
-                $xmlContent .= '    <Placemark>' . "\n";
-                $xmlContent .= '      <name>' . htmlentities($redfin_data['data'][$i]['homeData']['addressInfo']['formattedStreetLine']) . '</name>' . "\n";
-                $xmlContent .= '      <description>' . $redfin_data['data'][$i]['homeData']['addressInfo']['city'] . '<br /><a href="https://redfin.com' . $redfin_data['data'][$i]['homeData']['url'] . '">RedFin</a><br />$' . $redfin_data['data'][$i]['homeData']['priceInfo']['amount'] . '</description>' . "\n";
-                $xmlContent .= '      <Point>' . "\n";
-                $xmlContent .= '        <coordinates>' . $getallcordinates['rf'][$i] . ',0</coordinates>' . "\n";
-                $xmlContent .= '      </Point>' . "\n";
-                $xmlContent .= '      <Style>' . "\n";
-                $xmlContent .= '        <IconStyle>' . "\n";
-                $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
-                $xmlContent .= '          <Icon>' . "\n";
-                $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>' . "\n";
-                $xmlContent .= '          </Icon>' . "\n";
-                $xmlContent .= '        </IconStyle>' . "\n";
-                $xmlContent .= '      </Style>' . "\n";
-                $xmlContent .= '    </Placemark>' . "\n";
-
-                //////////////realtor
-                $xmlContent .= '    <Placemark>' . "\n";
-                $xmlContent .= '      <name>' . htmlentities($realtr[$i]['location']['address']['line']) . '</name>' . "\n";
-                $xmlContent .= '      <description>' . $realtr[$i]['location']['address']['city'] . '<br />' . $realtr[$i]['status'] . '<br /><a href="' . $realtr[$i]['href'] . '">Realtor</a><br />$' . $realtr[$i]['list_price'] . '</description>' . "\n";
-                $xmlContent .= '      <Point>' . "\n";
-                $xmlContent .= '        <coordinates>' . $getallcordinates['rea'][$i] . ',0</coordinates>' . "\n";
-                $xmlContent .= '      </Point>' . "\n";
-                $xmlContent .= '      <Style>' . "\n";
-                $xmlContent .= '        <IconStyle>' . "\n";
-                $xmlContent .= '          <scale>1.5</scale>' . "\n"; // Adjust the scale here
-                $xmlContent .= '          <Icon>' . "\n";
-                $xmlContent .= '            <href>http://maps.google.com/mapfiles/ms/icons/red-dot.png</href>' . "\n";
-                $xmlContent .= '          </Icon>' . "\n";
-                $xmlContent .= '        </IconStyle>' . "\n";
-                $xmlContent .= '      </Style>' . "\n";
-                $xmlContent .= '    </Placemark>' . "\n";
-            }
-
-            $xmlContent .= '  </Document>' . "\n";
-            $xmlContent .= '</kml>';
-            return response($xmlContent)
-                ->header('Content-Type', 'application/vnd.google-earth.kml+xml')
-                ->header('Content-Disposition', 'attachment; filename="comp_placemark.kml"');
-        } else {
-            $error = 'kml sale comp data not found';
-            return  redirect()->to('compreport')->with('error', $error);
+            // Optionally throw the exception to trigger a retry
+            throw $e;
         }
     }
 

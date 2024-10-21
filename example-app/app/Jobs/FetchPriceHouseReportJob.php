@@ -30,7 +30,7 @@ class FetchPriceHouseReportJob implements ShouldQueue
 
     public function handle()
     {
-        $client = new Client(['timeout' => 10]);
+        $client = new Client();
         $authenticate = $this->authenticateClient($client);
 
         $my_states_array = $this->getStateMapping();
@@ -39,6 +39,17 @@ class FetchPriceHouseReportJob implements ShouldQueue
         if (is_null($st)) {
             // Handle invalid state code, log the error
             \Log::error("Invalid state code: {$this->state}");
+            return;
+        }
+        // Check if the record already exists in the price_reports table
+        $existingReport = PriceHouseReport::where([
+            'state' => $this->state,
+            'county_name' => $this->countyName,
+        ])->first();
+
+        if ($existingReport) {
+            // Record already exists, no need to generate job
+            \Log::info("Report already exists for state: {$this->state}, county: {$this->countyName}");
             return;
         }
 
@@ -50,10 +61,10 @@ class FetchPriceHouseReportJob implements ShouldQueue
 
         $acre_arr = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
 
-        $data = $prop_id->isEmpty() 
-            ? $this->fetchDefaultData($client, $authenticate, $acre_arr, $st, $this->cp) 
+        $data = $prop_id->isEmpty()
+            ? $this->fetchDefaultData($client, $authenticate, $acre_arr, $st, $this->cp)
             : $this->fetchPropertyData($client, $authenticate, $prop_id, $acre_arr, $st, $this->cp);
-//dd(json_encode($data));
+        //dd(json_encode($data));
         // Save the results to the database
         $sts = json_encode($data['sts']);
         $de = json_encode($data['de']);
@@ -114,38 +125,38 @@ class FetchPriceHouseReportJob implements ShouldQueue
             'ks' => 20,
             'ky' => 21,
             'la'   => 22,
-             'me'    => 23,
-              'md'   => 24,
-                'ma' => 25,
-               'mi'  => 26,
-               'mn'  => 27,
-               'ms'  => 28,
-               'mo'  => 29,
-             'mt'    => 30,
-             'ne'    => 31,
-              'nv'   => 32,
-              'nh'   => 33,
-              'nj'   => 34,
-               'nm'  => 35,
-              'ny'   => 36,
-              'nc'   => 37,
-              'nd'   => 38,
-               'oh'  => 39,
-              'ok'   => 40,
-              'or'   => 41,
-             'pa'    => 42,
-             'ri'    => 44,
+            'me'    => 23,
+            'md'   => 24,
+            'ma' => 25,
+            'mi'  => 26,
+            'mn'  => 27,
+            'ms'  => 28,
+            'mo'  => 29,
+            'mt'    => 30,
+            'ne'    => 31,
+            'nv'   => 32,
+            'nh'   => 33,
+            'nj'   => 34,
+            'nm'  => 35,
+            'ny'   => 36,
+            'nc'   => 37,
+            'nd'   => 38,
+            'oh'  => 39,
+            'ok'   => 40,
+            'or'   => 41,
+            'pa'    => 42,
+            'ri'    => 44,
             'sc' => 45,
-             'sd'   => 46,
-             'tn'   => 47,
-             'tx'   => 48,
-             'ut'   => 49,
-             'vt'   => 50,
-             'va'   => 51,
-             'wa'   => 53,
-              'wv'  => 54,
-             'wi'   => 55,
-             'wy'   => 56
+            'sd'   => 46,
+            'tn'   => 47,
+            'tx'   => 48,
+            'ut'   => 49,
+            'vt'   => 50,
+            'va'   => 51,
+            'wa'   => 53,
+            'wv'  => 54,
+            'wi'   => 55,
+            'wy'   => 56
             // Add other states...
         ];
     }
@@ -199,10 +210,10 @@ class FetchPriceHouseReportJob implements ShouldQueue
                 'sum' => $sum_arr,
             ];
         }
-        
+
         //dd($data);
 
-        return view('pricehouse', compact('de', 'mainval', 'data', 'price','sts'));
+        return view('pricehouse', compact('de', 'mainval', 'data', 'price', 'sts'));
     }
     /*private function fetchPropertyData($authenticate, $prop_id)
     {
@@ -311,266 +322,5 @@ class FetchPriceHouseReportJob implements ShouldQueue
             ]),
         ]);
     }
-  
-   /* public function handle_()
-    {
 
-        $my_states_array = [
-            // Your state mapping...
-                'ca' => 6,
-                'al' => 1,
-                'ak' => 2,
-                'az' => 4,
-                'ar' => 5,
-                'co' => 8,
-                'ct' => 9,
-                'de' => 10,
-                'dc' => 11,
-                'fl' => 12,
-                'ga' => 13,
-                'hi' => 15,
-                'id' => 16,
-                'il' => 17,
-                'in' => 18,
-                'ia' => 19,
-                'ks' => 20,
-                'ky' => 21,
-                'la'   => 22,
-                 'me'    => 23,
-                  'md'   => 24,
-                    'ma' => 25,
-                   'mi'  => 26,
-                   'mn'  => 27,
-                   'ms'  => 28,
-                   'mo'  => 29,
-                 'mt'    => 30,
-                 'ne'    => 31,
-                  'nv'   => 32,
-                  'nh'   => 33,
-                  'nj'   => 34,
-                   'nm'  => 35,
-                  'ny'   => 36,
-                  'nc'   => 37,
-                  'nd'   => 38,
-                   'oh'  => 39,
-                  'ok'   => 40,
-                  'or'   => 41,
-                 'pa'    => 42,
-                 'ri'    => 44,
-                'sc' => 45,
-                 'sd'   => 46,
-                 'tn'   => 47,
-                 'tx'   => 48,
-                 'ut'   => 49,
-                 'vt'   => 50,
-                 'va'   => 51,
-                 'wa'   => 53,
-                  'wv'  => 54,
-                 'wi'   => 55,
-                 'wy'   => 56
-                // Add other states...
-            
-        ];
-
-        $stateCode = $my_states_array[ltrim($this->state, '0')] ?? null;
-        if (!$stateCode) {
-            Log::error("Invalid state provided: {$this->state}");
-            return;
-        }
-
-        $client = new Client();
-        
-        try {
-            $loginResponse = $client->post('https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'ClientId' => config('app.client_id'),
-                    'ClientSecretKey' => config('app.client_secret'),
-                ]
-            ]);
-
-            $authData = json_decode($loginResponse->getBody(), true);
-            $authenticate = $authData ?? null;
-
-            if (!$authenticate) {
-                Log::error('Authentication failed. No token received.');
-                return;
-            }
-
-            $cp = ltrim($this->cp, '0');
-            $acre_arr = range(0, 100, 5); // Acreage ranges
-            $properties = DB::table('property_details')
-                ->where([
-                    'state' => $this->state,
-                    'county' => $this->countyName
-                ])
-                ->get();
-
-            $data = [];
-            if ($properties->isNotEmpty()) {
-                foreach ($properties as $property) {
-                    // Fetch property reports
-                    $data[] = $this->fetchPropertyReports($client, $authenticate, $acre_arr, $stateCode, $cp, $property->property_id);
-                }
-            } else {
-                foreach ($acre_arr as $index => $acreFrom) {
-                    if (!isset($acre_arr[$index + 1])) {
-                        break;
-                    }
-                    $data[] = $this->fetchSalesComparables($client, $authenticate, $acreFrom, $acre_arr[$index + 1], $stateCode, $cp);
-                    // Fetch property details...
-                }
-            }
-            //dd($data);
-            //$sts = json_encode($data['sts']);
-            //$de = json_encode($data['de']);
-    
-            //$data = json_encode($data['data']);
-            //$price = json_encode($data['price']);
-            for ($j = 0; $j < count($data); $j++) {
-                $dl[] = $data[$j]['LitePropertyList'];
-            }
-            for ($n = 0; $n < count($dl); $n++) {
-                $data1 = [];
-                $propid = [];
-                $count = [];
-                //dd($dl);
-                // Loop through each property in the current list
-                for ($o = 0; $o < min(25, count($dl[$n])); $o++) {
-                    $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
-                    $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
-
-                    // Count the number of owners based on the presence of '/'
-                    $count[$o] = (strpos($data1[$o], '/') !== false) ? 2 : 1;
-                }
-
-                $sum_arr = array_sum($count);
-
-                $sts[] = [
-                    'res' . $n => $data1,
-                    'prop' => $propid,
-                    'count' => $count,
-                    'sum' => $sum_arr,
-                ];
-            }
-            //dd($dl);
-            $d_e = json_encode($data,true);
-            $st_s = json_encode($sts,true);
-            $mainval = 1 * 0.1; // Example calculation; adjust as needed
-            PriceHouseReport::create([
-                'user_id' => 1,
-                'state' => $this->state,
-                'county_name' => $this->countyName,
-                'sts' => $st_s,
-                'de' => $d_e,
-                //'data' => $data,
-                //'price' => $price,
-                //'mainval' => $mainval// Store the fetched data
-            ]);
-            //return view('pricehouse', compact('mainval', 'sts', 'data', 'price'));
-            // Process the results and save to the database or handle as needed
-            // Example:
-            // PriceHouseReport::updateOrCreate([...]);
-
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-    }
-
-    private function fetchPropertyReports($client, $authenticate, $acre_arr, $stateCode, $cp, $propertyId)
-    {
-        $results = [];
-
-        foreach ($acre_arr as $index => $acreFrom) {
-            if (!isset($acre_arr[$index + 1])) {
-                break;
-            }
-
-            $response = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => json_encode([
-                    'ProductNames' => ['SalesComparables'],
-                    'SearchType' => 'Filter',
-                    'SearchRequest' => [
-                        'ReferenceId' => '1',
-                        'ProductName' => 'SearchLite',
-                        'MaxReturn' => '1',
-                        'Filters' => [
-                            [
-                                'FilterName' => 'LotAcreage',
-                                'FilterOperator' => 'is between',
-                                'FilterValues' => [$acreFrom, $acre_arr[$index + 1]]
-                            ],
-                            [
-                                'FilterName' => 'StateFips',
-                                'FilterOperator' => 'is',
-                                'FilterValues' => [$stateCode],
-                                'FilterGroup' => 1
-                            ],
-                            [
-                                'FilterName' => 'CountyFips',
-                                'FilterOperator' => 'is',
-                                'FilterValues' => [$cp],
-                                'FilterGroup' => 1
-                            ],
-                        ]
-                    ]
-                ])
-            ]);
-
-            $results[] = json_decode($response->getBody(), true);
-        }
-
-        return $results;
-    }
-
-    private function fetchSalesComparables($client, $authenticate, $acreFrom, $acreTo, $stateCode, $cp)
-    {
-        $response = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $authenticate,
-            ],
-            'body' => json_encode([
-                'ProductNames' => ['SalesComparables'],
-                'SearchType' => 'Filter',
-                'SearchRequest' => [
-                    'ReferenceId' => '1',
-                    'ProductName' => 'SearchLite',
-                    'MaxReturn' => '1',
-                    'Filters' => [
-                        [
-                            'FilterName' => 'LotAcreage',
-                            'FilterOperator' => 'is between',
-                            'FilterValues' => [$acreFrom, $acreTo]
-                        ],
-                        [
-                            'FilterName' => 'StateFips',
-                            'FilterOperator' => 'is',
-                            'FilterValues' => [$stateCode],
-                            'FilterGroup' => 1
-                        ],
-                        [
-                            'FilterName' => 'CountyFips',
-                            'FilterOperator' => 'is',
-                            'FilterValues' => [$cp],
-                            'FilterGroup' => 1
-                        ],
-                    ]
-                ]
-            ])
-        ]);
-
-        return json_decode($response->getBody(), true);
-    }*/
 }
-
-   
