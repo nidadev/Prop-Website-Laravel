@@ -89,6 +89,15 @@ Route::get('/export_price/{pricehouseid}', [ApiController::class, 'export_house_
 
 //Route::post('/webhook-subscription',SubscriptionController::class,'webhookSubscription')->name('webhookSubscription');
 
+/************************************new export */
+
+Route::post('/export-price-house', [ApiController::class, 'exportPriceHouse'])->name('exportprice');
+
+// Route to download the exported file
+Route::get('/download-export/{fileName}', [ApiController::class, 'downloadExport'])->name('download.export');
+/********************************* */
+Route::get('/getallfiles', [ApiController::class, 'deletefromStorage']);
+
 
 Route::get('/download/xml/{id}', [ApiController::class, 'xmldownload'])->name('download.xml');
 

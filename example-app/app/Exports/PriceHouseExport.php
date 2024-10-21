@@ -137,14 +137,8 @@ class PriceHouseExport implements FromArray, WithHeadings
 
     public function array(): array
     {
-        set_time_limit(1520);
+        //set_time_limit(1520);
     
-        $context = stream_context_create([
-            'http' => [
-                'timeout' => 1.0,
-                'ignore_errors' => true,
-            ]
-        ]);
         
             // Return the data in an array format
             $client = new GuzzleHttp\Client();
@@ -162,8 +156,13 @@ class PriceHouseExport implements FromArray, WithHeadings
             $authenticate = json_decode($login->getBody(), true);
       
         $formattedData = [];
-        
-        foreach ($this->userIds as $userId) {
+        //foreach (array_chunk($this->userIds, 50) as $chunk) {
+            //foreach ($chunk as $userId) {
+           // dd($this->userIds);
+           //dd($this->userIds[0]);
+           $convert = explode(',',$this->userIds[0]);
+           //dd($convert);
+        foreach ($convert as $userId) {
             // Replace with your API endpoint
             $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
                 'headers' => [
@@ -177,7 +176,9 @@ class PriceHouseExport implements FromArray, WithHeadings
                     "SearchType" => "PROPERTY",
                     "PropertyId" => $userId
                 ]),
+               // 'timeout' => 1530, 
             ]);
+            //dd($userId);
             $data = json_decode($getProperty->getBody(), true);
             //dd($data);
             // Process the data if necessary and format it for export
@@ -305,10 +306,11 @@ class PriceHouseExport implements FromArray, WithHeadings
                 // Handle case where Reports is not structured as expected
                 // You might want to log this or set defaults
             }
-        }
+        //}
+        }//foreach
 
         return $formattedData;
-    }
+    }//function end
 
 
 }

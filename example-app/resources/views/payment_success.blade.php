@@ -14,9 +14,20 @@
                     <div class="center_h2lil">
 
                     <h4>Hi {{ auth()->user()->name }}</h4> Your payment is successfully done.You can download records<br>
-
-                   
-    <button class="button run" style="border:none;"><a href="{{ url('/export_price/['.$data.']')}}" style="color:#fff;text-decoration:none;">Export Records</a></button>
+                    @if(Session::has('success'))
+            <p class="result">{{ Session::get('success') }}</p>
+            @endif
+            <?php //dd($data);
+              //$convert = json_decode($data,true); 
+              ?>
+                    <form action="{{ route('exportprice') }}" method="POST" style="display:inline;">
+    @csrf
+    <input type="hidden" name="userIds[]" value="{{ $data }}">
+    <button type="submit" style="color:#000; background:none; border:none; text-decoration:underline; cursor:pointer;">Export Records</button>
+</form>
+<!--button class="button run" style="border:none;"><a href="{{ route('exportprice')}}" style="color:#fff;text-decoration:none;">Export Records</a></button-->
+              
+    <!--button class="button run" style="border:none;"><a href="{{ url('/export_price/['.$data.']')}}" style="color:#fff;text-decoration:none;">Export Records</a></button-->
    
                     </div>
                   </div>
