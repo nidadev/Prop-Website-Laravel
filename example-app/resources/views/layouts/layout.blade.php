@@ -96,7 +96,72 @@
   <script>
     $(document).ready(function() {
       //alert('')
+      $(".su").on('click', function(event) {
+        //alert('checkpdf');
+      var cid = '<?php echo config('app.client_id'); ?>';
+                    var cs = '<?php echo config('app.client_secret'); ?>';
+                    var prop_id = $(this).attr("data-element");
+
       $.noConflict();
+      $.ajax({
+                        url: 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient',
+                        type: "POST",
+                        data: {
+                            ClientId: cid,
+                            ClientSecretKey: cs
+                        },
+                        success: function(data) {
+                            localStorage.setItem('api_token', 'Bearer' + " " + data);
+                        },
+
+                    });
+                    /////
+                    $.ajax({
+                url: 'https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0',
+
+                type: "POST",
+                data: {
+                    ProductNames: [
+                        "SalesComparables"
+                    ],
+                    SearchType: "PROPERTY",
+                    PropertyId: prop_id
+                },
+
+                headers: {
+                    'Authorization': localStorage.getItem('api_token')
+                },
+                success: function(data) {
+
+                    if (data) {
+                        //console.log(data);
+                        //console.log(data.LitePropertyList);
+                        //console.log(data.Reports[0].Data.ComparableCount);
+                        if(data.Reports[0].Data.ComparableCount > 0)
+                        {
+                          $("#d_pd").show();
+
+                          $("#pdf1").show();
+
+                        }
+                    }
+
+                },
+                statusCode: {
+                    400: function(data) {
+                        //alert( "page not found" );
+                        console.log(data.responseText);
+                        $(".error").text(data.responseJSON.Message);
+
+                    },
+                    401: function() {
+                        alert("unauthorized");
+                    },
+
+                } ///main ajax success
+
+            });
+                  });
       $('.logoutUser').click(function() {
         $.ajax({
           type: 'POST',

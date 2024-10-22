@@ -2724,6 +2724,7 @@ class ApiController extends BaseController
 
             $salesdata = json_decode($sales->getBody(), true);
             //dd($propertydata);
+            //if no record then he should not check pdf 
 
             if ($salesdata['Reports'][0]['Data']['ComparableCount'] <= 0) {
                 $error = 'We are unable to get Comp Records...';
