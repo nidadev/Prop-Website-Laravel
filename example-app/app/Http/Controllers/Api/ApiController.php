@@ -2859,7 +2859,7 @@ class ApiController extends BaseController
             //dd($redfin_data);
             $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
             $redcountsold = count($redfin_sold_data);
-            //dd($redfin_sold_data);
+           // dd($redfin_sold_data);
             //dd($redfin_data);
 
             //dd($redfin_data);
@@ -3247,22 +3247,25 @@ class ApiController extends BaseController
             // Create a response with the XML content
             $pdf = Pdf::loadView('pdf2', $data);
             return $pdf->download('compreport.pdf');
-        } catch (\Exception $e) {
+        } /*catch (\Exception $e) {
             // Log the exception
             \Log::error('PdfDownload failed: ' . $e->getMessage());
 
             // Optionally throw the exception to trigger a retry
             throw $e;
-        } /*catch (\Exception $e) {
+        }*/ catch (\Exception $e) {
             //$response = $e->getResponse();
             $emsg = $e->getMessage();
+            \Log::error('PdfDownload failed: ' . $e->getMessage());
             //dd($emsg);
             $fromserver = isset($response) ? $response : 'No records found . or Server error';
 
             $error = $emsg;
             //dd($response['reasonPhrase']);
-            return  redirect()->to('compreport')->with('error', $error);
-        }*/
+            //return  redirect()->to('compreport')->with('error', $error);
+            return  redirect()->to('compreport')->with('error', 'something went wrong');
+
+        }
     }
     // Function to get JSON array elements and their values
     function getJsonArrayElements($jsonData)
@@ -3816,6 +3819,8 @@ class ApiController extends BaseController
     }
     function getRedfinData($jsonData)
     {
+        try
+        {
         $data = $jsonData;
         //dd($data);
 
@@ -3865,8 +3870,18 @@ class ApiController extends BaseController
         }
         return $redf;
     }
+    catch (\Exception $e) {
+        // Log the exception
+        \Log::info('redfin failed: ' . $e->getMessage());
+
+        // Optionally throw the exception to trigger a retry
+        throw $e;
+    }
+    }
     function getZillowData($jsonData)
     {
+        try
+        {
         $data = $jsonData;
         //dd($data);
 
@@ -3914,9 +3929,18 @@ class ApiController extends BaseController
         }
         return $sale_sum;
     }
+    catch (\Exception $e) {
+        // Log the exception
+        \Log::info('Zillowdata failed: ' . $e->getMessage());
+
+        // Optionally throw the exception to trigger a retry
+        throw $e;
+    }
+    }
 
     function getRealtorData($jsonData)
     {
+        try{
         $data = $jsonData;
         //dd($data);
 
@@ -3972,6 +3996,14 @@ class ApiController extends BaseController
             //href,list_price,location->county->name,description->lot_sqft,location->address->city
         }
         return $sale_sum1;
+    }
+    catch (\Exception $e) {
+        // Log the exception
+        \Log::info('realtor failed: ' . $e->getMessage());
+
+        // Optionally throw the exception to trigger a retry
+        throw $e;
+    }
     }
 
     public function getCompData($jsonData)
