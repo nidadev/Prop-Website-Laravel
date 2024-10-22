@@ -2741,6 +2741,7 @@ class ApiController extends BaseController
             }
             //dd($add_prop);
             $price[0] = $this->getPrice($salesdata);
+            //dd($price[0]);
             $mar_pr = $price[0][0][0];
             $add_data[0] = $this->getPropertyData($salesdata);
 
@@ -3271,6 +3272,7 @@ class ApiController extends BaseController
     function getJsonArrayElements($jsonData)
     {
         //dd(jsonData)
+        try{
         // Decode JSON data into a PHP associative array
         $data = $jsonData;
 
@@ -3301,6 +3303,15 @@ class ApiController extends BaseController
         }
 
         return $arr;
+    }
+    catch (\Exception $e) {
+        // Log the exception
+        \Log::info('getjsonarray failed: ' . $e->getMessage());
+
+        // Optionally throw the exception to trigger a retry
+        throw $e;
+    }
+    
     }
 
     public function xmldownload(Request $request)
@@ -3765,6 +3776,7 @@ class ApiController extends BaseController
 
     function getPrice($jsonData)
     {
+        try{
         //dd(jsonData)
         // Decode JSON data into a PHP associative array
         $data = $jsonData;
@@ -3786,6 +3798,15 @@ class ApiController extends BaseController
         }
 
         return $arr;
+    }
+    catch (\Exception $e) {
+        // Log the exception
+        \Log::info('getprice failed: ' . $e->getMessage());
+
+        // Optionally throw the exception to trigger a retry
+        throw $e;
+    }
+
     }
     function getPropertyData($jsonData)
     {
