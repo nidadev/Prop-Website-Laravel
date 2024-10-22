@@ -96,13 +96,14 @@
   <script>
     $(document).ready(function() {
       //alert('')
+      $.noConflict();
+
       $(".su").on('click', function(event) {
         //alert('checkpdf');
       var cid = '<?php echo config('app.client_id'); ?>';
                     var cs = '<?php echo config('app.client_secret'); ?>';
                     var prop_id = $(this).attr("data-element");
 
-      $.noConflict();
       $.ajax({
                         url: 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient',
                         type: "POST",
