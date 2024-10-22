@@ -40,7 +40,7 @@ class ExportCompleted extends Notification
 
         //{{ url('/download-export/' . $fileName) }}
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
+                    ->line('Your Export Data is available .Click below link.')
                     ->action('Download your file', url('/download-export/' . $this->fileName))
                     ->line('Thank you for using our application!');
     }
@@ -59,7 +59,7 @@ class ExportCompleted extends Notification
 
     public function build()
     {
-        return $this->subject('Your Export is Ready')
+        return $this->subject('Propelyze - Your Export is Ready')
                     ->view('exports')
                     ->with(['fileName' => $this->fileName]);
     }
