@@ -40,7 +40,7 @@ class ExportCompleted extends Notification
 
         //{{ url('/download-export/' . $fileName) }}
         return (new MailMessage)
-                    ->line('Your Export Data is available .Click below link.')
+                    ->line('Yours Export Data is available .Click below link.')
                     ->action('Download your file', url('/download-export/' . $this->fileName))
                     ->line('Thank you for using our application!');
     }
