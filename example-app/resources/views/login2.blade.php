@@ -29,10 +29,10 @@
           <form method="post" action="{{ route('userLogin') }}">
           @csrf
           <h6 class="mb-3 fw-bold">Email</h6>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="40">Enter Email:
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="40">
             <span class="error email_err">@error('email') {{$message}} @enderror</span>
             <h6 class="mb-3 fw-bold mt-4">Password</h6>
-            <input type="password" class="form-control" name="password" placeholder="Enter Password:" maxlength="40">Enter password:
+            <input type="password" class="form-control" name="password" placeholder="Enter Password:" maxlength="40">
             <span class="error password_err">@error('password') {{$message}} @enderror</span>
             <div class="login_1mi row mt-3">
 		    <div class="col-md-6 col-6">
