@@ -180,7 +180,7 @@
           }
         });
       });
-      $(".run,.chk").click(function() { //alert('')
+      $(".run,.chk").on('submit',function() { //alert('')
         $('.loader').show();
         $('.sm-txt').show();
         setTimeout("hide()", 720); 
