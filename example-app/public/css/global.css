@@ -142,9 +142,10 @@ h1,h2,h3,h4,h5,tbody,th,td{
 	font-family: "Poppins", sans-serif;
 	font-weight: 400;
  }
-a{
+a {
 color: #34374C;
-text-decoration:none;
+text-decoration:none !important;
+font-family: "Poppins";
  }
 a:hover{
 text-decoration:none;
@@ -166,6 +167,7 @@ font-weight:bold;
 border-radius:10px;
 font-family: "Poppins";
     font-weight: normal;
+	text-decoration: none;
  }
 
 .button:hover{
@@ -241,12 +243,21 @@ color: #ed8a00!important;
 .bg_blue{
 background: #1E1D85!important; 
  }
+ .bg-light1
+ {
+	background: #fff7ef!important; 
+
+	 
+ }
 .bg_blue_light{
 background: #eae9ff!important; 
  }
 .bg_blight{
 background: #6C60FE!important; 
  }
+ .bg_bo{
+	background: #ed8a00!important; 
+	 }
 .bg_back{
 background-color: rgba(0, 0, 0, 0.7);
  }
@@ -316,7 +327,7 @@ display:none;
 .fw-bold
 {
 	font-family: "Poppins";
-    font-weight: 500 !important;
+    /*font-weight: 500 !important;*/
 
 }
 #header .navbar-brand{
@@ -336,8 +347,8 @@ padding:15px 22px;
 color: #34374C;
 font-size:14px;
 font-family: "Poppins";
-    font-weight: 700;
-	border-bottom: 2px solid transparent;
+    /*font-weight: 700;
+	border-bottom: 2px solid transparent;*/
  }
 #header .nav-link:hover,
 #header .nav-link:focus,
@@ -699,7 +710,7 @@ background:#6C60FE;
 color:#fff;
  }
 #footer {
-background-image: url('https://propelyze.com/propelyze/public/img/40.jpg');
+background-image: url('https://propelyze.com/example-app/public/img/1.jpg');
 background-position: center center;
 background-size: cover;
 }
