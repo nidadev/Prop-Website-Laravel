@@ -43,7 +43,7 @@
                 <input type="hidden" name="county_name" id="county_name">
                 <div class="col-md-4">
                   <div class="center_h2lil">
-                    <label>APN </label><input type="text" class="form-control" name="apn" id="apn" placeholder="7056-010-019">
+                    <label>APN </label><input type="text" class="form-control" name="apn" id="apn" placeholder="7056-010-019" required>
                   </div>
                 </div>
               </div>
