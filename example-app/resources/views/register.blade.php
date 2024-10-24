@@ -44,9 +44,9 @@
             <span class="error password_confirmation_err">@error('password_confirmation') {{$message}} @enderror</span>
 
             <div class="form-check mt-3">
-              <input type="checkbox" class="form-check-input" id="customCheck1">
+              <input type="checkbox" class="form-check-input" id="customCheck1" name="agree" value="yes">
               <label class="form-check-label" for="customCheck1">Agree to our <a class="fw-bold" href="#">terms & conditions</a></label>
-              <span class="error agree_err"></span>
+              <span class="error agree_err">@error('agree') {{$message}} @enderror</span>
             </div>
             <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center reg">SIGN UP</button></h6>
             <p class="mt-3 mb-0 text-center">Already have an account? <a class="fw-bold col_blue" href="{{ url('/login2') }} "> Login</a></p>
