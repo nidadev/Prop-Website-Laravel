@@ -13,7 +13,7 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command(DeleteCache::class)->everySecond();
-Schedule::command(InsertPropertyData::class)->weekly();
+//Schedule::command(InsertPropertyData::class)->weekly();
 
 Schedule::command('app:queue-work')->everyMinute();
 Schedule::command(StorageFileDelete::class)->monthly();
