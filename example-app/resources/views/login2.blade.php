@@ -17,7 +17,7 @@
  <div class="container-xl">
   <div class="row login_1">
     <div class="col-md-12">
-      <div class="login_1m p-4 w-50 mx-auto bg-light">
+      <div class="login_1m p-4 w-50 mx-auto bg-light1">
 	      <h2 class="text-center mb-3">Login </h2>
         <!--form method="post" action="{{ url('/login') }}" id="login_id"-->
         
@@ -28,10 +28,10 @@
 
           <form method="post" action="{{ route('userLogin') }}">
           @csrf
-          <h6 class="mb-3 fw-bold">Email</h6>
+          <h6 class="mb-3 ">Email</h6>
           <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email:" maxlength="40">
             <span class="error email_err">@error('email') {{$message}} @enderror</span>
-            <h6 class="mb-3 fw-bold mt-4">Password</h6>
+            <h6 class="mb-3  mt-4">Password</h6>
             <input type="password" class="form-control" name="password" placeholder="Enter Password:" maxlength="40">
             <span class="error password_err">@error('password') {{$message}} @enderror</span>
             <div class="login_1mi row mt-3">
@@ -52,7 +52,7 @@
 		  </div>
 		  <h6 class="mt-3 center_sm">  <p class="result"></p>  
           <button type="submit" style="border:none;" class="button_2 b-block text-center" >LOGIN</button></h6>
-		  <p class="mt-3 mb-0 text-center">Don't have an account? <a class="fw-bold a_tag col_blue" href="{{ url('/register') }} ">Create One</a></p>
+		  <p class="mt-3 mb-0 text-center">Don't have an account? <a class=" a_tag col_blue" href="{{ url('/register') }} ">Create One</a></p>
 		</div>
             </form>
    </div>

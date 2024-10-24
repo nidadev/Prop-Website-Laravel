@@ -23,7 +23,30 @@
                 That’s why we’ve made it our mission to streamline and enhance the property acquisition process, empowering real estate investors to make faster, more informed decisions.Our journey began with a simple but powerful idea: what if acquiring real estate could be less tedious and more efficient? With years of experience in real estate and a passion for technology, we set out to create a solution that would revolutionize the way investors approach direct mail marketing campaigns. No longer would identifying prime locations, pulling owner records, and pricing parcels be a time-consuming task—it would become a seamless experience.</p>
             </div>
             <div class="col-md-6">
-                <img src="{{ asset('img/30.jpg') }}" class="w-100" alt="abc">
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item">
+      <img src="img/27.jpg" class="d-block w-100 rounded_10" alt="abc">
+      
+    </div>
+    <div class="carousel-item">
+      <img src="img/30.jpg" class="d-block w-100 rounded_10" alt="abc">
+      
+    </div>
+    <div class="carousel-item active">
+      <img src="img/29.jpg" class="d-block w-100 rounded_10" alt="abc">
+      
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
             </div>
         </div>
         <div class="row disc_1 mt-5 pt-5">
