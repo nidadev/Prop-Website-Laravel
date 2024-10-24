@@ -54,7 +54,7 @@
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Full Customer Support
      </h6>
 		 @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id)
-        <button class="btn btn-danger subscriptionCancel" style="width:100%;">Cancel</button>
+        <!--button class="btn btn-danger subscriptionCancel" style="width:100%;">Cancel</button-->
 
         @else
         <button class="btn btn-primary text-center d-block confirmationBtn" data-id="{{ $plan->id }}" data-toggle="modal" data-target="#confirmationModal" style="width:100%;">Subscribe</button>

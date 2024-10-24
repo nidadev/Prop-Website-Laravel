@@ -284,7 +284,10 @@ class SubscriptionController extends Controller
 
     public function CancelSubscription()
     {
+       
         try {
+            //dd('unable to cancel');
+            //send email to support then will cancel;
             $user_id = auth()->user()->id;
             $subscriptionDetail = SubscriptionDetail::where(['user_id' => $user_id, 'status' => 'active', 'cancel' => 0])->orderBy('id', 'desc')->first();
 
