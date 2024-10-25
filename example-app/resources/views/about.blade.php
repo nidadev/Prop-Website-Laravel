@@ -26,15 +26,15 @@
             <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item">
-      <img src="img/27.jpg" class="d-block w-100 rounded_10" alt="abc">
+      <img src="{{ asset('img/27.jpg') }}" class="d-block w-100 rounded_10" alt="abc">
       
     </div>
     <div class="carousel-item">
-      <img src="img/30.jpg" class="d-block w-100 rounded_10" alt="abc">
+      <img src="{{ asset('img/30.jpg') }}" class="d-block w-100 rounded_10" alt="abc">
       
     </div>
     <div class="carousel-item active">
-      <img src="img/29.jpg" class="d-block w-100 rounded_10" alt="abc">
+      <img src="{{ asset('img/29.jpg') }}" class="d-block w-100 rounded_10" alt="abc">
       
     </div>
   </div>
