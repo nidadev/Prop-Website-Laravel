@@ -158,6 +158,17 @@ class SubscriptionController extends Controller
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
                 $subscriptionData = SubscriptionHelper::start_yearly_subscription($customer_id, $user_id, $subPlan, $stripe);
             }
+
+              //if monthly availabel and change into monthly bronze
+              if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month' && $subPlan->type == 3) {
+                SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+                $subscriptionData = SubscriptionHelper::start_monthly_bronze_subscription($customer_id, $user_id, $subPlan, $stripe);
+            }
+            //if monhtly bronze available change it to yearly
+            if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month_bronze' && $subPlan->type == 1) {
+                SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+                $subscriptionData = SubscriptionHelper::start_yearly_subscription($customer_id, $user_id, $subPlan, $stripe);
+            }
             //if monthly availabel and change into lifetime
             else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'month' && $subPlan->type == 2) {
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
@@ -167,6 +178,13 @@ class SubscriptionController extends Controller
             else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'yearly' && $subPlan->type == 0) {
                 SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
                 $subscriptionData = SubscriptionHelper::start_monthly_subscription($customer_id, $user_id, $subPlan, $stripe);
+            }
+
+             //if yearly availabel and change into monthly bronze
+
+            else if ($subscriptionDetail && $subscriptionDetail->plan_interval == 'yearly' && $subPlan->type == 3) {
+                SubscriptionHelper::cancel_current_subscription($user_id, $subscriptionDetail);
+                $subscriptionData = SubscriptionHelper::start_monthly_bronze_subscription($customer_id, $user_id, $subPlan, $stripe);
             }
 
             //if yearly availabel and change into lifetim
@@ -182,7 +200,13 @@ class SubscriptionController extends Controller
                         $subscriptionData = SubscriptionHelper::start_yearly_trial_subscription($customer_id, $user_id, $subPlan);
 
                         //yearly
-                    } else if ($subPlan->type == 2) {
+                    } 
+                    else if ($subPlan->type == 3) {
+                        $subscriptionData = SubscriptionHelper::start_monthly_bronze_trial_subscription($customer_id, $user_id, $subPlan);
+
+                        //montly bronze
+                    }
+                    else if ($subPlan->type == 2) {
                         $subscriptionData = SubscriptionHelper::start_lifetime_trial_subscription($customer_id, $user_id, $subPlan);
 
                         //lifetime
@@ -197,7 +221,12 @@ class SubscriptionController extends Controller
                     } else if ($subPlan->type == 1) { //yearly subscription
                         SubscriptionHelper::capture_yearly_pending_fees($customer_id, $user_id, auth()->user()->name, $subPlan, $stripe);
                         $subscriptionData = SubscriptionHelper::start_yearly_subscription($customer_id, $user_id, $subPlan, $stripe);
-                    } else if ($subPlan->type == 2) { //lifetime subscription
+                    } 
+                    else if ($subPlan->type == 3) { //monthly bronze  subscription
+                        SubscriptionHelper::capture_monthly_bronze_pending_fees($customer_id, $user_id, auth()->user()->name, $subPlan, $stripe);
+                        $subscriptionData = SubscriptionHelper::start_monthly_bronze_subscription($customer_id, $user_id, $subPlan, $stripe);
+                    }
+                    else if ($subPlan->type == 2) { //lifetime subscription
                     }
                 }
             }
