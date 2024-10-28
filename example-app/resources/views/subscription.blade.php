@@ -40,7 +40,7 @@
 	   <div class="col-md-4">
 	    <div class="subs_2i1 border_1 rounded_10 p-4">
       @if($plan->name == 'Monthly Bronze')
-		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
+		 <h4 class="plan_green">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
      ${{ $plan->amount}} Charge</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>

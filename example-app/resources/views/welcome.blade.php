@@ -55,14 +55,14 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 	  <div class="row work_h2 text-white">
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center" style="background: #6C60FE;">
-			  <span class="d-inline-block bg_success text-white rounded-circle fs-1"><i class="fa fa-map-signs"></i></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><i class="fa fa-globe"></i></span>
 			  <h5 class="mt-3 mb-3">Location Research</h5>
 			  <p class="mb-0 text-white">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-home"></i></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-power-off"></i></span>
 			  <h5 class="mt-3 mb-3">Owner Record Download</h5>
 			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources.</p>
 			</div>
@@ -70,35 +70,35 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-flag-checkered"></i></span>
 			  <h5 class="mt-3 mb-3">Skip Tracing</h5>
 			  <p class="mb-0 text-white">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-tag"></i></span>
 			  <h5 class="mt-3 mb-3">Property Pricing</h5>
 			  <p class="mb-0 text-white">Get personalized pricing for each property to boost your marketing impact.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-download"></i></span>
 			  <h5 class="mt-3 mb-3"> External List Uploading</h5>
 			  <p class="mb-0 text-white">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><i class="fa fa-database"></i></span>
 			  <h5 class="mt-3 mb-3"> Data Scrubbing</h5>
 			  <p class="mb-0 text-white">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-road"></i></span>
 			  <h5 class="mt-3 mb-3">Road Access</h5>
 			  <p class="mb-0 text-white">Check if properties have direct road access and pinpoint specific access points.</p>
 			</div>
@@ -113,35 +113,35 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa-solid fa-camera-retro" aria-hidden="true"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-camera-retro" aria-hidden="true"></i></span>
 			  <h5 class="mt-3 mb-3">Campaign Mapping</h5>
 			  <p class="mb-0 text-white">Enhance your exports with KML maps to visually organize owner records and nearby comparable properties</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><i class="fa fa-flag"></i></span>
 			  <h5 class="mt-3 mb-3"> Comp Reporting</h5>
 			  <p class="mb-0 text-white">Create detailed reports that include owner information, property histories, pricing insights, and comparative analyses in one convenient file.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-camera-retro" aria-hidden="true"></i></span>
 			  <h5 class="mt-3 mb-3"> Comp API</h5>
 			  <p class="mb-0 text-white">Instantly access a vast repository of 2 million comparable property records at your fingertips.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-user-plus"></i></span>
 			  <h5 class="mt-3 mb-3"> Strategic Partnership</h5>
 			  <p class="mb-0 text-white">Connect with industry experts, including investors, educators, and professionals to elevate your business ventures.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-check"></i></span>
 			  <h5 class="mt-3 mb-3">Consulting</h5>
 			  <p class="mb-0 text-white">Engage with our specialists to discuss land investment strategies, data analysis techniques, research methods, and more.</p>
 			</div>
@@ -679,7 +679,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 				</div>
 				<div class="col-md-3">
 					<div class="reg_1r text-end mt-4">
-						<h6 class="mb-0"><a class="button" href="{{ url('/register')}}">Register Now</a></h6>
+						<h6 class="mb-0"><a class="bg-warning button" href="{{ url('/register')}}">Register Now</a></h6>
 					</div>
 				</div>
 			</div>
