@@ -40,7 +40,7 @@ class ApiController extends BaseController
             'name' => 'required|string|min:3',
             'email' => 'required|regex:/^.+@.+$/i|email|unique:users',
             //'phone' => 'required|string|max:15|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
-            'password' => 'required|confirmed|min:5',
+            'password' => 'required|confirmed|min:8',
             'password_confirmation' => 'required',
             'agree' => 'required',
         ]);
@@ -89,7 +89,7 @@ class ApiController extends BaseController
             //$user->save();
 
             $user->save();
-            return redirect()->back()->with('success', 'user registered successfully');
+            return redirect()->back()->with('success', 'Please check your inbox and verify your email.');
         } else {
             return redirect()->back()->with('error', 'User not found');
         }

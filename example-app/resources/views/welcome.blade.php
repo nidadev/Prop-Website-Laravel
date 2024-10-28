@@ -105,7 +105,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-envelope"></i></span>
 			  <h5 class="mt-3 mb-3"> Topography</h5>
 			  <p class="mb-0 text-white">Assess the usable area of your property and filter out those that don't meet your criteria.</p>
 			</div>
@@ -113,7 +113,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-ticket"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa-solid fa-camera-retro" aria-hidden="true"></i></span>
 			  <h5 class="mt-3 mb-3">Campaign Mapping</h5>
 			  <p class="mb-0 text-white">Enhance your exports with KML maps to visually organize owner records and nearby comparable properties</p>
 			</div>
@@ -401,7 +401,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> API Access</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Transaction Tracking</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="#">Start Free Trial </a></h6>
+										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -417,7 +417,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> API Access</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Transaction Tracking</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="#">Start Free Trial </a></h6>
+										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -433,7 +433,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> API Access</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Transaction Tracking</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="#">Start Free Trial </a></h6>
+										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
 									</div>
 								</div>
 							</div>
