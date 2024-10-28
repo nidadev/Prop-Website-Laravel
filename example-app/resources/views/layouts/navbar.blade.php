@@ -60,18 +60,22 @@
                         <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-houses')}}" id="hw-it-hs">  How it works for houses</a></li>
                         <li><a class="dropdown-item" href="{{ url('/how-it-works-lands')}}" id="hw-it-lnd">  How it works for lands</a></li>
-                        <li><a class="dropdown-item" href="{{ url('/faq')}}" id="fq"> Faq</a></li>
 
                         </ul>
                        
 
-                    <li class="nav-item dropdown">
+                    <!--li class="nav-item dropdown">
+                    
                     <a class="nav-link dropdown-toggle" href="{{ url('/profile')}}" target="_self" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">                            Account
                         </a>
                         <!--ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                          <li><a class="dropdown-item" href="{{ url('/register')}}" id="rg"> Register</a></li>
                             <li><a class="dropdown-item" href="{{ url('/login2')}}" id="ln"> Login</a></li>
                         </ul-->
+                    <!--/li-->
+                    <li class="nav-item">
+                    <a class="nav-link {{ Request::segment(1) === 'faq' ? 'active' : null }}" href="{{ url('/faq')}}" role="button" id="sp">Faq
+                        </a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link {{ Request::segment(1) === 'support' ? 'active' : null }}" href="{{ url('/support')}}" role="button" id="sp">                            Contact
