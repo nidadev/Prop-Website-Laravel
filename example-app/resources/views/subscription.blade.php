@@ -39,6 +39,20 @@
     @foreach($plans as $plan)
 	   <div class="col-md-4">
 	    <div class="subs_2i1 border_1 rounded_10 p-4">
+      @if($plan->name == 'Monthly Bronze')
+		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
+     ${{ $plan->amount}} Charge</h4>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> External List Upload Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Comp Reporting
+     </h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Full Customer Support
+     </h6>
+     @endif
       @if($plan->name == 'Monthly')
 		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
      ${{ $plan->amount}} Charge</h4>
@@ -290,7 +304,7 @@
           submitBtn.removeAttribute("disabled");
         } else {
           console.log(result);
-          alert(result.token);
+          //alert(result.token);
           createSubscription(result.token);
         }
       });
@@ -310,7 +324,7 @@
       data: {plan_id:planID, data:token, _token: "{{ csrf_token() }}"},
       success: function(response) {
         //alert(data._token);
-        alert(response.success);
+        //alert(response.success);
         if (response.success) {
           console.log(response);
           alert(response.msg);

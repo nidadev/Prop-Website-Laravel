@@ -22,7 +22,7 @@
                     <div class="detail_1l2 p-4 rounded_10 bg-white">
                         <h4>Welcome {{ auth()->user()->name }}</h4>
                         <div class="email_verify">
-                            <p>Email:{{ auth()->user()->email }}
+                            <p>{{ auth()->user()->email }}
                                 @if(auth()->user()->is_verified == 0)
                                 <button class="button verify_mail" data-id="{{ auth()->user()->email }}" style="border:none;" href="">Verify</button>
                                 </p>
