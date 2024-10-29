@@ -8,7 +8,7 @@
 				<div class="row center_h1">
 					<div class="col-md-12">
 						<h1 class="text-white font_45"><span class="col_blue">We </span>Simplify Your<span class="col_blue"> Search</span></h1>
-					 <h1><a class="text-white p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/home') }}"> PROPE <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;<span class="col_red">LYZE</span></a></h1>
+					 <!--h1><a class="text-white p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/home') }}"> PROPE <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;<span class="col_red">LYZE</span></a></h1-->
                      <p class="text-white mt-3 fs-5">  Empower Your Real Estate Campaigns with Precision and Speed</p>
 						<ul class="mb-0 mt-4">
 							<li class="d-inline-block"><a class="button" href="#"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
