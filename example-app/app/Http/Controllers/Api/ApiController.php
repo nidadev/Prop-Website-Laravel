@@ -258,7 +258,7 @@ class ApiController extends BaseController
             $user->is_verified = 1;
             $user->save();
 
-            return "<h1>email verified successfully <a href='https://propelyze.com/example-app/login2'>Sign in </a></h1>";
+            return "<h1>email verified successfully <a href='https://propelyze.com/example-app/login'>Sign in </a></h1>";
         } else {
             return view('404');
         }
@@ -266,7 +266,7 @@ class ApiController extends BaseController
 
     public function loadLogin()
     {
-        return view('login2');
+        return view('login');
     }
     public function loadRegister()
     {
