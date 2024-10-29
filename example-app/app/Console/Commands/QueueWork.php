@@ -28,8 +28,8 @@ class QueueWork extends Command
     {
         //
         Artisan::call('queue:work', [
-            '--timeout' => 60,
-            '--tries' => 3,
+            '--timeout' => 1160,
+            '--tries' => 113,
         ]);
         $this->info('queue call successfully');
 

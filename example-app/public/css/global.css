@@ -704,6 +704,8 @@ text-align:center;
 margin-left:2px;
 margin-right:2px;
 transition: 0.3s;    
+padding:10px 0px 0px 0px;
+
  }
 .footer_1l ul li a:hover{
 background:#6C60FE;
