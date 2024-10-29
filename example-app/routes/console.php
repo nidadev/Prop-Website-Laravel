@@ -12,10 +12,10 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command(DeleteCache::class)->everySecond();
+Schedule::command(DeleteCache::class)->daily();
 //Schedule::command(InsertPropertyData::class)->weekly();
 
-Schedule::command('app:queue-work')->everyMinute();
+Schedule::command(QueueWork::class)->everySixHours();
 Schedule::command(StorageFileDelete::class)->monthly();
 
 /*Schedule::call(function (Schedule $schedule) {
