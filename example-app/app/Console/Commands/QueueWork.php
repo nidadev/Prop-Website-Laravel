@@ -31,6 +31,7 @@ class QueueWork extends Command
             '--timeout' => 1160,
             '--tries' => 113,
         ]);
+        Artisan::call('serve');
         $this->info('queue call successfully');
 
     }

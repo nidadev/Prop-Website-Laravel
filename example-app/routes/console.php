@@ -15,7 +15,7 @@ Artisan::command('inspire', function () {
 Schedule::command(DeleteCache::class)->daily();
 //Schedule::command(InsertPropertyData::class)->weekly();
 
-Schedule::command(QueueWork::class)->everySixHours();
+Schedule::command(QueueWork::class)->everyMinute();
 Schedule::command(StorageFileDelete::class)->monthly();
 
 /*Schedule::call(function (Schedule $schedule) {
