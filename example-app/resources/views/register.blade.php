@@ -49,7 +49,7 @@
               <span class="error agree_err">@error('agree') {{$message}} @enderror</span>
             </div>
             <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center reg">SIGN UP</button></h6>
-            <p class="mt-3 mb-0 text-center">Already have an account? <a class=" col_blue" href="{{ url('/login2') }} "> Login</a></p>
+            <p class="mt-3 mb-0 text-center">Already have an account? <a class=" col_blue" href="{{ url('/login') }} "> Login</a></p>
           </form>
         </div>
       </div>

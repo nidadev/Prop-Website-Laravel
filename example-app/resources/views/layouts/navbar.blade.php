@@ -89,7 +89,7 @@
                         <a class="nav-link button mx-3" href="{{ url('/register') }}"><i class="fa fa-user-plus me-1"></i>Register </a>
                     </li>
                     <li class="nav-item" id="login_b">
-                        <a class="nav-link button mx-3" href="{{ url('/login2') }}"><i class="fa fa-user-plus me-1"></i>Login </a>
+                        <a class="nav-link button mx-3" href="{{ url('/login') }}"><i class="fa fa-user-plus me-1"></i>Login </a>
                     </li>
                 </ul>
      @endif
