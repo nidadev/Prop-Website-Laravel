@@ -26,7 +26,7 @@ class UserAuthenticate
             return $next($request);
         }
 
-        return redirect('/login2');
+        return redirect('/login');
         //abort(401);
     }
 }
