@@ -20,7 +20,7 @@ class IsAuthenticate
         {
             return $next($request);
         }
-        return redirect('/login2');
+        return redirect('/login');
 
     }
 }
