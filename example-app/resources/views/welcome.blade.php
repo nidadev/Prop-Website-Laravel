@@ -55,14 +55,14 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 	  <div class="row work_h2 text-white">
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center" style="background: #6C60FE;">
-			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><i class="fa fa-globe"></i></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-globe"></i></a></span>
 			  <h5 class="mt-3 mb-3">Location Research</h5>
 			  <p class="mb-0 text-white">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><i class="fa fa-power-off"></i></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-power-off"></i></a></span>
 			  <h5 class="mt-3 mb-3">Owner Record Download</h5>
 			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources.</p>
 			</div>
@@ -70,7 +70,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><i class="fa fa-flag-checkered"></i></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-flag-checkered"></i></a></span>
 			  <h5 class="mt-3 mb-3">Skip Tracing</h5>
 			  <p class="mb-0 text-white">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
 			</div>
@@ -454,7 +454,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> API Access</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Transaction Tracking</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="#">Get Quote </a></h6>
+										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Get Quote </a></h6>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -471,7 +471,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> API Access</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Transaction Tracking</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="#">Get Quote </a></h6>
+										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Get Quote </a></h6>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -488,7 +488,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> API Access</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Transaction Tracking</h6>
 										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="#">Get Quote </a></h6>
+										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Get Quote </a></h6>
 									</div>
 								</div>
 							</div>
