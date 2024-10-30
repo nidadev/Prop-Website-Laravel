@@ -80,10 +80,10 @@
                 <div class="col-md-6">
                   <div class="center_h2lil">
                     <div class="accordion-item">
-                      <h2 class="accordion-header" id="headingFive">
+                      <!--h2 class="accordion-header" id="headingFive">
                         <button class="btn btn-secondary collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                           <i class="fa fa-check-circle me-2"></i>+</button>
-                      </h2>
+                      </h2-->
 
                     </div><!---- accordion item--->
 
@@ -94,7 +94,7 @@
                     <div class="center_h2ri row">
                       <div class="col-md-4">
                         <div class="center_h2ril">
-                          ................
+                          <!-- ................ -->
                         </div>
                       </div>
 
@@ -284,7 +284,7 @@ $mainval = 0.1;
               </tbody>
               
             </table>
-            <a href="#">Download Table</a>
+            <!--a href="#">Download Table</a-->
         </div>
       </div>
 

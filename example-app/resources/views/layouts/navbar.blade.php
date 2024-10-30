@@ -84,10 +84,7 @@
                     <a class="nav-link {{ Request::segment(1) === 'faq' ? 'active' : null }}" href="{{ url('/faq')}}" role="button" id="sp">Faq
                         </a>
                     </li>
-                    <li class="nav-item">
-                    <a class="nav-link {{ Request::segment(1) === 'support' ? 'active' : null }}" href="{{ url('/support')}}" role="button" id="sp">                            Contact
-                        </a>
-                    </li>
+                    
       
       </ul>
       
