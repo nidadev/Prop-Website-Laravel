@@ -28,6 +28,10 @@ Route::get('/about', function () {
     return view('about');
 });
 
+Route::get('/subscription-home', function () {
+    return view('subscription-home');
+});
+
 Route::group(['middleware' => ['guest']],function(){
     Route::get('/home', [ApiController::class, 'loadHome'])->name('home')->middleware(IsCorsMiddleware::class);
     Route::get('/login', [ApiController::class, 'loadLogin']);
