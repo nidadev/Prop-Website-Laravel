@@ -1,15 +1,100 @@
 @extends('layouts.app2')
 
 @section('content')
-	<section id="center" class="center_h">
-		<div class="center_om">
+<style>
+	header {
+  position: relative;
+  background-color: black;
+  height: 75vh;
+  min-height: 25rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+header video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+header .container {
+  position: relative;
+  z-index: 2;
+}
+
+header .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+/* Media Query for devices withi coarse pointers and no hover functionality */
+
+/* This will use a fallback image instead of a video for devices that commonly do not support the HTML5 video element */
+
+@media (pointer: coarse) and (hover: none) {
+  header {
+    background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+  }
+
+  header video {
+    display: none;
+  }
+}
+	</style>
+<header>
+
+  <!-- This div is  intentionally blank. It creates the transparent black overlay over the video which you can modify in the CSS -->
+  <div class="overlay"></div>
+
+  <!-- The HTML5 video element that will create the background video on the header -->
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop" onloadstart="this.volume=1.5">
+    <source src="{{ asset('file/vdo.mp4') }}" type="video/mp4">
+  </video>
+
+  <!-- The header content -->
+  <div class="container h-100">
+    <div class="d-flex h-100 text-center align-items-center">
+      <div class="w-100 text-white">
+        <!--h1 class="display-3">Video Header</h1>
+        <p class="lead mb-0">Using HTML5 Video and Bootstrap</p-->
+		<h1 class="text-white font_45"><span class="col_blue">We </span>Simplify Your<span class="col_blue"> Search</span></h1>
+					 <!--h1><a class="text-white p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/home') }}"> PROPE <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;<span class="col_red">LYZE</span></a></h1-->
+                     <p class="text-white mt-3 fs-5">  Empower Your Real Estate Campaigns with Precision and Speed</p>
+						<ul class="mb-0 mt-4">
+							<li class="d-inline-block"><a class="button" href="#"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
+							<li class="d-inline-block ms-2"><a class="button_1" href="#"><i class="fa fa-building me-1 fs-5 align-middle"></i> Houses </a></li>
+						</ul>
+      </div>
+    </div>
+  </div>
+</header>
+	<!--section id="center" class="center_h">
+	<!--video id="video" autoplay="autoplay" loop="loop" onloadstart="this.volume=0.2">
+     <source src="{{ asset('file/vdo.mp4') }}" type="video/mp4"></source>
+  </video-->
+		<!--div class="center_om">
 			<div class="container-xl">
 
 				<div class="row center_h1">
 					<div class="col-md-12">
 						<h1 class="text-white font_45"><span class="col_blue">We </span>Simplify Your<span class="col_blue"> Search</span></h1>
 					 <!--h1><a class="text-white p-0 navbar-brand fw-bold logo_position_rel" href="{{ url('/home') }}"> PROPE <i class="fa fa-home col_blue me-1 logo_position_abs"></i> &nbsp;&nbsp;<span class="col_red">LYZE</span></a></h1-->
-                     <p class="text-white mt-3 fs-5">  Empower Your Real Estate Campaigns with Precision and Speed</p>
+                     <!--p class="text-white mt-3 fs-5">  Empower Your Real Estate Campaigns with Precision and Speed</p>
 						<ul class="mb-0 mt-4">
 							<li class="d-inline-block"><a class="button" href="#"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
 							<li class="d-inline-block ms-2"><a class="button_1" href="#"><i class="fa fa-building me-1 fs-5 align-middle"></i> Houses </a></li>
@@ -17,7 +102,7 @@
 					</div>
 				</div>
 
-	</section>
+	</section-->
 
 	<section id="work_h" class="p_3">
 		<div class="container-xl">
