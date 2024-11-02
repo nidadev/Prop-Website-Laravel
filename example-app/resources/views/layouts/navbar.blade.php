@@ -16,6 +16,10 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         
         @if(auth()->user() && auth()->user()->is_subscribed == 1)
+
+        <li class="nav-item">
+          <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
+        </li>
        
         <li class="nav-item">
           <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('compreport') }}">CompReport</a>

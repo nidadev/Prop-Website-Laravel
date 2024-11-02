@@ -275,6 +275,7 @@
   //stripe code start
   if (window.Stripe) {
     var stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY')}}");
+    
     //create an instan of card elemnt
     var elements = stripe.elements();
     var card = elements.create("card", {
