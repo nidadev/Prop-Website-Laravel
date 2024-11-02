@@ -42,11 +42,11 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link" href="/adminpage">
+                            <a class="nav-link" href="/example-app/adminpage">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 User List
                             </a>
-                            <a class="nav-link" href="/adminpage?py=1">
+                            <a class="nav-link" href="/example-app/adminpage?py=1">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Payment List
                             </a>
