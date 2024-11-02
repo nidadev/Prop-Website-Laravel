@@ -42,6 +42,8 @@
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
+                        <a class="nav-link logoutUser" aria-current="page" href="{{ route('dashboard') }}">Home</a>
+
                             <a class="nav-link" href="/example-app/adminpage">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 User List
@@ -51,7 +53,6 @@
                                 Payment List
                             </a>
                            
-          <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
                     </div>
                     
                 </nav>
