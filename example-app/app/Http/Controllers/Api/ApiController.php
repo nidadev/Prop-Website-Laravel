@@ -46,9 +46,17 @@ class ApiController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('register')->withErrors($validator);
+            //return redirect()->back()->with(['error' => $validator,
+        //'user' => $request]);
 
-            // return response()->json($validator->errors());
+            //return redirect()->route('register')->withErrors($validator);
+
+             return redirect()->back()->with(['error' => $validator->errors(),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation,
+            ]);
         }
 
 
@@ -288,13 +296,19 @@ class ApiController extends BaseController
             //return  back()->with('error', $error);
         }
         $token = Auth::attempt($userCredentials);
-        if (!$token) {
-            return back()->with('error', 'User password mismatch');
-        }
+        $user = User::where(['email' => $request->email,
+        'is_verified' => 1])->get();
+        //dd($user);
+        if (count($user) > 0) {
         $success = $this->respondWithToken2($token);
         if ($success) {
             return view('dashboard', ['data' => $token]);
         }
+    }
+        else {
+            return back()->with('error', 'User password mismatch or Email is not verified');
+        }
+       // dd($request->email);
     }
 
     public function dashboard()

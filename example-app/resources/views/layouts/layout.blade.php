@@ -97,7 +97,11 @@
     $(document).ready(function() {
       //alert('')
       $.noConflict();
-
+      $("#agrre1").change(function() {
+  var name = $(this).attr("name");
+  $("input[type=checkbox][name=" + name + "]").val(($(this).is(":checked") ? "Yes" : "No"));
+  //console.log($("input[type=hidden][name=" + name + "]").val());
+})
       $(".su").on('click', function(event) {
         //alert('checkpdf');
       var cid = '<?php echo config('app.client_id'); ?>';
