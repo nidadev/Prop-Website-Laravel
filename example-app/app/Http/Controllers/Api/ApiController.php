@@ -4062,4 +4062,24 @@ class ApiController extends BaseController
         // }
         //return $tabledata;
     }
+
+    public function AdminPage(Request $request)
+    {
+        $user = DB::table('users')->where(['usertype' => ''])->get();
+        //dd($user);
+        $dta = json_decode(json_encode($user),true);
+        //dd(request()->py);
+        if(request()->py == '1')
+        {
+            $payment = DB::table('payments')->get();
+        //dd($user);
+        $paym = json_decode(json_encode($payment),true);
+        ///dd($paym);
+        return view('admin',['paym' => $paym]);
+        $dta= '';
+
+        }
+        $paym = '';
+        return view('admin',['data' => $dta]);
+    }
 }
