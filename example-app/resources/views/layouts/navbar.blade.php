@@ -42,7 +42,7 @@
           <a class="nav-link logoutUser nav-link button mx-3" aria-current="page" href="#">Logout</a>
         </li>
         @endif
-        @if(auth()->user() && auth()->user()->is_subscribed == 0)
+        @if(auth()->user() && auth()->user()->is_subscribed == 0 && auth()->user()->usertype != 'admin')
       
         <li class="nav-item">
                         <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
@@ -52,6 +52,18 @@
                     <li class="nav-item">
           <a class="nav-link logoutUser nav-link button mx-3" aria-current="page" href="#">Logout</a>
         </li>
+                    @endif
+                    @if(auth()->user() && auth()->user()->usertype == 'admin')
+      
+        <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/adminpage')}}" role="button" id="sub">
+                            Admin
+                        </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link logoutUser nav-link button mx-3" aria-current="page" href="#">Logout</a>
+        </li>
+                   
                     @endif
         @if(!auth()->user())
         

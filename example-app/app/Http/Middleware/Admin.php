@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class UserAuthenticate
+class Admin
 {
     /**
      * Handle an incoming request.
@@ -16,17 +16,11 @@ class UserAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check() && auth()->user()->is_subscribed == 0 && auth()->user()->usertype != 'admin')
-        {
-           return redirect('/subscription'); 
-
-        }
-        else if(Auth::check())
+        if(Auth::user()->usertype == 'admin')
         {
             return $next($request);
-        }
 
-        return redirect('/login');
-        //abort(401);
+        }
+        abort(401);
     }
 }

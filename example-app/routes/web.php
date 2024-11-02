@@ -117,4 +117,6 @@ Route::get('/support', function () {
 });
 
 Route::get('/verify-mail/{token}', [ApiController::class, 'verifyEmailToken']);
+Route::get('/adminpage', [ApiController::class, 'AdminPage'])->middleware('IsAdmin');
+
 
