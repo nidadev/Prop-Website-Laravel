@@ -50,6 +50,8 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Payment List
                             </a>
+                           
+          <a class="nav-link logoutUser" aria-current="page" href="#">Logout</a>
                     </div>
                     
                 </nav>
