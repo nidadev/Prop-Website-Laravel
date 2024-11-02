@@ -300,10 +300,10 @@
 
 <section id="about_pg" class="p_3">
     <div class="container-xl">
-        <div class="about_pg1 row align-items-center">
+        <div class="about_pg1 row align-items-center rounded_10">
             
             <div class="col-md-6">
-                <div class="about_pg1l ">
+                <div class="about_pg1l rounded_10">
                     <img src="{{ asset('img/30.jpg') }}" class="w-100" alt="abc">
                     
                 </div>

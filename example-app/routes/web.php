@@ -115,6 +115,8 @@ Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
 Route::get('/support', function () {
     return view('support');
 });
+Route::get('/home', [ApiController::class, 'loadHome'])->name('home');
+
 
 Route::get('/verify-mail/{token}', [ApiController::class, 'verifyEmailToken']);
 Route::get('/adminpage', [ApiController::class, 'AdminPage'])->middleware('IsAdmin');
