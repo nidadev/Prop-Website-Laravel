@@ -175,7 +175,7 @@ class ApiController extends BaseController
     public function updateProfile(Request $request)
     {
         //dd($request);
-        if (auth()->user()) {
+       // if (auth()->user()) {
             $validator = Validator::make($request->all(), [
                 'id' => 'required',
                 'email' => 'required|email',
@@ -185,7 +185,7 @@ class ApiController extends BaseController
                 return redirect()->route('dashboard')->withErrors($validator);
 
                 //return response()->json($validator->errors());
-            }
+           }
             $user = User::find($request->id);
             //dd($user);
             $user->name = $request->name;
@@ -201,13 +201,7 @@ class ApiController extends BaseController
                 'message' => 'User updated successfully',
                 'data' => $user
             ]);*/
-        } else {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'User not authenticated',
-            ]);
-        }
+       
     }
     //GET 
 
@@ -291,23 +285,47 @@ class ApiController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            //$error[] = $this->sendError('error',$validator->errors());
             return redirect()->route('userLogin')->withErrors($validator);
-            //return  back()->with('error', $error);
+        }
+        $user = User::where(['email' => $request->email ] )->get();
+        //dd($user);
+        $checkempty = json_decode($user,true);
+        $is_verified = $checkempty[0]['is_verified'];
+        if($is_verified == '0')
+        {
+            return redirect()->back()->with('error','cant login.User password mismatch or Email is not verified');
         }
         $token = Auth::attempt($userCredentials);
-        $user = User::where(['email' => $request->email,
-        'is_verified' => 1])->get();
-        //dd($user);
-        if (count($user) > 0) {
         $success = $this->respondWithToken2($token);
-        if ($success) {
-            return view('dashboard', ['data' => $token]);
+        if($success)
+        {
+        return view('dashboard',['data' => $token]);
         }
-    }
-        else {
-            return back()->with('error', 'User password mismatch or Email is not verified');
-        }
+        /*$token = Auth::attempt($userCredentials);
+        //dd($token);
+        //dd($request->email);
+      
+        
+        /*if (!empty($checkempty)) {
+            //dd('123');
+        ///$success = $this->respondWithToken2($token);
+        //if($success)
+        //{
+            return view('dashboard'/*['data' => $token]*///);
+
+        //}
+        //dd($success);
+            
+        //dd(count($user));
+        //if ($success && $user > 0) {
+            //return view('dashboard', ['data' => $token]);
+        //}
+    /*}
+        else
+        {
+            return redirect()->back()->with('error', 'User password mismatch or Email is not verified');
+        }*/
+    
        // dd($request->email);
     }
 

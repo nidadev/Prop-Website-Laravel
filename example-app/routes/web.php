@@ -42,11 +42,12 @@ Route::group(['middleware' => ['guest']],function(){
 });
 
 Route::group(['middleware' => ['userAuth']],function(){
+    Route::get('/dashboard',[ApiController::class,'dashboard'])->name('dashboard');
 
-Route::get('/dashboard',[ApiController::class,'dashboard'])->name('dashboard');
 });
 
 Route::group(['middleware' => ['IsAuth']],function(){
+
 
     Route::get('/subscription',[SubscriptionController::class,'loadSubscription'])->name('subscription');
     Route::post('/get-plan-details',[SubscriptionController::class,'getPlanDetails'])->name('getPlanDetails');

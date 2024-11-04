@@ -1,4 +1,7 @@
 @extends('layouts.app2')
+<style type="text/css">
+
+</style>
 @section('content')
 <section id="center" class="center_reg">
     <div class="center_om bg_backo">
@@ -151,14 +154,45 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalTitle">...</h5>
+        <h5 class="modal-title" id="confirmationModalTitle1">Stripe Checkout</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+      <div class="col-md-8 order-md-2 mb-4">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Order Summary</span>
+            <span class="badge badge-secondary badge-pill">3</span>
+          </h4>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0 data-name"></h6>
+                <small class="text-muted confirmation-data"></small>
+              </div>
+              <span class="text-muted" id="confirmationModalTitle"></span>
+              
+            </li> 
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Duration</h6>
+                <small class="text-muted duration"></small>
+              </div>
+            
+            </li>  
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Trial</h6>
+                <small class="text-muted">7 days</small>
+              </div>
+            
+            </li>               
+          </ul>
 
-        <div class="confirmation-data">
+      
+        </div>
+        <div class="confirmation-data1">
 
         </div>
       </div>
@@ -176,7 +210,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="stripeModalTitle">Buy subscription</h5>
+        <h5 class="modal-title" id="stripeModalTitle">Checkout</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -184,7 +218,35 @@
       <div class="modal-body">
         <input type="hidden" name="planId" id="planId">
         <!-- stripe card -->
-        <div id="card-element"></div>
+       
+      <div class="row">
+        
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Billing Information</h4>
+          <form class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstName" name=" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  Valid last name is required.
+                </div>
+              </div>
+            
+    </form>
+        </div>
+        
+        <div id="card-element" class="form-control"></div>
+
+      </div>
+      
         <!-- stripe card errors -->
 
         <div id="card-errors" style="color:red;"></div>
@@ -220,7 +282,23 @@
             var data = response.data;
             console.log(data);
             var html = '';
-            $('#confirmationModalTitle').text(data.name + ' {$' + data.amount + '}');
+            //data.name + 
+            if(data.name == 'Monthly')
+          {
+            var duration = '1 month';
+          }
+          if(data.name == 'Yearly')
+          {
+            var duration = '12 months';
+          }
+          if(data.name == 'Monthly Bronze')
+          {
+            var duration = '1 months';
+          }
+            $('.data-name').text(data.name);
+            $('.duration').text(duration);
+
+            $('#confirmationModalTitle').text(' $' + data.amount + '');
             html += `<p>` + response.msg + `</p>`;
             console.log(html);
             $('.confirmation-data').html(html);
@@ -277,9 +355,33 @@
     var stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY')}}");
     
     //create an instan of card elemnt
-    var elements = stripe.elements();
+    //var elements = stripe.elements();
+    var elements = stripe.elements({
+  fonts: [
+    {
+      family: 'Open Sans',
+      weight: 400,
+      src: 'local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format("woff2")',
+      unicodeRange: 'U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215',
+    },
+  ]
+});
     var card = elements.create("card", {
-      hidePostalCode: true
+      hidePostalCode: true,
+      style: {
+    base: {
+      iconColor: '#F99A52',
+      color: '#32315E',
+      lineHeight: '48px',
+      fontWeight: 400,
+      fontFamily: '"Open Sans", "Helvetica Neue", "Helvetica", sans-serif',
+      fontSize: '15px',
+
+      '::placeholder': {
+        color: '#CFD7DF',
+      }
+    },
+  }
     });
     //add instan of card elemn into the card elem div
     card.mount('#card-element');
@@ -346,4 +448,5 @@
     });
   }
 </script>
+
 @endpush

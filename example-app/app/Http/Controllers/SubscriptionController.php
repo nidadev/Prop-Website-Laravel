@@ -258,10 +258,9 @@ class SubscriptionController extends Controller
             $haveAnyActivePlan = SubscriptionDetail::where(['user_id' => auth()->user()->id, 'status' => 'active'])->count();
             $msg = '';
             if ($haveAnyActivePlan == 0 && ($planData->trial_days != null && $planData->trial_days != '')) {
-                $msg = "You will get " . $planData->trial_days . "trial days and 
-            after we will charge" . $planData->amount . "for" . $planData->name . "Subscription Plan";
+                $msg = "After the free " . $planData->trial_days . " days trial you will be charged $" . $planData->amount . " for " . $planData->name . "";
             } else {
-                $msg = "We will charge" . $planData->amount . "for" . $planData->name . "Subscription Plan";
+                $msg = "We will charge " . $planData->amount . " for " . $planData->name . " Subscription Plan";
             }
             $response = [
                 'success' => true,
