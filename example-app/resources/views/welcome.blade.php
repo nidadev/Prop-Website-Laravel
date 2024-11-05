@@ -140,14 +140,14 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 	  <div class="row work_h2 text-white">
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center" style="background: #6C60FE;">
-			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-globe"></i></a></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/research')}}"><i class="fa fa-globe"></i></a></span>
 			  <h5 class="mt-3 mb-3">Location Research</h5>
 			  <p class="mb-0 text-white">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-power-off"></i></a></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-power-off"></i></a></span>
 			  <h5 class="mt-3 mb-3">Owner Record Download</h5>
 			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources.</p>
 			</div>
@@ -162,7 +162,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-tag"></i></a></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/pricehouse')}}"><i class="fa fa-tag"></i></a></span>
 			  <h5 class="mt-3 mb-3">Property Pricing</h5>
 			  <p class="mb-0 text-white">Get personalized pricing for each property to boost your marketing impact.</p>
 			</div>
@@ -183,7 +183,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-road"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-road"></i></a></span>
 			  <h5 class="mt-3 mb-3">Road Access</h5>
 			  <p class="mb-0 text-white">Check if properties have direct road access and pinpoint specific access points.</p>
 			</div>
@@ -205,7 +205,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/login')}}"><i class="fa fa-flag"></i></a></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-flag"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Comp Reporting</h5>
 			  <p class="mb-0 text-white">Create detailed reports that include owner information, property histories, pricing insights, and comparative analyses in one convenient file.</p>
 			</div>
