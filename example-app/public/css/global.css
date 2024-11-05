@@ -137,6 +137,10 @@ h1,h2,h3,h4,h5,tbody,th,td{
 	font-family: "Poppins", sans-serif;
 	font-weight: 300;
  }
+ .work_h2i {
+ font-size: 13px;
+ }
+
  .work_h2i span
  {
 	font-family: "Poppins", sans-serif;
@@ -1010,7 +1014,7 @@ padding: 15px 18px;
 flex-wrap:wrap!important;
 }
 #header .nav-link {
-padding: 15px 15px;
+padding: 20px 20px;
 }
 .sale_1m2 {
 padding:10px!important; 

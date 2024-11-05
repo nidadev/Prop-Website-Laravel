@@ -14,7 +14,7 @@
    </div>   
 </section>
 
-<section id="contact" class="p_3 bg-light">
+<!--section id="contact" class="p_3 bg-light">
    <div class="container-xl">
 	  <div class="contact_1 row">
 	   <div class="col-md-6">
@@ -39,7 +39,7 @@
 	  </div>
 	  
  </div>   
-</section>
+</section-->
 
 <section id="contact_o" class="p_3">
    <div class="container-xl">
@@ -72,7 +72,7 @@
 		   </div>
 		   <div class="contact_2li row mt-4">
 		    <div class="col-md-6">
-			 <div class="contact_2lil">
+			 <!--div class="contact_2lil">
 			  <h6 class="fw-bold font_14 mb-2">Country</h6>
 			  <select class="form-select border-0 rounded_10 bg-light" aria-label="Default select example">
   <option selected="">Select</option>
@@ -81,7 +81,7 @@
   <option value="3">Oman</option>
   <option value="4">Qatar</option>
 </select>
-			 </div>
+			 </div-->
 			</div>
 			<div class="col-md-6">
 			 <div class="contact_2lil">
@@ -106,15 +106,10 @@
 		  <h4 class="mb-4">Contact Details</h4>
 		  <div class="contact_2ri row">
 		   <div class="col-md-2 col-2">
-		    <div class="contact_2ril">
-			 <span class="d-inline-block border_1 text-center col_blue fs-4 rounded_10"><i class="fa fa-phone"></i></span>
-			</div>
+		  
 		   </div>
 		   <div class="col-md-10 col-10">
-		    <div class="contact_2rir">
-			 <h5>Call Us At</h5>
-			 <h6 class="mb-0"><a href="#">+123 4567 890</a>, <a href="#"> +123 4567 890</a></h6>
-			</div>
+		   
 		   </div>
 		  </div>
 		  <div class="contact_2ri row mt-4">
@@ -126,11 +121,11 @@
 		   <div class="col-md-10 col-10">
 		    <div class="contact_2rir">
 			 <h5>Email Us</h5>
-			 <h6 class="mb-0"><a href="#">info@gmail.com</a> </h6>
+			 <h6 class="mb-0"><a href="#">support@propelyze.com</a> </h6>
 			</div>
 		   </div>
 		  </div>
-		  <div class="contact_2ri row mt-4">
+		  <!--div class="contact_2ri row mt-4">
 		   <div class="col-md-2 col-2">
 		    <div class="contact_2ril">
 			 <span class="d-inline-block border_1 text-center col_blue fs-4 rounded_10"><i class="fa fa-map"></i></span>
@@ -144,7 +139,7 @@
 		   </div>
 		  </div>
 		  <h4 class="mt-4 mb-4">Find Us On</h4>
-		  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114964.53925916665!2d-80.29949920266738!3d25.782390733064336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami%2C+FL%2C+USA!5e0!3m2!1sen!2sin!4v1530774403788" height="330" style="border:0; width:100%;" allowfullscreen=""></iframe>
+		  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114964.53925916665!2d-80.29949920266738!3d25.782390733064336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami%2C+FL%2C+USA!5e0!3m2!1sen!2sin!4v1530774403788" height="330" style="border:0; width:100%;" allowfullscreen=""></iframe-->
 		</div>
 	   </div>
 	  </div>
