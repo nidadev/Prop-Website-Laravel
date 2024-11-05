@@ -1,6 +1,16 @@
 @extends('layouts.app2')
 <style type="text/css">
+.modal-body
+{
+  margin-left: 34px;
 
+  width: 584px;
+}
+.modal-footer
+{
+  display:block !important;
+  border-top:none !important;
+}
 </style>
 @section('content')
 <section id="center" class="center_reg">
