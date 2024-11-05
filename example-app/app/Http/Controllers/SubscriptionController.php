@@ -236,7 +236,7 @@ class SubscriptionController extends Controller
             if ($subscriptionData) {
                 return response()->json([
                     'success' => true,
-                    'msg' => 'Subscription purchased',
+                    'msg' => 'Your Subscription is successful',
                     //'customer' => $customer
                 ]);
             } else {
