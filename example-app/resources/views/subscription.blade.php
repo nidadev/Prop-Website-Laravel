@@ -15,6 +15,25 @@
 {
   color:#000000 !important;
 }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
 </style>
 @section('content')
 <section id="center" class="center_reg">
@@ -46,12 +65,29 @@
 		 </div>
 	  </div> 
 	  <div class="subs_2 row">
+    <ul>
+  <li style="border-radius:21px;font-size:10px;background-color:#6C60FE;color:#fff;text-align: center;
+    height: 112px;
+    padding-top: 12px;margin:0px 11px 2px 1px;    width: 31%;
+"><small>
+Owner/Property Export Cost<br>
+Includes Pricing!</small><h4>$0.10 <br>per record</h4>
+    </li>
+  <li style="border-radius:21px;font-size:10px;background-color:#6C60FE;color:#fff;text-align: center;
+    height: 112px;
+    padding-top: 12px;    width: 31%;
+"><small>
+Comp Report Cost</small><h4>$2.00 <br>per record</h4>
+    </li>
+  
+</ul>
 	 <div class="col-md-12">
 	   <div class="tab-content">
     <div class="tab-pane active" id="home">
     <div class="col-md-3">
-    <div style="border-radius:21px;background-color:#6C60FE;color:#fff;"><h2>$ 0.1 per record</h2></div>
-    </div>
+   
+    </div> 
+   
       <div class="subs_2i row">
       @php
     $currentPlan = app('subscription_helper')->getCurrentSubscription();
@@ -60,7 +96,7 @@
 	   <div class="col-md-4">
 	    <div class="subs_2i1 border_1 rounded_10 p-4">
       @if($plan->name == 'Monthly Bronze')
-		 <h4 class="plan_green"  style="border-radius:21px;background-color:#6C60FE;color:#fff;">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
+		 <h4 class="plan_green">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
      ${{ $plan->amount}} Charge</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
@@ -89,7 +125,7 @@
      @endif
      
      @if($plan->name == 'Yearly')
-     <h4 class="plan_orange">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
+     <h4 class="plan_orange" style="border-radius:21px;background-color:#de8303;color:#fff;height: 55px;padding-top: 12px;">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
      ${{ $plan->amount}} Charge</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>

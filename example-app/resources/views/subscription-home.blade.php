@@ -20,7 +20,6 @@
 		    <div class="subs_1l">
 			  <h2>Pricing & Subscriptions</h2>
 		   <hr class="line">
-		   <p class="mb-0">Checkout our package, choose your package wisely</p>
 			</div>
 		 </div>
 		

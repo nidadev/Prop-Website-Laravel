@@ -53,7 +53,7 @@
             <div class="col-md-4">
                 <div class="disc_1i position-relative">
                     <div class="disc_1i1">
-                        <img src="{{ asset('img/20.jpg') }}" class="w-100 rounded_10" alt="abc">
+                        <img src="{{ asset('img/26.jpg') }}" class="w-100 rounded_10" alt="abc">
                     </div>
                     <div class="disc_1i2 position-absolute  rounded_10 shadow_box p-4">
                         <div class="disc_1i2i row">
@@ -304,7 +304,7 @@
             
             <div class="col-md-6">
                 <div class="about_pg1l rounded_10">
-                    <img src="{{ asset('img/30.jpg') }}" class="w-100" alt="abc">
+                    <img src="{{ asset('img/28.jpg') }}" class="w-100" alt="abc">
                     
                 </div>
             </div>

@@ -80,7 +80,7 @@ class ApiController extends BaseController
 
             $data['email'] = $request->email;
             $data['title'] = 'Email Verification';
-            $data['body'] = 'Please click here below link to verify your email';
+            $data['body'] = 'Please click the link below to verify your email address';
             Mail::send('verifyEmail', ['data' => $data], function ($message) use ($data) {
                 $message->to($data['email'])->subject($data['title']);
             });
