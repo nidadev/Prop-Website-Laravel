@@ -116,6 +116,10 @@ Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
 Route::get('/support', function () {
     return view('support');
 });
+
+Route::get('/terms', function () {
+    return view('terms');
+});
 Route::get('/home', [ApiController::class, 'loadHome'])->name('home');
 
 

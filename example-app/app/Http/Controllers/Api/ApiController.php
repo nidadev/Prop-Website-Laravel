@@ -281,53 +281,39 @@ class ApiController extends BaseController
         $userCredentials = $request->only('email', 'password');
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|min:5'
+            'password' => 'required|min:8'
         ]);
 
         if ($validator->fails()) {
             return redirect()->route('userLogin')->withErrors($validator);
         }
-        $user = User::where(['email' => $request->email ] )->get();
+
+        $user = DB::table('users')->where(['email' => $request->email ] )->get();
         //dd($user);
         $checkempty = json_decode($user,true);
+        //dd($checkempty);
         $is_verified = $checkempty[0]['is_verified'];
         if($is_verified == '0')
         {
             return redirect()->back()->with('error','cant login.User password mismatch or Email is not verified');
         }
-        $token = Auth::attempt($userCredentials);
-        $success = $this->respondWithToken2($token);
-        if($success)
+        if(!empty($checkempty))
         {
-        return view('dashboard',['data' => $token]);
-        }
-        /*$token = Auth::attempt($userCredentials);
-        //dd($token);
-        //dd($request->email);
-      
-        
-        /*if (!empty($checkempty)) {
-            //dd('123');
-        ///$success = $this->respondWithToken2($token);
-        //if($success)
-        //{
-            return view('dashboard'/*['data' => $token]*///);
-
-        //}
-        //dd($success);
+            $checkpas = Hash::check($request->password, $checkempty[0]['password']);
+            if (Hash::check($request->password, $checkempty[0]['password'])) {
+                $token = Auth::attempt($userCredentials);
+                $success = $this->respondWithToken2($token);
+                if($success)
+                {
+                return view('dashboard',['data' => $token]);
+                }
             
-        //dd(count($user));
-        //if ($success && $user > 0) {
-            //return view('dashboard', ['data' => $token]);
-        //}
-    /*}
-        else
-        {
-            return redirect()->back()->with('error', 'User password mismatch or Email is not verified');
-        }*/
-    
-       // dd($request->email);
+            } else {
+                return redirect()->back()->with('error','cant login.password mismatch');
+            }
+        
     }
+}
 
     public function dashboard()
     {

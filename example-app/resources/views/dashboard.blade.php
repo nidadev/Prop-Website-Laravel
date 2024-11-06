@@ -39,7 +39,7 @@
 
                 </div>
             </div>
-            <div class="col-md-4">
+            <!--div class="col-md-4">
                 <div class="agent_dt2r">
                 </div>
                 <div class="blog_1r1 p-4 bg-white rounded_10 mt-4">
@@ -64,7 +64,7 @@
                 </form>
 
             </div>
-        </div>
+        </div-->
     </div>
     </div>
     </div>

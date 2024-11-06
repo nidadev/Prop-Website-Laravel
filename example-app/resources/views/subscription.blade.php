@@ -4,12 +4,16 @@
 {
   margin-left: 34px;
 
-  width: 584px;
+  width: 95%;
 }
 .modal-footer
 {
   display:block !important;
   border-top:none !important;
+}
+.ElementsApp, .ElementsApp .InputElement
+{
+  color:#000000 !important;
 }
 </style>
 @section('content')
@@ -45,6 +49,9 @@
 	 <div class="col-md-12">
 	   <div class="tab-content">
     <div class="tab-pane active" id="home">
+    <div class="col-md-3">
+    <div style="border-radius:21px;background-color:#6C60FE;color:#fff;"><h2>$ 0.1 per record</h2></div>
+    </div>
       <div class="subs_2i row">
       @php
     $currentPlan = app('subscription_helper')->getCurrentSubscription();
@@ -379,18 +386,7 @@
     var card = elements.create("card", {
       hidePostalCode: true,
       style: {
-    base: {
-      iconColor: '#F99A52',
-      color: '#32315E',
-      lineHeight: '48px',
-      fontWeight: 400,
-      fontFamily: '"Open Sans", "Helvetica Neue", "Helvetica", sans-serif',
-      fontSize: '15px',
-
-      '::placeholder': {
-        color: '#CFD7DF',
-      }
-    },
+    theme: stripe,
   }
     });
     //add instan of card elemn into the card elem div
