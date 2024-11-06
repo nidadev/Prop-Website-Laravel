@@ -60,7 +60,7 @@
 
             <div class="form-check mt-3">
               <input type="checkbox" class="form-check-input" style="border:2px solid #ccc;" id="agrre1" name="agree" value="">
-              <label class="form-check-label" for="customCheck1">Agree to our <a class="" href="#">terms & conditions</a></label>
+              <label class="form-check-label" for="customCheck1">Agree to our <a class="" href="{{ url('/terms') }}">terms & conditions</a></label>
               <span class="error agree_err">@if (isset($error['agree'])) {{ $error['agree'][0] }} @endif</span>
             </div>
             <h6 class="mt-3 center_sm"><button type="submit" style="border:none;" class="button_2 b-block text-center reg">SIGN UP</button></h6>
