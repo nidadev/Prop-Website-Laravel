@@ -97,7 +97,7 @@ Comp Report Cost</small><h4>$2.00 <br>per record</h4>
 	    <div class="subs_2i1 border_1 rounded_10 p-4">
       @if($plan->name == 'Monthly Bronze')
 		 <h4 class="plan_green">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
-     ${{ $plan->amount}} Charge</h4>
+     ${{ $plan->amount}}</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Analysis and Model Offer Pricing</h6>
@@ -111,7 +111,7 @@ Comp Report Cost</small><h4>$2.00 <br>per record</h4>
      @endif
       @if($plan->name == 'Monthly')
 		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
-     ${{ $plan->amount}} Charge</h4>
+     ${{ $plan->amount}}</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Analysis and Model Offer Pricing</h6>
@@ -126,7 +126,7 @@ Comp Report Cost</small><h4>$2.00 <br>per record</h4>
      
      @if($plan->name == 'Yearly')
      <h4 class="plan_orange" style="border-radius:21px;background-color:#de8303;color:#fff;height: 55px;padding-top: 12px;">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
-     ${{ $plan->amount}} Charge</h4>
+     ${{ $plan->amount}}</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>

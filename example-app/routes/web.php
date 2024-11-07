@@ -43,17 +43,9 @@ Route::group(['middleware' => ['guest']],function(){
 
 Route::group(['middleware' => ['userAuth']],function(){
     Route::get('/dashboard',[ApiController::class,'dashboard'])->name('dashboard');
-
-});
-
-Route::group(['middleware' => ['IsAuth']],function(){
-
-
-    Route::get('/subscription',[SubscriptionController::class,'loadSubscription'])->name('subscription');
-    Route::post('/get-plan-details',[SubscriptionController::class,'getPlanDetails'])->name('getPlanDetails');
-
     Route::get('/compreport', [ApiController::class,'loadCompReport'])->name('compreport');
-    Route::post('/logout', [ApiController::class,'Logout'])->name('logout');
+    
+
 
     Route::post('/compreport', [ApiController::class,'GetCompReport'])->name('compreport');
 
@@ -73,15 +65,8 @@ Route::group(['middleware' => ['IsAuth']],function(){
      
 
 //
-Route::get('/getproperty', [ApiController::class,'loadProperty'])->name('getproperty');
-Route::post('/getproperty', [ApiController::class,'insert_prop_detail'])->name('getproperty');
-
-Route::get('/getproperty2', [ApiController::class,'loadProperty2'])->name('getproperty2');
-Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name('getproperty2');
-    
-    Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
-    Route::post('/cancel-subscription', [SubscriptionController::class,'CancelSubscription'])->name('CancelSubscription');
-
+  
+ 
 //checkout stripe
     Route::post('stripe',[SubscriptionController::class,'stripe'])->name('stripe');
     Route::get('success',[SubscriptionController::class,'success'])->name('success');
@@ -110,12 +95,42 @@ Route::get('/profile-update', [ApiController::class, 'profile']);
 Route::post('/profile-update', [ApiController::class,'updateProfile'])->name('profile-update');
 Route::get('send-verify-mail/{email}',[ApiController::class,"verifyEmail"]);
 
+
+
+});
+
+Route::group(['middleware' => ['IsAuth']],function(){
+
+    Route::get('/subscription',[SubscriptionController::class,'loadSubscription'])->name('subscription');
+
+    Route::post('/get-plan-details',[SubscriptionController::class,'getPlanDetails'])->name('getPlanDetails');
+
+    Route::post('/logout', [ApiController::class,'Logout'])->name('logout');
+    Route::post('/create-subscription', [SubscriptionController::class,'CreateSubscription'])->name('CreateSubscription');
+    Route::post('/cancel-subscription', [SubscriptionController::class,'CancelSubscription'])->name('CancelSubscription');
+    
+    Route::get('/getproperty', [ApiController::class,'loadProperty'])->name('getproperty');
+    Route::post('/getproperty', [ApiController::class,'insert_prop_detail'])->name('getproperty');
+    
+    Route::get('/getproperty2', [ApiController::class,'loadProperty2'])->name('getproperty2');
+    Route::post('/getproperty2', [ApiController::class,'insert_prop_detail2'])->name('getproperty2');
+      
+
 });
 
 
 Route::get('/support', function () {
     return view('support');
 });
+
+Route::post('/support', [ApiController::class,'contactForm'])->name('contactForm');
+
+Route::get('/forget', [ApiController::class,'forgetPasswordLoad'])->name('forget');
+Route::post('/forget', [ApiController::class,'forgetPassword'])->name('forgetPassword');
+
+Route::get('/reset', [ApiController::class,'resetPasswordLoad'])->name('reset');
+Route::post('/reset', [ApiController::class,'resetPassword'])->name('resetPassword');
+
 
 Route::get('/terms', function () {
     return view('terms');

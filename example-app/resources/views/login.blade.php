@@ -46,7 +46,7 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="login_1mir text-end">
-			    <h6 class="mb-0"><a href="#">Forgot Password?</a></h6>
+			    <h6 class="mb-0"><a href="{{ route('forget') }}">Forgot Password?</a></h6>
 			  </div>
 			</div>
 		  </div>
