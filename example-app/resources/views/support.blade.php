@@ -13,92 +13,82 @@
  </div>
    </div>   
 </section>
+@if(Session::has('error'))
+        <p class="incorrect">{{ Session::get('error') }}</p>
 
-<!--section id="contact" class="p_3 bg-light">
-   <div class="container-xl">
-	  <div class="contact_1 row">
-	   <div class="col-md-6">
-	    <div class="contact_1l">
-		  <div class="contact_1l1 bg-white p-4">
-		   <h4>Talk to Member of Sales Team</h4>
-		   <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis ligula eu lectus vulputate porttitor sed feugiat nunc. Mauris ac consectetur ante,</p>
-		   <h6 class="mb-0"><a class="button" href="#">Contact Sales</a></h6>
-		  </div>
-		  <div class="contact_1l1 bg-white p-4 mt-4">
-		   <h4>Product & Account Support</h4>
-		   <p class="mt-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque quis ligula eu lectus vulputate porttitor sed feugiat nunc. Mauris ac consectetur ante,</p>
-		   <h6 class="mb-0"><a class="button" href="#">Go to  Faq</a></h6>
-		  </div>
-		</div>
-	   </div>
-	   <div class="col-md-6">
-	    <div class="contact_1r mt-3">
-		  <img src="{{ asset('img/30.jpg') }}" class="w-100 rounded_10" alt="abc">
-		</div>
-	   </div>
-	  </div>
-	  
- </div>   
-</section-->
+        @endif
+       
+
 
 <section id="contact_o" class="p_3">
    <div class="container-xl">
 	  <div class="contact_2 row">
+	  @if(Session::has('success'))
+        <p class="result">{{ Session::get('success') }}</p>
+
+        @endif
 	   <div class="col-md-6">
 	    <div class="contact_2l border_1 p-4">
+		<form method="post" action="{{ route('contactForm') }}">
+		@csrf
 		   <h4>Get In Touch</h4>
 		   <hr>
 		   <div class="contact_2li row">
 		    <div class="col-md-12">
 			 <div class="contact_2lil">
 			  <h6 class="fw-bold font_14 mb-2">Your Name</h6>
-			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Your Name" type="text">
-			 </div>
+			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Your Name" type="text" name="name">
+			  <span class="error email_err">@error('name') {{$message}} @enderror</span>
+ 
+			</div>
 			</div>
 		   </div>
 		   <div class="contact_2li row mt-4">
 		    <div class="col-md-6">
 			 <div class="contact_2lil">
 			  <h6 class="fw-bold font_14 mb-2">Phone Number</h6>
-			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Your Phone" type="text">
-			 </div>
+			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Your Phone" type="text" name="phone">
+			  <span class="error email_err">@error('phone') {{$message}} @enderror</span>
+ 
+			</div>
 			</div>
 			<div class="col-md-6">
 			 <div class="contact_2lil">
 			  <h6 class="fw-bold font_14 mb-2">Email Address</h6>
-			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Your Email" type="text">
-			 </div>
+			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Your Email" type="text" name="email">
+			  <span class="error email_err">@error('email') {{$message}} @enderror</span>
+ 
+			</div>
 			</div>
 		   </div>
 		   <div class="contact_2li row mt-4">
 		    <div class="col-md-6">
-			 <!--div class="contact_2lil">
-			  <h6 class="fw-bold font_14 mb-2">Country</h6>
-			  <select class="form-select border-0 rounded_10 bg-light" aria-label="Default select example">
-  <option selected="">Select</option>
-  <option value="1">India</option>
-  <option value="2">Australia</option>
-  <option value="3">Oman</option>
-  <option value="4">Qatar</option>
-</select>
-			 </div-->
+			<div class="contact_2lil">
+			<h6 class="fw-bold font_14 mb-2">Subject</h6>
+			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Enter Subject" type="text" name="subject">
+			
+			</div>
+		
+			 
 			</div>
 			<div class="col-md-6">
-			 <div class="contact_2lil">
-			  <h6 class="fw-bold font_14 mb-2">Subject</h6>
-			  <input class="form-control rounded_10 border-0 bg-light" placeholder="Enter Subject" type="text">
-			 </div>
+			 
 			</div>
 		   </div>
 		   <div class="contact_2li row mt-4">
 		    <div class="col-md-12">
 			 <div class="contact_2lil">
 			  <h6 class="fw-bold font_14 mb-2">Description</h6>
-			  <textarea class="form-control rounded_10 border-0 bg-light form_text" placeholder="Comments"></textarea>
-			  <h6 class="mb-0 mt-3 center_sm"><a class="button" href="#">Submit Enquiry</a></h6>
+			  <textarea class="form-control rounded_10 border-0 bg-light form_text" placeholder="Comments" name="comment"></textarea>
+			  <span class="error email_err">@error('comment') {{$message}} @enderror</span>
+
+			  <h6 class="mb-0 mt-3 center_sm">          <button type="submit" style="border:none;" class="button_2 b-block text-center" >Submit</button></h6>
+
+			</h6>
 			 </div>
 			</div>
 		   </div>
+		</form>
 		</div>
 	   </div>
 	   <div class="col-md-6">

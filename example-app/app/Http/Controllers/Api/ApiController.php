@@ -12,6 +12,7 @@ use App\Jobs\ExportDataJob;
 use App\Models\PriceReport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\PasswordReset;
 use Illuminate\Support\Carbon;
 use App\Models\PriceHouseReport;
 use App\Exports\PriceHouseExport;
@@ -47,15 +48,16 @@ class ApiController extends BaseController
 
         if ($validator->fails()) {
             //return redirect()->back()->with(['error' => $validator,
-        //'user' => $request]);
+            //'user' => $request]);
 
             //return redirect()->route('register')->withErrors($validator);
 
-             return redirect()->back()->with(['error' => $validator->errors(),
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'password_confirmation' => $request->password_confirmation,
+            return redirect()->back()->with([
+                'error' => $validator->errors(),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'password_confirmation' => $request->password_confirmation,
             ]);
         }
 
@@ -175,33 +177,32 @@ class ApiController extends BaseController
     public function updateProfile(Request $request)
     {
         //dd($request);
-       // if (auth()->user()) {
-            $validator = Validator::make($request->all(), [
-                'id' => 'required',
-                'email' => 'required|email',
-                'name' => 'required|string|min:5',
-            ]);
-            if ($validator->fails()) {
-                return redirect()->route('dashboard')->withErrors($validator);
+        // if (auth()->user()) {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'email' => 'required|email',
+            'name' => 'required|string|min:5',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('dashboard')->withErrors($validator);
 
-                //return response()->json($validator->errors());
-           }
-            $user = User::find($request->id);
-            //dd($user);
-            $user->name = $request->name;
-            if ($user->email != $request->email) {
-                $user->is_verified = 0;
-            }
-            $user->email = $request->email;
-            $user->save();
-            return redirect()->back()->with('success', 'user updated successfully');
+            //return response()->json($validator->errors());
+        }
+        $user = User::find($request->id);
+        //dd($user);
+        $user->name = $request->name;
+        if ($user->email != $request->email) {
+            $user->is_verified = 0;
+        }
+        $user->email = $request->email;
+        $user->save();
+        return redirect()->back()->with('success', 'user updated successfully');
 
-            /*return response()->json([
+        /*return response()->json([
                 'success' => true,
                 'message' => 'User updated successfully',
                 'data' => $user
             ]);*/
-       
     }
     //GET 
 
@@ -252,6 +253,7 @@ class ApiController extends BaseController
     public function verifyEmailToken($token)
     {
         $datetime = Carbon::now()->format('Y-m-d H:i:s');
+        $domain = URL::to('/');
         $user = User::where('remember_token', $token)->get();
         if (count($user) > 0) {
             $user =  User::find($user[0]['id']);
@@ -260,7 +262,7 @@ class ApiController extends BaseController
             $user->is_verified = 1;
             $user->save();
 
-            return "<h1>email verified successfully <a href='https://propelyze.com/example-app/login'>Sign in </a></h1>";
+            return "<h1>email verified successfully <a href=$domain.'/login'>Sign in </a></h1>";
         } else {
             return view('404');
         }
@@ -269,6 +271,24 @@ class ApiController extends BaseController
     public function loadLogin()
     {
         return view('login');
+    }
+
+    public function forgetPasswordLoad()
+    {
+        return view('forget');
+    }
+
+    public function resetPasswordLoad(Request $request)
+    {
+        $resetData = DB::table('password_reset_tokens')->where('token', $request->token)->get();
+        $rest = json_decode($resetData,true);
+        //dd($rest);
+        if (isset($resetData) && count($resetData) > 0) {
+            $user = User::where('email', $rest[0]['email'])->get();
+            return view('reset', compact('user'));
+        } else {
+            return view('404');
+        }
     }
     public function loadRegister()
     {
@@ -288,32 +308,27 @@ class ApiController extends BaseController
             return redirect()->route('userLogin')->withErrors($validator);
         }
 
-        $user = DB::table('users')->where(['email' => $request->email ] )->get();
+        $user = DB::table('users')->where(['email' => $request->email])->get();
         //dd($user);
-        $checkempty = json_decode($user,true);
+        $checkempty = json_decode($user, true);
         //dd($checkempty);
         $is_verified = $checkempty[0]['is_verified'];
-        if($is_verified == '0')
-        {
-            return redirect()->back()->with('error','cant login.User password mismatch or Email is not verified');
+        if ($is_verified == '0') {
+            return redirect()->back()->with('error', 'cant login.User password mismatch or Email is not verified');
         }
-        if(!empty($checkempty))
-        {
+        if (!empty($checkempty)) {
             $checkpas = Hash::check($request->password, $checkempty[0]['password']);
             if (Hash::check($request->password, $checkempty[0]['password'])) {
                 $token = Auth::attempt($userCredentials);
                 $success = $this->respondWithToken2($token);
-                if($success)
-                {
-                return view('dashboard',['data' => $token]);
+                if ($success) {
+                    return view('dashboard', ['data' => $token]);
                 }
-            
             } else {
-                return redirect()->back()->with('error','cant login.password mismatch');
+                return redirect()->back()->with('error', 'cant login.password mismatch');
             }
-        
+        }
     }
-}
 
     public function dashboard()
     {
@@ -439,6 +454,100 @@ class ApiController extends BaseController
         return view('exports', compact('exports'));
     }
 
+    public function contactForm(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'name' => 'required|min:5',
+                'phone' => 'required',
+                'comment' => 'required'
+            ]);
+    
+            if ($validator->fails()) {
+                return redirect()->route('contactForm')->withErrors($validator);
+            }
+            //$user =  User::where('email', $request->email)->get();
+            //if (count($user) > 0) {
+                $token = Str::random(40);
+                $domain = URL::to('/');
+                //$url = $domain . '/reset?token=' . $token;
+                //$data['url'] = $url;
+                $data['email'] = $request->email;
+                $data['name'] = $request->name;
+                $data['phone'] = $request->phone;
+                $data['comment'] = $request->comment;
+                $data['title'] = 'Contact Form';
+                $data['body'] = 'We will contact you soon.';
+                Mail::send('contactEmail', ['data' => $data], function ($message) use ($data) {
+                    $message->to('support@propelyze.com')->subject($data['title']);
+                });
+                Mail::send('userContactEmail', ['data' => $data], function ($message) use ($data) {
+                    $message->to($data['email'])->subject($data['title']);
+                });
+                
+
+                return back()->with('success', 'Email send successfully');
+            //} else {
+              //  return back()->with('error', 'email not found');
+            //}
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function forgetPassword(Request $request)
+    {
+        try {
+            $user =  User::where('email', $request->email)->get();
+            if (count($user) > 0) {
+                $token = Str::random(40);
+                $domain = URL::to('/');
+                $url = $domain . '/reset?token=' . $token;
+                $data['url'] = $url;
+                $data['email'] = $request->email;
+                $data['title'] = 'Reset Password';
+                $data['body'] = 'Please click on below link to reset password';
+                Mail::send('forgetPasswordMail', ['data' => $data], function ($message) use ($data) {
+                    $message->to($data['email'])->subject($data['title']);
+                });
+                $dateTime = Carbon::now()->format('Y-m-d H:i:s');
+                PasswordReset::updateOrCreate(['email' => $request->email], [
+                    'email' => $request->email,
+                    'token' => $token,
+                    'created_at' => $dateTime
+                ]);
+
+                return back()->with('success', 'Please check your email to reset your password');
+            } else {
+                return back()->with('error', 'email not found');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        //dd($request);
+        $request->validate([
+            'password' => 'required|confirmed|min:8',
+            'password_confirmation' => 'required',
+        ]);
+        //dd($request->id);
+        $user = DB::table('users')->where('id',$request->id)->get();
+        //dd($user);
+        $user['password'] = Hash::make($request->password);
+        $update = User::where('id',$request->id)->update(['password'=> $user['password']]);
+        if(isset($update))
+        {
+        //DB::table('password_reset_tokens')->where('email',$user[0]->email)->delete();
+        return back()->with('success','Password reset successfully');
+        }
+                //PasswordReset::where('email',$user[0]->email)->delete();
+
+
+    }
     public function exportPriceHouse(Request $request)
     {
         // Validate incoming request
@@ -2400,7 +2509,7 @@ class ApiController extends BaseController
         return redirect()->to($url)->with(
             [
                 'message' => 'Your report is being generated. You can check back shortly.',
-               
+
             ]
         );
     }
@@ -2686,6 +2795,8 @@ class ApiController extends BaseController
         try {
             $request->session()->flush();
             Auth::logout();
+            //return redirect()->route('login')->with('success','logout sucessfully');
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json(['success' => false]);
@@ -2880,7 +2991,7 @@ class ApiController extends BaseController
             //dd($redfin_data);
             $redfin_sold_data = json_decode($redfin_sold_comp->getBody(), true);
             $redcountsold = count($redfin_sold_data);
-           // dd($redfin_sold_data);
+            // dd($redfin_sold_data);
             //dd($redfin_data);
 
             //dd($redfin_data);
@@ -3285,53 +3396,50 @@ class ApiController extends BaseController
             //dd($response['reasonPhrase']);
             //return  redirect()->to('compreport')->with('error', $error);
             return  redirect()->to('compreport')->with('error', 'something went wrong');
-
         }
     }
     // Function to get JSON array elements and their values
     function getJsonArrayElements($jsonData)
     {
         //dd(jsonData)
-        try{
-        // Decode JSON data into a PHP associative array
-        $data = $jsonData;
+        try {
+            // Decode JSON data into a PHP associative array
+            $data = $jsonData;
 
-        if ($data === null) {
-            echo "Error decoding JSON data.";
-            return;
+            if ($data === null) {
+                echo "Error decoding JSON data.";
+                return;
+            }
+            // Get states array
+            $salescomps = $data['Reports'][0]['Data']['ComparableProperties'];
+            //dd($salescomps);
+            //echo "Sales Price:\n";
+            $sum = 0;
+            $sum_acr = 0;
+            $sum_d = 0;
+            $arr = 0;
+
+            foreach ($salescomps as $salescomp) {
+                $sum += $salescomp['LastMarketSaleInformation']['SalePrice'];
+
+                //if(!empty($salescomp['SitusAddress']['City']))
+                // {
+                $cities[] = $salescomp['SitusAddress']['City'];
+
+                $sum_acr += $salescomp['SiteInformation']['Acres'];
+                $sum_d += $salescomp['DistanceFromSubject'];
+
+                $arr = [$sum, $sum_acr, $sum_d, $cities];
+            }
+
+            return $arr;
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::info('getjsonarray failed: ' . $e->getMessage());
+
+            // Optionally throw the exception to trigger a retry
+            throw $e;
         }
-        // Get states array
-        $salescomps = $data['Reports'][0]['Data']['ComparableProperties'];
-        //dd($salescomps);
-        //echo "Sales Price:\n";
-        $sum = 0;
-        $sum_acr = 0;
-        $sum_d = 0;
-        $arr = 0;
-
-        foreach ($salescomps as $salescomp) {
-            $sum += $salescomp['LastMarketSaleInformation']['SalePrice'];
-
-            //if(!empty($salescomp['SitusAddress']['City']))
-            // {
-            $cities[] = $salescomp['SitusAddress']['City'];
-
-            $sum_acr += $salescomp['SiteInformation']['Acres'];
-            $sum_d += $salescomp['DistanceFromSubject'];
-
-            $arr = [$sum, $sum_acr, $sum_d, $cities];
-        }
-
-        return $arr;
-    }
-    catch (\Exception $e) {
-        // Log the exception
-        \Log::info('getjsonarray failed: ' . $e->getMessage());
-
-        // Optionally throw the exception to trigger a retry
-        throw $e;
-    }
-    
     }
 
     public function xmldownload(Request $request)
@@ -3796,37 +3904,35 @@ class ApiController extends BaseController
 
     function getPrice($jsonData)
     {
-        try{
-        //dd(jsonData)
-        // Decode JSON data into a PHP associative array
-        $data = $jsonData;
+        try {
+            //dd(jsonData)
+            // Decode JSON data into a PHP associative array
+            $data = $jsonData;
 
-        if ($data === null) {
-            echo "Error decoding JSON data.";
-            return;
-        }
-
-        // Get states array
-        $salescomps = $data['Reports'][0]['Data']['ComparableProperties'];
-
-        $arr = 0;
-        foreach ($salescomps as $salescomp) {
-            if (!empty($salescomp['SitusAddress']['City'])) {
-                $price[] = $salescomp['LastMarketSaleInformation']['SalePrice'];
-                $arr = [$price];
+            if ($data === null) {
+                echo "Error decoding JSON data.";
+                return;
             }
+
+            // Get states array
+            $salescomps = $data['Reports'][0]['Data']['ComparableProperties'];
+
+            $arr = 0;
+            foreach ($salescomps as $salescomp) {
+                if (!empty($salescomp['SitusAddress']['City'])) {
+                    $price[] = $salescomp['LastMarketSaleInformation']['SalePrice'];
+                    $arr = [$price];
+                }
+            }
+
+            return $arr;
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::info('getprice failed: ' . $e->getMessage());
+
+            // Optionally throw the exception to trigger a retry
+            throw $e;
         }
-
-        return $arr;
-    }
-    catch (\Exception $e) {
-        // Log the exception
-        \Log::info('getprice failed: ' . $e->getMessage());
-
-        // Optionally throw the exception to trigger a retry
-        throw $e;
-    }
-
     }
     function getPropertyData($jsonData)
     {
@@ -3860,191 +3966,186 @@ class ApiController extends BaseController
     }
     function getRedfinData($jsonData)
     {
-        try
-        {
-        $data = $jsonData;
-        //dd($data);
+        try {
+            $data = $jsonData;
+            //dd($data);
 
-        if ($data === null) {
-            echo "Error decoding JSON data.";
-            return;
+            if ($data === null) {
+                echo "Error decoding JSON data.";
+                return;
+            }
+
+            // Get states array
+            $redfincomps = $data['data'];
+            $sum = 0;
+            $price_sum = 0;
+            $acre_sum = 0;
+            $redf = [];
+
+            foreach ($redfincomps as $redfincomp) {
+                $p_id[] = $redfincomp['homeData']['propertyId'];
+                $pric = isset($redfincomp['homeData']['priceInfo']['amount']) ? $redfincomp['homeData']['priceInfo']['amount'] : 0;
+                $price_sum += $pric;
+                $sqft = isset($redfincomp['homeData']['lotSize']['amount']) ? $redfincomp['homeData']['lotSize']['amount'] : 0;
+                //dd($sqft);
+
+                $acre_ = number_format($sqft / 43560, 2);
+                $source = $redfincomp['homeData']['url'];
+                $list_price = isset($redfincomp['homeData']['priceInfo']['amount']) ? $redfincomp['homeData']['priceInfo']['amount'] : 0;
+                $county = $redfincomp['homeData']['addressInfo']['state'];
+                $lat[] = $redfincomp['homeData']['addressInfo']['centroid']['centroid']['latitude'] . ',' . $redfincomp['homeData']['addressInfo']['centroid']['centroid']['longitude'];
+
+                $city = isset($redfincomp['homeData']['addressInfo']['city']) ? $redfincomp['homeData']['addressInfo']['city'] : '';
+
+                $acre[] = number_format($sqft / 43560, 2);
+                $acre_sum += number_format($sqft / 43560, 2);
+                $redf = [
+                    'lat' => $lat,
+                    'data' => $redfincomp,
+                    'p_id' => $p_id,
+                    'pr_sum' => $price_sum,
+                    'pric' => $pric,
+                    'acre' => $acre,
+                    'sum_acre' => $acre_sum,
+                    'acre_' => $acre_,
+                    'source' =>  $source,
+                    'price' => $list_price,
+                    'county' => $county,
+                    'city' => $city
+                ];
+            }
+            return $redf;
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::info('redfin failed: ' . $e->getMessage());
+
+            // Optionally throw the exception to trigger a retry
+            throw $e;
         }
-
-        // Get states array
-        $redfincomps = $data['data'];
-        $sum = 0;
-        $price_sum = 0;
-        $acre_sum = 0;
-        $redf = [];
-
-        foreach ($redfincomps as $redfincomp) {
-            $p_id[] = $redfincomp['homeData']['propertyId'];
-            $pric = isset($redfincomp['homeData']['priceInfo']['amount']) ? $redfincomp['homeData']['priceInfo']['amount'] : 0;
-            $price_sum += $pric;
-            $sqft = isset($redfincomp['homeData']['lotSize']['amount']) ? $redfincomp['homeData']['lotSize']['amount'] : 0;
-            //dd($sqft);
-
-            $acre_ = number_format($sqft / 43560, 2);
-            $source = $redfincomp['homeData']['url'];
-            $list_price = isset($redfincomp['homeData']['priceInfo']['amount']) ? $redfincomp['homeData']['priceInfo']['amount'] : 0;
-            $county = $redfincomp['homeData']['addressInfo']['state'];
-            $lat[] = $redfincomp['homeData']['addressInfo']['centroid']['centroid']['latitude'] . ',' . $redfincomp['homeData']['addressInfo']['centroid']['centroid']['longitude'];
-
-            $city = isset($redfincomp['homeData']['addressInfo']['city']) ? $redfincomp['homeData']['addressInfo']['city'] : '';
-
-            $acre[] = number_format($sqft / 43560, 2);
-            $acre_sum += number_format($sqft / 43560, 2);
-            $redf = [
-                'lat' => $lat,
-                'data' => $redfincomp,
-                'p_id' => $p_id,
-                'pr_sum' => $price_sum,
-                'pric' => $pric,
-                'acre' => $acre,
-                'sum_acre' => $acre_sum,
-                'acre_' => $acre_,
-                'source' =>  $source,
-                'price' => $list_price,
-                'county' => $county,
-                'city' => $city
-            ];
-        }
-        return $redf;
-    }
-    catch (\Exception $e) {
-        // Log the exception
-        \Log::info('redfin failed: ' . $e->getMessage());
-
-        // Optionally throw the exception to trigger a retry
-        throw $e;
-    }
     }
     function getZillowData($jsonData)
     {
-        try
-        {
-        $data = $jsonData;
-        //dd($data);
+        try {
+            $data = $jsonData;
+            //dd($data);
 
-        if ($data === null) {
-            echo "Error decoding JSON data.";
-            return;
+            if ($data === null) {
+                echo "Error decoding JSON data.";
+                return;
+            }
+
+            // Get states array
+            $zillowcomps = $data;
+            $sum = 0;
+            $sale_sum = 0;
+
+            foreach ($zillowcomps as $zillowcomp) {
+                $price = $zillowcomp['price'];
+                $sqft = $zillowcomp['livingArea'];
+                $sqft_all[] = $zillowcomp['livingArea'];
+
+                $acre_ = number_format($sqft / 43560, 2);
+                $acre_all[] = number_format($sqft / 43560, 2);
+
+                $source = $zillowcomp['zpid'];
+                $list_price = $zillowcomp['price'];
+                $county = $zillowcomp['address']['state'];
+                $city = $zillowcomp['address']['city'];
+
+                $price_all[] = $zillowcomp['price'];
+                $source_all[] = $zillowcomp['zpid'];
+                $county_all[] = $zillowcomp['address']['state'];
+                $city_all[] = $zillowcomp['address']['city'];
+                $sum += $price;
+                $sale_sum = [
+                    'sum' => $sum,
+                    'acre' => $acre_,
+                    'source' =>  $source,
+                    'price' => $list_price,
+                    'county' => $county,
+                    'city' => $city,
+                    'county_all' => $county_all,
+                    'city_all' => $city_all,
+                    'acre_all' => $acre_all,
+                    'price_all' => $price_all,
+                    'source_all' => $source_all,
+                ];
+            }
+            return $sale_sum;
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::info('Zillowdata failed: ' . $e->getMessage());
+
+            // Optionally throw the exception to trigger a retry
+            throw $e;
         }
-
-        // Get states array
-        $zillowcomps = $data;
-        $sum = 0;
-        $sale_sum = 0;
-
-        foreach ($zillowcomps as $zillowcomp) {
-            $price = $zillowcomp['price'];
-            $sqft = $zillowcomp['livingArea'];
-            $sqft_all[] = $zillowcomp['livingArea'];
-
-            $acre_ = number_format($sqft / 43560, 2);
-            $acre_all[] = number_format($sqft / 43560, 2);
-
-            $source = $zillowcomp['zpid'];
-            $list_price = $zillowcomp['price'];
-            $county = $zillowcomp['address']['state'];
-            $city = $zillowcomp['address']['city'];
-
-            $price_all[] = $zillowcomp['price'];
-            $source_all[] = $zillowcomp['zpid'];
-            $county_all[] = $zillowcomp['address']['state'];
-            $city_all[] = $zillowcomp['address']['city'];
-            $sum += $price;
-            $sale_sum = [
-                'sum' => $sum,
-                'acre' => $acre_,
-                'source' =>  $source,
-                'price' => $list_price,
-                'county' => $county,
-                'city' => $city,
-                'county_all' => $county_all,
-                'city_all' => $city_all,
-                'acre_all' => $acre_all,
-                'price_all' => $price_all,
-                'source_all' => $source_all,
-            ];
-        }
-        return $sale_sum;
-    }
-    catch (\Exception $e) {
-        // Log the exception
-        \Log::info('Zillowdata failed: ' . $e->getMessage());
-
-        // Optionally throw the exception to trigger a retry
-        throw $e;
-    }
     }
 
     function getRealtorData($jsonData)
     {
-        try{
-        $data = $jsonData;
-        //dd($data);
+        try {
+            $data = $jsonData;
+            //dd($data);
 
-        if ($data === null) {
-            echo "Error decoding JSON data.";
-            return;
-        }
+            if ($data === null) {
+                echo "Error decoding JSON data.";
+                return;
+            }
 
-        // Get states array
-        $realtorcomps = $data['data']['results'];
-        $sale_sum1 = 0;
-        $sum = 0;
-        $acre_sum = 0;
+            // Get states array
+            $realtorcomps = $data['data']['results'];
+            $sale_sum1 = 0;
+            $sum = 0;
+            $acre_sum = 0;
 
-        foreach ($realtorcomps as $realtorcomp) {
-            //dd($realtorcomp);
-            $price = $realtorcomp['list_price'];
-            $sum += $price;
-            $sqft = isset($realtorcomp['description']['lot_sqft']) ? $realtorcomp['description']['lot_sqft'] : $realtorcomp['description']['sqft'];
-            //dd($sqft);
-            $acre[] = number_format($sqft / 43560, 2);
-            $acre_sum += number_format($sqft / 43560, 2);
-            $acre_ = number_format($sqft / 43560, 2);
-            $source = $realtorcomp['href'];
-            $price_all[] = $realtorcomp['list_price'];
-            $source_all[] = $realtorcomp['href'];
-            $list_price = $realtorcomp['list_price'];
-            //$county = $realtorcomp['location']['county']['name'];
-            /* $county_all[] = $realtorcomp['location']['county']['name'];*/
-            $city = $realtorcomp['location']['address']['city'];
-            $city_all[] = $realtorcomp['location']['address']['city'];
-            //dd($realtorcomp['location']['address']);
-            //dd($county);
-            //dd($county);
-            //dd($sum);
-            $sale_sum1 = [
-                'price_sum' => $sum,
-                'pr' => $price,
-                'acre_sum' => $acre_sum,
-                /*'data' => $realtorcomp,
+            foreach ($realtorcomps as $realtorcomp) {
+                //dd($realtorcomp);
+                $price = $realtorcomp['list_price'];
+                $sum += $price;
+                $sqft = isset($realtorcomp['description']['lot_sqft']) ? $realtorcomp['description']['lot_sqft'] : $realtorcomp['description']['sqft'];
+                //dd($sqft);
+                $acre[] = number_format($sqft / 43560, 2);
+                $acre_sum += number_format($sqft / 43560, 2);
+                $acre_ = number_format($sqft / 43560, 2);
+                $source = $realtorcomp['href'];
+                $price_all[] = $realtorcomp['list_price'];
+                $source_all[] = $realtorcomp['href'];
+                $list_price = $realtorcomp['list_price'];
+                //$county = $realtorcomp['location']['county']['name'];
+                /* $county_all[] = $realtorcomp['location']['county']['name'];*/
+                $city = $realtorcomp['location']['address']['city'];
+                $city_all[] = $realtorcomp['location']['address']['city'];
+                //dd($realtorcomp['location']['address']);
+                //dd($county);
+                //dd($county);
+                //dd($sum);
+                $sale_sum1 = [
+                    'price_sum' => $sum,
+                    'pr' => $price,
+                    'acre_sum' => $acre_sum,
+                    /*'data' => $realtorcomp,
                 'county_all' => $county_all,*/
-                'city_all' => $city_all,
-                'acre_all' => $acre,
-                'price_all' => $price_all,
-                'source_all' => $source_all,
-                'acre' => $acre_,
-                'source' =>  $source,
-                'price' => $list_price,
-                //'county' => $county,
-                'city' => $city
-            ];
-            //dd($sale_sum);
-            //href,list_price,location->county->name,description->lot_sqft,location->address->city
-        }
-        return $sale_sum1;
-    }
-    catch (\Exception $e) {
-        // Log the exception
-        \Log::info('realtor failed: ' . $e->getMessage());
+                    'city_all' => $city_all,
+                    'acre_all' => $acre,
+                    'price_all' => $price_all,
+                    'source_all' => $source_all,
+                    'acre' => $acre_,
+                    'source' =>  $source,
+                    'price' => $list_price,
+                    //'county' => $county,
+                    'city' => $city
+                ];
+                //dd($sale_sum);
+                //href,list_price,location->county->name,description->lot_sqft,location->address->city
+            }
+            return $sale_sum1;
+        } catch (\Exception $e) {
+            // Log the exception
+            \Log::info('realtor failed: ' . $e->getMessage());
 
-        // Optionally throw the exception to trigger a retry
-        throw $e;
-    }
+            // Optionally throw the exception to trigger a retry
+            throw $e;
+        }
     }
 
     public function getCompData($jsonData)
@@ -4071,19 +4172,17 @@ class ApiController extends BaseController
     {
         $user = DB::table('users')->where(['usertype' => ''])->get();
         //dd($user);
-        $dta = json_decode(json_encode($user),true);
+        $dta = json_decode(json_encode($user), true);
         //dd(request()->py);
-        if(request()->py == '1')
-        {
+        if (request()->py == '1') {
             $payment = DB::table('payments')->get();
-        //dd($user);
-        $paym = json_decode(json_encode($payment),true);
-        ///dd($paym);
-        return view('admin',['paym' => $paym]);
-        $dta= '';
-
+            //dd($user);
+            $paym = json_decode(json_encode($payment), true);
+            ///dd($paym);
+            return view('admin', ['paym' => $paym]);
+            $dta = '';
         }
         $paym = '';
-        return view('admin',['data' => $dta]);
+        return view('admin', ['data' => $dta]);
     }
 }

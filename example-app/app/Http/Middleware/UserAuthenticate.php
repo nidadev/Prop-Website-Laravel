@@ -16,13 +16,13 @@ class UserAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check() && auth()->user()->is_subscribed == 0  && auth()->user()->is_verified == '1' && auth()->user()->usertype != 'admin')
+        if(Auth::check() && auth()->user()->is_subscribed == 0  && auth()->user()->is_verified == 1 && auth()->user()->usertype != 'admin')
         {
            return redirect('/subscription'); 
 
         }
 
-        else if(Auth::check())
+        else if(Auth::check() && auth()->user()->is_subscribed == 1)
         {
             return $next($request);
         }

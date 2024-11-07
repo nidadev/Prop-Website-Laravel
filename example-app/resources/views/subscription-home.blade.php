@@ -53,6 +53,7 @@
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>
+		 
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support</h6> 
 		 <h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/register')}}">Get Quote </a></h6>
 		</div>
