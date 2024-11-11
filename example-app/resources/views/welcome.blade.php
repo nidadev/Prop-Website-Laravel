@@ -147,7 +147,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-power-off"></i></a></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-download"></i></a></span>
 			  <h5 class="mt-3 mb-3">Owner Record Download</h5>
 			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources.</p>
 			</div>
@@ -169,7 +169,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-download"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-download"></i></a></span>
 			  <h5 class="mt-3 mb-3"> External List Uploading</h5>
 			  <p class="mb-0 text-white">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.</p>
 			</div>
@@ -212,7 +212,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-camera-retro" aria-hidden="true"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-camera-retro" aria-hidden="true"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Comp API</h5>
 			  <p class="mb-0 text-white">Instantly access a vast repository of 2 million comparable property records at your fingertips.</p>
 			</div>

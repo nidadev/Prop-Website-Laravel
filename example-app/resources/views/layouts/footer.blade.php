@@ -38,7 +38,7 @@
 									<h4 class="text-white mb-4">Quick Links</h4>
 									<div class="row footer_3ism">
 										<h6 class="col-md-12 col-6"><a class="text-light" href="{{ url('about') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> About</a></h6>
-										<h6 class="col-md-12 col-6 mt-2"><a class="text-light" href="{{ url('/faq') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Faq</a></h6>
+										<h6 class="col-md-12 col-6 mt-2"><a class="text-light" href="{{ url('/faq') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> FAQ</a></h6>
 										<h6 class="col-md-12 col-6 mt-2"><a class="text-light" href="{{ route('compreport') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Comp Report</a></h6>
 										<h6 class="col-md-12 col-6 mt-2 mb-0"><a class="text-light" href="{{ route('research') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Research</a></h6>
 									</div>
