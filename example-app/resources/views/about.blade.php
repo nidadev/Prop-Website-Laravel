@@ -20,7 +20,7 @@
                 <h2>About Us Propelyze</h2>
                 <hr class="line">
                 <p class="mt-3"> At Propelyze, we believe that your time is your most valuable asset. 
-                That’s why we’ve made it our mission to streamline and enhance the property acquisition process, empowering real estate investors to make faster, more informed decisions.Our journey began with a simple but powerful idea: what if acquiring real estate could be less tedious and more efficient? With years of experience in real estate and a passion for technology, we set out to create a solution that would revolutionize the way investors approach direct mail marketing campaigns. No longer would identifying prime locations, pulling owner records, and pricing parcels be a time-consuming task—it would become a seamless experience.</p>
+                That’s why we’ve made it our mission to streamline and enhance the property acquisition process, empowering Land investors to make faster, more informed decisions.Our journey began with a simple but powerful idea: what if acquiring real estate could be less tedious and more efficient? With years of experience in real estate and a passion for technology, we set out to create a solution that would revolutionize the way investors approach direct mail marketing campaigns. No longer would identifying prime locations, pulling owner records, and pricing parcels be a time-consuming task—it would become a seamless experience.</p>
             </div>
             <div class="col-md-6">
             <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
@@ -59,7 +59,7 @@
                         <div class="disc_1i2i row">
                             <div class="col-md-9 col-9">
                                 <div class="disc_1i2il">
-                                    <h4 class="mb-0 mt-3">Buy a Property</h4>
+                                    <h4 class="mb-0 mt-3">Research Property</h4>
                                 </div>
                             </div>
                             <div class="col-md-3 col-3">
@@ -80,7 +80,7 @@
                         <div class="disc_1i2i row">
                             <div class="col-md-9 col-9">
                                 <div class="disc_1i2il">
-                                    <h4 class="mb-0 mt-3">Sell a Property</h4>
+                                    <h4 class="mb-0 mt-3">Search Land / House</h4>
                                 </div>
                             </div>
                             <div class="col-md-3 col-3">
@@ -101,7 +101,7 @@
                         <div class="disc_1i2i row">
                             <div class="col-md-9 col-9">
                                 <div class="disc_1i2il">
-                                    <h4 class="mb-0 mt-3">Rent a Property</h4>
+                                    <h4 class="mb-0 mt-3">Analyze</h4>
                                 </div>
                             </div>
                             <div class="col-md-3 col-3">
@@ -279,7 +279,7 @@
                 <div class="about_pg1l mt-4">
                     <h4>"Our Origin Story"</h4>
                     <hr class="line">
-                    <p class="mt-4">Back in 2019, we were in the same position as many real estate investors—working long hours, struggling to find the right properties to invest in, and trying to manage the complexities of direct mail marketing. We knew there had to be a better way, but the tools we needed simply didn’t exist. So, we decided to build them ourselves.</p>
+                    <p class="mt-4">Back in 2019, we were in the same position as many Land investors—working long hours, struggling to find the right properties to invest in, and trying to manage the complexities of direct mail marketing. We knew there had to be a better way, but the tools we needed simply didn’t exist. So, we decided to build them ourselves.</p>
                     <p>After countless late nights and a relentless focus on innovation, Propelyze was born. We created a powerful, easy-to-use platform that simplifies the entire acquisition process. By combining cutting-edge technology with our deep understanding of the real estate market, we developed a tool that turns what used to take days into a task that can be completed in minutes.</p>
                 </div>
                 
@@ -289,7 +289,7 @@
                     <h4>"Our Impact and Vision"</h4>
                     <hr class="line">
                     <p class="mt-4">Since launching Propelyze, the feedback from our users has been nothing short of inspiring. We’ve seen how our platform has transformed the way real estate entrepreneurs work, saving them precious time and helping them close deals more efficiently. The success stories from our users drive us to continue innovating and expanding our offerings.</p>
-                    <p>Our mission is clear: to provide a comprehensive and intuitive platform that enables real estate investors to focus on what truly matters—growing their business. We’re committed to continually refining our tools, listening to our users, and staying at the forefront of real estate technology.
+                    <p>Our mission is clear: to provide a comprehensive and intuitive platform that enables Land investors to focus on what truly matters—growing their business. We’re committed to continually refining our tools, listening to our users, and staying at the forefront of real estate technology.
                         As we look to the future, we’re excited about the endless possibilities for Propelyze. Our goal is to remain the go-to resource for real estate professionals who want to simplify their processes and maximize their success. With Propelyze by your side, you can propel your real estate business to new heights.
                     </p>
                 </div>
