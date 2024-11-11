@@ -149,7 +149,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-download"></i></a></span>
 			  <h5 class="mt-3 mb-3">Owner Record Download</h5>
-			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources.</p>
+			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources. </p><br>
 			</div>
 		 </div>
 		
@@ -164,7 +164,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/pricehouse')}}"><i class="fa fa-tag"></i></a></span>
 			  <h5 class="mt-3 mb-3">Property Pricing</h5>
-			  <p class="mb-0 text-white">Get personalized pricing for each property to boost your marketing impact.</p>
+			  <p class="mb-0 text-white">Get personalized pricing for each property to boost your marketing impact.</p><br>
 			</div>
 		 </div>
 		 <div class="col-md-4">
@@ -178,21 +178,21 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-database"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Data Scrubbing</h5>
-			  <p class="mb-0 text-white">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.</p>
+			  <p class="mb-0 text-white">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.</p><br>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-road"></i></a></span>
 			  <h5 class="mt-3 mb-3">Road Access</h5>
-			  <p class="mb-0 text-white">Check if properties have direct road access and pinpoint specific access points.</p>
+			  <p class="mb-0 text-white">Check if properties have direct road access and pinpoint specific access points.</p><br>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
 			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-envelope"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Topography</h5>
-			  <p class="mb-0 text-white">Assess the usable area of your property and filter out those that don't meet your criteria.</p>
+			  <p class="mb-0 text-white">Assess the usable area of your property and filter out those that don't meet your criteria.</p><br>
 			</div>
 		 </div>
 		
@@ -212,9 +212,9 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-camera-retro" aria-hidden="true"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/research')}}"><i class="fa fa-camera-retro" aria-hidden="true"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Comp API</h5>
-			  <p class="mb-0 text-white">Instantly access a vast repository of 2 million comparable property records at your fingertips.</p>
+			  <p class="mb-0 text-white">Instantly access a vast repository of 2 million comparable property records at your fingertips.</p><br>
 			</div>
 		 </div>
 		 <div class="col-md-4">
