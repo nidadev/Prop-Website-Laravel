@@ -8,12 +8,12 @@
 						<h6 class="text-light mt-3"><i class="fa fa-envelope col_blue me-1"></i> support@propelyze.com</h6>
 						<h4 class="mt-4 text-white">Connect With Us</h4>
 						<ul class="mb-0 mt-3">
-							<li class="d-inline-block"><a href="#"><i class="fa fa-facebook"></i></a></li>
+							<li class="d-inline-block"><a href="https://www.facebook.com/propelyze"><i class="fa fa-facebook"></i></a></li>
 							<li class="d-inline-block"><a href="#"><i class="fa fa-instagram"></i></a></li>
 							<!--li class="d-inline-block"><a href="#"><i class="fa fa-behance"></i></a></li-->
 							<li class="d-inline-block"><a href="#"><i class="fa fa-twitter"></i></a></li>
 							<!--li class="d-inline-block"><a href="#"><i class="fa fa-pinterest"></i></a></li-->
-							<li class="d-inline-block"><a href="#"><i class="fa fa-linkedin"></i></a></li>
+							<li class="d-inline-block"><a href="https://www.linkedin.com/company/propelyze/"><i class="fa fa-linkedin"></i></a></li>
 						</ul>
 					</div>
 				</div>
