@@ -234,211 +234,7 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 	  </div>
  </div>   
  </section>
-	<!--section id="explore" class="pt-5 pb-5 bg_blue carousel_p">
-		<div class="container-xl">
-			<div class="row explore_1">
-				<div class="col-md-4">
-					<div class="explore_1l">
-						<h3 class="text-white">Explore by <br> Property Type</h3>
-						<hr class="line">
-						<p class="mb-0 text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis et sem sed</p>
-					</div>
-				</div>
-				<div class="col-md-8">
-					<div class="explore_1r">
-						<div id="carouselExampleCaptions1" class="carousel slide" data-bs-ride="carousel">
-							<div class="carousel-indicators">
-								<button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-								<button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="1" aria-label="Slide 2" class="" aria-current="true"></button>
-							</div>
-							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<div class="explore_1ri row">
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-building"></i></span>
-												<h5 class="mt-3 mb-3">Apartment</h5>
-												<h6 class="mb-0 text-muted">32 Properties</h6>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-hotel"></i></span>
-												<h5 class="mt-3 mb-3">Vilas</h5>
-												<h6 class="mb-0 text-muted">34 Properties</h6>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-home"></i></span>
-												<h5 class="mt-3 mb-3">Houses</h5>
-												<h6 class="mb-0 text-muted">33 Properties</h6>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-building-o"></i></span>
-												<h5 class="mt-3 mb-3">Offices</h5>
-												<h6 class="mb-0 text-muted">24 Properties</h6>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="carousel-item">
-									<div class="explore_1ri row">
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-building"></i></span>
-												<h5 class="mt-3 mb-3">Apartment</h5>
-												<h6 class="mb-0 text-muted">32 Properties</h6>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-hotel"></i></span>
-												<h5 class="mt-3 mb-3">Vilas</h5>
-												<h6 class="mb-0 text-muted">34 Properties</h6>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-home"></i></span>
-												<h5 class="mt-3 mb-3">Houses</h5>
-												<h6 class="mb-0 text-muted">33 Properties</h6>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-6">
-											<div class="explore_1ril bg-white rounded_10 p-4 px-3 text-center">
-												<span class="font_50 lh-1 col_blue"><i class="fa fa-building-o"></i></span>
-												<h5 class="mt-3 mb-3">Offices</h5>
-												<h6 class="mb-0 text-muted">24 Properties</h6>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section-->
-
-	<!--section id="testim" class="p_3 bg_blue carousel_p">
-		<div class="container-xl">
-			<div class="row work_h1 text-center mb-4">
-				<div class="col-md-12">
-					<h2 class="text-white">Services</h2>
-					<hr class="line mx-auto">
-					<p class="mb-0 text-light">What we do</p>
-				</div>
-			</div>
-			<div class="testim_1 row">
-				<div id="carouselExampleCaptions2" class="carousel slide" data-bs-ride="carousel">
-					<div class="carousel-indicators">
-						<button type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
-						<button type="button" data-bs-target="#carouselExampleCaptions2" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
-					</div>
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<div class="testim_1i row">
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/8.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Owner Record Download</h6>
-
-										<p class="mt-3">Easily obtain property details that match your search criteria directly through our integrated data sources.<br><br><br></p>
-										
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/9.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Skip Tracing </span></h6>
-
-										<p class="mt-3">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
-										
-
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/10.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Property Pricing</h6>
-										<p class="mt-3">Get personalized pricing for each property to boost your marketing impact.<br><br><br></p>
-										
-
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="testim_1i row">
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/11.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> External List Uploading</h6>
-										<p class="mt-3">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.<br><br><br></p>
-										
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/12.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Data Scrubbing</h6>
-										<p class="mt-3">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.<br><br><br></p>
-										
-
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/13.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Road Access</h6>
-										<p class="mt-3">Check if properties have direct road access and pinpoint specific access points.<br><br><br></p>
-										
-
-									</div>
-								</div>
-								
-							</div>
-						</div>
-						<div class="carousel-item">
-							<div class="testim_1i row">
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/11.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> External List Uploading</h6>
-										<p class="mt-3">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.<br><br><br></p>
-										
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/12.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Data Scrubbing</h6>
-										<p class="mt-3">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.<br><br><br></p>
-										
-
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="testim_1i1 bg-white p-4 text-center rounded_10">
-										<img src="{{ asset('img/13.jpg') }}" alt="abc" class="rounded-circle">
-										<h6 class="fw-bold  lh-base mt-3 fs-5"> Road Access</h6>
-										<p class="mt-3">Check if properties have direct road access and pinpoint specific access points.<br><br><br></p>
-										
-
-									</div>
-								</div>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section-->
+	
 
 	<section id="subs" class="p_3">
 		<div class="container-xl">
@@ -474,51 +270,51 @@ Our services cover both Vacant Land and Residential Properties, with all data up
 							<div class="subs_2i row">
 								<div class="col-md-4">
 									<div class="subs_2i1 border_1 rounded_10 p-4">
-										<h4 class="plan_blue">Monthly</h4>
-										<p class="mt-3"></p>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> 10 Listing Per Login</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> 110+ Users</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Enquiry On Listing</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> 24 Hrs Support</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Custom Review</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Impact Reporting</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Onboarding & Account</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> API Access</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Transaction Tracking</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
+									<h4 class="plan_red">Monthly $34.99</h4>
+         <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> External List Upload Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting     </h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support     </h6>
+		 <h6 class="mt-3"><i class=""></i>&nbsp; </h6>
+		 <h6 class="mt-3"><i class=""></i>&nbsp;</h6>
+			<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="subs_2i1 border_1 rounded_10 p-4">
-										<h4 class="plan_orange">Monthly(Bronze)</h4>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 20 Listing Per Login</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 110+ Users</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Enquiry On Listing</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 24 Hrs Support</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Custom Review</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Impact Reporting</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Onboarding & Account</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> API Access</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Transaction Tracking</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
+									<h4 class="plan_green">Monthly Bronze $49.99</h4>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>		 
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support</h6> 
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Export Comps</h6> 
+		 <h6 class="mt-3"><i class=""></i>&nbsp; </h6>
+		 <h6 class="mt-3"><i class=""></i></h6>
+
+	<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="subs_2i1 border_1 rounded_10 p-4">
-										<h4 class="plan_green">Gold</h4>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> 40 Listing Per Login</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> 110+ Users</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Enquiry On Listing</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> 24 Hrs Support</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Custom Review</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Impact Reporting</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Onboarding & Account</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> API Access</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Transaction Tracking</h6>
-										<h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-success"></i> Branding</h6>
-										<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
+									<h4 class="plan_orange" style="border-radius:21px;background-color:#ffc107;color:#fff;">Gold $499</h4>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>
+         <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 24 Hrs Support</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Export Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 20 Free Comp Reports/Month</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> $0.01 Discount per Export Record</h6>
+	<h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/subscription')}}">Start Free Trial </a></h6>
 									</div>
 								</div>
 							</div>

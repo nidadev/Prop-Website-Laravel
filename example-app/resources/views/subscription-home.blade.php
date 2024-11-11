@@ -38,10 +38,11 @@
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> External List Upload Pricing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting
-     </h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting     </h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support
-     </h6> <h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/register')}}">Get Quote </a></h6>
+     </h6><h6 class="mt-3"><i class=""></i>&nbsp; </h6>
+	 <h6 class="mt-3"><i class=""></i>&nbsp;</h6>
+	  <h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/register')}}">Get Quote </a></h6>
 		</div>
 	   </div>
 	   <div class="col-md-4">
@@ -52,23 +53,28 @@
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>
-		 
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>		 
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support</h6> 
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Export Comps</h6> 
+		 <h6 class="mt-3"><i class=""></i>&nbsp; </h6>
+		 <h6 class="mt-3"><i class=""></i></h6>
 		 <h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/register')}}">Get Quote </a></h6>
 		</div>
 	   </div>
 	   <div class="col-md-4">
 	    <div class="subs_2i1 border_1 rounded_10 p-4">
 		 <h4 class="plan_orange" style="border-radius:21px;background-color:#ffc107;color:#fff;">Gold $499</h4>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 40 Listing Per Login</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 110+ Users</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Enquiry On Listing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 24 Hrs Support</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Custom Review</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 24 Hrs Support and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>
          <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 24 Hrs Support</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Impact Reporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Export Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 20 Free Comp Reports/Month</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> $0.01 Discount per Export Record</h6>
+
 		 <h6 class="mb-0 mt-4"><a class="button text-center d-block" href="{{ url('/register')}}">Get Quote </a></h6>
 		</div>
 	   </div>
