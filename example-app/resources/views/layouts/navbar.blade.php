@@ -22,16 +22,16 @@
         </li>
        
         <li class="nav-item">
-          <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('compreport') }}">CompReport</a>
+          <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('compreport') }}">Comp Report</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {{ Route::is('research') ? 'active' : '' }}" aria-current="page" href="{{ route('research') }}">Research</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Route::is('pricehouse') ? 'active' : '' }}" aria-current="page" href="{{ route('pricehouse') }}">Pricehouse</a>
+          <a class="nav-link {{ Route::is('pricehouse') ? 'active' : '' }}" aria-current="page" href="{{ route('pricehouse') }}">Price Houses</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ Route::is('priceland') ? 'active' : '' }}" aria-current="page" href="{{ route('priceland') }}">PriceLand</a>
+          <a class="nav-link {{ Route::is('priceland') ? 'active' : '' }}" aria-current="page" href="{{ route('priceland') }}">Price Lands</a>
         </li>
        
         <li class="nav-item">
