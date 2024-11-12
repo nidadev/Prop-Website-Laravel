@@ -6,8 +6,8 @@
     <div class="container-xl">
       <div class="row center_o1 m-auto text-center">
         <div class="col-md-12">
-          <h2 class="text-white">Faq</h2>
-          <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Register </h6>
+          <h2 class="text-white">FAQ</h2>
+          <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> FAQ </h6>
         </div>
       </div>
     </div>
@@ -29,33 +29,34 @@
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingOne">
 									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										<i class="fa fa-check-circle me-2"></i> ➔	General
+										<i class="fa fa-check-circle me-2"></i> ➔	General, Search, Analysis, 
+										Scrubbing, Propelyze Final List File
 									</button>
 								</h2>
 								<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
 									<div class="accordion-body">
 										<p class="mb-0"><h5>What Is Propelyze?</h5>
-Propelyze is a robust real estate marketing platform designed to streamline your direct mail and digital marketing campaigns. It offers tools for targeting specific areas, pricing mailers, accessing property records, and cleaning your lists for efficient use with your marketing or mailing services.<br>
+Propelyze is a robust real estate marketing platform designed to streamline your direct mail and digital marketing campaigns. It offers tools for targeting specific areas, pricing mailers, accessing property records, and cleaning your lists for efficient use with your marketing or mailing services.<br><br>
 <h5>What Benefits Does Propelyze Offer?</h5>
-Propelyze enhances your marketing efforts by providing in-depth research, competitive pricing models, and advanced location analysis. Our platform simplifies the process of targeting and pricing, ultimately boosting the efficiency of your marketing campaigns.<br>
+Propelyze enhances your marketing efforts by providing in-depth research, competitive pricing models, and advanced location analysis. Our platform simplifies the process of targeting and pricing, ultimately boosting the efficiency of your marketing campaigns.<br><br>
 <h5>Can Propelyze Handle More Than Just Pricing?</h5>
-Yes, Propelyze is a comprehensive tool that includes features for research, rapid location searches, property analysis, record access, and list management. This all-in-one approach ensures that your marketing campaigns are well-supported from start to finish.<br>
+Yes, Propelyze is a comprehensive tool that includes features for research, rapid location searches, property analysis, record access, and list management. This all-in-one approach ensures that your marketing campaigns are well-supported from start to finish.<br><br>
 <h5>Does Propelyze Require Me to Learn a New Pricing Method?</h5>
-Not at all. Propelyze is designed to integrate with and enhance your existing pricing methods, automating the processes you are already familiar with for greater efficiency.<br>
+Not at all. Propelyze is designed to integrate with and enhance your existing pricing methods, automating the processes you are already familiar with for greater efficiency.<br><br>
 <h5>Is Propelyze a Fully Automated System?</h5>
-While Propelyze offers significant automation, it cannot replace your decision-making. You will still need to make strategic choices regarding your mailing targets and the content of your offers.<br>
+While Propelyze offers significant automation, it cannot replace your decision-making. You will still need to make strategic choices regarding your mailing targets and the content of your offers.<br><br>
 <h5>What Types of Data Are Included in Propelyze?</h5>
-Propelyze provides access to extensive property and owner records, with data sourced from multiple reliable platforms to ensure accuracy and relevance for your marketing needs.<br>
+Propelyze provides access to extensive property and owner records, with data sourced from multiple reliable platforms to ensure accuracy and relevance for your marketing needs.<br><br>
 <h5>Do I Need an Additional Data Subscription to Use Propelyze?</h5>
-No, Propelyze includes all necessary data access within its platform. There’s no need for separate subscriptions or additional contracts.<br>
+No, Propelyze includes all necessary data access within its platform. There’s no need for separate subscriptions or additional contracts.<br><br>
 <h5>How Is the Data in Propelyze Sourced?</h5>
-We aggregate data from leading real estate databases and platforms to ensure you have accurate and up-to-date information. This includes property details, ownership records, and market trends that are essential for your marketing efforts.<br>
+We aggregate data from leading real estate databases and platforms to ensure you have accurate and up-to-date information. This includes property details, ownership records, and market trends that are essential for your marketing efforts.<br><br>
 <h5>Are There Hidden Easter Eggs in Propelyze?</h5>
-Yes, Propelyze has hidden Easter eggs throughout the platform for you to discover. These fun surprises can unlock additional features or rewards. Keep exploring and interacting with different parts of the platform to find them. Enjoy the hunt!<br>
+Yes, Propelyze has hidden Easter eggs throughout the platform for you to discover. These fun surprises can unlock additional features or rewards. Keep exploring and interacting with different parts of the platform to find them. Enjoy the hunt!<br><br>
 <h5>What Should I Do if I Encounter Issues While Using Propelyze?</h5>
-If you experience problems, start by refreshing the page to see if the issue resolves. If the problem persists, try clearing your browser’s cache. For continued issues, contact our support team for detailed assistance.<br>
+If you experience problems, start by refreshing the page to see if the issue resolves. If the problem persists, try clearing your browser’s cache. For continued issues, contact our support team for detailed assistance.<br><br>
 <h5>How Frequently Is the Data Updated?</h5>
-We update our data regularly to ensure it remains accurate and relevant. The frequency of updates can vary depending on the data source and type. Rest assured, we strive to provide the most current information available.<br>
+We update our data regularly to ensure it remains accurate and relevant. The frequency of updates can vary depending on the data source and type. Rest assured, we strive to provide the most current information available.<br><br>
 <h5>How Can I Contact Propelyze Support via Email?</h5>
 To contact Propelyze support via email, simply send your inquiry to support@propelyze.com. Our team aims to respond to all email queries within 24 hours. For faster assistance, please include detailed information about your issue or question in your email.<br>
 </p>

@@ -98,45 +98,46 @@ Comp Report Cost</small><h4>$2.00 <br>per record</h4>
       @if($plan->name == 'Monthly Bronze')
 		 <h4 class="plan_green">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
      ${{ $plan->amount}}</h4>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Analysis and Model Offer Pricing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> View Comps</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Owner/Property Record Exporting</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> External List Upload Pricing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Comp Reporting
-     </h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Full Customer Support
-     </h6>
-     @endif
-      @if($plan->name == 'Monthly')
-		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
-     ${{ $plan->amount}}</h4>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Research and Analytics</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Searching</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Location Analysis and Model Offer Pricing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> View Comps</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Owner/Property Record Exporting</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> External List Upload Pricing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Comp Reporting
-     </h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 col_blue"></i> Full Customer Support
-     </h6>
-     @endif
-     
-     @if($plan->name == 'Yearly')
-     <h4 class="plan_orange" style="border-radius:21px;background-color:#de8303;color:#fff;height: 55px;padding-top: 12px;">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
-     ${{ $plan->amount}}</h4>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>		 
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support</h6> 
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Export Comps</h6> 
+		 <h6 class="mt-3"><i class=""></i>&nbsp; </h6>
+		 <h6 class="mt-3"><i class=""></i></h6>
+     @endif
+      @if($plan->name == 'Monthly')
+		 <h4 class="plan_blue">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
+     ${{ $plan->amount}}</h4>
+         <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> External List Upload Pricing</h6>
-		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting
-     </h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting     </h6>
 		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Full Customer Support
-     </h6>
+     </h6><h6 class="mt-3"><i class=""></i>&nbsp; </h6>
+	 <h6 class="mt-3"><i class=""></i>&nbsp;</h6>
+     @endif
+     
+     @if($plan->name == 'Yearly')
+     <h4 class="plan_orange" style="border-radius:21px;background-color:#de8303;color:#fff;height: 55px;padding-top: 12px;">{{ $plan->name}} @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id) (Active)@endif
+     ${{ $plan->amount}}</h4>
+     <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Research and Analytics</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Searching</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Location Analysis and Model Offer Pricing</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> View Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Owner/Property Record Exporting</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Comp Reporting</h6>
+         <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 24 Hrs Support</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> Export Comps</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> 20 Free Comp Reports/Month</h6>
+		 <h6 class="mt-3"><i class="fa fa-check-square-o me-1 text-warning"></i> $0.01 Discount per Export Record</h6>
+
      @endif
 		 @if($currentPlan && $currentPlan->subscription_plan_price_id == $plan->stripe_price_id)
         <!--button class="btn btn-danger subscriptionCancel" style="width:100%;">Cancel</button-->
