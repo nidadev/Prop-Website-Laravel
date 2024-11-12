@@ -20,10 +20,7 @@
         <li class="nav-item">
           <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
         </li>
-       
-        <li class="nav-item">
-          <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('compreport') }}">Comp Report</a>
-        </li>
+            
         <li class="nav-item">
           <a class="nav-link {{ Route::is('research') ? 'active' : '' }}" aria-current="page" href="{{ route('research') }}">Research</a>
         </li>
@@ -33,7 +30,9 @@
         <li class="nav-item">
           <a class="nav-link {{ Route::is('priceland') ? 'active' : '' }}" aria-current="page" href="{{ route('priceland') }}">Price Lands</a>
         </li>
-       
+        <li class="nav-item">
+          <a class="nav-link {{ Route::is('compreport') ? 'active' : '' }}" aria-current="page" href="{{ route('compreport') }}">Comp Report</a>
+        </li>
         <li class="nav-item">
                         <a class="nav-link" href="{{ url('/subscription')}}" role="button" id="sub">
                             Subscription

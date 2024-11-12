@@ -41,7 +41,7 @@
                 <input type="hidden" name="county_name" id="county_name">
                 <div class="col-md-4">
                   <div class="center_h2lil">
-                    <label>APN </label><input type="text" class="form-control" name="apn" id="apn" placeholder="7056-010-019" required>
+                    <label>APN </label><input type="text" class="form-control" name="apn" id="apn" required>
                   </div>
                 </div>
               </div>
@@ -76,6 +76,8 @@
       <div class="col-md-12">
         <h2>Sale Comp Report</h2>
         <hr class="line mx-auto">
+        <a href="">Sample Report</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="">Sample Map</a>
         <p class="error"></p>
         <div class="loader" style="display:none"></div>
         <p class="sm-txt" style="display:none">Wait for a minutes.Getting Comp Records...</p>

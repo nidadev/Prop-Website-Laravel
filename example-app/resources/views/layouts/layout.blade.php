@@ -11,7 +11,11 @@
 
   #myDataTable4_wrapper,
   .work_h2i {
-    font-size: 12px;
+    font-size: 14px;
+  }
+  .form-control
+  {
+    text-transform: uppercase;
   }
 
   .loader {

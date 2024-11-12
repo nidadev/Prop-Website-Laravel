@@ -178,7 +178,7 @@
     <div class="row work_h1 text-center mb-4">
       <div class="col-md-12">
         
-        <h2>Research Searches</h2>
+        <h2>Propelyze Research Page</h2>
         <hr class="line mx-auto">
         <!--Export all<input type='checkbox' id='sm' onclick="javascript:toggle('')" ; class='su' value="" name='sum[]' style='border:14px solid green;width:30px;height:30px;'>-->
       </div>
