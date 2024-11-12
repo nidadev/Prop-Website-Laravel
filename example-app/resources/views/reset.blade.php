@@ -33,9 +33,10 @@
           <form method="post" action="{{ route('resetPassword') }}">
           @csrf
           <input type="hidden" name="id" value="{{ $user[0]['id'] }}">
-          <h6 class="mb-3 ">Password</h6>
+          <h6 class="mb-3 ">Enter New Password</h6>
           <input type="password" class="form-control" id="" name="password" placeholder="Enter Password:" maxlength="40">
-            <span class="error email_err">@error('password') {{$message}} @enderror</span>
+            <span class="error email_err">@error('password') {{$message}} @enderror</span><br>
+            <h6 class="mb-3 ">Enter Confirm Password</h6>
             <input type="password" class="form-control" id="" name="password_confirmation" placeholder="Enter Confirm Password:" maxlength="40">
 
                 <div class="login_1mi row mt-3">

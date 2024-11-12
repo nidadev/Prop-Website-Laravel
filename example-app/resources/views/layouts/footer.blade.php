@@ -9,9 +9,9 @@
 						<h4 class="mt-4 text-white">Connect With Us</h4>
 						<ul class="mb-0 mt-3">
 							<li class="d-inline-block"><a href="https://www.facebook.com/propelyze"><i class="fa fa-facebook"></i></a></li>
-							<li class="d-inline-block"><a href="#"><i class="fa fa-instagram"></i></a></li>
+							<li class="d-inline-block"><a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a></li>
 							<!--li class="d-inline-block"><a href="#"><i class="fa fa-behance"></i></a></li-->
-							<li class="d-inline-block"><a href="#"><i class="fa fa-twitter"></i></a></li>
+							<li class="d-inline-block"><a href="https://x.com"><i class="fa fa-twitter"></i></a></li>
 							<!--li class="d-inline-block"><a href="#"><i class="fa fa-pinterest"></i></a></li-->
 							<li class="d-inline-block"><a href="https://www.linkedin.com/company/propelyze/"><i class="fa fa-linkedin"></i></a></li>
 						</ul>
@@ -24,7 +24,7 @@
 								<div class="footer_1ri1">
 									<h4 class="text-white mb-4">Explore</h4>
 									<div class="row footer_3ism">
-										<h6 class="col-md-12 col-6"><a class="text-light" href="{{ url('login2') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Login</a></h6>
+										<h6 class="col-md-12 col-6"><a class="text-light" href="{{ url('login') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Login</a></h6>
 										<h6 class="col-md-12 col-6 mt-2"><a class="text-light" href="{{ url('register') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Register</a></h6>
 										<h6 class="col-md-12 col-6 mt-2"><a class="text-light" href="{{ route('pricehouse') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Search Land</a></h6>
 										<h6 class="col-md-12 col-6 mt-2"><a class="text-light" href="{{ route('priceland') }}"><i class="fa fa-chevron-right me-1 font_12 text-warning"></i> Search Houses</a></h6>

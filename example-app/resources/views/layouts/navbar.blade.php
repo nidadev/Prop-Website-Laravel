@@ -102,7 +102,7 @@
                         </ul-->
                     <!--/li-->
                     <li class="nav-item">
-                    <a class="nav-link {{ Request::segment(1) === 'faq' ? 'active' : null }}" href="{{ url('/faq')}}" role="button" id="sp">Faq
+                    <a class="nav-link {{ Request::segment(1) === 'faq' ? 'active' : null }}" href="{{ url('/faq')}}" role="button" id="sp">FAQ
                         </a>
                     </li>
                     
