@@ -7,5 +7,5 @@
 
  
  
+<img width="942" alt="stripe" src="https://github.com/user-attachments/assets/7673a9e3-9bb9-46f2-9b38-34a0bb527a17" />
 
-![Uploading stripe.png…]()
