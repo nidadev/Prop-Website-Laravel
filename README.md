@@ -4,7 +4,7 @@ A full-featured real estate web application built with Laravel for browsing, sea
 
 ---
 
-## 🚀 Features
+##  Features
 
 - Property Listings (Buy / Rent)
 - Advanced Property Search & Filters
@@ -18,7 +18,7 @@ A full-featured real estate web application built with Laravel for browsing, sea
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 - Laravel (PHP Framework)
 - MySQL
