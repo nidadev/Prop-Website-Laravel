@@ -22,7 +22,7 @@ A full-featured real estate web application built with Laravel for browsing, sea
 
 - Laravel (PHP Framework)
 - MySQL
-- REST API (if applicable)
+- REST API 
 - Google Maps API
 - Stripe Payment Gateway
 - Bootstrap / Tailwind CSS
