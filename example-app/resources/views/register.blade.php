@@ -1,6 +1,6 @@
 @extends('layouts.app2')
 @section('content')
-<main class="container py-5"><div class="account-card mx-auto"><p class="eyebrow">Your Propelyze account</p><h1>Create your account</h1><p>Start with your details. We will email you a link to verify your address.</p>@if(session('error'))<p role="alert" class="alert alert-warning">{{ session('error') }}</p>@endif
+<section id="center" class="center_reg"><div class="center_om bg_backo"><div class="container-xl"><div class="row center_o1 m-auto text-center"><div class="col-md-12"><h2 class="text-white">Register</h2><h6 class="text-white mb-0 mt-3"><a class="text-white" href="{{ url('/home') }}">Home</a> <span class="mx-2 text-warning">/</span> Register</h6></div></div></div></div></section><section id="login" class="p_3"><div class="container-xl"><div class="login_1m p-4 w-50 mx-auto bg-light1"><h1>Create your account</h1><p>Start with your details. We will email you a link to verify your address.</p>@if(session('error'))<p role="alert" class="alert alert-warning">{{ session('error') }}</p>@endif
 @if(session('success'))<p role="status" class="alert alert-success">{{ session('success') }}</p>@endif
 @foreach($errors->all() as $error)<p role="alert" class="text-danger">{{ $error }}</p>@endforeach
 
@@ -11,5 +11,5 @@
 <label for="register-confirm">Confirm password</label><input class="form-control mb-3" id="register-confirm" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
 <label class="d-block mb-4" for="register-agree"><input id="register-agree" name="agree" value="1" type="checkbox" required> I agree to the <a href="{{ url('/terms') }}">terms and conditions</a>.</label>
 @if(config('services.recaptcha.enabled') && config('services.recaptcha.site_key'))<div class="g-recaptcha mb-3" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div><script src="https://www.google.com/recaptcha/api.js" async defer></script>@endif
-<button class="btn btn-primary w-100">Create account</button></form><p class="mt-4 mb-0">Already registered? <a href="{{ url('/login') }}">Sign in</a></p></div></main>
+<button class="btn btn-primary w-100">Create account</button></form><p class="mt-4 mb-0">Already registered? <a href="{{ url('/login') }}">Sign in</a></p></div></div></section>
 @endsection

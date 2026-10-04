@@ -1,11 +1,330 @@
 @extends('layouts.app2')
+
 @section('content')
-<main>@if(!config('property.datatree_enabled', true))<div class="container-xl pt-3"><p class="alert alert-info mb-0" role="status">Property searches and owner reports are temporarily unavailable. Land valuation, land comparables and market research remain available to eligible accounts.</p></div>@endif<section class="hero"><div class="container-xl"><div class="row align-items-center g-5"><div class="col-lg-6"><p class="eyebrow">Property research made simpler</p><h1>Find your next<br>real estate opportunity.</h1><p class="lead">Research locations, compare property values, and access owner records. Bring your land and house campaigns together in one place.</p><div class="hero-actions"><a class="btn btn-primary" href="{{ url('/priceland') }}">Explore land <i class="fa fa-arrow-right ms-2" aria-hidden="true"></i></a><a class="btn btn-outline-primary" href="{{ url('/pricehouse') }}">Explore houses</a></div><p class="mt-4 small text-muted">We simplify your search, so you can focus on your next decision.</p></div><div class="col-lg-6"><div class="hero-visual"><img src="{{ asset($siteSettings['hero_image'] ?? 'img/1.jpg') }}" alt="Homes in a rural landscape" width="620" height="360" fetchpriority="high"><div class="hero-caption"><strong>From location to opportunity.</strong><span>Research. Compare. Prepare your campaign.</span></div></div></div></div></div></section>
-<section class="section-space"><div class="container-xl"><div class="section-intro"><p class="eyebrow">A clearer view of your market</p><h2>The tools behind your next campaign</h2><p>Move from regional research to individual property analysis with tools for vacant land and residential properties.</p></div><div class="feature-grid">
-@foreach([['map-o','Location research','Explore county market data and regional trends to identify potential markets.','/research','Explore markets'],['line-chart','Property pricing','Review property values and comparables to build your offer strategy.','/priceland','Search land'],['home','House research','Find residential properties in your target county and review the available data.','/pricehouse','Search houses'],['file-text-o','Comp reports','Bring property details, valuation insights, and comparable records into a report.','/compreport','Create a report'],['upload','External list upload','Import CSV or Excel records and apply parcel pricing to your existing list.','/list-upload','Upload your list'],['download','Owner record exports','Export the selected property records and revisit completed files from your account.','/exports','View exports']] as $feature)
-<article class="feature-card"><i class="fa fa-{{ $feature[0] }}" aria-hidden="true"></i><h3>{{ $feature[1] }}</h3><p>{{ $feature[2] }}</p><a href="{{ url($feature[3]) }}">{{ $feature[4] }} <span aria-hidden="true">→</span></a></article>@endforeach
-</div></div></section>
-<section class="section-space section-wash"><div class="container-xl"><div class="section-intro"><p class="eyebrow">How it works</p><h2>Build your campaign with confidence</h2></div><div class="workflow"><article><div class="number">01 / RESEARCH</div><h3>Choose your market</h3><p>Explore regional data, then select the state and county you want to target.</p></article><article><div class="number">02 / COMPARE</div><h3>Review the property data</h3><p>Evaluate available records and pricing insights before deciding on your offer.</p></article><article><div class="number">03 / EXPORT</div><h3>Prepare your next step</h3><p>Download selected records and keep completed exports together in your account.</p></article></div><a class="btn btn-outline-primary mt-4" href="{{ url('/how-it-works-lands') }}">See how Propelyze works</a>@if(!empty($siteSettings['youtube_embed_url']))<div class="ratio ratio-16x9 mt-4"><iframe src="{{ $siteSettings['youtube_embed_url'] }}" title="How Propelyze works" loading="lazy" allowfullscreen></iframe></div>@endif</div></section>
-@include('partials.public-pricing')
-<section class="section-space pt-0"><div class="container-xl"><div class="cta-band"><div><h2>Your next campaign starts here.</h2><p>Discover a simpler way to research land and houses.</p></div><a class="btn btn-light" href="{{ auth()->check() ? url('/dashboard') : url('/register') }}">{{ auth()->check() ? 'Open your account' : 'Create your account' }}</a></div></div></section></main>
+<style>
+	header {
+  position: relative;
+  background-color: black;
+  height: 75vh;
+  min-height: 25rem;
+  width: 100%;
+  overflow: hidden;
+}
+
+header video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+header .container {
+  position: relative;
+  z-index: 2;
+}
+
+header .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1;
+}
+
+/* Media Query for devices withi coarse pointers and no hover functionality */
+
+/* This will use a fallback image instead of a video for devices that commonly do not support the HTML5 video element */
+
+@media (pointer: coarse) and (hover: none) {
+  header {
+    background: url('{{ asset('img/1.jpg') }}') black no-repeat center center scroll;
+  }
+
+  header video {
+    display: none;
+  }
+}
+	</style>
+<header>
+
+  
+  <div class="overlay"></div>
+
+  
+  <video poster="{{ asset('img/1.jpg') }}" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="{{ asset('file/vdo.mp4') }}" type="video/mp4">
+  </video>
+
+  
+  <div class="container h-100">
+    <div class="d-flex h-100 text-center align-items-center">
+      <div class="w-100 text-white">
+        
+		<h1 class="text-white font_45"><span class="col_blue">We </span>Simplify Your<span class="col_blue"> Search</span></h1>
+					 
+                     <p class="text-white mt-3 fs-5">  Empower Your Real Estate Campaigns with Precision and Speed</p>
+						<ul class="mb-0 mt-4">
+							<li class="d-inline-block"><a class="button" href="{{ url('/register')}}"><i class="fa fa-home me-1 align-middle fs-5"></i> Land </a></li>
+							<li class="d-inline-block ms-2"><a class="button_1" href="{{ url('/register')}}"><i class="fa fa-building me-1 fs-5 align-middle"></i> Houses </a></li>
+						</ul>
+      </div>
+    </div>
+  </div>
+</header>
+@if(!config('property.datatree_enabled',true))<div class="container-xl mt-3"><p class="alert alert-info">Property searches and owner reports are temporarily unavailable. Land valuation, land comparables and market research remain available to eligible accounts.</p></div>@endif
+	
+		
+                     
+
+	<section id="work_h" class="p_3">
+		<div class="container-xl">
+			<div class="row work_h1 text-center mb-4">
+				<div class="col-md-12">
+					<h2>How It Works</h2>
+					<hr class="line mx-auto">
+					<p class="mb-0"></p>
+				</div>
+			</div>
+			<div class="row work_h2">
+				<div class="col-md-12">
+					<div class="work_h2i p-4 rounded_10 shadow_box text-center">
+						<p class="mb-0">Launching your real estate marketing campaign is now simpler than ever. Propelyze enables you to quickly identify target areas, set pricing, access property owner details, and clean your data, all in just moments! We streamline research, comparison, and data management, giving you more time to focus on successful property flips.
+
+Our services cover both Vacant Land and Residential Properties, with property records supplied through connected data providers.
+</p>
+					</div>
+				</div>
+				
+	
+			</div>
+		</div>
+	</section>
+
+	<section id="work_h" class="pt-5 pb-5 bg_blue">
+   <div class="container-xl">
+	  <div class="row work_h1 text-center mb-4">
+		 <div class="col-md-12">
+		   <h2 class="text-white">Services</h2>
+		   <hr class="line mx-auto">
+		   <p class="mb-0 text-white">What We do</p>
+		 </div>
+	  </div>
+	  <div class="row work_h2 text-white">
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center" style="background: #6C60FE;">
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/research')}}"><i class="fa fa-globe"></i></a></span>
+			  <h5 class="mt-3 mb-3">Location Research</h5>
+			  <p class="mb-0 text-white">Explore comprehensive data for every county across the nation to identify potential markets or gain insights into regional economic trends.</p>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-download"></i></a></span>
+			  <h5 class="mt-3 mb-3">Owner Record Download</h5>
+			  <p class="mb-0 text-white">Easily obtain property details that match your search criteria directly through our integrated data sources. </p><br>
+			</div>
+		 </div>
+		
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-phone"></i></a></span>
+			  <h5 class="mt-3 mb-3">Skip Tracing</h5>
+			  <p class="mb-0 text-white">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/land-valuation')}}"><i class="fa fa-tag"></i></a></span>
+			  <h5 class="mt-3 mb-3">Property Pricing</h5>
+			  <p class="mb-0 text-white">Get personalized pricing for each property to boost your marketing impact.</p><br>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/list-upload')}}"><i class="fa fa-upload"></i></a></span>
+			  <h5 class="mt-3 mb-3"> External List Uploading</h5>
+			  <p class="mb-0 text-white">Import your existing owner records from other sources, and we will promptly apply pricing to them for you.</p>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-table"></i></a></span>
+			  <h5 class="mt-3 mb-3"> Data Scrubbing</h5>
+			  <p class="mb-0 text-white">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.</p><br>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-road"></i></a></span>
+			  <h5 class="mt-3 mb-3">Road Access</h5>
+			  <p class="mb-0 text-white">Check if properties have direct road access and pinpoint specific access points.</p><br>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-envelope"></i></a></span>
+			  <h5 class="mt-3 mb-3"> Topography</h5>
+			  <p class="mb-0 text-white">Assess the usable area of your property and filter out those that don't meet your criteria.</p><br>
+			</div>
+		 </div>
+		
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-globe"></i></a></span>
+			  <h5 class="mt-3 mb-3">Campaign Mapping</h5>
+			  <p class="mb-0 text-white">Enhance your exports with KML maps to visually organize owner records and nearby comparable properties</p>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-file"></i></a></span>
+			  <h5 class="mt-3 mb-3"> Comp Reporting</h5>
+			  <p class="mb-0 text-white">Create detailed reports that include owner information, property histories, pricing insights, and comparative analyses in one convenient file.</p>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/api-information')}}"><i class="fa fa-laptop"></i></a></span>
+			  <h5 class="mt-3 mb-3"> Comp API</h5>
+			  <p class="mb-0 text-white">Access available comparable property records through supported data services.</p><br>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-user-plus"></i></a></span>
+			  <h5 class="mt-3 mb-3"> Strategic Partnership</h5>
+			  <p class="mb-0 text-white">Connect with industry experts, including investors, educators, and professionals to elevate your business ventures.</p>
+			</div>
+		 </div>
+		 <div class="col-md-4">
+		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-check"></i></a></span>
+			  <h5 class="mt-3 mb-3">Consulting</h5>
+			  <p class="mb-0 text-white">Engage with our specialists to discuss land investment strategies, data analysis techniques, research methods, and more.</p>
+			</div>
+		 </div>
+	  </div>
+ </div>   
+ </section>
+	
+
+	@include('partials.public-pricing')
+
+	<section id="faq" class="p_3 bg-light">
+		<div class="container-xl">
+			<div class="faq_1 row">
+				<div class="col-md-4">
+					<div class="faq_1l">
+						<img src="{{ asset('img/23.jpg') }}" class="w-100 rounded_10" alt="abc">
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="faq_1r">
+						<h2>Frequently Asked Questions</h2>
+						<hr class="line">
+						<p></p>
+						<div class="accordion" id="accordionExample">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingOne">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										<i class="fa fa-check-circle me-2"></i> What Is Propelyze?
+									</button>
+								</h2>
+								<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+									<div class="accordion-body">
+										<p class="mb-0">Propelyze is a robust real estate marketing platform designed to streamline your direct mail and digital marketing campaigns. It offers tools for targeting specific areas, pricing mailers, accessing property records, and cleaning your lists for efficient use with your marketing or mailing services.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingTwo">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										<i class="fa fa-check-circle me-2"></i> What Benefits Does Propelyze Offer?
+									</button>
+								</h2>
+								<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">Propelyze enhances your marketing efforts by providing in-depth research, competitive pricing models, and advanced location analysis. Our platform simplifies the process of targeting and pricing, ultimately boosting the efficiency of your marketing campaigns.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingThree">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+										<i class="fa fa-check-circle me-2"></i> Can Propelyze Handle More Than Just Pricing?
+									</button>
+								</h2>
+								<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">Yes, Propelyze is a comprehensive tool that includes features for research, rapid location searches, property analysis, record access, and list management. This all-in-one approach ensures that your marketing campaigns are well-supported from start to finish.</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingFour">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+										<i class="fa fa-check-circle me-2"></i>Does Propelyze Require Me to Learn a New Pricing Method?
+									</button>
+								</h2>
+								<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">Not at all. Propelyze is designed to integrate with and enhance your existing pricing methods, automating the processes you are already familiar with for greater efficiency.</p>
+									</div>
+								</div>
+							</div>							
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="headingFive">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+										<i class="fa fa-check-circle me-2"></i> Is Propelyze a Fully Automated System?
+									</button>
+								</h2>
+								<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<p class="mb-0">While Propelyze offers significant automation, it cannot replace your decision-making. You will still need to make strategic choices regarding your mailing targets and the content of your offers.</p>
+									</div>
+								</div>
+							</div>
+
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="reg" class="pt-5 pb-5 bg_blue">
+		<div class="container-xl">
+			<div class="reg_1 row">
+				<div class="col-md-9">
+					<div class="reg_1l">
+						<h2 class="text-white">Become a Member</h2>
+						<hr class="line">
+						<p class="text-light mb-0"></p>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="reg_1r text-end mt-4">
+						<h6 class="mb-0"><a class="bg-warning button" href="{{ url('/register')}}">Register Now</a></h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+@include('partials.support-assistant')
 @endsection
