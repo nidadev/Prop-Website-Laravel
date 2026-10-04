@@ -8,6 +8,7 @@
 						<h6 class="text-light mt-3"><i class="fa fa-envelope col_blue me-1"></i> support@propelyze.com</h6>
 						<h4 class="mt-4 text-white">Connect With Us</h4>
 						<ul class="mb-0 mt-3 footer-social-links">
+<li class="d-inline-block"><a href="https://www.facebook.com/propelyze" aria-label="Propelyze on Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 							
 							<li class="d-inline-block"><a href="https://www.linkedin.com/company/propelyze/" aria-label="Propelyze on LinkedIn"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
 						</ul>
