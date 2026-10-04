@@ -8,3 +8,6 @@
 
 /* Center social glyphs without the legacy top padding. */
 #footer .footer-social-links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}#footer .footer-social-links li{margin:0}#footer .footer-social-links a{display:inline-flex;align-items:center;justify-content:center;padding:0;width:40px;height:40px;line-height:1;margin:0}#footer .footer-social-links i{font-size:18px;line-height:1}#footer .footer-social-links a:focus-visible{outline:3px solid #ed8a00;outline-offset:3px}
+
+/* Keep the expanded page menu within the original header. */
+#header .dropdown-item{white-space:normal;min-width:220px}#header .dropdown-item small{font-size:11px}#header .dropdown-item:focus-visible{outline:2px solid #6C60FE;outline-offset:-2px}@media(min-width:992px){#header .nav-link{padding-left:14px;padding-right:14px}#header .navbar-nav{margin-left:20px!important}}@media(max-width:991px){#header .navbar-collapse{max-height:70vh;overflow-y:auto}#header .drop_1 .dropdown-item{font-size:16px;padding:10px 20px}}
