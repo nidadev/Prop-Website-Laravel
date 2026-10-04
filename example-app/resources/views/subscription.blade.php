@@ -36,6 +36,7 @@ li a {
 
 </style>
 @section('content')
+@if(config('services.stripe.enabled', true) && str_starts_with(config('app.stripe_secret', ''), 'sk_test_'))<p class="container mt-4 alert alert-warning" role="status">Payments are in test mode. Use Stripe test payment details only; real payments are not available yet.</p>@endif
 <section id="center" class="center_reg">
     <div class="center_om bg_backo">
         <div class="container-xl">

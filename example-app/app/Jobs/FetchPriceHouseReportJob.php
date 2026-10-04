@@ -102,7 +102,7 @@ class FetchPriceHouseReportJob implements ShouldQueue
 
     private function authenticateClient(Client $client)
     {
-        $response = $client->post(rtrim(config('property.datatree_url'), '/').'/Login/AuthenticateClient', [
+        $response = $client->post(\App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -320,7 +320,7 @@ class FetchPriceHouseReportJob implements ShouldQueue
     }
     private function fetchReport($client, $authenticate, $filterValues, $productName)
     {
-        return $client->request('POST', rtrim(config('property.datatree_url'), '/').'/Report/GetReport', [
+        return $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',

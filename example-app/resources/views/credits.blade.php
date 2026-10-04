@@ -1,5 +1,6 @@
 @extends('layouts.app2')
 @section('content')
+@if(config('services.stripe.enabled', true) && str_starts_with(config('app.stripe_secret', ''), 'sk_test_'))<p class="container mt-4 alert alert-warning" role="status">Payments are in test mode. Use Stripe test payment details only; real payments are not available yet.</p>@endif
 @if(!config('services.stripe.enabled', true))<p class="container mt-4 alert alert-warning" role="status">Payment checkout is temporarily unavailable while our payment connection is confirmed.</p>@endif
 <main class="container py-5 content-prose"><h1>Account credits</h1>
 @if(session('success'))<p role="status">{{ session('success') }}</p>@endif

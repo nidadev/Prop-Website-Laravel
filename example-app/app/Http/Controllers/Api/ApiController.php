@@ -213,24 +213,21 @@ class ApiController extends BaseController
         try {
             $client = new GuzzleHttp\Client(['timeout' => 60, 'connect_timeout' => 10]);
             $base = rtrim(config('property.datatree_url'), '/');
-            $login = $client->post($base.'/Login/AuthenticateClient', ['json' => [
+            $login = $client->post(\App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), ['json' => [
                 'ClientId' => config('app.client_id'), 'ClientSecretKey' => config('app.client_secret'),
             ]]);
             $token = json_decode($login->getBody(), true, 512, JSON_THROW_ON_ERROR);
             if (!is_string($token) || $token === '') {
                 throw new \RuntimeException('Unexpected authentication response');
             }
-            $response = $client->post($base.'/Report/GetReport', [
+            $response = $client->post(\App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => ['Authorization' => 'Bearer '.$token],
                 'json' => [
-                    'ProductNames' => ['PropertyDetailReport'], 'SearchType' => 'Filter',
-                    'SearchRequest' => [
-                        'ReferenceId' => (string) Str::uuid(), 'ProductName' => 'SearchLite', 'MaxReturn' => 1,
-                        'Filters' => [
-                            ['FilterName' => 'ApnRange', 'FilterOperator' => 'is', 'FilterValues' => [$input['apn']]],
-                            ['FilterName' => 'StateFips', 'FilterOperator' => 'is', 'FilterValues' => [$states[$state]]],
-                            ['FilterName' => 'CountyFips', 'FilterOperator' => 'is', 'FilterValues' => [(int) substr($input['cp'], 2)]],
-                        ],
+                    'ProductNames' => ['PropertyDetailReport'], 'SearchType' => 'APN',
+                    'ApnDetail' => [
+                        'APN' => $input['apn'],
+                        'StateFips' => str_pad((string) $states[$state], 2, '0', STR_PAD_LEFT),
+                        'CountyFips' => $input['cp'],
                     ],
                 ],
             ]);
@@ -239,7 +236,7 @@ class ApiController extends BaseController
             if (!$poperty_id) {
                 return back()->withInput()->with('error', 'No matching parcel was found. Check the state, county and APN.');
             }
-            $response = $client->post($base.'/Report/GetReport', [
+            $response = $client->post(\App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => ['Authorization' => 'Bearer '.$token],
                 'json' => ['ProductNames' => ['TotalViewReport'], 'SearchType' => 'PROPERTY', 'PropertyId' => $poperty_id],
             ]);
@@ -393,7 +390,7 @@ class ApiController extends BaseController
         //dd('123');
 
         $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+        $login = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -408,7 +405,7 @@ class ApiController extends BaseController
 
         ///////////////////////          
 
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -439,7 +436,7 @@ class ApiController extends BaseController
         ]);
         $de[] = json_decode($res->getBody(), true);
 
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -469,7 +466,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -499,7 +496,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -529,7 +526,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -559,7 +556,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -589,7 +586,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -619,7 +616,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -649,7 +646,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -679,7 +676,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -709,7 +706,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -739,7 +736,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -769,7 +766,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -799,7 +796,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -830,7 +827,7 @@ class ApiController extends BaseController
         ]);
         $de[] = json_decode($res->getBody(), true);
 
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -860,7 +857,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -890,7 +887,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -920,7 +917,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1004,7 +1001,7 @@ class ApiController extends BaseController
         //dd('123');
 
         $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+        $login = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1018,7 +1015,7 @@ class ApiController extends BaseController
         $authenticate = json_decode($login->getBody(), true);
 
         ///////////////////////
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1048,7 +1045,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1078,7 +1075,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1108,7 +1105,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);*/
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1138,7 +1135,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1168,7 +1165,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1198,7 +1195,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        /* $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /* $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1228,7 +1225,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);*/
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1258,7 +1255,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1288,7 +1285,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1318,7 +1315,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1348,7 +1345,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1378,7 +1375,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1408,7 +1405,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1438,7 +1435,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);*/
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1468,7 +1465,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1498,7 +1495,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1528,7 +1525,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1558,7 +1555,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1588,7 +1585,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1618,7 +1615,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1648,7 +1645,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1678,7 +1675,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1708,7 +1705,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1738,7 +1735,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1768,7 +1765,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1798,7 +1795,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1828,7 +1825,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1858,7 +1855,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1888,7 +1885,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1918,7 +1915,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1948,7 +1945,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -1978,7 +1975,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2008,7 +2005,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2038,7 +2035,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2068,7 +2065,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2098,7 +2095,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2128,7 +2125,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2158,7 +2155,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2188,7 +2185,7 @@ class ApiController extends BaseController
                 }',
         ]);
         $de[] = json_decode($res->getBody(), true);*/
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2374,7 +2371,7 @@ class ApiController extends BaseController
         }
 
         $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+        $login = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2433,7 +2430,7 @@ class ApiController extends BaseController
                     if ($zpp > 0 && $zpp != null) {
                         //$zp[] = $data[$i]['zipcode'];
                         //$apn[] = $data[$i]['apn'];
-                        $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+                        $getProperty = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                             'headers' => [
                                 'Accept' => 'application/json',
                                 'Content-Type' => 'application/json',
@@ -2598,7 +2595,7 @@ class ApiController extends BaseController
         set_time_limit(520); // Increase the max execution time
 
         $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+        $login = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -2612,7 +2609,7 @@ class ApiController extends BaseController
         $authenticate = json_decode($login->getBody(), true);
         //dd($authenticate);
         try {
-            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -2626,7 +2623,7 @@ class ApiController extends BaseController
                 ]),
             ]);
             //get sales comparable
-            $sales = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            $sales = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -3237,7 +3234,7 @@ class ApiController extends BaseController
         //dd($request->id);
         try {
             $client = new GuzzleHttp\Client();
-            $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+            $login = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -3250,7 +3247,7 @@ class ApiController extends BaseController
             ]);
             $authenticate = json_decode($login->getBody(), true);
             //dd($authenticate);
-            $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -3264,7 +3261,7 @@ class ApiController extends BaseController
                 ]),
             ]);
             //get sales comparable
-            $sales = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            $sales = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',

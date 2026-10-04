@@ -28,7 +28,7 @@ class PDFController extends Controller
             ]
         ]);*/
 
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com:443/api/Login/AuthenticateClient', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -40,7 +40,7 @@ class PDFController extends Controller
                 'ClientSecretKey' => 'e.s8Q~1R60mIoazbIJFHeeuLKbRs_zu_JeuHJcui'
             ])
         ]);*/
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -53,7 +53,7 @@ class PDFController extends Controller
                 "PropertyId" => 8948416
             ]),
         ]);*/
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -72,7 +72,7 @@ class PDFController extends Controller
                 ])
             ]),
         ]);*/
-        /*$res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        /*$res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -96,7 +96,7 @@ class PDFController extends Controller
         ]);*/
         $d1 = 5;
         $d2 = 15;
-        $res = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        $res = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -147,7 +147,7 @@ class PDFController extends Controller
         /*$response = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUTROVFkzTmpZc0ltNWlaaUk2TVRjeU5EZzFOamMyTml3aVpYaHdJam94TnpJME9EWXdOalkyTENKaGFXOGlPaUpCVTFGQk1pODRXRUZCUVVFek5WcFJMekl4TmpKSGMwWkRiSGRSUlhKaU5tNDJUR2xuV2tWaGIyaEdMMng1U1ROQ09XZGlNV0ZyUFNJc0ltRjZjQ0k2SW1NMllUZzRNbVV4TFRneVl6Y3RORFUwWkMwNU1EVTVMVGRpTVdFNFlqWmpZVEV4TVNJc0ltRjZjR0ZqY2lJNklqRWlMQ0p2YVdRaU9pSmpPR1ZpT0dOaU9DMHlOems0TFRRek9UY3RPREF3WWkwNFpUUTNOalJsTXpKaU1HWWlMQ0p5YUNJNklqQXVRVkV3UVRGc1gwZFVTR0ZqWTFWcGJGRjFjMU53WVdWQlJFZExPRVpVVVV3dFpIUkxhWFJDZGtoc1dsYzRka0ZPUVVGQkxpSXNJbkp2YkdWeklqcGJJa0ZRU1VGalkyVnpjeUpkTENKemRXSWlPaUpqT0dWaU9HTmlPQzB5TnprNExUUXpPVGN0T0RBd1lpMDRaVFEzTmpSbE16SmlNR1lpTENKMGFXUWlPaUkwWTJNMk5XWmtOaTA1WXpjMkxUUTROekV0WVRVME1pMWxZakV5WVRWaE56Z3dNR01pTENKMWRHa2lPaUpGWVVZMmRTMUNWVzVWVDJKVWRuWjNkQzFqUzBGUklpd2lkbVZ5SWpvaU1pNHdJaXdpWVhCd1JHRjBZU0k2SW50Y0luVnBaRndpT2pFMU56TTBPU3hjSW1GcFpGd2lPakl3TVRBMU1UUjlJbjAuUi1WMWFleTlmVDNTNGZ4d0U3Um5nRUh4SkFleE01TjVLWDFjVVVIckgwUzU1UnlXVmFWQ0t6Y2FNclE2eU1mdGVyRWhpLUwtYkQ0VGFFelJvNTdlME44ZVoyOEY0aFJxUzlaMEVTbmNhYmlVcmhNeVBrc3VnOWhfYV9Gby01WVR1enAzc1JJX3lsdkl5Sm5yNF9RNllKTTB1WlhaQi15VGlkeWthbGVfLXVKZDVjejZ2eUxsMUZURGU0dF81dzFoYnl5WS1mNlNSNEQ5bURjejdKOHQ4ZUsyaGFUeHJjNzBnWGFDSnBMckhkbTF1d3ZxbFM1UU00aGxNWGhGS0pUMWExM2t0WDNLaVRhS2tudDl3MVRuRTMxU0NFNjhyRHE1RkJDRk40enFzTzZWOG9Bd255eS1Wb29BX1Bqc3NWbkZxV25KZkp6UDlRXzlkZDc2WWtmeEdRIiwiQXZhaWxhYmxlUHJvZHVjdHMiOiJbXCIxMDA4XCIsXCIxMDUzXCIsXCIxMDA1XCIsXCIxMDExXCIsXCIyMDg5XCIsXCIxMDI2XCIsXCIxMDI3XCIsXCIxMDI4XCIsXCI1MDAwXCIsXCI1MDAxXCIsXCI1MDAzXCIsXCIyMDAwXCIsXCIyMDAxXCIsXCIyMDAyXCIsXCIyMDAzXCIsXCIyMDA0XCIsXCIyMDA1XCJdIiwibmJmIjoxNzI0ODU3MDY2LCJleHAiOjE3MjQ4NjQyNjYsImlhdCI6MTcyNDg1NzA2NiwiaXNzIjoiaHR0cHM6Ly9kdGFwaXVhdC5kYXRhdHJlZS5jb20iLCJhdWQiOiJXZWJBcGlDb25zdW1lcnMifQ.X3tEkG3VQ0XLdYfawp9seCZUheUkzYnxtj0DG0hRAmc'
-        ])->post('https://dtapiuat.datatree.com/api/Report/GetReport?Ver=1.0', [
+        ])->post(\App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'name' => 'Steve',
             'role' => 'Network Administrator',
         ]);*/
@@ -155,7 +155,7 @@ class PDFController extends Controller
         //dd($id);
         /*$client = new Client();
         //dd($client);
-        $url = "https://dtapiuat.datatree.com/api/Report/GetReport";
+        $url = \App\Services\DataTreeEndpoint::url('Report/GetReport');
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiIxNTczNDkiLCJBY2NvdW50SUQiOiIyMDEwNTE0IiwiVXNlck5hbWUiOiJEVEFQSV9wcm9wZWx5emVfVUFUIiwiTmFtZSI6IkZhcmhhbiBCYWtodCIsIlVzZXJFbWFpbCI6InByb3BlbHl6ZUBnbWFpbC5jb20iLCJJU1JlZmVyZW5jZVJlcXVpcmVkIjoiMCIsIkFjY291bnRUeXBlIjoiMCIsIk9BdXRoVG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklrdFJNblJCWTNKRk4yeENZVlpXUjBKdFl6VkdiMkpuWkVwdk5DSjkuZXlKaGRXUWlPaUl6TkRFMVltTTJNaTFtT1RCaUxUUmhaR0l0T0dGa01DMDJaakZsTlRZMU5tWXlaakFpTENKcGMzTWlPaUpvZEhSd2N6b3ZMMnh2WjJsdUxtMXBZM0p2YzI5bWRHOXViR2x1WlM1amIyMHZOR05qTmpWbVpEWXRPV00zTmkwME9EY3hMV0UxTkRJdFpXSXhNbUUxWVRjNE1EQmpMM1l5TGpBaUxDSnBZWFFpT2pFM01qUTROVFV5TURRc0ltNWlaaUk2TVRjeU5EZzFOVEl3TkN3aVpYaHdJam94TnpJME9EVTVNVEEwTENKaGFXOGlPaUpGTW1SbldVUkVjMDlRUkUxd2RtbDFlRXB3WlRWWVpDOTJia1ZWY2xGc05Va3pRbTlvTjNRM2NHUjRURk5SZEhJMWFrRkJJaXdpWVhwd0lqb2lZelpoT0RneVpURXRPREpqTnkwME5UUmtMVGt3TlRrdE4ySXhZVGhpTm1OaE1URXhJaXdpWVhwd1lXTnlJam9pTVNJc0ltOXBaQ0k2SW1NNFpXSTRZMkk0TFRJM09UZ3RORE01TnkwNE1EQmlMVGhsTkRjMk5HVXpNbUl3WmlJc0luSm9Jam9pTUM1QlVUQkJNV3hmUjFSSVlXTmpWV2xzVVhWelUzQmhaVUZFUjBzNFJsUlJUQzFrZEV0cGRFSjJTR3hhVnpoMlFVNUJRVUV1SWl3aWNtOXNaWE1pT2xzaVFWQkpRV05qWlhOeklsMHNJbk4xWWlJNkltTTRaV0k0WTJJNExUSTNPVGd0TkRNNU55MDRNREJpTFRobE5EYzJOR1V6TW1Jd1ppSXNJblJwWkNJNklqUmpZelkxWm1RMkxUbGpOell0TkRnM01TMWhOVFF5TFdWaU1USmhOV0UzT0RBd1l5SXNJblYwYVNJNklrcEZlVlJqYkRsc1pXdGxVVFZ5UVVsMWMxaEhRVUVpTENKMlpYSWlPaUl5TGpBaUxDSmhjSEJFWVhSaElqb2llMXdpZFdsa1hDSTZNVFUzTXpRNUxGd2lZV2xrWENJNk1qQXhNRFV4TkgwaWZRLkdyU1g2VHZldlRYeFE0eFpuSTlpcEpxRUdORGI5TkNXamppN2FUXzEtLVRNeEN0dU9RdU1wNlZlalhPWk5tNjA3d3czS2Z3dXJKck1KQ3Q5ZWdEM1h2d1RMbFo2THlZMm5PNldjaW80Q1JzMTdQSWV1Wm95Rm1jZUpkOUhBdzg1RjB2bzJxZ2xSYkp1SndnaTZuWlF6U0RKR2ZodS0ycExRdGozWWpUUWFIdG83c0J4aG00MHowblNaRXRySjJBbE1OWTRzemVhTjBFbEhiaExiYko3ZV9ZZjJ5X2ktNjlOVEs5a1YxRnRUTUE0TEhrQ0xES2dGVlZVNTVfY1NTMzlwaXlORjM0VHYwTS05WmRXeExhVGRvYVN5WF92V3RkLUF6WlFaWDc0S3QtcThyXzdOZ1ppZUNQNXZPVXlOd0czVE5GcTUtT2M3N2c0Q3NieEZXc3BXQSIsIkF2YWlsYWJsZVByb2R1Y3RzIjoiW1wiMTAwOFwiLFwiMTA1M1wiLFwiMTAwNVwiLFwiMTAxMVwiLFwiMjA4OVwiLFwiMTAyNlwiLFwiMTAyN1wiLFwiMTAyOFwiLFwiNTAwMFwiLFwiNTAwMVwiLFwiNTAwM1wiLFwiMjAwMFwiLFwiMjAwMVwiLFwiMjAwMlwiLFwiMjAwM1wiLFwiMjAwNFwiLFwiMjAwNVwiXSIsIm5iZiI6MTcyNDg1NTUwNCwiZXhwIjoxNzI0ODYyNzA0LCJpYXQiOjE3MjQ4NTU1MDQsImlzcyI6Imh0dHBzOi8vZHRhcGl1YXQuZGF0YXRyZWUuY29tIiwiYXVkIjoiV2ViQXBpQ29uc3VtZXJzIn0.L6yQsSaMfI1P8XYk9eydJ8aieWACH9LhflETw5-2vPE';
 
         $request = $client->post($url, [
