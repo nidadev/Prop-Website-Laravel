@@ -11,3 +11,15 @@
 
 /* Keep the expanded page menu within the original header. */
 #header .dropdown-item{white-space:normal;min-width:220px}#header .dropdown-item small{font-size:11px}#header .dropdown-item:focus-visible{outline:2px solid #6C60FE;outline-offset:-2px}@media(min-width:992px){#header .nav-link{padding-left:14px;padding-right:14px}#header .navbar-nav{margin-left:20px!important}}@media(max-width:991px){#header .navbar-collapse{max-height:70vh;overflow-y:auto}#header .drop_1 .dropdown-item{font-size:16px;padding:10px 20px}}
+
+/* Consistent typography across the existing site theme. */
+:root{--site-font:"Poppins",Arial,sans-serif}
+body{font-family:var(--site-font);font-size:16px;font-weight:400;line-height:1.65;-webkit-text-size-adjust:100%}
+p,a,label,button,input,select,textarea,table,th,td,summary{font-family:var(--site-font)}
+p{font-size:1rem;line-height:1.75;font-weight:400}h1,h2,h3,h4,h5,h6{font-family:var(--site-font);font-weight:600;line-height:1.35;overflow-wrap:break-word}h1{font-size:clamp(1.9rem,3.5vw,2.6rem)}h2{font-size:clamp(1.6rem,3vw,2rem)}h3{font-size:1.4rem}h4{font-size:1.2rem}h5{font-size:1.05rem}h6{font-size:.95rem}
+#header .nav-link{font-weight:500;line-height:1.5}#header .dropdown-item{font-size:14px;line-height:1.5;color:#34374C}#header .dropdown-item:hover,#header .dropdown-item:focus{color:#5746db}
+.button,.button_1,.button_2,.btn{font-family:var(--site-font);font-weight:500;line-height:1.5}.form-control,.form-select{font-family:var(--site-font);font-size:15px;line-height:1.5}label{font-size:14px;line-height:1.5;font-weight:500}.text-muted{color:#5f6368!important}
+.table,table.dataTable{font-size:14px;line-height:1.5}table.dataTable>tbody>tr>th,table.dataTable>tbody>tr>td,tbody,td{font-weight:400}thead th{font-weight:600}.work_h2i{font-size:14px}.accordion-button{font-family:var(--site-font);font-size:16px!important;font-weight:500;line-height:1.5}.accordion-body{font-size:16px;line-height:1.7}
+.guide-copy .login_1>.col-md-12{max-width:960px;margin-inline:auto}.guide-copy h3,.guide-copy h4{margin-top:28px;margin-bottom:12px}.guide-copy p{margin-bottom:18px}.guide-copy li{line-height:1.75}.content-prose p{line-height:1.75}
+#footer h4{font-size:20px}#footer h6,#footer a,#footer p{font-size:14px;line-height:1.6}#footer_b p{font-size:14px}.alert{font-size:14px;line-height:1.6}
+@media(max-width:767px){#header .nav-link{font-size:18px!important}#header .drop_1 .dropdown-item{font-size:15px}header .font_45{font-size:32px!important;line-height:1.3}.center_om h2,.center_om h4{font-size:26px}.center_om h6{font-size:14px}.guide-copy h3,.guide-copy h4{line-height:1.4}}

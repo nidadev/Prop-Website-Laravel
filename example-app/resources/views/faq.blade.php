@@ -24,7 +24,7 @@
 					<div class="faq_1r">
 						<h2>Frequently Asked Questions</h2>
 						<hr class="line">
-						<p></p>
+						
 						<div class="accordion" id="accordionExample">
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingOne">

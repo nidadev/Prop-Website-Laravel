@@ -117,7 +117,7 @@ Our services cover both Vacant Land and Residential Properties, with property re
 		 <div class="col-md-12">
 		   <h2 class="text-white">Services</h2>
 		   <hr class="line mx-auto">
-		   <p class="mb-0 text-white">What We do</p>
+		   <p class="mb-0 text-white">What We Do</p>
 		 </div>
 	  </div>
 	  <div class="row work_h2 text-white">
@@ -226,14 +226,14 @@ Our services cover both Vacant Land and Residential Properties, with property re
 			<div class="faq_1 row">
 				<div class="col-md-4">
 					<div class="faq_1l">
-						<img src="{{ asset('img/23.jpg') }}" class="w-100 rounded_10" alt="abc">
+						<img src="{{ asset('img/23.jpg') }}" class="w-100 rounded_10" alt="">
 					</div>
 				</div>
 				<div class="col-md-8">
 					<div class="faq_1r">
 						<h2>Frequently Asked Questions</h2>
 						<hr class="line">
-						<p></p>
+						
 						<div class="accordion" id="accordionExample">
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="headingOne">
