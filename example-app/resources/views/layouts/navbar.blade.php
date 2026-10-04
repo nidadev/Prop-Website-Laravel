@@ -15,7 +15,7 @@ $navigationGroups = [
 @foreach($links as $path => $label)<li><a class="dropdown-item" href="{{ url($path) }}">{{ $label }}@if(in_array($path, ['/priceland','/pricehouse','/compreport']) && !config('property.datatree_enabled', true)) <small class="d-block text-muted">Temporarily unavailable</small>@endif</a></li>@endforeach
 </ul></li>
 @endforeach
-<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="accountNavigation" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ auth()->check() ? 'My Account' : 'Account' }}</a><ul class="dropdown-menu drop_1 dropdown-menu-lg-end" aria-labelledby="accountNavigation">
+<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="accountNavigation" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ auth()->check() ? 'My Account' : 'Account' }}</a><ul class="dropdown-menu drop_1" aria-labelledby="accountNavigation">
 @auth
 @foreach(['/dashboard'=>'Dashboard', '/profile'=>'My Profile', '/subscription'=>'Billing & Subscription', '/credits'=>'Account Credits', '/saved-searches'=>'Saved Searches', '/exports'=>'Export History'] as $path => $label)<li><a class="dropdown-item" href="{{ url($path) }}">{{ $label }}</a></li>@endforeach
 @if(auth()->user()->usertype === 'admin')<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="{{ url('/adminpage') }}">Administration</a></li><li><a class="dropdown-item" href="{{ url('/getproperty') }}">Property Data Tool</a></li><li><a class="dropdown-item" href="{{ url('/getproperty2') }}">Property Data Tool 2</a></li>@endif
