@@ -1,0 +1,4 @@
+@extends('layouts.app2')
+@section('content')
+<main><section class="page-intro"><div class="container-xl"><p class="eyebrow">Propelyze resources</p><h1>Bulk data packages</h1><p>Plan a larger property data export or report order with our support team.</p></div></section><section class="section-space"><div class="container-xl content-prose"><h2>Property records</h2><p>For large record orders, contact support with the number of records, target locations, and required data fields. We will confirm coverage and provide the final quote before payment.</p><h2>Comp reports</h2><p>Tell us the number of reports and the type of properties you are researching. Support can confirm the package available for your workflow.</p><h2>Request a quote</h2><p>Email support@propelyze.com. No bulk order is placed or charged through this information page.</p></div></section></main>
+@endsection

@@ -1,182 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html"></a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                        <a class="nav-link logoutUser" aria-current="page" href="{{ route('dashboard') }}">Home</a>
-
-                            <a class="nav-link" href="/example-app/adminpage">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                User List
-                            </a>
-                            <a class="nav-link" href="/example-app/adminpage?py=1">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Payment List
-                            </a>
-                           
-                    </div>
-                    
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                   
-                       
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                            </div>
-                            <div class="card-body">
-                              <?php if(isset($paym))
-                              {
-                                ?>
-                                <table id="datatablesSimple">
-                                <thead>
-                                <tr>
-                                        <th>Amount</th>
-                                        <th>Currency</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                        <th>Amount</th>
-                                        <th>Currency</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                    </tr>  
-                                </tfoot>
-                                <tbody>
-                                  <?php //dd($data);
-                                 // dd($paym); ?>
-                                  @foreach($paym as $user)
-                                  
-                                  
-                                    <tr>
-                                        <td>{{ $user['amount']}}</td>
-                                        <td>{{ $user['currency']}}</td>
-                                        <td>{{ $user['payer_name']}}</td>
-                                        <td>{{ $user['payer_email']}}</td>
-                                        <td>{{ $user['payment_status']}}</td>
-                                        <td>{{ $user['created_at']}}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <?php 
-                              }
-                            
-                              else
-                              {
-                              ?>
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Verified Email</th>
-                                            <th>Subscription purchase</th>
-                                            <th>Start date</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                      <?php //dd($data); ?>
-                                      @foreach($data as $user)
-                                      
-                                        <tr>
-                                            <td>{{ $user['name']}}</td>
-                                            <td>{{ $user['email']}}</td>
-                                            <td><?php if($user['is_verified'] == '1') { echo 'Yes';  } else { echo 'No'; } ?> </td>
-                                            <td><?php if($user['is_subscribed'] == '1') { echo 'Yes';  } else { echo 'No'; } ?> </td>
-                                            <td>{{ $user['created_at']}}</td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
-
-
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('admin/js/scripts.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('admin/assets/demo/chart-area-demo.js') }}"></script>
-        <script src="{{ asset('admin/assets/demo/chart-bar-demo.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('admin/js/datatables-simple-demo.js') }}"></script>
-</body>
-
-</html>
+@extends('layouts.app2')
+@section('content')
+<main class="container py-5">
+<h1>Administration</h1>
+@if(session('success'))<p role="status">{{ session('success') }}</p>@endif
+@foreach($errors->all() as $error)<p role="alert">{{ $error }}</p>@endforeach
+<div class="row">@foreach($stats as $label => $value)<div class="col-md-3"><h2 class="h5">{{ $label }}</h2><p>{{ $value }}</p></div>@endforeach</div>
+<h2 class="mt-4">Users</h2>
+@foreach($users as $user)
+<form method="post" action="{{ url('/admin/users/'.$user->id) }}" class="row g-2 mb-3">@csrf
+<div class="col-md-3"><label for="name-{{ $user->id }}">Name</label><input class="form-control" id="name-{{ $user->id }}" name="name" value="{{ $user->name }}" required></div>
+<div class="col-md-4"><label for="email-{{ $user->id }}">Email</label><input class="form-control" id="email-{{ $user->id }}" name="email" type="email" value="{{ $user->email }}" required></div>
+<div class="col-md-3"><label for="ban-{{ $user->id }}">Account status</label><select class="form-select" id="ban-{{ $user->id }}" name="is_banned"><option value="0" @selected(!$user->is_banned)>Allowed</option><option value="1" @selected($user->is_banned)>Suspended</option></select></div>
+<div class="col-md-2 align-self-end"><button class="btn btn-primary">Save user</button></div></form>
+@endforeach
+{{ $users->links() }}
+<h2 class="mt-4">Create user</h2>
+<form method="post" action="{{ url('/admin/users') }}">@csrf
+<label for="new-name">Name</label><input id="new-name" name="name" class="form-control" required>
+<label for="new-email">Email</label><input id="new-email" name="email" type="email" class="form-control" required>
+<label for="new-password">Initial password (12 characters minimum)</label><input id="new-password" name="password" type="password" autocomplete="new-password" minlength="12" class="form-control" required>
+<button class="btn btn-primary mt-2">Create user</button></form>
+<h2 class="mt-4">Pricing</h2>
+<form method="post" action="{{ url('/admin/pricing') }}">@csrf
+@foreach($plans as $key => $plan)<label for="plan-{{ $key }}">{{ $plan['name'] }} (USD per {{ $plan['interval'] }})</label><input class="form-control mb-2" id="plan-{{ $key }}" name="plan_{{ $key }}" type="number" step="0.01" min="1" value="{{ number_format($plan['amount']/100, 2, '.', '') }}" required>@endforeach
+@foreach(config('pricing.services') as $key => $default)<label for="price-{{ $key }}">{{ ucwords(str_replace('_', ' ', $key)) }} (USD per record)</label><input class="form-control mb-2" id="price-{{ $key }}" name="service_{{ $key }}" type="number" step="0.01" min="0.01" value="{{ number_format(($settings['price_'.$key] ?? $default)/100, 2, '.', '') }}" required>@endforeach
+<button class="btn btn-primary">Save prices</button></form>
+<h2 class="mt-4">Site details</h2>
+<form method="post" action="{{ url('/admin/settings') }}">@csrf
+@foreach(['contact_email' => 'Contact email', 'contact_phone' => 'Contact phone', 'contact_address' => 'Address', 'seo_title' => 'Page title', 'seo_description' => 'Search description', 'copyright' => 'Copyright text', 'map_embed_url' => 'Google Maps embed URL'] as $key => $label)
+<label for="setting-{{ $key }}">{{ $label }}</label><input id="setting-{{ $key }}" name="{{ $key }}" class="form-control mb-2" value="{{ old($key, $settings[$key] ?? '') }}">
+@endforeach
+<label for="hero-image">Homepage image (existing img file)</label><input id="hero-image" name="hero_image" class="form-control mb-2" value="{{ old('hero_image', $settings['hero_image'] ?? 'img/1.jpg') }}">
+<label for="youtube-video">How it works YouTube embed URL</label><input id="youtube-video" name="youtube_embed_url" class="form-control mb-2" value="{{ old('youtube_embed_url', $settings['youtube_embed_url'] ?? '') }}">
+<label for="research-embed">Market research Tableau Public embed URL</label><input id="research-embed" name="research_embed_url" class="form-control mb-2" value="{{ old('research_embed_url', $settings['research_embed_url'] ?? '') }}">
+<button class="btn btn-primary">Save site details</button></form>
+</main>
+@endsection

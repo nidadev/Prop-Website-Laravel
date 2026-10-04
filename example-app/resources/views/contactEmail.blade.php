@@ -12,7 +12,7 @@
 
         <p>{{ $data['phone']}}</p>
 
-        <p>{{ $data['comment']}}</p>
+        <p>Subject: {{ $data['subject'] ?? '' }}</p><p>{{ $data['comment']}}</p>
 
        
         <p>User Contact Details.

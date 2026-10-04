@@ -1,69 +1,10 @@
 @extends('layouts.app2')
-
 @section('content')
-<section id="center" class="center_reg">
-   <div class="center_om bg_backo">
-     <div class="container-xl">
-  <div class="row center_o1 m-auto text-center">
-     <div class="col-md-12">
-	         <h2 class="text-white">Reset Password</h2>
-		  <h6 class="text-white mb-0 mt-3"><a class="text-white" href="#">Home</a> <span class="mx-2 text-warning">/</span> Reset Password </h6>
-	 </div>
-  </div>
- </div>
-   </div>   
-</section>
-<section id="login" class="p_3">
- <div class="container-xl">
-  <div class="row login_1">
-    <div class="col-md-12">
-      <div class="login_1m p-4 w-50 mx-auto bg-light1">
-	      <h2 class="text-center mb-3">Reset </h2>
-        <!--form method="post" action="{{ url('/login') }}" id="login_id"-->
-        
-        @if(Session::has('error'))
-        <p class="incorrect">{{ Session::get('error') }}</p>
+<main class="container py-5"><div class="account-card mx-auto"><p class="eyebrow">Your Propelyze account</p><h1>Choose a new password</h1>@if(session('error'))<p role="alert" class="alert alert-warning">{{ session('error') }}</p>@endif
+@if(session('success'))<p role="status" class="alert alert-success">{{ session('success') }}</p>@endif
+@foreach($errors->all() as $error)<p role="alert" class="text-danger">{{ $error }}</p>@endforeach
 
-        @endif
-        @if(Session::has('success'))
-        <p class="result">{{ Session::get('success') }}</p>
-
-        @endif
-
-          <form method="post" action="{{ route('resetPassword') }}">
-          @csrf
-          <input type="hidden" name="id" value="{{ $user[0]['id'] }}">
-          <h6 class="mb-3 ">Enter New Password</h6>
-          <input type="password" class="form-control" id="" name="password" placeholder="Enter Password:" maxlength="40">
-            <span class="error email_err">@error('password') {{$message}} @enderror</span><br>
-            <h6 class="mb-3 ">Enter Confirm Password</h6>
-            <input type="password" class="form-control" id="" name="password_confirmation" placeholder="Enter Confirm Password:" maxlength="40">
-
-                <div class="login_1mi row mt-3">
-		    
-			
-		  </div>
-		  <h6 class="mt-3 center_sm">  <p class="result"></p>  
-          <button type="submit" style="border:none;" class="button_2 b-block text-center" >Submit</button></h6>
-
-        </div>
-            </form>
-   </div>
-  </div>
- </div>
-</section>
+<form method="post" action="{{ route('resetPassword') }}">@csrf<input type="hidden" name="email" value="{{ $email }}"><input type="hidden" name="token" value="{{ $token }}">
+<label for="new-password">New password (at least 8 characters)</label><input class="form-control mb-3" id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+<label for="confirm-password">Confirm new password</label><input class="form-control mb-4" id="confirm-password" name="password_confirmation" type="password" autocomplete="new-password" minlength="8" maxlength="128" required><button class="btn btn-primary w-100">Reset password</button></form></div></main>
 @endsection
-
-<style>
-    span,
-    .incorrect {
-        color: red;
-    }
-
-    p.result {
-        color: green;
-    }
-</style>
-
-
-

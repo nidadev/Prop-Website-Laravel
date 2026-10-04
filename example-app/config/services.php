@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'recaptcha' => ['enabled'=>env('RECAPTCHA_ENABLED',false), 'site_key'=>env('RECAPTCHA_SITE_KEY'), 'secret'=>env('RECAPTCHA_SECRET_KEY')],
+    'google_maps' => ['browser_key' => env('GOOGLE_MAPS_BROWSER_KEY')],
+    'support_ai' => ['enabled' => env('SUPPORT_AI_ENABLED', false), 'key' => env('OPENAI_API_KEY'),
+        'model' => env('SUPPORT_AI_MODEL', 'gpt-4.1-mini'), 'daily_limit' => env('SUPPORT_AI_DAILY_LIMIT', 100)],
+    'stripe' => ['enabled' => env('PAYMENTS_ENABLED', true), 'webhook_secret' => env('STRIPE_WEBHOOK_SECRET', env('STRIPE_WEBHOOK'))],
 
     /*
     |--------------------------------------------------------------------------

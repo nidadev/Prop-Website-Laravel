@@ -35,74 +35,18 @@ class ApiController extends BaseController
     //register api post(name,email,phone,password)
     public function register(Request $request)
     {
-
-        // Validation
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:3',
-            'email' => 'required|regex:/^.+@.+$/i|email|unique:users',
-            //'phone' => 'required|string|max:15|regex:/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/',
-            'password' => 'required|confirmed|min:8',
-            'password_confirmation' => 'required',
-            'agree' => 'required',
+        $data = $request->validate([
+            'name' => 'required|string|min:3|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:8|max:128',
+            'agree' => 'accepted',
         ]);
-
-        if ($validator->fails()) {
-            //return redirect()->back()->with(['error' => $validator,
-            //'user' => $request]);
-
-            //return redirect()->route('register')->withErrors($validator);
-
-            return redirect()->back()->with([
-                'error' => $validator->errors(),
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-                'password_confirmation' => $request->password_confirmation,
-            ]);
-        }
-
-
-        // User model to save user in database
-        User::create([
-            "name" => $request->name,
-            "email" => $request->email,
-            // "phone" => $request->phone,
-            "password" => Hash::make($request->password)
-        ]);
-        //send verifcation email before register
-
-        $user = User::where('email', $request->email)->get();
-        //dd($user);
-        if (count($user) > 0) {
-            $random = Str::random(40);
-            $domain = URL::to('/');
-
-            $url = $domain . '/verify-mail/' . $random;
-            $data['url'] = $url;
-
-            $data['email'] = $request->email;
-            $data['title'] = 'Email Verification';
-            $data['body'] = 'Please click the link below to verify your email address';
-            Mail::send('verifyEmail', ['data' => $data], function ($message) use ($data) {
-                $message->to($data['email'])->subject($data['title']);
-            });
-            $user = User::find($user[0]['id']);
-            $user->remember_token = $random;
-
-            //set client id and secret
-
-            //$client_id = config('app.client_id');
-            //$client_secret = config('app.client_secret');
-
-            //$user->client_id = $client_id;
-            //$user->client_secret = $client_secret;
-            //$user->save();
-
-            $user->save();
-            return redirect()->back()->with('success', 'Please check your inbox and verify your email.');
-        } else {
-            return redirect()->back()->with('error', 'User not found');
-        }
+        app(\App\Services\RegistrationCaptcha::class)->verify($request);
+        $user = User::create(collect($data)->only(['name', 'email', 'password'])->all());
+        app(\App\Services\EmailVerification::class)->send($user);
+        return $request->expectsJson()
+            ? response()->json(['message' => 'Check your inbox to verify your email.'], 201)
+            : back()->with('success', 'Please check your inbox and verify your email.');
     }
     //research 
     public function research(Request $request)
@@ -176,96 +120,34 @@ class ApiController extends BaseController
 
     public function updateProfile(Request $request)
     {
-        //dd($request);
-        // if (auth()->user()) {
-        $validator = Validator::make($request->all(), [
-            'id' => 'required',
-            'email' => 'required|email',
-            'name' => 'required|string|min:5',
+        $user = $request->user();
+        abort_unless($user, 401);
+        $data = $request->validate([
+            'name' => 'required|string|min:3|max:255',
+            'email' => ['required', 'email', \Illuminate\Validation\Rule::unique('users')->ignore($user->id)],
         ]);
-        if ($validator->fails()) {
-            return redirect()->route('dashboard')->withErrors($validator);
-
-            //return response()->json($validator->errors());
-        }
-        $user = User::find($request->id);
-        //dd($user);
-        $user->name = $request->name;
-        if ($user->email != $request->email) {
+        if ($user->email !== $data['email']) {
             $user->is_verified = 0;
+            $user->email_verified_at = null;
         }
-        $user->email = $request->email;
-        $user->save();
-        return redirect()->back()->with('success', 'user updated successfully');
-
-        /*return response()->json([
-                'success' => true,
-                'message' => 'User updated successfully',
-                'data' => $user
-            ]);*/
+        $user->fill($data)->save();
+        if (!$user->is_verified) {
+            $this->verifyEmail($user->email);
+        }
+        return $request->expectsJson() ? response()->json(['message' => 'Profile updated. Verify any new email address.']) : back()->with('success', 'Profile updated. If your email changed, verify the new address.');
     }
-    //GET 
 
     public function verifyEmail($email)
     {
-
-        //dd('123');
-        if (auth()->user()) {
-            //dd($email);
-            $user = User::where('email', $email)->get();
-            //dd($user);
-            if (count($user) > 0) {
-                $random = Str::random(40);
-                $domain = URL::to('/');
-
-                $url = $domain . '/verify-mail/' . $random;
-                $data['url'] = $url;
-
-                $data['email'] = $email;
-                $data['title'] = 'Email Verification';
-                $data['body'] = 'Please click here below link to verify your email';
-                Mail::send('verifyEmail', ['data' => $data], function ($message) use ($data) {
-                    $message->to($data['email'])->subject($data['title']);
-                });
-                $user = User::find($user[0]['id']);
-                $user->remember_token = $random;
-                $user->save();
-
-
-                return response()->json([
-                    'status' => true,
-                    'success' => true,
-                    'message' => 'User verification email send successfully',
-                ]);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'User not found',
-                ]);
-            }
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'User Unauthenticated',
-            ]);
-        }
+        $user = auth()->user();
+        abort_unless($user && $user->email === $email, 403);
+        app(\App\Services\EmailVerification::class)->send($user);
+        return response()->json(['message' => 'Verification email sent.']);
     }
     public function verifyEmailToken($token)
     {
-        $datetime = Carbon::now()->format('Y-m-d H:i:s');
-        $domain = URL::to('/');
-        $user = User::where('remember_token', $token)->get();
-        if (count($user) > 0) {
-            $user =  User::find($user[0]['id']);
-            $user->remember_token = '';
-            $user->email_verified_at = $datetime;
-            $user->is_verified = 1;
-            $user->save();
-
-            return "<h1>email verified successfully <a href=$domain.'/login'>Sign in </a></h1>";
-        } else {
-            return view('404');
-        }
+        abort_unless(app(\App\Services\EmailVerification::class)->consume($token), 404);
+        return redirect('/login')->with('success', 'Email verified. You can now sign in.');
     }
 
     public function loadLogin()
@@ -280,16 +162,12 @@ class ApiController extends BaseController
 
     public function resetPasswordLoad(Request $request)
     {
-        $resetData = DB::table('password_reset_tokens')->where('token', $request->token)->get();
-        $rest = json_decode($resetData,true);
-        //dd($rest);
-        if (isset($resetData) && count($resetData) > 0) {
-            $user = User::where('email', $rest[0]['email'])->get();
-            return view('reset', compact('user'));
-        } else {
-            return view('404');
-        }
+        $request->validate(['token' => 'required|string', 'email' => 'required|email']);
+        $user = User::where('email', $request->email)->first();
+        abort_unless($user && \Illuminate\Support\Facades\Password::broker()->tokenExists($user, $request->token), 404);
+        return view('reset', ['email' => $request->email, 'token' => $request->token]);
     }
+
     public function loadRegister()
     {
         return view('register');
@@ -297,37 +175,18 @@ class ApiController extends BaseController
 
     public function userLogin(Request $request)
     {
-        //dd($request);
-        $userCredentials = $request->only('email', 'password');
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|min:8'
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->route('userLogin')->withErrors($validator);
+        $credentials = $request->validate(['email' => 'required|email', 'password' => 'required|string']);
+        $user = User::where('email', $credentials['email'])->first();
+        if (!$user || $user->is_banned || !Hash::check($credentials['password'], $user->password)) {
+            return back()->with('error', 'Unable to sign in. Check your credentials and email verification.')->withInput($request->only('email'));
         }
-
-        $user = DB::table('users')->where(['email' => $request->email])->get();
-        //dd($user);
-        $checkempty = json_decode($user, true);
-        //dd($checkempty);
-        $is_verified = $checkempty[0]['is_verified'];
-        if ($is_verified == '0') {
-            return redirect()->back()->with('error', 'cant login.User password mismatch or Email is not verified');
+        $token = Auth::attempt($credentials, $request->boolean('remember'));
+        if (!$token) {
+            return back()->with('error', 'Unable to sign in. Please try again.');
         }
-        if (!empty($checkempty)) {
-            $checkpas = Hash::check($request->password, $checkempty[0]['password']);
-            if (Hash::check($request->password, $checkempty[0]['password'])) {
-                $token = Auth::attempt($userCredentials);
-                $success = $this->respondWithToken2($token);
-                if ($success) {
-                    return view('dashboard', ['data' => $token]);
-                }
-            } else {
-                return redirect()->back()->with('error', 'cant login.password mismatch');
-            }
-        }
+        $this->respondWithToken2($token);
+        $request->session()->regenerate();
+        return $user->is_verified ? redirect('/dashboard') : redirect('/profile')->with('error', 'Verify your email to access services.');
     }
 
     public function dashboard()
@@ -337,104 +196,68 @@ class ApiController extends BaseController
 
     public function loadCompReport()
     {
+        app(\App\Services\ReportAllowance::class)->visit(auth()->id());
         return view('compreport');
     }
 
     public function GetCompReport(Request $request)
     {
-        //dd($request);
-        set_time_limit(300);
-        $client = new GuzzleHttp\Client();
-        $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-
-            ],
-            'body' => json_encode([
-                'ClientId' => config('app.client_id'),
-                'ClientSecretKey' => config('app.client_secret')
-            ])
+        $input = $request->validate([
+            'state' => 'required|string|size:2', 'cp' => 'required|digits:5',
+            'apn' => 'required|string|max:100',
         ]);
-        $authenticate = json_decode($login->getBody(), true);
-        //dd($authenticate);
-        $apn = $request->apn;
-        //dd($apn);
+        $state = strtolower($input['state']);
+        $states = config('property.states');
+        abort_unless(isset($states[$state]), 422, 'Select a valid state.');
+        abort_unless((int) substr($input['cp'], 0, 2) === $states[$state], 422, 'Select a county in the chosen state.');
         try {
-            $res_ = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
+            $client = new GuzzleHttp\Client(['timeout' => 60, 'connect_timeout' => 10]);
+            $base = rtrim(config('property.datatree_url'), '/');
+            $login = $client->post($base.'/Login/AuthenticateClient', ['json' => [
+                'ClientId' => config('app.client_id'), 'ClientSecretKey' => config('app.client_secret'),
+            ]]);
+            $token = json_decode($login->getBody(), true, 512, JSON_THROW_ON_ERROR);
+            if (!is_string($token) || $token === '') {
+                throw new \RuntimeException('Unexpected authentication response');
+            }
+            $response = $client->post($base.'/Report/GetReport', [
+                'headers' => ['Authorization' => 'Bearer '.$token],
+                'json' => [
+                    'ProductNames' => ['PropertyDetailReport'], 'SearchType' => 'Filter',
+                    'SearchRequest' => [
+                        'ReferenceId' => (string) Str::uuid(), 'ProductName' => 'SearchLite', 'MaxReturn' => 1,
+                        'Filters' => [
+                            ['FilterName' => 'ApnRange', 'FilterOperator' => 'is', 'FilterValues' => [$input['apn']]],
+                            ['FilterName' => 'StateFips', 'FilterOperator' => 'is', 'FilterValues' => [$states[$state]]],
+                            ['FilterName' => 'CountyFips', 'FilterOperator' => 'is', 'FilterValues' => [(int) substr($input['cp'], 2)]],
+                        ],
+                    ],
                 ],
-                'body' => '{
-                "ProductNames" : ["PropertyDetailReport"],
-                "SearchType": "Filter",
-                "SearchRequest": {
-                    "ReferenceId": "1",
-                    "ProductName": "SearchLite",
-                    "MaxReturn": "1",
-                    "Filters": [{
-                        "FilterName": "ApnRange",
-                        "FilterOperator": "starts with",
-                        "FilterValues": [
-                            "' . $apn . '"
-                        ]
-                    }]
-                },
-            }',
             ]);
-            $data = json_decode($res_->getBody(), true);
-            //dd($data);
-            $data = isset($data['LitePropertyList']) ? $data['LitePropertyList'][0] : $data['Reports']['0'];
-            $dt  = isset($data) ? $data : $data['Data']['SubjectProperty'];
-            //$dt = $data;
-            //dd($dt);
-            $poperty_id = $dt['PropertyId'];
-            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer ' . $authenticate,
-                ],
-                'body' => json_encode([
-                    'ProductNames' => ['TotalViewReport'],
-
-                    "SearchType" => "PROPERTY",
-                    "PropertyId" => $poperty_id
-                ]),
+            $result = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+            $poperty_id = data_get($result, 'LitePropertyList.0.PropertyId') ?? data_get($result, 'Reports.0.PropertyId') ?? data_get($result, 'Reports.0.Data.SubjectProperty.PropertyId');
+            if (!$poperty_id) {
+                return back()->withInput()->with('error', 'No matching parcel was found. Check the state, county and APN.');
+            }
+            $response = $client->post($base.'/Report/GetReport', [
+                'headers' => ['Authorization' => 'Bearer '.$token],
+                'json' => ['ProductNames' => ['TotalViewReport'], 'SearchType' => 'PROPERTY', 'PropertyId' => $poperty_id],
             ]);
-            $price = json_decode($getProperty->getBody(), true);
-            //dd($price);
-            //dd($price);
+            $price = json_decode($response->getBody(), true, 512, JSON_THROW_ON_ERROR);
             $maxcount = 1;
-            $mainval = $maxcount * 2.00;
+            $mainval = 2.00;
             return view('compreport', compact('price', 'maxcount', 'mainval', 'poperty_id'));
-        } catch (\Exception $e) {
-            //throw new HttpException(500, $e->getMessage());
-            \Log::error('ExportDataJob failed: ' . $e->getMessage());
-            $response = $e->getResponse();
-
-            $emsg = $e->getMessage();
-            //dd($response);
-            $fromserver = 'No records found . or Server error';
-            $msg = json_decode($response->getBody()->getContents(), true);
-            $error = $msg ? $msg : $fromserver;
-            //dd($response['reasonPhrase']);
-            return  redirect()->to('compreport')->with('error', $error);
+        } catch (\Throwable $e) {
+            \Log::warning('Comp provider request failed', ['exception' => get_class($e)]);
+            return back()->withInput()->with('error', 'The report provider is unavailable. Please try again later.');
         }
-        //dd($data);
     }
+
     public function downloadExport($fileName)
     {
-        // Check if the file exists in the storage
-        if (!Storage::disk('public')->exists($fileName)) {
-            return redirect()->back()->with('error', 'File not found.');
-        }
-
-        return response()->download(storage_path("app/public/{$fileName}"));
-        //Export::where('file_name', $fileName)->update(['downloaded' => true]);
-
+        $export = Export::where('user_id', auth()->id())->where('file_name', $fileName)->firstOrFail();
+        abort_unless(basename($fileName) === $fileName && Storage::disk('local')->exists($fileName), 404);
+        return Storage::disk('local')->download($export->file_name);
     }
 
     public function deletefromStorage()
@@ -449,105 +272,71 @@ class ApiController extends BaseController
 
     public function showExports()
     {
-        $exports = auth()->user()->exports; // Assuming you have a relationship set up
+        $exports = Export::where('user_id', auth()->id())->latest()->get();
 
         return view('exports', compact('exports'));
     }
 
     public function contactForm(Request $request)
     {
+        $data = $request->validate([
+            'name' => 'required|string|min:2|max:100', 'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:40', 'subject' => 'nullable|string|max:150',
+            'comment' => 'required|string|max:5000',
+        ]);
+        $data['phone'] = $data['phone'] ?? '';
+        $data['title'] = 'Propelyze support enquiry';
+        $data['body'] = 'We have received your enquiry. Our support team will review it.';
         try {
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-                'name' => 'required|min:5',
-                'phone' => 'required',
-                'comment' => 'required'
-            ]);
-    
-            if ($validator->fails()) {
-                return redirect()->route('contactForm')->withErrors($validator);
-            }
-            //$user =  User::where('email', $request->email)->get();
-            //if (count($user) > 0) {
-                $token = Str::random(40);
-                $domain = URL::to('/');
-                //$url = $domain . '/reset?token=' . $token;
-                //$data['url'] = $url;
-                $data['email'] = $request->email;
-                $data['name'] = $request->name;
-                $data['phone'] = $request->phone;
-                $data['comment'] = $request->comment;
-                $data['title'] = 'Contact Form';
-                $data['body'] = 'We will contact you soon.';
-                Mail::send('contactEmail', ['data' => $data], function ($message) use ($data) {
-                    $message->to('support@propelyze.com')->subject($data['title']);
-                });
-                Mail::send('userContactEmail', ['data' => $data], function ($message) use ($data) {
-                    $message->to($data['email'])->subject($data['title']);
-                });
-                
-
-                return back()->with('success', 'Email send successfully');
-            //} else {
-              //  return back()->with('error', 'email not found');
-            //}
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
+            $support = \Illuminate\Support\Facades\DB::table('site_settings')->where('key', 'contact_email')->value('value') ?: 'support@propelyze.com';
+            Mail::send('contactEmail', ['data' => $data], function ($message) use ($data, $support) {
+                $message->to($support)->replyTo($data['email'], $data['name'])->subject($data['title']);
+            });
+            Mail::send('userContactEmail', ['data' => $data], function ($message) use ($data) {
+                $message->to($data['email'])->subject($data['title']);
+            });
+            return back()->with('success', 'Your enquiry has been sent.');
+        } catch (\Throwable $error) {
+            \Log::warning('Support email delivery failed', ['exception' => get_class($error)]);
+            return back()->withInput()->with('error', 'The enquiry could not be sent. Please email support@propelyze.com directly.');
         }
     }
 
     public function forgetPassword(Request $request)
     {
-        try {
-            $user =  User::where('email', $request->email)->get();
-            if (count($user) > 0) {
-                $token = Str::random(40);
-                $domain = URL::to('/');
-                $url = $domain . '/reset?token=' . $token;
-                $data['url'] = $url;
-                $data['email'] = $request->email;
-                $data['title'] = 'Reset Password';
-                $data['body'] = 'Please click on below link to reset password';
-                Mail::send('forgetPasswordMail', ['data' => $data], function ($message) use ($data) {
-                    $message->to($data['email'])->subject($data['title']);
-                });
-                $dateTime = Carbon::now()->format('Y-m-d H:i:s');
-                PasswordReset::updateOrCreate(['email' => $request->email], [
-                    'email' => $request->email,
-                    'token' => $token,
-                    'created_at' => $dateTime
-                ]);
-
-                return back()->with('success', 'Please check your email to reset your password');
-            } else {
-                return back()->with('error', 'email not found');
-            }
-        } catch (\Exception $e) {
-            return back()->with('error', $e->getMessage());
-        }
+        $request->validate(['email' => 'required|email']);
+        \Illuminate\Support\Facades\Password::sendResetLink($request->only('email'), function ($user, $token) {
+            $data = [
+                'url' => url('/reset').'?'.http_build_query(['token' => $token, 'email' => $user->email]),
+                'email' => $user->email,
+                'title' => 'Reset Password',
+                'body' => 'Please use the link below to reset your password.',
+            ];
+            Mail::send('forgetPasswordMail', ['data' => $data], function ($message) use ($data) {
+                $message->to($data['email'])->subject($data['title']);
+            });
+        });
+        return back()->with('success', 'If this email is registered, a password reset link will be sent.');
     }
 
     public function resetPassword(Request $request)
     {
-        //dd($request);
         $request->validate([
-            'password' => 'required|confirmed|min:8',
-            'password_confirmation' => 'required',
+            'email' => 'required|email', 'token' => 'required|string',
+            'password' => 'required|string|confirmed|min:8',
         ]);
-        //dd($request->id);
-        $user = DB::table('users')->where('id',$request->id)->get();
-        //dd($user);
-        $user['password'] = Hash::make($request->password);
-        $update = User::where('id',$request->id)->update(['password'=> $user['password']]);
-        if(isset($update))
-        {
-        //DB::table('password_reset_tokens')->where('email',$user[0]->email)->delete();
-        return back()->with('success','Password reset successfully');
+        $status = \Illuminate\Support\Facades\Password::reset(
+            $request->only('email', 'token', 'password', 'password_confirmation'),
+            function ($user, $password) {
+                $user->forceFill(['password' => Hash::make($password), 'remember_token' => Str::random(60)])->save();
+            }
+        );
+        if ($status !== \Illuminate\Support\Facades\Password::PASSWORD_RESET) {
+            return back()->with('error', 'This reset link is invalid or expired. Request a new link.');
         }
-                //PasswordReset::where('email',$user[0]->email)->delete();
-
-
+        return redirect('/login')->with('success', 'Password reset successfully. Please sign in.');
     }
+
     public function exportPriceHouse(Request $request)
     {
         // Validate incoming request
@@ -2479,23 +2268,27 @@ class ApiController extends BaseController
     }
     public function GetPriceHouseReport(Request $request)
     {
+        $userid = auth()->id();
         // dd($request);
         $validatedData = $request->validate([
-            'state1' => 'required|string',
-            'county_name1' => 'required|string',
-            'cp1' => 'required|string'
+            'state1' => ['required', 'string', \Illuminate\Validation\Rule::in(array_keys(config('property.states')))],
+            'county_name1' => 'required|string|max:100',
+            'cp1' => 'required|string|regex:/^\d{5}$/'
         ]);
+        if (substr($validatedData['cp1'], 0, 2) !== str_pad((string) config('property.states.'.$validatedData['state1']), 2, '0', STR_PAD_LEFT)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['cp1' => 'Choose a county in the selected state.']);
+        }
         //dd($validatedData);
         $existingReport = PriceHouseReport::where([
             'state' => $validatedData['state1'],
             'county_name' => $validatedData['county_name1'],
-            //'user_id' => $userid, // Assuming you want to check for the specific user
+            'user_id' => $userid,
         ])->first();
 
         if ($existingReport) {
             // Record already exists, handle accordingly
             //dd($existingReport['sts']);
-            return redirect()->route('get.house.results')->with(
+            return redirect()->route('get.house.results', ['report_id' => $existingReport->id])->with(
                 [
                     'message' => 'This report already exists. Here are your results.',
                     'existingReport' => $existingReport // Pass the existing report data if needed
@@ -2504,8 +2297,10 @@ class ApiController extends BaseController
         }
 
 
-        FetchPriceHouseReportJob::dispatch($validatedData['state1'], $validatedData['county_name1'], $validatedData['cp1']);
-        $url = route('pricehouse');
+        session(['pending_house_search' => ['state' => $validatedData['state1'], 'county_name' => $validatedData['county_name1']]]);
+        \App\Services\SearchProgress::start('house', $userid, $validatedData['state1'], $validatedData['county_name1']);
+        FetchPriceHouseReportJob::dispatch($validatedData['state1'], $validatedData['county_name1'], $validatedData['cp1'], $userid);
+        $url = route('get.house.results');
         return redirect()->to($url)->with(
             [
                 'message' => 'Your report is being generated. You can check back shortly.',
@@ -2691,20 +2486,24 @@ class ApiController extends BaseController
     {
         // Validate input
         $validatedData = $request->validate([
-            'state' => 'required|string',
-            'county_name' => 'required|string',
+            'state' => ['required', 'string', \Illuminate\Validation\Rule::in(array_keys(config('property.states')))],
+            'county_name' => 'required|string|max:100',
+            'cp' => 'required|string|regex:/^\d{5}$/',
         ]);
+        if (substr($validatedData['cp'], 0, 2) !== str_pad((string) config('property.states.'.$validatedData['state']), 2, '0', STR_PAD_LEFT)) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['cp' => 'Choose a county in the selected state.']);
+        }
         $userid = auth()->user()->id;
 
         $existingReport = PriceReport::where([
             'state' => $validatedData['state'],
             'county_name' => $validatedData['county_name'],
-            //'user_id' => $userid, // Assuming you want to check for the specific user
+            'user_id' => $userid,
         ])->first();
 
         if ($existingReport) {
             // Record already exists, handle accordingly
-            return redirect()->route('get.report.results')->with(
+            return redirect()->route('get.report.results', ['report_id' => $existingReport->id])->with(
                 [
                     'message' => 'This report already exists. Here are your results.',
                     'existingReport' => $existingReport // Pass the existing report data if needed
@@ -2714,9 +2513,11 @@ class ApiController extends BaseController
 
 
         // Dispatch the job
-        FetchPriceReportJob::dispatch($validatedData['state'], $validatedData['county_name'], $request['cp'], $userid);
+        session(['pending_land_search' => ['state' => $validatedData['state'], 'county_name' => $validatedData['county_name']]]);
+        \App\Services\SearchProgress::start('land', $userid, $validatedData['state'], $validatedData['county_name']);
+        FetchPriceReportJob::dispatch($validatedData['state'], $validatedData['county_name'], $validatedData['cp'], $userid);
         // Prepare the URL to fetch results
-        $url = route('priceland'); // Use named route for better practice        //return '<a href="'.$url.'">Show Results</a>';
+        $url = route('get.report.results'); // Poll the user's queued report        //return '<a href="'.$url.'">Show Results</a>';
 
         //return Redirect::intended($url);
         return redirect()->to($url)->with(
@@ -2729,60 +2530,47 @@ class ApiController extends BaseController
 
     public function getReportHouseResults(Request $request)
     {
-        // Validate input
-        //dd($request);
-        $report = session()->get('existingReport');
-        /*$state = session()->get('state1');
-        $county = session()->get('county_name1');
-
-        //dd(session()->get('message'));
-
-        // Fetch the latest report
-        $report = PriceHouseReport::where('state', $state)
-            ->where('county_name', $county)
-            ->latest()
-            ->first();
-
-        if (!$report) {
-            return redirect()->back()->with('message', 'Getting recods...');
-            //return response()->json(['message' => 'Report not available yet.'], 404);
-        }*/
-
-        $de = json_decode($report['de'], true);
+        if ($request->filled('report_id')) {
+            $request->validate(['report_id' => 'integer|min:1']);
+            $report = PriceHouseReport::where('user_id', auth()->id())->findOrFail($request->report_id);
+        } else {
+            $selection = session('pending_house_search');
+            if (!$selection) { return redirect('/pricehouse')->with('message', 'Choose a state and county first.'); }
+            $report = PriceHouseReport::where('user_id', auth()->id())->where($selection)->latest()->first();
+            if (!$report) {
+                if (\App\Services\SearchProgress::unavailable('house', auth()->id(), $selection)) {
+                    return response()->view('pricehouse', ['reportFailed' => true]);
+                }
+                return response()->view('pricehouse', ['reportPending' => true])->header('Refresh', '10');
+            }
+        }
+        $de = json_decode($report->de, true) ?? [];
+        $price = json_decode($report->price, true) ?? [];
+        $sts = json_decode($report->sts, true) ?? [];
         $mainval = 0.1;
-        $price = json_decode($report['price'], true);
-        //dd($price);
-        $sts = json_decode($report['sts'], true);
         return view('pricehouse', compact('de', 'mainval', 'price', 'sts'));
     }
 
     public function getReportResults(Request $request)
     {
-        // Validate input
-        //dd($request);
-        $report = session()->get('existingReport');
-
-        /*$state = session()->get('state');
-        $county = session()->get('county');
-
-        // Fetch the latest report
-        $report = PriceReport::where('state', $state)
-            ->where('county_name', $county)
-            ->latest()
-            ->first();
-        //dd($report);
-
-        if (!$report) {
-            return redirect()->back()->with('message', 'Getting recods...');
-
-            //return response()->json(['message' => 'Report not available yet.'], 404);
-        }*/
-
-        $de = json_decode($report['de'], true);
+        if ($request->filled('report_id')) {
+            $request->validate(['report_id' => 'integer|min:1']);
+            $report = PriceReport::where('user_id', auth()->id())->findOrFail($request->report_id);
+        } else {
+            $selection = session('pending_land_search');
+            if (!$selection) { return redirect('/priceland')->with('message', 'Choose a state and county first.'); }
+            $report = PriceReport::where('user_id', auth()->id())->where($selection)->latest()->first();
+            if (!$report) {
+                if (\App\Services\SearchProgress::unavailable('land', auth()->id(), $selection)) {
+                    return response()->view('priceland', ['reportFailed' => true]);
+                }
+                return response()->view('priceland', ['reportPending' => true])->header('Refresh', '10');
+            }
+        }
+        $de = json_decode($report->de, true) ?? [];
+        $price = json_decode($report->price, true) ?? [];
+        $sts = json_decode($report->sts, true) ?? [];
         $mainval = 0.1;
-        $price = json_decode($report['price'], true);
-        //dd($price);
-        $sts = json_decode($report['sts'], true);
         return view('priceland', compact('de', 'mainval', 'price', 'sts'));
     }
 
@@ -2797,7 +2585,9 @@ class ApiController extends BaseController
             Auth::logout();
             //return redirect()->route('login')->with('success','logout sucessfully');
 
-            return response()->json(['success' => true]);
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return $request->expectsJson() ? response()->json(['success' => true]) : redirect('/home');
         } catch (\Exception $e) {
             return response()->json(['success' => false]);
         }

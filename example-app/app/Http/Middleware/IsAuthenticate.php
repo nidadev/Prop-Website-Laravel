@@ -18,6 +18,7 @@ class IsAuthenticate
     {
         if(Auth::check())
         {
+            abort_if(auth()->user()->is_banned, 403, 'This account has been suspended. Contact support.');
             return $next($request);
         }
         return redirect('/login');

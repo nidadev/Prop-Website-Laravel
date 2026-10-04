@@ -1,0 +1,3 @@
+County names and FIPS from US Census Bureau 2026 County Adjacency File
+https://www2.census.gov/geo/docs/reference/county_adjacency/county_adjacency2026.txt
+Checked 4 October 2026. Provider coverage may differ.

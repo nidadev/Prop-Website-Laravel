@@ -1,0 +1,10 @@
+@extends('layouts.app2')
+@section('content')
+<main class="container py-5 content-prose"><p class="eyebrow">Land research</p><h1>Find land comparables</h1><p>Search PRYCD land sale and listing records by county and acreage. Enter the full state and county names.</p>
+@if(session('error'))<p role="alert" class="alert alert-warning">{{ session('error') }}</p>@endif
+@foreach($errors->all() as $error)<p role="alert">{{ $error }}</p>@endforeach
+<p>Provider request allowance remaining: {{ app(\App\Services\ProviderBudget::class)->remaining('comps') }} this period. Data availability also depends on the provider's comp allowance.</p>
+<form method="post" action="{{ url('/land-comps') }}">@csrf<div class="row g-3"><div class="col-md-6"><label for="comp-state">State name</label><input class="form-control" id="comp-state" name="state" required value="{{ old('state') }}" placeholder="Washington"></div><div class="col-md-6"><label for="comp-county">County name</label><input class="form-control" id="comp-county" name="county" required value="{{ old('county') }}" placeholder="King"></div>
+<div class="col-md-6"><label for="comp-min">Minimum acres</label><input class="form-control" id="comp-min" name="min_acres" type="number" step="0.01" min="0" required value="{{ old('min_acres') }}"></div><div class="col-md-6"><label for="comp-max">Maximum acres</label><input class="form-control" id="comp-max" name="max_acres" type="number" step="0.01" min="0" required value="{{ old('max_acres') }}"></div></div><button class="btn btn-primary mt-3">Find comparables</button></form>
+<h2 class="mt-4">Your previous searches</h2>@forelse($searches as $search)@php($filters=json_decode($search->filters,true))<p><a href="{{ url('/land-comps/'.$search->id) }}">{{ $filters['county'] }}, {{ $filters['state'] }} · {{ $filters['min_acres'] }}–{{ $filters['max_acres'] }} acres</a></p>@empty<p>No comparable searches yet.</p>@endforelse{{ $searches->links() }}</main>
+@endsection

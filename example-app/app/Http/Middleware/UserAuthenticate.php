@@ -16,18 +16,18 @@ class UserAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check() && auth()->user()->is_subscribed == 0  && auth()->user()->is_verified == 1 && auth()->user()->usertype != 'admin')
-        {
-           return redirect('/subscription'); 
-
+        if (!Auth::check()) { return redirect('/login'); }
+        abort_if(auth()->user()->is_banned, 403, 'This account has been suspended. Contact support.');
+        if (!auth()->user()->is_verified) {
+            if ($request->expectsJson()) { return response()->json(['message' => 'Verify your email before using property services.'], 403); }
+            return redirect('/profile')->with('error', 'Verify your email before using property services.');
         }
-
-        else if(Auth::check() && auth()->user()->is_subscribed == 1)
-        {
-            return $next($request);
+        if (auth()->user()->usertype === 'admin') { return $next($request); }
+        $account = \App\Models\BillingAccount::where('user_id', auth()->id())->first();
+        if ($account ? !$account->hasAccess() : !auth()->user()->is_subscribed) {
+            if ($request->expectsJson()) { return response()->json(['message' => 'An active subscription is required.'], 403); }
+            return redirect('/subscription');
         }
-
-        return redirect('/login');
-        //abort(401);
+        return $next($request);
     }
 }

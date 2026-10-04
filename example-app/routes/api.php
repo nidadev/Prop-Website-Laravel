@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Controllers\Api\PDFController;
+use App\Http\Controllers\TokenAuthController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -18,15 +18,17 @@ use App\Http\Controllers\Api\PDFController;
 Route::group([
     "middleware" => "api"
 ], function () {
-    Route::post('register', [ApiController::class, 'register']);
-    Route::post('login', [ApiController::class, 'login']);
+    Route::post('register', [ApiController::class, 'register'])->middleware('throttle:5,1');
+    Route::post('login', [TokenAuthController::class, 'login'])->middleware('throttle:10,1');
+});
+Route::middleware(['auth:sanctum', 'IsAuth'])->group(function () {
+    Route::post('land/price', [\App\Http\Controllers\PropertyApiController::class, 'price'])->middleware(['userAuth', 'abilities:property:read', 'throttle:5,1']);
+    Route::post('land/comps', [\App\Http\Controllers\PropertyApiController::class, 'comps'])->middleware(['userAuth', 'abilities:property:read', 'throttle:5,1']);
     Route::get("profile", [ApiController::class, "profile"]);
-    Route::get("refreshToken", [ApiController::class, "refreshToken"]);
-    Route::post("logout", [ApiController::class, "logout"]);
+    Route::post("refreshToken", [TokenAuthController::class, "refresh"]);
+    Route::post("logout", [TokenAuthController::class, "logout"]);
     Route::post('profile-update', [ApiController::class, "updateProfile"]);
-    Route::post('research', [ApiController::class, 'research']);
     //Route::post('pdf2', [PDFController::class, 'index']);
-    Route::post('pdf', [ApiController::class, 'pdf_download']);
 
     
 
