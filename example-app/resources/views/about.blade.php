@@ -15,7 +15,7 @@
 </section>
 <section id="about" class="p_3">
     <div class="container-xl">
-        <div class="about_1 row align-items-center mt-5">
+        <div class="about_1 row align-items-center g-4">
             <div class="col-md-6">
                 <h2>About Propelyze</h2>
                 <hr class="line">
@@ -49,7 +49,7 @@
 </div>
             </div>
         </div>
-        <div class="row disc_1 mt-5 pt-5">
+        <div class="row disc_1 mt-5 g-4">
             <div class="col-md-4">
                 <div class="disc_1i position-relative">
                     <div class="disc_1i1">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-md-3 col-3">
                                 <div class="disc_1i2ir text-end">
-                                    <span class="d-inline-block bg-danger text-white text-center rounded-circle fs-5"><i class="fa fa-long-arrow-right"></i></span>
+                                    <a href="{{ url('/research') }}" aria-label="Research Property" class="d-inline-block bg-danger text-white text-center rounded-circle fs-5"><i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="col-md-3 col-3">
                                 <div class="disc_1i2ir text-end">
-                                    <span class="d-inline-block bg-warning text-white text-center rounded-circle fs-5"><i class="fa fa-long-arrow-right"></i></span>
+                                    <a href="{{ url('/priceland') }}" aria-label="Search Land / House" class="d-inline-block bg-warning text-white text-center rounded-circle fs-5"><i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-3 col-3">
                                 <div class="disc_1i2ir text-end">
-                                    <span class="d-inline-block bg_blight text-white text-center rounded-circle fs-5"><i class="fa fa-long-arrow-right"></i></span>
+                                    <a href="{{ url('/land-valuation') }}" aria-label="Analyze" class="d-inline-block bg_blight text-white text-center rounded-circle fs-5"><i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -123,23 +123,17 @@
     <div class="container-xl">
         <div class="about_pg1 row">
             <div class="col-md-6">
-                <div class="about_pg1l mt-4">
-                    <h4>Our Origin Story</h4>
-                    <hr class="line">
-                    <p class="mt-4">Back in 2019, we were in the same position as many land investors—working long hours, struggling to find the right properties to invest in, and trying to manage the complexities of direct mail marketing. We knew there had to be a better way, but the tools we needed simply didn’t exist. So, we decided to build them ourselves.</p>
-                    <p>After countless late nights and a relentless focus on innovation, Propelyze was born. We created a powerful, easy-to-use platform that simplifies the entire acquisition process. By combining cutting-edge technology with our deep understanding of the real estate market, we developed a tool that turns what used to take days into a task that can be completed in minutes.</p>
-                </div>
+                <div class="about_pg1l reading-story">
+                    <details class="reading-detail"><summary>Our Origin Story</summary><div class="reading-answer"><p class="mt-4">Back in 2019, we were in the same position as many land investors—working long hours, struggling to find the right properties to invest in, and trying to manage the complexities of direct mail marketing. We knew there had to be a better way, but the tools we needed simply didn’t exist. So, we decided to build them ourselves.</p>
+                    <p>After countless late nights and a relentless focus on innovation, Propelyze was born. We created a powerful, easy-to-use platform that simplifies the entire acquisition process. By combining cutting-edge technology with our deep understanding of the real estate market, we developed a tool that turns what used to take days into a task that can be completed in minutes.</p></div></details></div>
                 
             </div>
             <div class="col-md-6">
-                <div class="about_pg1l mt-4">
-                    <h4>Our Impact and Vision</h4>
-                    <hr class="line">
-                    <p class="mt-4">Since launching Propelyze, the feedback from our users has been nothing short of inspiring. We’ve seen how our platform has transformed the way real estate entrepreneurs work, saving them precious time and helping them close deals more efficiently. The success stories from our users drive us to continue innovating and expanding our offerings.</p>
+                <div class="about_pg1l reading-story">
+                    <details class="reading-detail"><summary>Our Impact and Vision</summary><div class="reading-answer"><p class="mt-4">Since launching Propelyze, the feedback from our users has been nothing short of inspiring. We’ve seen how our platform has transformed the way real estate entrepreneurs work, saving them precious time and helping them close deals more efficiently. The success stories from our users drive us to continue innovating and expanding our offerings.</p>
                     <p>Our mission is clear: to provide a comprehensive and intuitive platform that enables land investors to focus on what truly matters—growing their business. We’re committed to continually refining our tools, listening to our users, and staying at the forefront of real estate technology.
                         As we look to the future, we’re excited about the endless possibilities for Propelyze. Our goal is to remain the go-to resource for real estate professionals who want to simplify their processes and maximize their success. With Propelyze by your side, you can propel your real estate business to new heights.
-                    </p>
-                </div>
+                    </p></div></details></div>
             </div>
         </div>
     </div>
@@ -156,8 +150,8 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="about_pg1l mt-4">
-                    <h4>"What’s Next for Propelyze?"</h4>
+                <div class="about_pg1l reading-story">
+                    <h4>What’s Next for Propelyze?</h4>
                     <hr class="line">
                     <p class="mt-4">As we look ahead, our commitment to innovation remains stronger than ever. We’re excited to introduce new features that will continue to elevate your real estate investment experience.</p>
 
@@ -178,18 +172,3 @@
     </div>
 </section>
 @endsection
-
-<style>
-    span,
-    .incorrect {
-        color: red;
-    }
-
-    p.result {
-        color: green;
-    }
-</style>
-
-</body>
-
-</html>
