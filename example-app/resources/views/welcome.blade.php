@@ -120,7 +120,7 @@ Our services cover both Vacant Land and Residential Properties, with property re
 		   <p class="mb-0 text-white">What We Do</p>
 		 </div>
 	  </div>
-	  <div class="row work_h2 text-white">
+	  <div class="row work_h2 text-white service-card-grid">
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center" style="background: #6C60FE;">
 			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/research')}}"><i class="fa fa-globe"></i></a></span>
