@@ -19,7 +19,7 @@ $navigationGroups = [
 @auth
 @foreach(['/dashboard'=>'Dashboard', '/profile'=>'My Profile', '/subscription'=>'Billing & Subscription', '/credits'=>'Account Credits', '/saved-searches'=>'Saved Searches', '/exports'=>'Export History'] as $path => $label)<li><a class="dropdown-item" href="{{ url($path) }}">{{ $label }}</a></li>@endforeach
 @if(auth()->user()->usertype === 'admin')<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="{{ url('/adminpage') }}">Administration</a></li><li><a class="dropdown-item" href="{{ url('/getproperty') }}">Property Data Tool</a></li><li><a class="dropdown-item" href="{{ url('/getproperty2') }}">Property Data Tool 2</a></li>@endif
-<li><hr class="dropdown-divider"></li><li><form method="post" action="{{ url('/logout') }}">@csrf<button class="dropdown-item" type="submit">Logout</button></form></li>
+<li><form method="post" action="{{ url('/logout') }}">@csrf<button class="dropdown-item" type="submit">Logout</button></form></li>
 @else
 <li><a class="dropdown-item" href="{{ url('/login') }}">Login</a></li><li><a class="dropdown-item" href="{{ url('/register') }}">Register</a></li><li><a class="dropdown-item" href="{{ url('/forget') }}">Forgot Password</a></li>
 @endauth
