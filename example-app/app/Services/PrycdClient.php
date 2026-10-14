@@ -44,7 +44,7 @@ class PrycdClient
                     $price = str_replace(['$', ','], '', (string) ($comp['price'] ?? ''));
                     $acres = str_replace(',', '', (string) ($comp['acreage'] ?? ''));
                     if (!is_numeric($price) || $price <= 0 || !is_numeric($acres) || $acres <= 0) { continue; }
-                    $comps[] = ['id' => $comp['id'] ?? null, 'price' => (float) $price, 'acres' => (float) $acres,
+                    $comps[] = ['id' => $comp['id'] ?? null, 'apn' => $comp['apn'] ?? null, 'price' => (float) $price, 'acres' => (float) $acres,
                         'status' => $comp['status'] ?? null, 'source' => $comp['source'] ?? null,
                         'source_url' => $comp['url'] ?? null, 'address' => $comp['address'] ?? null,
                         'city' => $comp['city'] ?? null, 'latitude' => $comp['latitude'] ?? null,

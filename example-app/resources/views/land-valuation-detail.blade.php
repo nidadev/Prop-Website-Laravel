@@ -12,5 +12,6 @@
 <p>This is an automated land valuation, not an appraisal. Confirm parcel identity, access, condition, zoning and current comparable sales before making an offer.</p>
 @if($paid)<a class="btn btn-primary" href="{{ url('/land-valuation/'.$valuation->id.'/pdf') }}">Download land valuation PDF</a>
 @else<form action="{{ route('stripe') }}" method="post">@csrf<input type="hidden" name="land_valuation_id" value="{{ $valuation->id }}"><button class="btn btn-primary">Get PDF report — ${{ number_format(app(\App\Services\PricingCatalog::class)->service('land_report')/100,2) }}</button></form><p>Available Gold report credits are applied before payment.</p>@endif
+@include('partials.comparable-records')
 <p class="mt-3"><a href="{{ url('/land-valuation') }}">Back to saved valuations</a></p></main>
 @endsection

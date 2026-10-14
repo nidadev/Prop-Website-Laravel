@@ -14,6 +14,11 @@ class PriceApnList implements ShouldQueue
     public $timeout = 840;
     public function __construct(public int $uploadId) {}
 
+    public function middleware(): array
+    {
+        return [(new \Illuminate\Queue\Middleware\WithoutOverlapping('price-list-'.$this->uploadId))->dontRelease()->expireAfter(900)];
+    }
+
     public function handle(PrycdClient $client): void
     {
         $upload = DB::table('list_uploads')->find($this->uploadId);
@@ -21,16 +26,21 @@ class PriceApnList implements ShouldQueue
         $order = DB::table('checkout_orders')->where('list_upload_id', $this->uploadId)->where('user_id', $upload->user_id)->where('service', 'list_upload')->where('status', 'paid')->first();
         if (!$order) { return; }
         DB::table('list_uploads')->where('id', $upload->id)->update(['status' => 'processing', 'updated_at' => now()]);
-        foreach (DB::table('list_upload_rows')->where('list_upload_id', $upload->id)->orderBy('id')->lazyById(100) as $row) {
+        foreach (DB::table('list_upload_rows')->where('list_upload_id', $upload->id)->where('status', 'pending')->orderBy('id')->limit(5)->get() as $row) {
             // Claim each row before requesting paid data; replayed jobs skip claimed rows.
             if (!DB::table('list_upload_rows')->where('id', $row->id)->where('status', 'pending')->update(['status' => 'processing', 'updated_at' => now()])) { continue; }
             try {
                 $result = $client->priceLand($row->apn, $row->county_fips);
+                $result['comparables'] = app(\App\Services\ComparableRecords::class)->forParcel($row->apn, $row->county_fips, $result, $client);
                 DB::table('list_upload_rows')->where('id', $row->id)->update(['status' => 'completed', 'result' => json_encode($result), 'error' => null, 'updated_at' => now()]);
             } catch (\Throwable $e) {
                 DB::table('list_upload_rows')->where('id', $row->id)->update(['status' => 'needs_review', 'error' => 'No verified valuation returned. Contact support for review.', 'updated_at' => now()]);
                 $this->refundRow($order, $row->id, $upload->record_count);
             }
+        }
+        if (DB::table('list_upload_rows')->where('list_upload_id', $upload->id)->where('status', 'pending')->exists()) {
+            self::dispatch($upload->id)->delay(now()->addSeconds(5));
+            return;
         }
         $needsReview = DB::table('list_upload_rows')->where('list_upload_id', $upload->id)->where('status', '!=', 'completed')->exists();
         DB::table('list_uploads')->where('id', $upload->id)->update(['status' => $needsReview ? 'completed_with_issues' : 'completed', 'updated_at' => now()]);
@@ -61,3 +71,4 @@ class PriceApnList implements ShouldQueue
         DB::table('list_uploads')->where('id', $upload->id)->update(['status' => 'completed_with_issues', 'updated_at' => now()]);
     }
 }
+

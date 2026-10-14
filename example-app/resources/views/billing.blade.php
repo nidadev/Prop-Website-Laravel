@@ -23,6 +23,7 @@
             <button class="btn btn-primary">Manage subscription</button>
         </form></section>
     @endif
+    <p class="small text-muted mt-3">DataTree property searches, owner reports and polygon searches are deferred while data access is resolved. Automated skip tracing and terrain analysis are not currently enabled.</p>
     <div class="billing-plans">
     @foreach($plans as $key => $plan)
         @php $isCurrent = $hasSubscription && $account->plan === $key; @endphp

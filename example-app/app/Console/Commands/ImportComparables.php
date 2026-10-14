@@ -27,10 +27,10 @@ class ImportComparables extends Command
                 $line++;
                 if ($values === [null]) { continue; }
                 if (count($values) !== count($headers)) { $this->error("Row {$line}: column count does not match."); return self::FAILURE; }
-                $row = array_intersect_key(array_combine($headers, array_map('trim', $values)), array_flip([...$required, 'acres', 'square_feet']));
+                $row = array_intersect_key(array_combine($headers, array_map('trim', $values)), array_flip([...$required, 'acres', 'square_feet', 'address', 'city', 'latitude', 'longitude', 'sold_date']));
                 $row['state'] = strtolower($row['state']);
                 $row['county_fips'] = str_pad($row['county_fips'], 5, '0', STR_PAD_LEFT);
-                foreach (['acres', 'square_feet'] as $key) { $row[$key] = ($row[$key] ?? '') === '' ? null : $row[$key]; }
+                foreach (['acres', 'square_feet', 'address', 'city', 'latitude', 'longitude', 'sold_date'] as $key) { $row[$key] = ($row[$key] ?? '') === '' ? null : $row[$key]; }
                 $validator = Validator::make($row, [
                     'state' => ['required', Rule::in(array_keys(config('property.states')))],
                     'county_fips' => ['required', 'regex:/^\d{5}$/'], 'apn' => 'required|string|max:100',
@@ -39,6 +39,9 @@ class ImportComparables extends Command
                     'price' => 'required|numeric|gt:0|max:9999999999999',
                     'acres' => 'nullable|numeric|gt:0|max:9999999999',
                     'square_feet' => 'nullable|numeric|gt:0|max:9999999999999',
+                    'address' => 'nullable|string|max:500', 'city' => 'nullable|string|max:150',
+                    'latitude' => 'nullable|numeric|between:-90,90', 'longitude' => 'nullable|numeric|between:-180,180',
+                    'sold_date' => 'nullable|date_format:Y-m-d|before_or_equal:today',
                     'source' => 'required|string|max:255', 'source_url' => 'required|url:http,https',
                     'observed_at' => 'required|date_format:Y-m-d|before_or_equal:today',
                 ]);
@@ -53,7 +56,7 @@ class ImportComparables extends Command
                 foreach (array_chunk($rows, 500) as $chunk) {
                     DB::table('comparable_sales')->upsert($chunk,
                         ['state', 'county_fips', 'apn', 'source', 'status', 'observed_at'],
-                        ['property_type', 'price', 'acres', 'square_feet', 'source_url', 'updated_at']);
+                        ['property_type', 'price', 'acres', 'square_feet', 'address', 'city', 'latitude', 'longitude', 'sold_date', 'source_url', 'updated_at']);
                 }
             });
             $this->info(count($rows).' comparable records imported.'); return self::SUCCESS;

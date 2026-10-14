@@ -39,3 +39,7 @@ p{font-size:1rem;line-height:1.75;font-weight:400}h1,h2,h3,h4,h5,h6{font-family:
 .public-plan-grid .subs_2i1{display:flex;flex-direction:column}.public-plan-grid .subs_2i1 ul{flex:1;min-height:0;margin-bottom:24px}.public-plan-grid .subs_2i1>.button{margin-top:auto}.public-plan-grid .subs_2i1 li{float:none}
 @media(max-width:991px) and (min-width:768px){.service-card-grid{gap:18px}.service-card-grid .work_h2i{padding:20px!important}.service-card-grid .work_h2i p{font-size:14px}}
 @media(max-width:767px){.service-card-grid{grid-template-columns:1fr;grid-auto-rows:auto;gap:18px}.service-card-grid>div:last-child:nth-child(3n+1){grid-column:auto}.service-card-grid .work_h2i{padding:24px!important}.public-plan-grid .subs_2i1 ul{flex:initial}}
+
+/* Keep long content and inset About cards inside small screens. */
+#about .row{min-width:0}#about .disc_1i2{max-width:calc(100% - 32px);box-sizing:border-box}#about .disc_1i2i{margin-left:0;margin-right:0}#about .disc_1i2i>[class*=col-]{padding-left:0;padding-right:0}.reading-answer a{overflow-wrap:anywhere}
+@media(max-width:575px){#about .disc_1i2{left:16px!important;right:16px!important;width:auto!important}#about .disc_1i2il h4{font-size:17px}}

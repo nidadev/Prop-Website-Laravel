@@ -11,7 +11,8 @@ class LandValuationController extends Controller {
         $input = $request->validate(['apn' => 'required|string|max:100', 'county_fips' => 'required|regex:/^\d{5}$/']);
         $existing = DB::table('land_valuations')->where('user_id', auth()->id())->where('apn', $input['apn'])->where('county_fips', $input['county_fips'])->where('created_at', '>', now()->subDays(30))->latest()->first();
         if ($existing) { return redirect('/land-valuation/'.$existing->id); }
-        try { $result = $client->priceLand($input['apn'], $input['county_fips']); }
+        try { $result = $client->priceLand($input['apn'], $input['county_fips']);
+            $result['comparables'] = app(\App\Services\ComparableRecords::class)->forParcel($input['apn'], $input['county_fips'], $result, $client); }
         catch (\Throwable $error) { return back()->withInput()->with('error', 'No verified valuation is available right now. Check the parcel details or contact support. No report payment has been taken.'); }
         $id = DB::table('land_valuations')->insertGetId($input + ['user_id' => auth()->id(), 'result' => json_encode($result), 'created_at' => now(), 'updated_at' => now()]);
         return redirect('/land-valuation/'.$id);

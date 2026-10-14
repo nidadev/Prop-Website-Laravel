@@ -5,8 +5,10 @@
 				<div class="col-md-4">
 					<div class="footer_1l">
 						<h4 class="text-white mb-4">Get Propelyze</h4>
-						<h6 class="text-light mt-3"><i class="fa fa-envelope col_blue me-1"></i> support@propelyze.com</h6>
-						<h4 class="mt-4 text-white">Connect With Us</h4>
+						<h6 class="text-light mt-3"><i class="fa fa-envelope col_blue me-1"></i> <a class="text-light" href="mailto:{{ ($siteSettings['contact_email'] ?? '') ?: 'support@propelyze.com' }}">{{ ($siteSettings['contact_email'] ?? '') ?: 'support@propelyze.com' }}</a></h6>
+						@if(!empty($siteSettings['contact_phone']))<p class="text-light mb-2">{{ $siteSettings['contact_phone'] }}</p>@endif
+@if(!empty($siteSettings['contact_address']))<p class="text-light mb-2">{{ $siteSettings['contact_address'] }}</p>@endif
+<h4 class="mt-4 text-white">Connect With Us</h4>
 						<ul class="mb-0 mt-3 footer-social-links">
 <li class="d-inline-block"><a href="https://www.facebook.com/propelyze" aria-label="Propelyze on Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 							
@@ -54,7 +56,7 @@
 		<div class="row footer_b1">
 			<div class="col-md-12">
 				<div class="footer_b1l text-center">
-					<p class="mb-0 text-light">© {{ date('Y') }} Propelyze. All Rights Reserved </p>
+					<p class="mb-0 text-light">{{ ($siteSettings['copyright'] ?? '') ?: '© '.date('Y').' Propelyze. All Rights Reserved' }} </p>
 				</div>
 			</div>
 		</div>

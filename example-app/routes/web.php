@@ -60,7 +60,8 @@ Route::group(['middleware' => ['userAuth']],function(){
     Route::post('/pricehouse', [ApiController::class,'GetPriceHouseReport'])->middleware('datatree');
     Route::get('/get-house-results', [ApiController::class, 'getReportHouseResults'])->name('get.house.results')->middleware('datatree');
 
-    Route::get('/research', [ApiController::class,'loadPriceResearchReport'])->name('research');
+    Route::get('/research', [\App\Http\Controllers\ResearchController::class, 'index'])->name('research');
+    Route::get('/research/download', [\App\Http\Controllers\ResearchController::class, 'download']);
     Route::post('/research', [ApiController::class,'GetPriceResearchReport'])->name('research.submit')->middleware('datatree');
      
 
@@ -140,6 +141,7 @@ Route::middleware('IsAdmin')->group(function () {
     Route::post('/admin/users', [\App\Http\Controllers\AdminController::class, 'createUser']);
     Route::post('/admin/users/{user}', [\App\Http\Controllers\AdminController::class, 'updateUser']);
     Route::post('/admin/settings', [\App\Http\Controllers\AdminController::class, 'settings']);
+    Route::post('/admin/comparables/import', [\App\Http\Controllers\AdminController::class, 'importComparables'])->middleware('throttle:3,1');
     Route::post('/admin/pricing', [\App\Http\Controllers\AdminController::class, 'pricing']);
 });
 Route::view('/api-information', 'api-information');
@@ -161,6 +163,7 @@ Route::middleware('IsAuth')->group(function () {
     Route::get('/list-upload', [\App\Http\Controllers\ListUploadController::class, 'index']);
     Route::post('/list-upload', [\App\Http\Controllers\ListUploadController::class, 'store'])->middleware('userAuth');
     Route::get('/list-upload/{id}', [\App\Http\Controllers\ListUploadController::class, 'show'])->whereNumber('id');
+    Route::get('/list-upload/{id}/comparables', [\App\Http\Controllers\ListUploadController::class, 'comparables'])->whereNumber('id');
     Route::get('/list-upload/{id}/download', [\App\Http\Controllers\ListUploadController::class, 'download'])->whereNumber('id');
     Route::get('/profile', function () { return view('profile'); });
     Route::get('/profile-update', function () { return view('profile'); });

@@ -48,7 +48,7 @@ header .overlay {
 
 @media (pointer: coarse) and (hover: none) {
   header {
-    background: url('{{ asset('img/1.jpg') }}') black no-repeat center center scroll;
+    background: url('{{ asset(($siteSettings['hero_image'] ?? '') ?: 'img/1.jpg') }}') black no-repeat center center scroll;
   }
 
   header video {
@@ -62,7 +62,7 @@ header .overlay {
   <div class="overlay"></div>
 
   
-  <video poster="{{ asset('img/1.jpg') }}" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+  <video poster="{{ asset(($siteSettings['hero_image'] ?? '') ?: 'img/1.jpg') }}" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
     <source src="{{ asset('file/vdo.mp4') }}" type="video/mp4">
   </video>
 
@@ -138,9 +138,9 @@ Our services cover both Vacant Land and Residential Properties, with property re
 		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-phone"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-phone"></i></a></span>
 			  <h5 class="mt-3 mb-3">Skip Tracing</h5>
-			  <p class="mb-0 text-white">Augment your property data with skip tracing to acquire owner contact information, including phone numbers and emails, for effective digital outreach.</p>
+			  <p class="mb-0 text-white">Automated skip tracing is not currently enabled. Contact support to discuss coverage and availability.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
@@ -159,38 +159,38 @@ Our services cover both Vacant Land and Residential Properties, with property re
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-table"></i></a></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/list-upload')}}"><i class="fa fa-table"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Data Scrubbing</h5>
-			  <p class="mb-0 text-white">Efficiently remove irrelevant or inaccurate data without manually sifting through spreadsheets.</p><br>
+			  <p class="mb-0 text-white">Validate CSV or XLSX APN lists, identify missing fields and remove duplicate parcel entries before pricing.</p><br>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-road"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-road"></i></a></span>
 			  <h5 class="mt-3 mb-3">Road Access</h5>
-			  <p class="mb-0 text-white">Check if properties have direct road access and pinpoint specific access points.</p><br>
+			  <p class="mb-0 text-white">Automated road-access analysis is not currently available. Confirm legal access independently before purchasing.</p><br>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-envelope"></i></a></span>
+			  <span class="d-inline-block bg-danger text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/support')}}"><i class="fa fa-envelope"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Topography</h5>
-			  <p class="mb-0 text-white">Assess the usable area of your property and filter out those that don't meet your criteria.</p><br>
+			  <p class="mb-0 text-white">Automated terrain analysis is not currently available. Contact support about the data needed to assess usable acreage.</p><br>
 			</div>
 		 </div>
 		
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/priceland')}}"><i class="fa fa-globe"></i></a></span>
+			  <span class="d-inline-block bg-success text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/land-comps')}}"><i class="fa fa-globe"></i></a></span>
 			  <h5 class="mt-3 mb-3">Campaign Mapping</h5>
-			  <p class="mb-0 text-white">Enhance your exports with KML maps to visually organize owner records and nearby comparable properties</p>
+			  <p class="mb-0 text-white">Property KML exports are deferred while DataTree access is resolved. Saved land comparables include a location map.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
 		    <div class="work_h2i p-4 rounded_10 shadow_box text-center mt-3"  style="background: #6C60FE;">
-			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/compreport')}}"><i class="fa fa-file"></i></a></span>
+			  <span class="d-inline-block bg-warning text-white rounded-circle fs-1"><a class="text-white" href="{{ url('/land-valuation')}}"><i class="fa fa-file"></i></a></span>
 			  <h5 class="mt-3 mb-3"> Comp Reporting</h5>
-			  <p class="mb-0 text-white">Create detailed reports that include owner information, property histories, pricing insights, and comparative analyses in one convenient file.</p>
+			  <p class="mb-0 text-white">Download available land valuation reports with sourced comparable records. Owner and house reports await DataTree access.</p>
 			</div>
 		 </div>
 		 <div class="col-md-4">
@@ -219,6 +219,9 @@ Our services cover both Vacant Land and Residential Properties, with property re
  </section>
 	
 
+    @if(!empty($siteSettings['youtube_embed_url']))
+    <section class="container-xl py-5"><h2>See how Propelyze works</h2><div class="ratio ratio-16x9"><iframe src="{{ $siteSettings['youtube_embed_url'] }}" title="How Propelyze works" loading="lazy" allowfullscreen></iframe></div></section>
+    @endif
 	@include('partials.public-pricing')
 
 	<section id="faq" class="p_3 bg-light">
