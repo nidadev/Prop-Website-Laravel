@@ -11,6 +11,10 @@ class ProviderBudget {
         $used=DB::table('provider_usage')->where('service',$service)->where('period',$this->period())->value('requests');
         return max(0,(int) config('prycd.'.$service.'_request_limit')-(int)($used ?? config('prycd.'.$service.'_initial_usage',0)));
     }
+    public function exhausted(string $service): void {
+        DB::table('provider_usage')->updateOrInsert(['service'=>$service,'period'=>$this->period()],
+            ['requests'=>(int)config('prycd.'.$service.'_request_limit'),'created_at'=>now(),'updated_at'=>now()]);
+    }
     public function reserve(string $service): void {
         $period=$this->period();
         DB::table('provider_usage')->insertOrIgnore(['service'=>$service,'period'=>$period,

@@ -77,6 +77,10 @@ class PrycdClient
             'X-RapidAPI-Key' => config('prycd.key'), 'X-RapidAPI-Host' => $host,
         ])->post('https://'.$host.$path, $body);
         $data = $response->json();
+        if ($response->status() === 429) {
+            app(ProviderBudget::class)->exhausted(str_contains($host, 'pricing') ? 'pricing' : 'comps');
+            throw new \RuntimeException('The provider allowance is exhausted. Saved results remain available until the allowance resets.');
+        }
         if (!$response->successful() || !is_array($data) || ($data['status'] ?? null) != 200) {
             throw new \RuntimeException('PRYCD could not supply this result. Please try again later.');
         }

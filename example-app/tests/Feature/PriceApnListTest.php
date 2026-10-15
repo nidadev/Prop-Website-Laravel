@@ -16,6 +16,22 @@ class PriceApnListTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_priced_row_without_comparables_is_flagged_without_refunding_completed_pricing(): void
+    {
+        \Illuminate\Support\Facades\Mail::fake();
+        config(['prycd.enabled'=>true,'prycd.key'=>'test-key']);
+        $owner=User::factory()->create(['is_verified'=>1,'is_subscribed'=>1]);
+        $id=DB::table('list_uploads')->insertGetId(['user_id'=>$owner->id,'record_count'=>1,'status'=>'queued']);
+        DB::table('list_upload_rows')->insert(['list_upload_id'=>$id,'state'=>'ca','county_fips'=>'06017','apn'=>'00123']);
+        CheckoutOrder::create(['id'=>(string)Str::uuid(),'user_id'=>$owner->id,'service'=>'list_upload','list_upload_id'=>$id,'property_ids'=>[],'amount'=>3,'status'=>'paid']);
+        Http::fake(['*'=>Http::response(['status'=>200,'apn'=>'00123','pricing'=>['price'=>15000]])]);
+        (new PriceApnList($id))->handle(app(PrycdClient::class));
+        $this->assertDatabaseHas('list_uploads',['id'=>$id,'status'=>'completed_with_issues']);
+        $this->assertDatabaseHas('list_upload_rows',['list_upload_id'=>$id,'status'=>'completed']);
+        $this->assertSame(0,app(\App\Services\Wallet::class)->balance($owner->id));
+        $this->actingAs($owner)->get('/list-upload/'.$id)->assertOk()->assertSee('Processing finished with items to review')->assertSee('15,000.00');
+    }
+
     public function test_paid_list_prices_once_marks_failures_and_exports_only_to_its_owner(): void
     {
         \Illuminate\Support\Facades\Mail::fake();

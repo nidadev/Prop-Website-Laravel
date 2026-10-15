@@ -9,6 +9,20 @@ use Tests\TestCase;
 class PrycdClientTest extends TestCase
 {
     use \Illuminate\Foundation\Testing\RefreshDatabase;
+    public function test_provider_quota_response_blocks_further_uncached_requests_but_retains_cached_data(): void
+    {
+        config(['prycd.enabled'=>true,'prycd.key'=>'test-key']);
+        Http::fakeSequence()->push(['status'=>200,'data'=>[]])->push(['message'=>'Monthly quota exceeded'],429);
+        $client=app(PrycdClient::class);
+        $this->assertSame([], $client->countyComps('Washington','King',1,5));
+        foreach (['El Dorado','Another'] as $county) {
+            try {$client->countyComps('California',$county,1,5);$this->fail('Expected exhausted quota');}
+            catch (\RuntimeException $e) {$this->assertStringContainsString('allowance',$e->getMessage());}
+        }
+        $this->assertSame(0,app(\App\Services\ProviderBudget::class)->remaining('comps'));
+        $this->assertSame([], $client->countyComps('Washington','King',1,5));
+        Http::assertSentCount(2);
+    }
     public function test_documented_pricing_request_preserves_apn_and_returns_provider_provenance(): void
     {
         config(['prycd.enabled' => true, 'prycd.key' => 'test-key']);

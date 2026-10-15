@@ -10,7 +10,14 @@ class LandValuationController extends Controller {
     public function store(Request $request, PrycdClient $client) {
         $input = $request->validate(['apn' => 'required|string|max:100', 'county_fips' => 'required|regex:/^\d{5}$/']);
         $existing = DB::table('land_valuations')->where('user_id', auth()->id())->where('apn', $input['apn'])->where('county_fips', $input['county_fips'])->where('created_at', '>', now()->subDays(30))->latest()->first();
-        if ($existing) { return redirect('/land-valuation/'.$existing->id); }
+        if ($existing) {
+            $result = json_decode($existing->result, true);
+            if (!array_key_exists('comparables', $result) || empty($result['comparables']['records'])) {
+                $result['comparables'] = app(\App\Services\ComparableRecords::class)->forParcel($input['apn'], $input['county_fips'], $result, $client);
+                DB::table('land_valuations')->where('id', $existing->id)->update(['result' => json_encode($result), 'updated_at' => now()]);
+            }
+            return redirect('/land-valuation/'.$existing->id);
+        }
         try { $result = $client->priceLand($input['apn'], $input['county_fips']);
             $result['comparables'] = app(\App\Services\ComparableRecords::class)->forParcel($input['apn'], $input['county_fips'], $result, $client); }
         catch (\Throwable $error) { return back()->withInput()->with('error', 'No verified valuation is available right now. Check the parcel details or contact support. No report payment has been taken.'); }

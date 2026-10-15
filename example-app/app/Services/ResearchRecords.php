@@ -13,7 +13,13 @@ class ResearchRecords
         }
         $columns = ['id', 'state', 'county_fips', 'apn', 'property_type', 'status', 'price', 'acres', 'square_feet', 'source', 'source_url', 'observed_at'];
         $imported = DB::table('comparable_sales')->select($columns)->selectRaw('NULL as listing_id');
-        $provider = DB::table('provider_research_records')->where('user_id', $userId)->select($columns)->addSelect('listing_id');
+        $provider = DB::table('provider_research_records')->where('user_id', $userId)->select($columns)->addSelect('listing_id')
+            ->whereNotExists(function ($q) {
+                $q->selectRaw('1')->from('provider_research_records as newer')
+                    ->whereColumn('newer.user_id', 'provider_research_records.user_id')
+                    ->whereColumn('newer.source_key', 'provider_research_records.source_key')
+                    ->whereColumn('newer.id', '>', 'provider_research_records.id');
+            });
         return DB::query()->fromSub($imported->unionAll($provider), 'research_records');
     }
 

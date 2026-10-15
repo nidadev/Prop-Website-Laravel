@@ -43,6 +43,10 @@ class PriceApnList implements ShouldQueue
             return;
         }
         $needsReview = DB::table('list_upload_rows')->where('list_upload_id', $upload->id)->where('status', '!=', 'completed')->exists();
+        if (!$needsReview) {
+            $needsReview = DB::table('list_upload_rows')->where('list_upload_id', $upload->id)->get(['result'])
+                ->contains(fn ($r) => empty(json_decode($r->result ?? '{}', true)['comparables']['records']));
+        }
         DB::table('list_uploads')->where('id', $upload->id)->update(['status' => $needsReview ? 'completed_with_issues' : 'completed', 'updated_at' => now()]);
         try {
             $user = \App\Models\User::find($upload->user_id);

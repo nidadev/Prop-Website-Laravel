@@ -5,6 +5,7 @@
 @if(session('success'))<p role="status">{{ session('success') }}</p>@endif
 @if(session('error'))<p role="alert">{{ session('error') }}</p>@endif
 <p>{{ $upload->record_count }} records. Status: {{ $upload->status }}.</p>
+@if($upload->status === 'completed_with_issues')<p class="alert alert-warning">Processing finished with items to review. A price or comparable records may be unavailable for some parcels. Check each row and its comparable note before using the results.</p>@endif
 <p>Pricing requires matching parcel data and current comparable records. Results will identify records that need review.</p>
 <p>Failed pricing rows are returned as <a href="{{ url('/credits') }}">account credits</a>. Provider allowance remaining this period: {{ app(\App\Services\ProviderBudget::class)->remaining('pricing') }} properties.</p>
 @if($upload->status === 'awaiting_payment')

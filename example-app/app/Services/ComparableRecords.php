@@ -24,10 +24,12 @@ class ComparableRecords
             if (!$county) { return ['records' => [], 'note' => 'County matching is unavailable. Contact support.']; }
             try { $records = $client->countyComps($county['state_name'], $county['name'], $min, $max); }
             catch (\Throwable $error) {
-                return ['records' => [], 'note' => 'Comparable records are unavailable within the provider allowance. The valuation is shown separately.'];
+                return ['records' => [], 'note' => app(ProviderBudget::class)->remaining('comps') === 0
+                    ? 'The provider comparable-data allowance is exhausted. This valuation is available, but new comparable records must wait until the allowance resets.'
+                    : 'Comparable records are temporarily unavailable. The valuation is shown separately; contact support for review.'];
             }
         }
-        $records = array_values(array_filter($records, fn ($r) => (string) ($r['id'] ?? '') !== $apn));
+        $records = array_values(array_filter($records, fn ($r) => (string) ($r['id'] ?? '') !== $apn && (string) ($r['apn'] ?? '') !== $apn));
         foreach ($records as &$record) {
             $record['distance_miles'] = $this->distance($valuation['latitude'] ?? null, $valuation['longitude'] ?? null,
                 $record['latitude'] ?? null, $record['longitude'] ?? null);
@@ -40,8 +42,7 @@ class ComparableRecords
 
     private function distance($a, $b, $c, $d): ?float
     {
-        foreach ([$a, $b, $c, $d] as $v) { if (!is_numeric($v)) { return null; } }
-        if (abs($a) > 90 || abs($c) > 90 || abs($b) > 180 || abs($d) > 180) { return null; }
+        if (!PropertyCoordinates::pair($a, $b) || !PropertyCoordinates::pair($c, $d)) { return null; }
         $angle = sin(deg2rad($c - $a) / 2) ** 2 + cos(deg2rad($a)) * cos(deg2rad($c)) * sin(deg2rad($d - $b) / 2) ** 2;
         return round(3958.7613 * 2 * asin(sqrt(min(1, $angle))), 2);
     }
