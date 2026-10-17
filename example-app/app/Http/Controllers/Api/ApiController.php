@@ -281,6 +281,9 @@ class ApiController extends BaseController
             'phone' => 'nullable|string|max:40', 'subject' => 'nullable|string|max:150',
             'comment' => 'required|string|max:5000',
         ]);
+        if (!app(\App\Services\ContactSpamProtection::class)->verify($request)) {
+            return back()->with('success', 'Your enquiry has been sent.');
+        }
         $data['phone'] = $data['phone'] ?? '';
         $data['title'] = 'Propelyze support enquiry';
         $data['body'] = 'We have received your enquiry. Our support team will review it.';
@@ -288,9 +291,6 @@ class ApiController extends BaseController
             $support = \Illuminate\Support\Facades\DB::table('site_settings')->where('key', 'contact_email')->value('value') ?: 'support@propelyze.com';
             Mail::send('contactEmail', ['data' => $data], function ($message) use ($data, $support) {
                 $message->to($support)->replyTo($data['email'], $data['name'])->subject($data['title']);
-            });
-            Mail::send('userContactEmail', ['data' => $data], function ($message) use ($data) {
-                $message->to($data['email'])->subject($data['title']);
             });
             return back()->with('success', 'Your enquiry has been sent.');
         } catch (\Throwable $error) {
