@@ -37,6 +37,7 @@ Route::group(['middleware' => ['userAuth']],function(){
     Route::get('/land-comps', [\App\Http\Controllers\CompsController::class, 'index']);
     Route::post('/land-comps', [\App\Http\Controllers\CompsController::class, 'store'])->middleware('throttle:5,1');
     Route::get('/land-comps/{id}', [\App\Http\Controllers\CompsController::class, 'show'])->whereNumber('id');
+    Route::get('/land-comps/{id}/kml', [\App\Http\Controllers\CompsController::class, 'kml'])->whereNumber('id');
     Route::get('/land-comps/{id}/download', [\App\Http\Controllers\CompsController::class, 'download'])->whereNumber('id');
     Route::get('/land-valuation', [\App\Http\Controllers\LandValuationController::class, 'index']);
     Route::post('/land-valuation', [\App\Http\Controllers\LandValuationController::class, 'store'])->middleware('throttle:5,1');

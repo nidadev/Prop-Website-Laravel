@@ -13,15 +13,18 @@ class ResearchController extends Controller
         $data = $request->validate(['state' => ['nullable', Rule::in(array_keys(config('property.states')))],
             'county_fips' => ['nullable', 'regex:/^\d{5}$/'], 'property_type' => ['nullable', Rule::in(['land', 'house'])],
             'status' => ['nullable', Rule::in(['sold', 'for_sale'])], 'min_price' => 'nullable|numeric|min:0|max:9999999999999',
-            'max_price' => 'nullable|numeric|min:0|max:9999999999999', 'observed_from' => 'nullable|date_format:Y-m-d|before_or_equal:today']);
+            'max_price' => 'nullable|numeric|min:0|max:9999999999999', 'min_acres' => 'nullable|numeric|min:0|max:100000', 'max_acres' => 'nullable|numeric|min:0|max:100000', 'observed_from' => 'nullable|date_format:Y-m-d|before_or_equal:today']);
         if (!empty($data['state']) && !empty($data['county_fips'])) {
             abort_unless((int) substr($data['county_fips'], 0, 2) === config('property.states.'.$data['state']), 422);
         }
         if (isset($data['min_price'], $data['max_price'])) { abort_unless($data['max_price'] >= $data['min_price'], 422); }
+        if (isset($data['min_acres'], $data['max_acres'])) { abort_unless($data['max_acres'] >= $data['min_acres'], 422); }
         $q = app(\App\Services\ResearchRecords::class)->queryForUser(auth()->id());
         foreach (['state', 'county_fips', 'property_type', 'status'] as $key) { if (!empty($data[$key])) { $q->where($key, $data[$key]); } }
         if (isset($data['min_price'])) { $q->where('price', '>=', $data['min_price']); }
         if (isset($data['max_price'])) { $q->where('price', '<=', $data['max_price']); }
+        if (isset($data['min_acres'])) { $q->where('acres', '>=', $data['min_acres']); }
+        if (isset($data['max_acres'])) { $q->where('acres', '<=', $data['max_acres']); }
         if (!empty($data['observed_from'])) { $q->where('observed_at', '>=', $data['observed_from']); }
         return $q;
     }

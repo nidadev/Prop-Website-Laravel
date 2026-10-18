@@ -22,8 +22,7 @@ class CompsController extends Controller {
         return view('land-comps-detail', compact('search', 'filters', 'results'));
     }
     public function download(int $id) {
-        $search = $this->owned($id); $account = \App\Models\BillingAccount::where('user_id', auth()->id())->first();
-        abort_unless(auth()->user()->usertype === 'admin' || ($account && $account->hasAccess() && in_array($account->plan, ['bronze_plus','gold'], true)), 403, 'Comparable exports require Bronze Plus or Gold.');
+        $search = $this->owned($id); $this->authorizeExport();
         return response()->streamDownload(function () use ($search) {
             $out = fopen('php://output','w'); fputcsv($out,['address','city','price','acres','price_per_acre','status','source','source_url','sold_date','updated_date','latitude','longitude']);
             foreach (json_decode($search->results,true) as $row) {
@@ -32,4 +31,19 @@ class CompsController extends Controller {
             } fclose($out);
         },'propelyze-land-comps-'.$id.'.csv',['Content-Type'=>'text/csv']);
     }
+    private function authorizeExport(): void {
+        $account = \App\Models\BillingAccount::where('user_id', auth()->id())->first();
+        abort_unless(auth()->user()->usertype === 'admin' || ($account && $account->hasAccess() && in_array($account->plan, ['bronze_plus','gold'], true)), 403, 'Comparable exports require Bronze Plus or Gold.');
+    }
+    public function kml(int $id) {
+        $search = $this->owned($id);
+        $this->authorizeExport();
+        $xml = app(\App\Services\ComparableKml::class)->render(json_decode($search->results, true), 'Propelyze land comparables '.$id);
+        return response($xml, 200, [
+            'Content-Type' => 'application/vnd.google-earth.kml+xml; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="propelyze-land-comps-'.$id.'.kml"',
+            'Cache-Control' => 'private, no-store',
+        ]);
+    }
+
 }
