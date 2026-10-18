@@ -23,6 +23,7 @@ return new \App\Helpers\SubscriptionHelper();
      */
     public function boot(): void
     {
+        \Illuminate\Pagination\Paginator::useBootstrapFive();
         \Illuminate\Support\Facades\View::composer('*', function ($view) {
             $request = app('request');
             $settings = $request->attributes->get('propelyze_site_settings');

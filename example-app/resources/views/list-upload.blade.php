@@ -9,7 +9,7 @@
 <label for="apn-file">Choose a file</label><input type="file" id="apn-file" name="file" accept=".csv,.xlsx" required>
 <button class="btn btn-primary">Validate list</button></form>
 <h2 class="mt-4">Your uploads</h2>
-@forelse($uploads as $upload)<p><a href="{{ url('/list-upload/'.$upload->id) }}">Upload {{ $upload->id }}</a> — {{ $upload->record_count }} records — {{ $upload->status }}</p>
+@forelse($uploads as $upload)<p><a href="{{ url('/list-upload/'.$upload->id) }}">Upload {{ $upload->id }}</a> — {{ $upload->record_count }} {{ \Illuminate\Support\Str::plural("record", $upload->record_count) }} — {{ \Illuminate\Support\Str::headline($upload->status) }}</p>
 @empty<p>No lists uploaded yet.</p>@endforelse
 </main>
 @endsection
