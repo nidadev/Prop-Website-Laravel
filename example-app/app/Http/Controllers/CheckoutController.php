@@ -14,7 +14,14 @@ class CheckoutController extends Controller
     public function stripe(Request $request)
     {
         $upload = null;
-        if ($request->filled('land_valuation_id')) {
+        if ($request->filled('property_report_id')) {
+            $request->validate(['property_report_id' => 'required|integer|min:1']);
+            $snapshot = \Illuminate\Support\Facades\DB::table('property_report_snapshots')->where('user_id', auth()->id())->where('id', $request->property_report_id)->first();
+            abort_unless($snapshot, 404);
+            $ids = [(string) $snapshot->id]; $service = 'property_report';
+            $existing = CheckoutOrder::where('user_id', auth()->id())->where('service', $service)->where('status', 'paid')->get()->contains(fn ($o) => in_array($ids[0], $o->property_ids, true));
+            if ($existing) { return redirect('/property-reports/'.$ids[0])->with('success', 'This report is already purchased.'); }
+        } elseif ($request->filled('land_valuation_id')) {
             $request->validate(['land_valuation_id' => 'required|integer|min:1']);
             $valuation = \Illuminate\Support\Facades\DB::table('land_valuations')->where('user_id', auth()->id())->where('id', $request->land_valuation_id)->first();
             abort_unless($valuation, 404);
@@ -43,8 +50,9 @@ class CheckoutController extends Controller
         if (in_array($service, ['comp_report', 'owner_export'], true) && !config('property.datatree_enabled', true)) {
             return back()->with('error', 'Property reports and owner exports are temporarily unavailable while data access is confirmed. No payment has been taken.');
         }
-        if (in_array($service, ['comp_report', 'land_report'], true)) {
+        if (in_array($service, ['comp_report', 'land_report', 'property_report'], true)) {
             $grant = app(\App\Services\ReportAllowance::class)->claim(auth()->id(), $ids, $service);
+            if ($grant && $service === 'property_report') { return redirect('/property-reports/'.$ids[0])->with('success', 'A report credit has been applied. Your downloads are ready.'); }
             if ($grant && $service === 'land_report') { return redirect('/land-valuation/'.$ids[0])->with('success', 'A report credit has been applied. Your PDF is ready.'); }
             if ($grant) { return view('payment_success', ['data' => $ids[0], 'pdf_check' => 1]); }
         }
@@ -74,7 +82,7 @@ class CheckoutController extends Controller
                 'customer_email' => auth()->user()->email,
                 'line_items' => [['price_data' => [
                     'currency' => 'usd', 'unit_amount' => $unitAmount,
-                    'product_data' => ['name' => match ($service) { 'comp_report' => 'Comp report', 'land_report' => 'Land valuation PDF', 'list_upload' => 'APN list pricing', default => 'Owner record export' }],
+                    'product_data' => ['name' => match ($service) { 'comp_report' => 'Comp report', 'land_report' => 'Land valuation PDF', 'property_report' => 'Owner/property report with comparative analysis', 'list_upload' => 'APN list pricing', default => 'Owner record export' }],
                 ], 'quantity' => count($ids)]],
                 'success_url' => route('success').'?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('cancel'),
@@ -100,6 +108,7 @@ class CheckoutController extends Controller
         if ($order->service === 'wallet_topup') {
             return redirect('/credits')->with('success', 'Your account credits are ready.');
         }
+        if ($order->service === 'property_report') { return redirect('/property-reports/'.$order->property_ids[0])->with('success', 'Payment confirmed. Your report downloads are ready.'); }
         if ($order->service === 'land_report') {
             return redirect('/land-valuation/'.$order->property_ids[0])->with('success', 'Payment confirmed. Your PDF is ready.');
         }

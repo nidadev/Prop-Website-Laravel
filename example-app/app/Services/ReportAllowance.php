@@ -31,7 +31,7 @@ class ReportAllowance
             $existing = CheckoutOrder::where('user_id', $userId)->where('service', $service)
                 ->where('status', 'paid')->get()->first(fn ($order) => $order->property_ids === $propertyIds);
             if ($existing) { return $existing; }
-            $used = CheckoutOrder::where('user_id', $userId)->whereIn('service', ['comp_report', 'land_report'])
+            $used = CheckoutOrder::where('user_id', $userId)->whereIn('service', ['comp_report', 'land_report', 'property_report'])
                 ->where('status', 'paid')->where('amount', 0)->count();
             $granted = DB::table('report_credit_grants')->where('user_id', $userId)->sum('credits');
             if ($used >= $granted) { return null; }

@@ -16,7 +16,7 @@ class PricingCatalog
         return $plans;
     }
     public function service(string $name): int {
-        if ($name === 'land_report') { $name = 'comp_report'; }
+        if (in_array($name, ['land_report', 'property_report'], true)) { $name = 'comp_report'; }
         if (!Schema::hasTable('site_settings')) { return (int) config('pricing.services.'.$name); }
         return (int) (DB::table('site_settings')->where('key', 'price_'.$name)->value('value') ?? config('pricing.services.'.$name));
     }

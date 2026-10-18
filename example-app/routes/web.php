@@ -34,6 +34,12 @@ Route::group(['middleware' => ['guest']],function(){
 });
 
 Route::group(['middleware' => ['userAuth']],function(){
+    Route::get('/property-reports', [\App\Http\Controllers\PropertyReportController::class, 'index']);
+    Route::post('/property-reports', [\App\Http\Controllers\PropertyReportController::class, 'store'])->middleware('throttle:3,1');
+    Route::get('/property-reports/{id}', [\App\Http\Controllers\PropertyReportController::class, 'show'])->whereNumber('id');
+    Route::get('/property-reports/{id}/pdf', [\App\Http\Controllers\PropertyReportController::class, 'pdf'])->whereNumber('id');
+    Route::get('/property-reports/{id}/csv', [\App\Http\Controllers\PropertyReportController::class, 'csv'])->whereNumber('id');
+    Route::get('/property-reports/{id}/kml', [\App\Http\Controllers\PropertyReportController::class, 'kml'])->whereNumber('id');
     Route::get('/land-comps', [\App\Http\Controllers\CompsController::class, 'index']);
     Route::post('/land-comps', [\App\Http\Controllers\CompsController::class, 'store'])->middleware('throttle:5,1');
     Route::get('/land-comps/{id}', [\App\Http\Controllers\CompsController::class, 'show'])->whereNumber('id');

@@ -5,7 +5,7 @@
 <li class="nav-item"><a class="nav-link" href="{{ url('/home') }}">Home</a></li>
 @php
 $navigationGroups = [
-    'Explore' => ['/priceland'=>'Search Land', '/pricehouse'=>'Search Houses', '/research'=>'Market Research', '/land-valuation'=>'Land Valuation', '/land-comps'=>'Land Comparables', '/compreport'=>'Comp Reports', '/list-upload'=>'Upload a List'],
+    'Explore' => ['/priceland'=>'Search Land', '/pricehouse'=>'Search Houses', '/research'=>'Market Research', '/land-valuation'=>'Land Valuation', '/land-comps'=>'Land Comparables', '/compreport'=>'Comp Reports', '/property-reports'=>'Owner / House Reports', '/list-upload'=>'Upload a List'],
     'How it works' => ['/how-it-works-lands'=>'For Land', '/how-it-works-houses'=>'For Houses'],
     'Resources' => ['/about'=>'About Us', '/subscription-home'=>'Pricing & Subscriptions', '/api-information'=>'API', '/bulk-data'=>'Bulk Data Purchase', '/investor-marketplace'=>'Investor Marketplace', '/faq'=>'Frequently Asked Questions', '/support'=>'Contact & Support', '/terms'=>'Terms & Conditions'],
 ];
