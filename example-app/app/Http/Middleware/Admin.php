@@ -16,11 +16,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->usertype == 'admin')
+        if(Auth::check() && !Auth::user()->is_banned && Auth::user()->usertype === 'admin')
         {
             return $next($request);
 
         }
-        abort(401);
+        abort(403);
     }
 }

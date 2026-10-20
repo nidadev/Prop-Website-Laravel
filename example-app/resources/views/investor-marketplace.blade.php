@@ -1,0 +1,4 @@
+@extends('layouts.app2')
+@section('content')
+<main><section class="page-intro"><div class="container-xl"><p class="eyebrow">Propelyze resources</p><h1>Connect with the Propelyze community</h1><p>Share your expertise and connect with other real estate investors.</p></div></section><section class="section-space"><div class="container-xl content-prose"><h2>Build useful connections</h2><p>Contact the Propelyze team to share your investment focus, expertise and collaboration interests. Support can discuss potential introductions and community listings.</p><p>A self-service investor directory and discussion forum are not currently available.</p><h2>Join the community</h2><p>Interested in sharing your investment focus or collaboration opportunities? Contact support@propelyze.com to discuss a community listing.</p></div></section></main>
+@endsection

@@ -9,6 +9,7 @@ class PriceHouseReport extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'state',
         'county_name',
         'sts',

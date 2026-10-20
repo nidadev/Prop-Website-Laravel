@@ -35,8 +35,8 @@ class ExportDataJob implements ShouldQueue
     {
         try {
         //dd($this->userIds);
-        $fileName = 'price_house_export_' . now()->format('Ymd_His') . '.xlsx';
-        Excel::store(new PriceHouseExport($this->userIds), $fileName, 'public');
+        $fileName = 'price_house_export_' . \Illuminate\Support\Str::uuid() . '.xlsx';
+        Excel::store(new PriceHouseExport($this->userIds), $fileName, 'local');
         // Store export information in the database
         Export::create([
             'user_id' => $this->user->id,
@@ -48,9 +48,6 @@ class ExportDataJob implements ShouldQueue
         //$this->user->notify(new ExportCompleted($fileName));
         $user = $this->user; // or however you retrieve the user
     Notification::send($user, new ExportCompleted($fileName));
-    DB::table('exports')
-        ->where('file_name', $fileName)
-        ->update(['downloaded' => 1]);
     //Mail::to('nidahafeez@outlook.com')->send(new ExportCompleted($fileName));
         }
         catch (\Exception $e) {

@@ -29,21 +29,30 @@ class FetchPriceReportJob implements ShouldQueue
         $this->state = $state;
         $this->countyName = $countyName;
         $this->user = $user;
-        $this->cp = ltrim($cp, '0'); // Clean up county code
+        $this->cp = ltrim(strlen((string) $cp) === 5 ? substr($cp, 2) : (string) $cp, '0');
     }
 
-    public function handle()
+    public $tries = 1;
+    public $timeout = 840;
+
+    public function failed(?\Throwable $exception): void
     {
-        $client = new Client(['timeout' => 10]);
+        \App\Services\SearchProgress::fail('land', $this->user, $this->state, $this->countyName);
+    }
+
+    public function handle(?Client $client = null)
+    {
+        if (!config('property.datatree_enabled', true)) { throw new \RuntimeException('Property data access is unavailable.'); }
+        $client ??= new Client(['timeout' => 30]);
         $authenticate = $this->authenticateClient($client);
 
         $my_states_array = $this->getStateMapping();
-        $st = $my_states_array[ltrim($this->state, '0')] ?? null;
+        $st = $my_states_array[strtolower($this->state)] ?? null;
 
         if (is_null($st)) {
             // Handle invalid state code, log the error
             \Log::error("Invalid state code: {$this->state}");
-            return;
+            throw new \InvalidArgumentException('Invalid state.');
         }
 
         // Fetch property details
@@ -70,9 +79,10 @@ class FetchPriceReportJob implements ShouldQueue
 
         //dd($data['sts']);
         PriceReport::updateOrCreate([
-            'user_id' => 1,
+            'user_id' => $this->user,
             'state' => $this->state,
             'county_name' => $this->countyName,
+        ], [
             'sts' => $sts,
             'de' => $de,
             //'data' => $data,
@@ -83,7 +93,7 @@ class FetchPriceReportJob implements ShouldQueue
 
     private function authenticateClient(Client $client)
     {
-        $response = $client->post('https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+        $response = $client->post(\App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
@@ -157,10 +167,12 @@ class FetchPriceReportJob implements ShouldQueue
     {
         $de = [];
         $price = [];
+        $dl = [];
+        $sts = [];
         $data = json_decode(json_encode($prop_id), true);
 
         foreach ($data as $index => $property) {
-            $filterValues = $this->buildFilterValues($acre_arr[$index], $acre_arr[$index + 1] ?? 100, $st, $cp);
+            $filterValues = $this->buildFilterValues($acre_arr[min($index, count($acre_arr) - 2)], $acre_arr[min($index + 1, count($acre_arr) - 1)], $st, $cp);
 
             // Fetch sales comparables
             $response = $this->fetchReport($client, $authenticate, $filterValues, 'SalesComparables');
@@ -178,7 +190,7 @@ class FetchPriceReportJob implements ShouldQueue
         }
         $mainval = 1 * 0.1;
         for ($j = 0; $j < count($de); $j++) {
-            $dl[] = $de[$j]['LitePropertyList'];
+            $dl[] = $de[$j]['LitePropertyList'] ?? [];
         }
         for ($n = 0; $n < count($dl); $n++) {
             $data1 = [];
@@ -186,7 +198,7 @@ class FetchPriceReportJob implements ShouldQueue
             $count = [];
             //dd($dl);
             // Loop through each property in the current list
-            for ($o = 0; $o < min(25, count($dl)); $o++) {
+            for ($o = 0; $o < min(25, count($dl[$n])); $o++) {
                 $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
                 $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
 
@@ -206,7 +218,7 @@ class FetchPriceReportJob implements ShouldQueue
         
         //dd($data);
 
-        return view('priceland', compact('de', 'mainval', 'data', 'price','sts'));
+        return compact('de', 'mainval', 'data', 'price','sts');
     }
     /*private function fetchPropertyData($authenticate, $prop_id)
     {
@@ -221,6 +233,8 @@ class FetchPriceReportJob implements ShouldQueue
     {
         $de = [];
         $price = [];
+        $dl = [];
+        $sts = [];
 
         for ($j = 0; $j < count($acre_arr) - 1; $j++) {
             $filterValues = $this->buildFilterValues($acre_arr[$j], $acre_arr[$j + 1], $st, $cp);
@@ -244,7 +258,7 @@ class FetchPriceReportJob implements ShouldQueue
             //dd($de);
         }
         for ($j = 0; $j < count($de); $j++) {
-            $dl[] = $de[$j]['LitePropertyList'];
+            $dl[] = $de[$j]['LitePropertyList'] ?? [];
         }
         for ($n = 0; $n < count($dl); $n++) {
             $data1 = [];
@@ -252,7 +266,7 @@ class FetchPriceReportJob implements ShouldQueue
             $count = [];
             //dd($dl);
             // Loop through each property in the current list
-            for ($o = 0; $o < min(25, count($dl)); $o++) {
+            for ($o = 0; $o < min(25, count($dl[$n])); $o++) {
                 $data1[$o] = $dl[$n][$o]['Owner'] ?? 'Unknown Owner';
                 $propid[$o] = $dl[$n][$o]['PropertyId'] ?? null;
 
@@ -271,7 +285,7 @@ class FetchPriceReportJob implements ShouldQueue
         }
         //dd($sts);
 
-        return view('priceland', compact('de', 'price', 'sts'));
+        return compact('de', 'price', 'sts');
     }
     private function buildFilterValues($acreFrom, $acreTo, $st, $cp)
     {
@@ -303,7 +317,7 @@ class FetchPriceReportJob implements ShouldQueue
     }
     private function fetchReport($client, $authenticate, $filterValues, $productName)
     {
-        return $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+        return $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',

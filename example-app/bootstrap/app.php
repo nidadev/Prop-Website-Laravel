@@ -16,7 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
            // guests: 'login',
             //users: 'profile'
         //);
+        $middleware->validateCsrfTokens(except: ['stripe/webhook']);
         $middleware->alias([
+            'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+            'payments' => \App\Http\Middleware\PaymentsAvailable::class,
+            'datatree' => \App\Http\Middleware\DataTreeAvailable::class,
+            'purchased' => \App\Http\Middleware\PurchasedReport::class,
             'userAuth' => \App\Http\Middleware\UserAuthenticate::class,
             'IsAuth' => \App\Http\Middleware\IsAuthenticate::class,
             'IsAdmin' => \App\Http\Middleware\Admin::class,

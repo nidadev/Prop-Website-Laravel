@@ -1,0 +1,3 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@page{margin:36px}body{font-family:DejaVu Sans,sans-serif;font-size:10px;color:#26243e;line-height:1.5}h1{font-size:23px;color:#5142c2}h2{font-size:15px;margin-top:20px;page-break-after:avoid}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{padding:6px;border-bottom:1px solid #dedbea;text-align:left;vertical-align:top;word-wrap:break-word}th{background:#f4f2fc}thead{display:table-header-group}tr{page-break-inside:avoid}a{color:#5142c2}p{margin:8px 0}.comparable-table{font-size:8px}
+</style></head><body><h1>Propelyze {{ $report->kind }} and owner report</h1>@include('partials.property-report-body')<p>support@propelyze.com</p></body></html>

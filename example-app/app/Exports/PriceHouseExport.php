@@ -142,7 +142,7 @@ class PriceHouseExport implements FromArray, WithHeadings
         
             // Return the data in an array format
             $client = new GuzzleHttp\Client();
-            $login = $client->request('POST', 'https://dtapiuat.datatree.com/api/Login/AuthenticateClient', [
+            $login = $client->request('POST', \App\Services\DataTreeEndpoint::url('Login/AuthenticateClient'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',
@@ -164,7 +164,7 @@ class PriceHouseExport implements FromArray, WithHeadings
            //dd($convert);
         foreach ($convert as $userId) {
             // Replace with your API endpoint
-            $getProperty = $client->request('POST', 'https://dtapiuat.datatree.com/api/Report/GetReport', [
+            $getProperty = $client->request('POST', \App\Services\DataTreeEndpoint::url('Report/GetReport'), [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json',

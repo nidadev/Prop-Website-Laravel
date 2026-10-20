@@ -1,6 +1,8 @@
 @extends('layouts.app2')
 
 @section('content')
+@if($reportFailed ?? false)<p class="container py-3 alert alert-warning" role="alert">The property provider could not complete this search. Please try again later or contact support. You have not been charged for this search.</p>@endif
+@if($reportPending ?? false)<p class="container py-3" role="status">Your house report is being generated. This page checks again every 10 seconds.</p>@endif
 
 <section id="center" class="center_h">
   <div class="center_om">
@@ -46,6 +48,9 @@
                   <div class="col-md-4">
                     <div class="center_h2lil">
                       <br><input type="submit" style="border:none" class="button run" value="Run Report">
+                      <input type="hidden" name="kind" value="house">
+                      <button class="btn btn-outline-primary mt-2" type="submit" formaction="{{ url('/saved-searches') }}">Save Search</button>
+                      <a href="{{ url('/saved-searches') }}">Saved searches</a>
                     </div>
                   </div>
 
