@@ -18,8 +18,15 @@ class RegistrationCaptcha {
                 'secret'=>config('services.recaptcha.secret'),'response'=>$token,
             ]);
             $result=$response->json();
-            $valid=$response->successful() && ($result['success'] ?? false)
+            $valid=$response->successful() && ($result['success'] ?? false) === true
                 && strtolower($result['hostname'] ?? '')===strtolower(parse_url(config('app.url'),PHP_URL_HOST) ?? '');
+            $type=config('services.recaptcha.type','v2');
+            if ($type === 'v3') {
+                $score=$result['score'] ?? null; $minimum=config('services.recaptcha.minimum_score',0.5);
+                $valid=$valid && ($result['action'] ?? '') === 'register'
+                    && is_numeric($score) && is_finite((float)$score) && $score >= 0 && $score <= 1
+                    && is_numeric($minimum) && $minimum >= 0 && $minimum <= 1 && $score >= $minimum;
+            } elseif ($type !== 'v2') { $valid=false; }
         } catch (\Throwable $error) { $valid=false; }
         if (!$valid) { throw ValidationException::withMessages(['captcha'=>'The security check could not be verified. Please try again.']); }
     }
